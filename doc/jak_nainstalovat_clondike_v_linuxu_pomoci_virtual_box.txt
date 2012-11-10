@@ -2,36 +2,36 @@ Jak rozchodit Clondike ve VirtualBoxu v operacnim systemu linux
 
 1. Nainstalovat a zprovoznit VirtualBox http://wiki.ubuntu.cz/virtualizace/virtualbox, http://www.virtualbox.org/manual/ch02.html#idp16362384.
 
-2. Stáhnout Clondike z url bi-ios.fit.cvut.cz/clondike3.zip.
+2. StÃ¡hnout Clondike z url bi-ios.fit.cvut.cz/clondike3.zip.
 
-3. Rozbalit tento archiv do sloky (napøíklad /tmp/clondike/) 
+3. Rozbalit tento archiv do sloÅ¾ky (napÅ™Ã­klad /tmp/clondike/) 
 
-4. Do svého operaèního systému pøidat pøíslušné moduly pomocí pøíkazù:
+4. Do svÃ©ho operaÄnÃ­ho systÃ©mu pÅ™idat pÅ™Ã­sluÅ¡nÃ© moduly pomocÃ­ pÅ™Ã­kazÅ¯:
 "modprobe vboxdrv"
 "modprobe vboxnetflt"
 
-5. Spustit VirtualBox (buï pøíkazem virtualbox nebo v Apliakce -> Systémové nástroje -> Sun VirtualBox)
+5. Spustit VirtualBox (buÄ pÅ™Ã­kazem virtualbox nebo v Apliakce -> SystÃ©movÃ© nÃ¡stroje -> Sun VirtualBox)
 
-6. Vytvoøit novı virtuální poèítaè. Zobrazí se úvodní stránka -> Další.
+6. VytvoÅ™it novÃ½ virtuÃ¡lnÃ­ poÄÃ­taÄ. ZobrazÃ­ se ÃºvodnÃ­ strÃ¡nka -> DalÅ¡Ã­.
 
 7. Jako parametry zadat:
-název: Clondike Node 1
+nÃ¡zev: Clondike Node 1
 typ: Linux
 verze: Gentoo (64bit)
 
-a stisknout Další.
+a stisknout DalÅ¡Ã­.
 
-7. Velikost operaèní pamìti je doporuèeno nastavit alespoò na 384MB (staèí). Další.
+7. Velikost operaÄnÃ­ pamÄ›ti je doporuÄeno nastavit alespoÅˆ na 384MB (staÄÃ­). DalÅ¡Ã­.
 
-8. Bootovací pevnı disk: pouít z rozbaleného archivu Virtual Disk 4.vmdk (/tmp/clondike/prdel3/Virtual Disk 4.vmdk). Další.
+8. BootovacÃ­ pevnÃ½ disk: pouÅ¾Ã­t z rozbalenÃ©ho archivu Virtual Disk 4.vmdk (/tmp/clondike/prdel3/Virtual Disk 4.vmdk). DalÅ¡Ã­.
 
-9. Vytvoøit novı virtuální poèítaè. Dokonèit. (To by mìl bıt konec prùvodce.)
+9. VytvoÅ™it novÃ½ virtuÃ¡lnÃ­ poÄÃ­taÄ. DokonÄit. (To by mÄ›l bÃ½t konec prÅ¯vodce.)
 
-10. Ve VirtualBoxu -> Clondike Node 1 -> Nastavení -> Sí -> Karta 1: Pøipojena k: Síovı most -> OK.
-Nyní si virtuální poèítaèe naètou dynamicky svoje IP adresy a ostatní údaje, proto je nutné bıt pøipojen k DHCP serveru.
-(Kdybychom nechali v nastavení hodnotu NAT, všechny bìící poèítaèe by si naèetly identickou IP adresu a nebyly by vzájemnì viditelné. Samozøejmì by to šlo øešit rùznım nastavením, DHCP je jednodušší).
+10. Ve VirtualBoxu -> Clondike Node 1 -> NastavenÃ­ -> SÃ­Å¥ -> Karta 1: PÅ™ipojena k: SÃ­Å¥ovÃ½ most -> OK.
+NynÃ­ si virtuÃ¡lnÃ­ poÄÃ­taÄe naÄtou dynamicky svoje IP adresy a ostatnÃ­ Ãºdaje, proto je nutnÃ© bÃ½t pÅ™ipojen k DHCP serveru.
+(Kdybychom nechali v nastavenÃ­ hodnotu NAT, vÅ¡echny bÄ›Å¾Ã­cÃ­ poÄÃ­taÄe by si naÄetly identickou IP adresu a nebyly by vzÃ¡jemnÄ› viditelnÃ©. SamozÅ™ejmÄ› by to Å¡lo Å™eÅ¡it rÅ¯znÃ½m nastavenÃ­m, DHCP je jednoduÅ¡Å¡Ã­).
 
-11. Spustit Clondike Node 1 (Spustit nebo pøíkazem virtualbox -startvm "Clondike Node 1")
+11. Spustit Clondike Node 1 (Spustit nebo pÅ™Ã­kazem virtualbox -startvm "Clondike Node 1")
 
 12. Po uplnem nabehnuti systemu se prihlasit jako uzivatel "root", heslo "tvrdik".
 
@@ -41,19 +41,19 @@ Nyní si virtuální poèítaèe naètou dynamicky svoje IP adresy a ostatní údaje, pro
 14. Vypnout system prikazem "poweroff"
 
 15. Naklonovat virtualni stroj.
-V levém panelu oznaèit Clondike Node 1 -> Snapshots (vpravo nahoøe) -> ikona bílé oveèky (klonovat).
-Spustí se prùvodce:
-Jméno nového virtuálního stroje napøíklad Clondike Node 2 -> zaškrtnout "reinicializovat MAC adresy všech síovıch karet"  -> Další.
-Zvolíme monost "Propojenı klon" -> Clone.
+V levÃ©m panelu oznaÄit Clondike Node 1 -> Snapshots (vpravo nahoÅ™e) -> ikona bÃ­lÃ© oveÄky (klonovat).
+SpustÃ­ se prÅ¯vodce:
+JmÃ©no novÃ©ho virtuÃ¡lnÃ­ho stroje napÅ™Ã­klad Clondike Node 2 -> zaÅ¡krtnout "reinicializovat MAC adresy vÅ¡ech sÃ­Å¥ovÃ½ch karet"  -> DalÅ¡Ã­.
+ZvolÃ­me moÅ¾nost "PropojenÃ½ klon" -> Clone.
 
-16. Spustit postupnì oba poèítaèe a provést (na obou zvláš):
-smazat všechny soubory v adresáøi /root/clondike/userspace/simple-ruby-director/conf/ ("rm /root/clondike/userspace/simple-ruby-director/conf/*")
+16. Spustit postupnÄ› oba poÄÃ­taÄe a provÃ©st (na obou zvlÃ¡Å¡Å¥):
+smazat vÅ¡echny soubory v adresÃ¡Å™i /root/clondike/userspace/simple-ruby-director/conf/ ("rm /root/clondike/userspace/simple-ruby-director/conf/*")
 spustit znovu director pro vygenerovani noveho unikatniho certifikatu ("cd /root/clondike/scripts", "./restart-director.sh")
-nyní pokud máte spuštìné oba stroje, mìl by se vedle adresy zmìnit poèet spojenıch uzlù (z 0/0 na 1/1)
-pøíkazem "EMIG=1" se donuti kazda uloha (pro tuto konfiguraci gcc preklady) migrovat na jiny uzel
+nynÃ­ pokud mÃ¡te spuÅ¡tÄ›nÃ© oba stroje, mÄ›l by se vedle adresy zmÄ›nit poÄet spojenÃ½ch uzlÅ¯ (z 0/0 na 1/1)
+pÅ™Ã­kazem "EMIG=1" se donuti kazda uloha (pro tuto konfiguraci gcc preklady) migrovat na jiny uzel
 
-17. Test funkènosti. Na jednom stroji spustit kompilaci pomoci gcc tedy napøíklad "cd /usr/src/test" a "gcc loop.c"
+17. Test funkÄnosti. Na jednom stroji spustit kompilaci pomoci gcc tedy napÅ™Ã­klad "cd /usr/src/test" a "gcc loop.c"
 
-18. V director logu (/tmp/director.log) by se mìlo objevit, e úloha migrovala na jinı uzel.
+18. V director logu (/tmp/director.log) by se mÄ›lo objevit, Å¾e Ãºloha migrovala na jinÃ½ uzel.
 
-19. V director (/tmp/director.log) by se mìlo objevit, e úloha byla pøijata.
+19. V director (/tmp/director.log) by se mÄ›lo objevit, Å¾e Ãºloha byla pÅ™ijata.
