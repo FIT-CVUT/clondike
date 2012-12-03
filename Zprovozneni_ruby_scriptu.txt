@@ -1,0 +1,5 @@
+Instalace ruby, ruby-dev, ntpdate
+
+Vytvoreni adresarove struktury:
+/clondike/ccn
+         /pen
