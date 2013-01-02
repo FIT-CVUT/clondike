@@ -1,18 +1,15 @@
-Patchnout jadro s Clondike a zkompilovat ho.
-
-Prikladam moje mirne chaoticke instrukce. Z tohodle potom bude potreba udelat idiots guide pro programatory :).
 Preklad jadra
-Instalace nástrojù pro kompilaci jádra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
+Instalace nï¿½strojï¿½ pro kompilaci jï¿½dra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
 
-Stažení clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
+Staï¿½enï¿½ clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
 
-Stažení pøíslušného jádra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
+Staï¿½enï¿½ pï¿½ï¿½sluï¿½nï¿½ho jï¿½dra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
 
-Rozbalení jádra: untar linux-2.6.33.1.tar.gz
+Rozbalenï¿½ jï¿½dra: untar linux-2.6.33.1.tar.gz
 
-Otevøení adresáøe s jádrem: cd linux-2.6.33.1
+Otevï¿½enï¿½ adresï¿½ï¿½e s jï¿½drem: cd linux-2.6.33.1
 
-Provedení patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
+Provedenï¿½ patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
 
 mv config-2.6.32-5-xen-amd64 .config # if we use an existing .config make oldconfig # if we use an existing .config
 
