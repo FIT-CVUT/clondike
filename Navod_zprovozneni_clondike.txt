@@ -1,13 +1,13 @@
 Preklad jadra
-Instalace n�stroj� pro kompilaci j�dra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
+Instalace nastroju pro kompilaci jadra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
 
-Sta�en� clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
+Stazeni clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
 
-Sta�en� p��slu�n�ho j�dra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
+Stazeni prislusneho jadra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
 
-Rozbalen� j�dra: untar linux-2.6.33.1.tar.gz
+Rozbaleni jadra: untar linux-2.6.33.1.tar.gz
 
-Otev�en� adres��e s j�drem: cd linux-2.6.33.1
+Otevreni adresare s j�drem: cd linux-2.6.33.1
 
 Proveden� patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
 
