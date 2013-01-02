@@ -1,0 +1,50 @@
+Patchnout jadro s Clondike a zkompilovat ho.
+
+Prikladam moje mirne chaoticke instrukce. Z tohodle potom bude potreba udelat idiots guide pro programatory :).
+Preklad jadra
+Instalace nástrojù pro kompilaci jádra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
+
+Stažení clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
+
+Stažení pøíslušného jádra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
+
+Rozbalení jádra: untar linux-2.6.33.1.tar.gz
+
+Otevøení adresáøe s jádrem: cd linux-2.6.33.1
+
+Provedení patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
+
+mv config-2.6.32-5-xen-amd64 .config # if we use an existing .config make oldconfig # if we use an existing .config
+
+make menuconfig Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN Enable ROOT_NFS # when booting from NFS Disable ATALK
+
+paste into ../Clondike/src/dbg.h / define hack / #define APPNAME 0 #define MDBGCRIT 1 #define MDBGERR 1 #define MDBGWARN 1 #define MDBG_INFO 1
+
+ln -s ../Clondike/src/arch/current ../Clondike/src/arch/x86_64
+
+in kernel/signal.c (if we build clondike into kernel) strip static by do_tkill
+
+cp -R ../Clondike/src/ clondike/
+
+make clean make -j4 make modules make modules_install make install
+
+Priprava ke spusteni
+mkdir /mnt/local/proc mkdir /mnt/proxy mkdir /mnt/clondike
+
+cd /boot mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs append to grub: proxyfs.server=tcp:0.0.0.0:1112
+
+after coning make a new identity rm * /root/clondike/userspace/simple-ruby-director/conf restart Director
+
+po bootu apt-get install ruby ruby-dev ntpdate
+
+Vytvoreni adresarove struktury:
+/clondike/ccn
+         /pen
+
+
+spustit make v nasledujicich adresarich
+/userspace/director-api
+
+/userspace/ruby-director-api
+
+Spusteni:
