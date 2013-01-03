@@ -35,13 +35,37 @@ after coning make a new identity rm * /root/clondike/userspace/simple-ruby-direc
 po bootu apt-get install ruby ruby-dev ntpdate
 
 Vytvoreni adresarove struktury:
-/clondike/ccn
-         /pen
+/clondike/ccn/listen
+/clondike/ccn/stop-listen-one
+/clondike/ccn/stop-listen-all
+/clondike/ccn/stop
+/clondike/ccn/listening-on 
+/clondike/ccn/mig/migrate-home
+/clondike/ccn/mig/emigrate-ppm-p
+/clondike/ccn/mig/migproc
+/clondike/ccn/nodes 
+/clondike/pen/listen
+/clondike/pen/stop-listen-one
+/clondike/pen/stop-listen-all
+/clondike/pen/stop
+/clondike/pen/listening-on 
+/clondike/pen/mig/migrate-home
+/clondike/pen/mig/emigrate-ppm-p
+/clondike/pen/mig/migproc
+/clondike/pen/nodes 
 
-
+Rozbehnuti Ruby skriptu:
 spustit make v nasledujicich adresarich
 /userspace/director-api
-
 /userspace/ruby-director-api
 
-Spusteni:
+Pridat zaznamy do /etc/fstab
+
+none    /dev/shm  tmpfs   defaults    0 0
+none    /clondike tcmi_ctlfs  defaults  0 0
+   
+
+Spusteni Clondike:
+/root/clondike/scripts/clondike_init
+
+Poznamka: Pokud je clonovan image tak je treba pred spustenim Clondike smazat obsah složky /root/clondike/userspace/simple-ruby-director/conf/
