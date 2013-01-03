@@ -63,7 +63,10 @@ Pridat zaznamy do /etc/fstab
 
 none    /dev/shm  tmpfs   defaults    0 0
 none    /clondike tcmi_ctlfs  defaults  0 0
-   
+
+Konfigurace Bashe:
+v /etc/bash prepiste soubor bashrc
+nastavuje bash prompt   
 
 Spusteni Clondike:
 /root/clondike/scripts/clondike_init
