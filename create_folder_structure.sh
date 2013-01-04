@@ -1,17 +1,17 @@
 #!/bin/bash
-# skript vztvarejici adresarovou strukturu pro Clondike
+# skript vytvarejici adresarovou strukturu pro Clondike
 
-mkdir -p /clondike/ccn/mig
+mkdir -p /clondike/ccn/mig/migproc
 cd /clondike/ccn
-mkdir nodes
-touch listen stop-listen-one stop-listen-all stop listening-on
+mkdir nodes listening-on mounter
+touch listen stop-listen-one stop-listen-all stop 
 cd mig
-touch migrate-home emigrate-ppm-p migproc
-mkdir -p /clondike/pen/mig
+touch migrate-home emigrate-ppm-p
+mkdir -p /clondike/pen/mig/migproc
 cd /clondike/pen
-mkdir nodes
-touch listen stop-listen-one stop-listen-all stop listening-on
+mkdir nodes listening-on mounter
+touch listen stop-listen-one stop-listen-all stop connect
 cd mig
-touch migrate-home emigrate-ppm-p migproc
+touch migrate-home emigrate-ppm-p
 
 mkdir -p /mnt/local/proc /mnt/proxy /mnt/clondike
