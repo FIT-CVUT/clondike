@@ -5,5 +5,4 @@ if [ $# -lt 1 ]; then
 	exit 1
 fi
 
-ifconfig $1  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}'
-
+ifconfig $1  | awk '{print $2}' | sed -n '2p' | cut -d ":" -f2
