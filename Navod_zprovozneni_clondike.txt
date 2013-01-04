@@ -1,60 +1,56 @@
 Preklad jadra
-Instalace nastroju pro kompilaci jadra: apt-get install apt-get install ncurses-dev gcc make initramfs-tools
+Instalace nastroju pro kompilaci jadra: apt-get install ncurses-dev gcc make initramfs-tools
+
+Pokud neni git: instalace apt-get install git
 
 Stazeni clondike patche: git clone https://github.com/FIT-CVUT/Clondike.git
 
 Stazeni prislusneho jadra: wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
 
-Rozbaleni jadra: untar linux-2.6.33.1.tar.gz
+Rozbaleni jadra: tar -xvzf linux-2.6.33.1.tar.gz
 
-Otevreni adresare s j�drem: cd linux-2.6.33.1
+Otevreni adresare s jadrem: cd linux-2.6.33.1
 
-Proveden� patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
+Provedeni patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
 
-mv config-2.6.32-5-xen-amd64 .config # if we use an existing .config make oldconfig # if we use an existing .config
+make menuconfig Clondike > Enable TCMI 
+                           Enable TCMI CCN 
+                           Enable TCMI PEN 
+                Networking support > Network options > Disable Appletalk protocol support
 
-make menuconfig Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN Enable ROOT_NFS # when booting from NFS Disable ATALK
+Mezernikem menite konfiguraci v menu, po dokonceni konfigurace jadra ulozte do .conf pomoci Save an Alternate Configuration File, pak jen Exit
 
-paste into ../Clondike/src/dbg.h / define hack / #define APPNAME 0 #define MDBGCRIT 1 #define MDBGERR 1 #define MDBGWARN 1 #define MDBG_INFO 1
+Modifikace souboru:
+vložit do ../Clondike/src/dbg.h k definům 
 
-ln -s ../Clondike/src/arch/current ../Clondike/src/arch/x86_64
+#define APPNAME 0 
+#define MDBGCRIT 1 
+#define MDBGERR 1 
+#define MDBGWARN 1 
+#define MDBG_INFO 1
+                                         
+ln -s x86_64 ../Clondike/src/arch/current
 
-in kernel/signal.c (if we build clondike into kernel) strip static by do_tkill
+Modifikace souboru:
+v souboru kernel/signal.c odstranit static před funkci do_tkill
 
 cp -R ../Clondike/src/ clondike/
 
-make clean make -j4 make modules make modules_install make install
+make clean && make -j4 && make modules && make modules_install && make install
 
 Priprava ke spusteni
-mkdir /mnt/local/proc mkdir /mnt/proxy mkdir /mnt/clondike
+pomoci skriptu create_folder_structure.sh
+vytvorte adresarovou strukturu pro Clondike
 
 cd /boot mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs append to grub: proxyfs.server=tcp:0.0.0.0:1112
 
-after coning make a new identity rm * /root/clondike/userspace/simple-ruby-director/conf restart Director
-
-po bootu apt-get install ruby ruby-dev ntpdate
-
-Vytvoreni adresarove struktury:
-/clondike/ccn/listen
-/clondike/ccn/stop-listen-one
-/clondike/ccn/stop-listen-all
-/clondike/ccn/stop
-/clondike/ccn/listening-on 
-/clondike/ccn/mig/migrate-home
-/clondike/ccn/mig/emigrate-ppm-p
-/clondike/ccn/mig/migproc
-/clondike/ccn/nodes 
-/clondike/pen/listen
-/clondike/pen/stop-listen-one
-/clondike/pen/stop-listen-all
-/clondike/pen/stop
-/clondike/pen/listening-on 
-/clondike/pen/mig/migrate-home
-/clondike/pen/mig/emigrate-ppm-p
-/clondike/pen/mig/migproc
-/clondike/pen/nodes 
+Po naklonovani je treba odstranit obsah adresare rm /root/Clondike/userspace/simple-ruby-director/conf 
+a nasledný restart Director
 
 Rozbehnuti Ruby skriptu:
+
+Instalace ruby: apt-get install ruby ruby-dev ntpdate libnl1 libnl-dev
+
 spustit make v nasledujicich adresarich
 /userspace/director-api
 /userspace/ruby-director-api
@@ -70,5 +66,3 @@ nastavuje bash prompt
 
 Spusteni Clondike:
 /root/clondike/scripts/clondike_init
-
-Poznamka: Pokud je clonovan image tak je treba pred spustenim Clondike smazat obsah složky /root/clondike/userspace/simple-ruby-director/conf/
