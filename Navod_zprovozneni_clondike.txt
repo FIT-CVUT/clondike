@@ -58,8 +58,6 @@ cd /root/Clondike/userspace/director-api
 make
 
 cp /userspace/ruby-director-api/directorApi.so /usr/lib64/ruby/1.8/x86_64-linux/directorApi.so
-cd /root/Clondike/userspace/ruby-director-api
-make
 
 Pridat zaznamy do /etc/fstab
 
