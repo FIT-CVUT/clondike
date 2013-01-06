@@ -97,32 +97,13 @@ CLEANLIBS     = $(TARGET).so $(TARGET).il? $(TARGET).tds $(TARGET).map
 CLEANOBJS     = *.o *.a *.s[ol] *.pdb *.exp *.bak
 
 all:		$(DLLIB)
-static:		$(STATIC_LIB)
+#static:		$(STATIC_LIB)
 
 clean:
 		@-$(RM) $(CLEANLIBS) $(CLEANOBJS) $(CLEANFILES)
 
-distclean:	clean
-		@-$(RM) Makefile $(RUBY_EXTCONF_H) conftest.* mkmf.log
-		@-$(RM) core ruby$(EXEEXT) *~ $(DISTCLEANFILES)
-
-realclean:	distclean
-install: install-so install-rb
-
-install-so: $(RUBYARCHDIR)
-install-so: $(RUBYARCHDIR)/$(DLLIB)
-$(RUBYARCHDIR)/$(DLLIB): $(DLLIB)
-	$(INSTALL_PROG) $(DLLIB) $(RUBYARCHDIR)
-install-rb: pre-install-rb install-rb-default
-install-rb-default: pre-install-rb-default
-pre-install-rb: Makefile
-pre-install-rb-default: Makefile
-$(RUBYARCHDIR):
-	$(MAKEDIRS) $@
-
-site-install: site-install-so site-install-rb
-site-install-so: install-so
-site-install-rb: install-rb
+install: 
+		$(COPY) $(DLLIB) $(RUBYARCHDIR)/$(DLLIB)
 
 .SUFFIXES: .c .m .cc .cxx .cpp .C .o
 

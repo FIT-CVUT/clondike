@@ -55,14 +55,21 @@ Instalace ruby: apt-get install ruby ruby-dev ntpdate libnl1 libnl-dev
 
 spustit make v nasledujicich adresarich
 cd /root/Clondike/userspace/director-api
+make clean
 make
 
-cp /userspace/ruby-director-api/directorApi.so /usr/lib64/ruby/1.8/x86_64-linux/directorApi.so
+cd /root/Clondike/userspace/ruby-director-api
+make clean
+make
+make install
 
 Pridat zaznamy do /etc/fstab
 
 none    /dev/shm  tmpfs   defaults    0 0
 none    /clondike tcmi_ctlfs  defaults  0 0
+
+Namountovat filesystemy:
+mount -a
 
 Konfigurace Bashe:
 prepiste soubor /etc/bash.bashrc
