@@ -38,11 +38,13 @@ cp -R ../Clondike/src/ clondike/
 
 make clean && make -j4 && make modules && make modules_install && make install
 
+mkinitramfs -o /boot/initrd-2.6.33.1 2.6.33.1
+
 Priprava ke spusteni
 pomoci skriptu create_folder_structure.sh
 vytvorte adresarovou strukturu pro Clondike
 
-grub-update
+update-grub nebo update-grub2
 
 cd /boot mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs append to grub: proxyfs.server=tcp:0.0.0.0:1112
 
