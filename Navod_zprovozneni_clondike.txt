@@ -23,10 +23,10 @@ Mezernikem menite konfiguraci v menu, po dokonceni konfigurace jadra ulozte do .
 Modifikace souboru:
 vložit do ../Clondike/src/dbg.h k definům 
 
-#define APPNAME 0 
-#define MDBGCRIT 1 
-#define MDBGERR 1 
-#define MDBGWARN 1 
+#define APP_NAME 0 
+#define MDBG_CRIT 1 
+#define MDBG_ERR 1 
+#define MDBG_WARN 1 
 #define MDBG_INFO 1
                                          
 ln -s x86_64 ../Clondike/src/arch/current
