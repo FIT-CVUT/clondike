@@ -38,6 +38,10 @@ cp -R ../Clondike/src/ clondike/
 
 make clean && make -j4 && make modules && make modules_install && make install
 
+Mozne komplikace pri kompilaci:
+Pridat prava pro spusteni skriptu clondike/scripts/proxyfs_ioctl_sort.pl
+Je lepsi prekopirovat celou slozku linux-2.6.33.1 do /usr/src
+
 mkinitramfs -o /boot/initrd-2.6.33.1 2.6.33.1
 
 Priprava ke spusteni
