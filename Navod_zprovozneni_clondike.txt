@@ -81,5 +81,8 @@ Konfigurace Bashe:
 prepiste soubor /etc/bash.bashrc
 nastavuje bash prompt   
 
+Konfiguracni soubor migrace:
+/root/.migration.conf
+
 Spusteni Clondike:
 /root/clondike/scripts/clondike_init
