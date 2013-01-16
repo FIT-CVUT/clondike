@@ -77,6 +77,9 @@ none    /clondike tcmi_ctlfs  defaults  0 0
 Namountovat filesystemy:
 mount -a
 
+Přidání záznamu do grubu: /etc/default/grub
+do sekce GRUB_CMDLINE_LINUX="proxyfs.server=tcp:0.0.0.0:1112"
+
 Konfigurace Bashe:
 prepiste soubor /etc/bash.bashrc
 nastavuje bash prompt   
