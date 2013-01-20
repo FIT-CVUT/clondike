@@ -91,5 +91,7 @@ Konfiguracni soubor migrace:
 NPFS nakopirovat do /root/npfs
 a spustit script /root/npfs/npfs-start &
 
+Spustit skript /root/Clondike/scripts/install.sh
+
 Spusteni Clondike:
 /root/clondike/scripts/clondike_init
