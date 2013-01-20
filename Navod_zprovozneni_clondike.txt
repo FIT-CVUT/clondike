@@ -17,7 +17,8 @@ make menuconfig Clondike > Enable TCMI
                            Enable TCMI CCN 
                            Enable TCMI PEN 
                 Networking support > Network options > Disable Appletalk protocol support
-
+                                   > Plan 9 Resource Sharing Support
+                Filesystems > Network File Systems > Plan 9 Resource Sharing Support
 Mezernikem menite konfiguraci v menu, po dokonceni konfigurace jadra ulozte do .conf pomoci Save an Alternate Configuration File, pak jen Exit
 
 Modifikace souboru:
@@ -86,6 +87,9 @@ nastavuje bash prompt
 
 Konfiguracni soubor migrace:
 /root/.migration.conf
+
+NPFS nakopirovat do /root/npfs
+a spustit script /root/npfs/npfs-start &
 
 Spusteni Clondike:
 /root/clondike/scripts/clondike_init
