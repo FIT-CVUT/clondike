@@ -107,10 +107,10 @@ class Director
 		@taskRepository.registerListener(predictor)
                 @loadBalancer.registerMigrationListener(@taskRepository)		
                    
-		@cacheFSController = CacheFSController.new(@interconnection)
+		#@cacheFSController = CacheFSController.new(@interconnection)
 		
-		initializeMeasurements()
-                initializeCliServer()
+		#initializeMeasurements()
+                #initializeCliServer()
 	end
 
 	# Starts director processing
@@ -144,7 +144,7 @@ class Director
 		
 		@netlinkConnector.pushUserMessageHandler(@interconnection)
 		
-		@netlinkConnector.pushImmigrationHandler(@cacheFSController)
+		#@netlinkConnector.pushImmigrationHandler(@cacheFSController)
 		@netlinkConnector.pushImmigrationHandler(@immigrationController)
 		
 		@netlinkConnector.pushImmigrationConfirmedHandler(@immigratedTasksController)

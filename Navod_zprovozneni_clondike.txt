@@ -88,10 +88,19 @@ nastavuje bash prompt
 Konfiguracni soubor migrace:
 /root/.migration.conf
 
-NPFS nakopirovat do /root/npfs
+NPFS ve složce /root/npfs_install
+zkompilovat a spoustec npfs ze slozky /root/npfs_install/fs
+nakopirovat do /root/npfs
 a spustit script /root/npfs/npfs-start &
+prekopirovat init script pro npfs /etc/init.d/npfsd
+                         pro clondike /etc/init.d/rc.local
+do stejneho umisteni
+
+update-rc -n npfsd defaults
 
 Spustit skript /root/Clondike/scripts/install.sh
 
-Spusteni Clondike:
-/root/clondike/scripts/clondike_init
+Spusteni Clondike manualne jinak je v rc.local dle navodu udelan start po nabehnuti systemu:
+/root/clondike/scripts/clondike-init
+
+Restart Clondike /root/clondike/script/restart-director.sh

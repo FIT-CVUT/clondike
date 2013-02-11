@@ -1,0 +1,14 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          npfsd
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: NPFS server
+### END INIT INFO
+
+echo "Starting NPFS server"
+
+/root/npfs/npfs -w 1 -p 5577 &
