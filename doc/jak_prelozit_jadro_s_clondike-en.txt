@@ -3,7 +3,8 @@
 	1.2 gcc
 	1.3 make
 	1.4 initramfs-tools
-It can be done with one command "apt-get install ncurses-dev gcc make initramfs-tools" as root.
+	1.5 git
+It can be done with one command "apt-get install ncurses-dev gcc make initramfs-tools git" as root.
 
 2. Download Clondike patch from github.com: https://github.com/MarstCVUT/Clondike.git (manually link Downloads at right).
 
@@ -21,12 +22,13 @@ For example: "patch -p1 < ../Clondike-master/patch/clondike-33.1.patch".
 "cp config-2.6.32-5-xen-amd64 .config"
 "make oldconfig"
 
-8. Enable in kernel settings several required properties
+8. Enable in kernel settings several required properties. Use spacebar to change configuration in menu, after all configurations save it to .config by Save an Alternate Configuration File and Exit.
 "menuconfig"
 menu: Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN 
-menu: File systems/Network file systems/NFS client support (ENABLE *) > Enable ROOT_NFS (attention to the dependecies, try to find /root_nfs)
-If you boot from network (NFS) or better always disable ATALK
+menu: File systems/Network File systems/NFS client support (ENABLE *) > Enable ROOT_NFS (jeste doresit zavislosti viz hledani /root_nfs)
+menu: File systems/Network File Systems > Enable Plan 9 Resource Sharing Support
 menu: Networking support/Networking options > Disable Appletalk protocol support
+menu: Networking support > Enable Plan 9 Resource Sharing Support
 
 9. Insert this code into dbg.h (../Clondike-master/src/dbg.h) for example before "Message types  as used in the source" (line 69):
 /* define hack */
