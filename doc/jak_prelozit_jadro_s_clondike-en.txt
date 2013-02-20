@@ -1,0 +1,67 @@
+1. Install the necessary tools for kernel compilation:
+	1.1 ncurses-dev
+	1.2 gcc
+	1.3 make
+	1.4 initramfs-tools
+It can be done with one command "apt-get install ncurses-dev gcc make initramfs-tools" as root.
+
+2. Download Clondike patch from github.com: https://github.com/MarstCVUT/Clondike.git (manually link Downloads at right).
+
+3. Download the appropriate kernel from www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz.
+You can use commend "wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz".
+
+4. Unpack downloaded kernel i.e. by command "tar -xvf linux-2.6.33.1.tar.gz".
+
+5. Go to the unpacked directory i.e. "cd linux-2.6.33.1".
+
+6. Make a new kernel patch by command patch -p1 < path_to_the_downloaded_patch and there the directory patch and file clondike-33.1.patch.
+For example: "patch -p1 < ../Clondike-master/patch/clondike-33.1.patch". 
+
+7. If we've old and functional kernel config file, for example config-2.6.32-5-xen-amd64, we can use it. Rename it to actual config file .config and compile it: 
+"cp config-2.6.32-5-xen-amd64 .config"
+"make oldconfig"
+
+8. Enable in kernel settings several required properties
+"menuconfig"
+menu: Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN 
+menu: File systems/Network file systems/NFS client support (ENABLE *) > Enable ROOT_NFS (attention to the dependecies, try to find /root_nfs)
+If you boot from network (NFS) or better always disable ATALK
+menu: Networking support/Networking options > Disable Appletalk protocol support
+
+9. Insert this code into dbg.h (../Clondike-master/src/dbg.h) for example before "Message types  as used in the source" (line 69):
+/* define hack */
+#define APPNAME 0
+#define MDBGCRIT 1
+#define MDBGERR 1
+#define MDBGWARN 1
+#define MDBG_INFO 1
+
+10. Make symbolic link to x86_64 as current by command "ln -s x86_64 ../Clondike-master/src/arch/current". 
+
+11. If we build clondike into kernel, go to file signal.c in directory linux-2.6.33.1/kernel and erase a word static by method do_tkill (line cca 2366). (Replace "static int do_tkill" for "int do_tkill").
+
+12. Copy recursively a directory Clondike/src to the directory clondike i.e. "cp -R ../Clondike-master/src/ clondike/".
+
+13. The kernel compilation (in a directory linux-2.6.33.1)
+"make clean"
+"make -j4"
+"make modules"
+"make modules_install"
+"make install"
+
+14. Create directories /mnt/local/proc, /mnt/proxy and /mnt/clondike by command "mkdir /mnt/local/proc /mnt/proxy /mnt/clondike". 
+
+15. Go to directory /boot "cd /boot"
+
+16. There create your own ramfs by command mkinitramfs "mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs"
+
+17. Add a line proxyfs.server=tcp:0.0.0.0:1112 to a grub config file "echo "proxyfs.server=tcp:0.0.0.0:1112" >> /etc/default/grub"
+
+18. Erase files with old indentity in the director "rm * /root/clondike/userspace/simple-ruby-director/conf"
+
+19. Restart director to generate new unique certificate
+"/root/clondike/scripts/restart-director.sh"
+
+20. Reboot system a load right kernel linux-2.6.33.1 "reboot"
+
+21. Install ruby on the new system "apt-get install ruby"

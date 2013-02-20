@@ -1,0 +1,67 @@
+1.	Nainstalovat potřebné nástroje pro kompilaci jádra:
+	1.1 ncurses-dev
+	1.2 gcc
+	1.3 make
+	1.4 initramfs-tools
+Toto lze provést jedním příkazem "apt-get install ncurses-dev gcc make initramfs-tools" jako root.
+
+2. Stáhnout clondike patch z Gitu: https://github.com/MarstCVUT/Clondike.git (ručně vpravo odkaz Downloads).
+
+3. Stáhnout přísluné jádro z www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz
+Lze použít příkaz "wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz"
+
+4. Rozbalit stažené jádro např. příkazem "tar -xvf linux-2.6.33.1.tar.gz".
+
+5. Přejít do rozbaleného adresáře například příkazem "cd linux-2.6.33.1".
+
+6. Provést patch nového jádra příkazem patch -p1 < cesta ke staženému patch a zde adresář patch, soubor clondike-33.1.patch.
+Tedy například: "patch -p1 < ../Clondike-master/patch/clondike-33.1.patch".
+
+7. Pokud mame stary a funkcni konfiguracni soubor jadra napriklad config-2.6.32-5-xen-amd64, muzeme ho pouzit. Prejmenujeme jej na aktualni konfiguracni soubor .config, ten potom zkompilovat:
+"cp config-2.6.32-5-xen-amd64 .config"
+"make oldconfig"
+
+8. Povolit v nastaveni jadra nekolik potrebnych vlastnosti
+"make menuconfig"
+menu: Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN 
+menu: File systems/Network file systems/NFS client support (ENABLE *) > Enable ROOT_NFS (jeste doresit zavislosti viz hledani /root_nfs)
+Pri bootovani ze site (NFS), radeji vzdy disable ATALK
+menu: Networking support/Networking options > Appletalk protocol support
+
+9. Do souboru dbg.h (../Clondike-master/src/dbg.h) vložit například před "Message types  as used in the source" (řádek 69) toto:
+/* define hack */
+#define APPNAME 0
+#define MDBGCRIT 1
+#define MDBGERR 1
+#define MDBGWARN 1
+#define MDBG_INFO 1
+
+10. Vytvorit symbolicky link na x86_64 jako current prikazem "ln -s x86_64 ../Clondike-master/src/arch/current".
+
+11. Pokud buildujeme clondike do jadra, v souboru signal.c v adresari linux-2.6.33.1/kernel smazat slovo static u metody do_tkill (radek asi 2366). (Nahradit "static int do_tkill" za "int do_tkill").
+
+12. Zkopirovat rekurzivne adresar Clondike/src do adresare clondike napriklad "cp -R ../Clondike-master/src/ clondike/".
+
+13. Samotna kompilace jadra (v adresari linux-2.6.33.1)
+"make clean"
+"make -j4"
+"make modules"
+"make modules_install"
+"make install"
+
+14. Vytvorit adresare /mnt/local/proc, /mnt/proxy a /mnt/clondike prikazem "mkdir /mnt/local/proc /mnt/proxy /mnt/clondike".
+
+15. Prejit do adresare /boot "cd /boot"
+
+16. Zde vytvorit vlastni ramfs pomoci mkinitramfs "mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs"
+
+17. Do konfiguracniho souboru grubu pridat radku proxyfs.server=tcp:0.0.0.0:1112 "echo "proxyfs.server=tcp:0.0.0.0:1112" >> /etc/default/grub" 
+
+18. Smazat soubory s puvodni identitou v directoru "rm * /root/clondike/userspace/simple-ruby-director/conf"
+
+19. Restartovat director, aby se vygeneroval novy unikatni certifikat
+"/root/clondike/scripts/restart-director.sh"
+
+20. Restartovat system a nacist prislusne jadro linux-2.6.33.1 "reboot"
+
+21. Nainstalovat na nový systém ruby "apt-get install ruby"
