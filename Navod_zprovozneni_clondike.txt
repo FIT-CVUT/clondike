@@ -11,7 +11,7 @@ Rozbaleni jadra: tar -xvzf linux-2.6.33.1.tar.gz
 
 Otevreni adresare s jadrem: cd linux-2.6.33.1
 
-Provedeni patche: patch -p1 < ../Clondike/patch/clondike-33.1.patch
+Provedeni patche: patch -p1 < ../clondike/patch/clondike-33.1.patch
 
 make menuconfig Clondike > Enable TCMI 
                            Enable TCMI CCN 
@@ -22,7 +22,7 @@ make menuconfig Clondike > Enable TCMI
 Mezernikem menite konfiguraci v menu, po dokonceni konfigurace jadra ulozte do .conf pomoci Save an Alternate Configuration File, pak jen Exit
 
 Modifikace souboru:
-vložit do ../Clondike/src/dbg.h k definům 
+vložit do ../clondike/src/dbg.h k definům 
 
 #define APP_NAME 0 
 #define MDBG_CRIT 1 
@@ -30,12 +30,12 @@ vložit do ../Clondike/src/dbg.h k definům
 #define MDBG_WARN 1 
 #define MDBG_INFO 1
                                          
-ln -s x86_64 ../Clondike/src/arch/current
+ln -s x86_64 ../clondike/src/arch/current
 
 Modifikace souboru:
 v souboru kernel/signal.c odstranit static před funkci do_tkill
 
-cp -R ../Clondike/src/ clondike/
+cp -R ../clondike/src/ clondike/
 
 make clean && make -j4 && make modules && make modules_install && make install
 
@@ -53,7 +53,7 @@ update-grub nebo update-grub2
 
 cd /boot mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs append to grub: proxyfs.server=tcp:0.0.0.0:1112
 
-Po naklonovani je treba odstranit obsah adresare rm /root/Clondike/userspace/simple-ruby-director/conf 
+Po naklonovani je treba odstranit obsah adresare rm /root/clondike/userspace/simple-ruby-director/conf 
 a nasledný restart Director
 
 Rozbehnuti Ruby skriptu:
@@ -61,11 +61,11 @@ Rozbehnuti Ruby skriptu:
 Instalace ruby: apt-get install ruby ruby-dev ntpdate libnl1 libnl-dev
 
 spustit make v nasledujicich adresarich
-cd /root/Clondike/userspace/director-api
+cd /root/clondike/userspace/director-api
 make clean
 make
 
-cd /root/Clondike/userspace/ruby-director-api
+cd /root/clondike/userspace/ruby-director-api
 make clean
 make
 make install
@@ -98,7 +98,7 @@ do stejneho umisteni
 
 update-rc -n npfsd defaults
 
-Spustit skript /root/Clondike/scripts/install.sh
+Spustit skript /root/clondike/scripts/install.sh
 
 Spusteni Clondike manualne jinak je v rc.local dle navodu udelan start po nabehnuti systemu:
 /root/clondike/scripts/clondike-init
