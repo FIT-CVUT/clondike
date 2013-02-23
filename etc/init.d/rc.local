@@ -27,7 +27,7 @@ do_start() {
 case "$1" in
     start)
 	do_start
-  /root/clondike/script/clondike-init &
+  /root/clondike/scripts/clondike-init &
         ;;
     restart|reload|force-reload)
         echo "Error: argument '$1' not supported" >&2
