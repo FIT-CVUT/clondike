@@ -49,11 +49,12 @@ Priprava ke spusteni
 pomoci skriptu create_folder_structure.sh
 vytvorte adresarovou strukturu pro Clondike
 
+append to grub (/etc/default/grub do CMD_LINE): proxyfs.server=tcp:0.0.0.0:1112
+
 update-grub nebo update-grub2
 
-cd /boot mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs append to grub: proxyfs.server=tcp:0.0.0.0:1112
+Po naklonovani je treba odstranit obsah adresare rm /root/clondike/userspace/simple-ruby-director/conf  
 
-Po naklonovani je treba odstranit obsah adresare rm /root/clondike/userspace/simple-ruby-director/conf 
 a nasledný restart Director
 
 Rozbehnuti Ruby skriptu:
