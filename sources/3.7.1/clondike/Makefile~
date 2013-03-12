@@ -1,0 +1,4 @@
+# Builds the Clondike system
+#
+#
+obj-y += tcmi/

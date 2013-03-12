@@ -1,0 +1,46 @@
+#
+# Clondike
+#
+
+menu "Clondike"
+
+config TCMI
+	tristate "Enable TCMI"
+	select TCMI_HOOKS
+	help
+	  Clondike is a clustering project started at FEE CTU Prague.
+	  To read more see project website at http://clondike.felk.cvut.cz
+	  This option enables Task Checkpointing and Migration Infrastructure(TCMI) 
+	  support in the kernel. 
+	
+
+	  If unsure, say N.
+
+config TCMI_HOOKS
+	bool "TCMI hooks"
+	depends on TCMI
+	help
+	  This option enables kernel hooks used by Task Checkpointing
+	  and Migration Infrastructure(TCMI) to intercept various system
+	  calls and install migration mode handler. 
+
+
+config TCMI_CCN
+	bool "Enable TCMI CCN support"
+	depends on TCMI
+	help
+	  Enables Cluster Core Node (CCN) support in TCMI framework.
+
+
+	  If unsure, say N.
+
+config TCMI_PEN
+	bool "Enable TCMI PEN support"
+	depends on TCMI
+	help
+	  Enables Process Execution Node (PEN) support in TCMI framework.
+
+
+	  If unsure, say N.
+endmenu
+
