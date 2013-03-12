@@ -357,7 +357,7 @@ static int proxyfs_server_register_poll_callback(struct proxyfs_real_file* file)
 	} else {
 		mdbg(ERR3, "Poll unavailable! File op: %p", file->file->f_op);
 		if ( file->file->f_vfsmnt)
-			mdbg(ERR3, "Mount point: %s", file->file->f_vfsmnt->mnt_devname);	
+			//mdbg(ERR3, "Mount point: %s", file->file->f_vfsmnt->mnt_devname);	
 		return -EINVAL;
 	}
 

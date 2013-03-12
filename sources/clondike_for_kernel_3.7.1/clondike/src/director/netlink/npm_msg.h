@@ -41,6 +41,6 @@ int npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, int* decisio
  * @param decision_value Output param .. if result is to perform migration, this will contain slot of the migration manager to be used
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int npm_check_full(pid_t pid, uid_t uid, int is_guest, const char* name, char __user * __user * args, char __user* __user* envp, int* decision, int* decision_value);
+int npm_check_full(pid_t pid, uid_t uid, int is_guest, const char* name, const char __user * const __user * args, const char __user * const __user* envp, int* decision, int* decision_value);
 
 #endif

@@ -17,8 +17,8 @@ struct npm_check_params {
 	int name_length;
 	struct rusage *rusage;
 	/* Params only in full mode */
-	char __user * __user * args;
-	char __user * __user * envp;
+	const char __user * const __user * args;
+	const char __user * const __user * envp;
 
 	/* Out params */
 	/** User mode helper decision.. one of npm_msg_response enum */
@@ -115,7 +115,7 @@ int npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, int* decisio
 	return 0;
 }
 
-static int put_char_array(struct sk_buff *skb, char** chars, int type, int nested_type) {
+static int put_char_array(struct sk_buff *skb, const char* const* chars, int type, int nested_type) {
 	struct nlattr* nest_attr;
 	int ret = 0;
 
@@ -195,7 +195,7 @@ static struct msg_transaction_ops npm_check_full_msg_ops = {
 };
 
 
-int npm_check_full(pid_t pid, uid_t uid, int is_guest, const char* name, char __user * __user * args, char __user* __user* envp, int* decision, int* decision_value) {
+int npm_check_full(pid_t pid, uid_t uid, int is_guest, const char* name, const char __user * const __user * args, const char __user* const __user* envp, int* decision, int* decision_value) {
 	struct npm_check_params params;
 	int ret;
 

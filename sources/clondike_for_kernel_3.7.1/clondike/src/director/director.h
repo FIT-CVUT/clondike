@@ -27,7 +27,7 @@
  *         1 on success, when a migration should be performed
  *         error code otherwise. In case of error, output params are not valid!
  */
-int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, char* __user * __user argv, char* __user * __user envp, int* migman_to_use, int* migrate_home, struct rusage *rusage);
+int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, const char* __user const * __user argv, const char* __user const * __user envp, int* migman_to_use, int* migrate_home, struct rusage *rusage);
 
 /**
  * Request to immigrate process from core node specified by slot_index to this node.

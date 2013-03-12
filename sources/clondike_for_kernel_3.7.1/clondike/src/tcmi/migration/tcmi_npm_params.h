@@ -50,7 +50,7 @@ struct tcmi_npm_params {
  * @param params Structure to be filled with extracted data
  * @returns 0 on success
  */
-int extract_tcmi_npm_params(struct tcmi_npm_params* params, const char * filename, char __user *__user *argv, char __user *__user *envp);
+int extract_tcmi_npm_params(struct tcmi_npm_params* params, const char * filename, const char __user * const __user *argv, const char __user * const __user *envp);
 
 
 /** UGLY UGLY! Following 2 funcs would ideally not be in a header.. this is just a quick hack to made code working when deployed as modules.. better solution required */

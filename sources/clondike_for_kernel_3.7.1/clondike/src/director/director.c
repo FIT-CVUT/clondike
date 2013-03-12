@@ -18,7 +18,7 @@
 MODULE_LICENSE("GPL");
 
 int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, 
-		char* __user * __user argv, char* __user * __user envp, 
+		const char* __user const * __user argv, const char* __user const * __user envp, 
 		int* migman_to_use, int* migrate_home, struct rusage *rusage) {
 	int res, decision, decision_value;
 

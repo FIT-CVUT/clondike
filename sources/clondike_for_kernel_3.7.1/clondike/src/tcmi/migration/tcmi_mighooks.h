@@ -61,7 +61,7 @@ static long tcmi_mighooks_do_exit(long code);
 static long tcmi_mighooks_mig_mode(struct pt_regs *regs);
 
 /** This hook is called on every execve invocation */
-static long tcmi_mighooks_execve(const char *filename, char __user * __user * argv, char __user * __user * envp, struct pt_regs *regs);
+static long tcmi_mighooks_execve(const char *filename, const char __user * const __user * argv, const char __user * const __user * envp, struct pt_regs *regs);
 
 /** This hook replaces paths starting with /proc/self with /proc/<<PROCESS PID>> so that remote querying of /proc/self works. it is used in path_lookup kernel function */
 static long tcmi_mighooks_replace_proc_self_file(const char* filename, const char** result);

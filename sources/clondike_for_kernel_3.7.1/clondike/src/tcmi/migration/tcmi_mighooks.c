@@ -174,8 +174,8 @@ static long tcmi_mighooks_mig_mode(struct pt_regs *regs)
 	return 0;
 }
 
-static void tcmi_try_npm_on_exec(const char *filename, char __user * __user * argv, 
-		char __user * __user * envp, struct pt_regs *regs, 
+static void tcmi_try_npm_on_exec(const char *filename, const char __user * const __user * argv, 
+		const char __user * const __user * envp, struct pt_regs *regs, 
 		struct tcmi_man* man, int is_guest) 
 {
 	struct rusage rusage;
@@ -212,7 +212,7 @@ static void tcmi_try_npm_on_exec(const char *filename, char __user * __user * ar
 	}
 }
 
-static long tcmi_mighooks_execve(const char *filename, char __user * __user * argv, char __user * __user * envp, struct pt_regs *regs) {	
+static long tcmi_mighooks_execve(const char *filename, const char __user * const __user * argv, const char __user * const __user * envp, struct pt_regs *regs) {	
 	if ( !current->tcmi.tcmi_task ) {
 		// The task is not controlled by clondike => we can non-preemptively migrate it ONLY if there is CCN registered on current node
 		struct tcmi_ccnman* ccn_man = tcmi_ccnman_get_instance();

@@ -48,7 +48,7 @@
  * */
 static int proxyfs_pipe_real_file_write(struct proxyfs_real_file *self)
 {
-	int lenght, total= 0, poll_result; // nread;
+	int lenght, total= 0, poll_result, nread;
 	mm_segment_t old_fs;
 	void *buf_addr;
 	size_t buf_data;

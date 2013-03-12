@@ -97,7 +97,7 @@ struct tcmi_ctlfs_entry* tcmi_ctlfs_get_root(void)
 
 	mdbg(INFO3, "sb c_count=%d, s_active=%d", self.sb->s_count, 
 	     atomic_read(&self.sb->s_active));
-	mdbg(INFO3, "mount mnt_count=%d", atomic_read(&self.vfs_mnt->mnt_count));
+	//mdbg(INFO3, "mount mnt_count=%d", atomic_read(&self.vfs_mnt->mnt_count));
 	return tcmi_ctlfs_entry_get(self.root_dir);
 }
 
@@ -120,7 +120,7 @@ void tcmi_ctlfs_put_root(void)
 	struct tcmi_ctlfs_entry *cur_root_dir;
 	mdbg(INFO3, "sb c_count=%d, s_active=%d", self.sb->s_count, 
 	     atomic_read(&self.sb->s_active));
-	mdbg(INFO3, "mount mnt_count=%d", atomic_read(&self.vfs_mnt->mnt_count));
+	//mdbg(INFO3, "mount mnt_count=%d", atomic_read(&self.vfs_mnt->mnt_count));
 
 	/* mdbg(INFO3, "root d_count=%d", atomic_read(&self.root_dir->super.dentry->d_count));*/
 

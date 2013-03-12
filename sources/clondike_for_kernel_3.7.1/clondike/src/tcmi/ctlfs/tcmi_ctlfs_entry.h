@@ -213,7 +213,7 @@ static inline void tcmi_ctlfs_entry_put(struct tcmi_ctlfs_entry *self)
 {
 	if (self) {
 		mdbg(INFO4, "Decrementing ref. count of '%s'(%p) (dentry: %p). Count before dec: %d", 
-		     tcmi_ctlfs_entry_name(self), self, self->dentry, atomic_read(&self->dentry->d_count));
+		     tcmi_ctlfs_entry_name(self), self, self->dentry, self->dentry->d_count); //Removed function atomic_read for bad usage | by Jiri Rakosnik
 		dput(self->dentry);
 	}
 }

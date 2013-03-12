@@ -14,7 +14,7 @@
  *
  * count() counts the number of strings in array user char array
  */
-static int count(char __user * __user * argv, int max)
+static int count(const char __user * const __user * argv, int max)
 {
 	int i = 0;
 
@@ -35,7 +35,7 @@ static int count(char __user * __user * argv, int max)
 	return i;
 }
 
-static int copy_strings(int argc, char __user * __user * argv,
+static int copy_strings(int argc, const char __user * const __user * argv,
 			struct tcmi_npm_params* params, int* remaining_max_length)
 {
 	int ret = 0, i;
@@ -70,7 +70,7 @@ out:
 }
 
 int extract_tcmi_npm_params(struct tcmi_npm_params* params, const char * filename, 
-			char __user *__user *argv, char __user *__user *envp) {
+			const char __user * const __user *argv, const char __user * const __user *envp) {
 	int remaining_max = NPM_DATA_SIZE_MAX;
 	int err;
 
@@ -94,7 +94,5 @@ int extract_tcmi_npm_params(struct tcmi_npm_params* params, const char * filenam
 
 	mdbg(INFO4, "Filename: %s, Argc: %d, Evnpc: %d Used data: %d", params->file_name, params->argsc, params->envpc, params->used_data_length);
 
-  err = fixup_npm_params_pointers(params);
-
-	return err;
+  return fixup_npm_params_pointers(params);
 };

@@ -26,7 +26,7 @@
 #include <linux/resource.h>
 
 /** execve */
-TCMI_HOOKS_DEFINE(execve, const char *, char **, char **, struct pt_regs *);
+TCMI_HOOKS_DEFINE(execve, const char *, const char * const*, const char * const*, struct pt_regs *);
 
 /** wait */
 TCMI_HOOKS_DEFINE(sys_wait4, pid_t, int __user *, int, struct rusage __user *);
