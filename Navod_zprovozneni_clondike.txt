@@ -97,7 +97,8 @@ prekopirovat init script pro npfs /etc/init.d/npfsd
                          pro clondike /etc/init.d/rc.local
 do stejneho umisteni
 
-update-rc -n npfsd defaults
+Zaregistrovat skript pro npfsd do initu pomoci
+update-rc.d -n npfsd defaults
 
 Spustit skript /root/clondike/scripts/install.sh
 
