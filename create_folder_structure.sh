@@ -15,3 +15,4 @@ cd mig
 touch migrate-home emigrate-ppm-p
 
 mkdir -p /mnt/local/proc /mnt/proxy /mnt/clondike
+mkdir /root/clondike/userspace/simple-ruby-director/conf
