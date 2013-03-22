@@ -84,21 +84,31 @@ do sekce GRUB_CMDLINE_LINUX="proxyfs.server=tcp:0.0.0.0:1112"
 
 Konfigurace Bashe:
 prepiste soubor /etc/bash.bashrc
-nastavuje bash prompt   
+nastavuje bash prompt
+# cp /root/clondike/etc/bash.bashrc /etc/
 
 Konfiguracni soubor migrace:
 /root/.migration.conf
+# cp /root/clondike/root/.migration.conf /root/
 
 NPFS ve složce /root/npfs_install
 zkompilovat a spoustec npfs ze slozky /root/npfs_install/fs
 nakopirovat do /root/npfs
 a spustit script /root/npfs/npfs-start &
 prekopirovat init script pro npfs /etc/init.d/npfsd
-                         pro clondike /etc/init.d/rc.local
+                         pro clondike /etc/init.d/rc.local 
 do stejneho umisteni
+# mkdir /root/npfs
+# /root/clondike/root/npfs_install/fs/npfs /root/npfs/
+# /root/clondike/root/npfs/npfs-start /root/npfs/
+# chmod +x /root/npfs/npfs-start
+# /root/npfs/npfs-start &
+# cp /root/clondike/etc/init.d/npfsd /etc/init.d/
+# cp /root/clondike/etc/init.d/rc.local /etc/init.d/
 
 Zaregistrovat skript pro npfsd do initu pomoci
-update-rc.d -n npfsd defaults
+update-rc.d [-n] npfsd defaults // -n neni potreba naopak dela chybu
+# update-rc.d npfsd defaults
 
 Spustit skript /root/clondike/scripts/install.sh
 
