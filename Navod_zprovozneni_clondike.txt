@@ -35,7 +35,7 @@ ln -s x86_64 ../clondike/src/arch/current
 Modifikace souboru:
 v souboru kernel/signal.c odstranit static před funkci do_tkill
 
-cp -R ../clondike/src/ clondike/
+cp -R ../clondike/src/ clondike/kernel_xxx/
 
 make clean && make -j4 && make modules && make modules_install && make install
 
