@@ -85,12 +85,6 @@
 #define MDBG_INFO3   0x00000007
 #define MDBG_INFO4   0x0000000F
 
-//#define APP_NAME 0
-//#define MDBG_CRIT 1
-//#define MDBG_ERR 1
-//#define MDBG_WARN 1
-//#define MDBG_INFO 1
-
 /* Default levels for each category */
 #ifndef MDBG_CRIT 
 #error MDBG_CRIT not defined
@@ -199,13 +193,11 @@ do {													\
 	int i = 1;												\
 	int kmsize = 1;												\
 	int test_size = 99;												\
-	int res = 0;												\
 	void** memtest;												\
 	memtest = kmalloc(sizeof(void*)*test_size, GFP_KERNEL);												\
 	for ( i = 0; i < test_size; i++ ) {											\
 	  memtest[i] = kmalloc(kmsize, GFP_KERNEL);											  \
 	  kmsize = (kmsize * 2) % 8500;												\
-	  res = res + (int)memtest[i];												\
 	}										\
 	for ( i = 0; i < test_size; i++ ) {											\
 	  kfree(memtest[i]);												\

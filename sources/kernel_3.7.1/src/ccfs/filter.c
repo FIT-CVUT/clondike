@@ -97,7 +97,7 @@ static int pattern_matches(struct filter_pattern* filter_pattern, const char* na
 
 	if ( filter_pattern->pattern == NULL ) {
 	  /* Match time pattern. Do not check age for dir, they can be always cached since readdir is uncached anyway */
-	  mdbg(INFO3, "Date compare: %d vs %d", &filter_pattern->older_than.tv_sec, ctime->tv_sec);
+	  mdbg(INFO3, "Date compare: %lld vs %lld", (long long) &filter_pattern->older_than.tv_sec, (long long) ctime->tv_sec);
 	  return S_ISDIR(umode) || timespec_compare(&filter_pattern->older_than, ctime) > 0;
 	} else {		  	
 	  /* Match string pattern */

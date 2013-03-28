@@ -20,7 +20,7 @@ static int count(const char __user * const __user * argv, int max)
 
 	if (argv != NULL) {
 		for (;;) {
-			char __user * p;
+			const char __user * p;
 
 			if (get_user(p, argv))
 				return -EFAULT;
@@ -43,10 +43,10 @@ static int copy_strings(int argc, const char __user * const __user * argv,
 	(*remaining_max_length) -= reserve_array_length(argc); // Reserve space for the array pointing to strings
 
 	for (i = 0; i < argc; i++ ) {
-		char __user *str;
+		const char __user *str;
 		int len, err;
 
-		if (get_user(str, argv+i) ||
+		if (get_user(str, (argv+i)) ||
 				!(len = strnlen_user(str, *remaining_max_length))) {
 			ret = -EFAULT;
 			goto out;
@@ -95,4 +95,7 @@ int extract_tcmi_npm_params(struct tcmi_npm_params* params, const char * filenam
 	mdbg(INFO4, "Filename: %s, Argc: %d, Evnpc: %d Used data: %d", params->file_name, params->argsc, params->envpc, params->used_data_length);
 
   return fixup_npm_params_pointers(params);
+
+
 };
+

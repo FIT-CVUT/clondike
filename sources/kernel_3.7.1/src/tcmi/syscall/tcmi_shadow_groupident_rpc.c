@@ -36,7 +36,7 @@ static inline _syscall0(gid_t, getegid    );
 static inline _syscall0(gid_t, getgid     );
 static inline _syscall1(long,  setgid,    gid_t, gid);
 static inline _syscall2(long,  getgroups, int, size, gid_t*, list);
-static inline _syscall2(long,  setgroups, int, size, const gid_t*, list);
+static inline _syscall2(long,  setgroups, int, size,  gid_t*, list);
 static inline _syscall2(long,  setregid,  gid_t, rgid, gid_t, egid);
 static inline _syscall3(long,  getresgid, gid_t*, rgid, gid_t*, egid, gid_t*, sgid);
 static inline _syscall3(long,  setresgid, gid_t, rgid, gid_t, egid, gid_t, sgid);

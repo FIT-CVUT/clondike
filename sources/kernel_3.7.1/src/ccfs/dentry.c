@@ -7,12 +7,13 @@
 
 #include <dbg.h>
 
-static int ccfs_d_revalidate(struct dentry *dentry, struct nameidata *nd)
+//Replaced second parameter struct nameidata to unsigned int flags | kernel 3.7.1 | by Jiri Rakosnik
+static int ccfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 {
 	struct dentry *lower_dentry = ccfs_get_nested_dentry(dentry);
-	struct vfsmount *lower_mnt = ccfs_dentry_to_nested_mnt(dentry);
+	//struct vfsmount *lower_mnt = ccfs_dentry_to_nested_mnt(dentry);
 	struct dentry *dentry_save;
-	struct vfsmount *vfsmount_save;
+	//struct vfsmount *vfsmount_save;
 	int rc = 1;	
 
 	mdbg(INFO3,"Revalidating dentry: (%s) %p", dentry->d_iname, dentry);
@@ -27,16 +28,15 @@ static int ccfs_d_revalidate(struct dentry *dentry, struct nameidata *nd)
 	if (!lower_dentry->d_op || !lower_dentry->d_op->d_revalidate)
 		goto out;
 
-	dentry_save = nd->path.dentry;
-	vfsmount_save = nd->path.mnt;
-	nd->path.dentry = lower_dentry;
-	nd->path.mnt = lower_mnt;
-	rc = lower_dentry->d_op->d_revalidate(lower_dentry, nd->flags);
-	nd->path.dentry = dentry_save;
-	nd->path.mnt = vfsmount_save;
+	dentry_save = dentry;
+	//vfsmount_save = nd->path.mnt;			//Commented vfsmount | kernel 3.7.1 | by Jiri Rakosnik
+	dentry = lower_dentry;
+	//nd->path.mnt = lower_mnt;
+	rc = lower_dentry->d_op->d_revalidate(lower_dentry, flags);
+	dentry = dentry_save;
+	//nd->path.mnt = vfsmount_save;
 	if (dentry->d_inode) {
-		struct inode *lower_inode =
-			ccfs_get_nested_inode(dentry->d_inode);
+		struct inode *lower_inode = ccfs_get_nested_inode(dentry->d_inode);
 
 		fsstack_copy_attr_all(dentry->d_inode, lower_inode);
 	}

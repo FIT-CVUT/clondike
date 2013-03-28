@@ -34,11 +34,11 @@ int ccfs_readdir (struct file *filp, void *dirent, filldir_t filldir) {
 	return rc;
 }
 //Remove first parameter struct inode* because function ioctl_compat has not this parameter | by Jiri Rakosnik
-
-static int ccfs_ioctl(struct file *file, unsigned int cmd,
+//Changed return type from int to long
+static long ccfs_ioctl(struct file *file, unsigned int cmd,
 	       unsigned long arg)
 {
-	int rc = 0;
+	long rc = 0;
 	struct file *lower_file = NULL;
 
 	if (ccfs_get_nested_file(file))
@@ -205,7 +205,7 @@ static ssize_t ccfs_do_sync_read(struct file *filp, char __user *buf, size_t len
 static ssize_t ccfs_generic_file_aio_read(struct kiocb *iocb, const struct iovec *iov, unsigned long nr_segs, loff_t pos) {
   ssize_t res;
   res = generic_file_aio_read(iocb, iov, nr_segs, pos);
-  mdbg(INFO3,"Async Read ... Pos: %ld, Res: %ld", pos, res);  
+  mdbg(INFO3,"Async Read ... Pos: %lld, Res: %ld",(long long) pos, res);  
   return res;
 }
 

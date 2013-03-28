@@ -198,7 +198,7 @@ int tcmi_ckptcom_restart(struct linux_binprm *bprm, struct pt_regs *regs)
 	beg_time = cpu_clock(smp_processor_id());
 	
 
-	memory_sanity_check("Start");
+memory_sanity_check("Start");
 	
 	original_regs = kmalloc(sizeof(struct pt_regs), GFP_KERNEL);
 	if ( !original_regs )

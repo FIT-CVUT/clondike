@@ -24,7 +24,7 @@ int ccfs_write_lower(struct inode *ccfsinode, char *data,
 				   &inode_info->lower_file->f_pos);
 	set_fs(fs_save);
 	if (octets_written < 0) {
-	  	mdbg(INFO3, "Error writing. Written %d, size %d", octets_written, size);
+	  	mdbg(INFO3, "Error writing. Written %lld, size %ud", (long long) octets_written, (unsigned int) size);
 		rc = -EINVAL;
 	}	
 	mutex_unlock(&inode_info->lower_file_mutex);

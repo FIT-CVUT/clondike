@@ -93,5 +93,7 @@ static int fixup_npm_params_pointers(struct tcmi_npm_params* params) {
 	params->envp[i] = NULL;
 
 	return 0;
-}
+};
+
+
 #endif

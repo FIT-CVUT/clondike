@@ -313,8 +313,8 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//arch/x86/vdso/vdso32-setup.c linux-
  subsys_initcall(sysenter_setup);
 diff -Naur linux-3.7.1_original/linux-3.7.1//clondike/Kconfig linux-3.7.1/clondike/Kconfig
 --- linux-3.7.1_original/linux-3.7.1//clondike/Kconfig	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.7.1/clondike/Kconfig	2013-01-07 11:22:45.000000000 +0100
-@@ -0,0 +1,56 @@
++++ linux-3.7.1/clondike/Kconfig	2013-03-28 22:04:28.000000000 +0100
+@@ -0,0 +1,57 @@
 +#
 +# Clondike
 +#
@@ -327,6 +327,7 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//clondike/Kconfig linux-3.7.1/clondi
 +	help
 +	  Clondike is a clustering project started at FEE CTU Prague.
 +	  To read more see project website at http://clondike.felk.cvut.cz
++	  Since 2012 is being developed at FIT CTU Prague, project website at https://github.com/FIT-CVUT/Clondike
 +	  This option enables Task Checkpointing and Migration Infrastructure(TCMI) 
 +	  support in the kernel. 
 +	
@@ -427,9 +428,24 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//clondike/tcmi/tcmi_hooks.c linux-3.
 +#define TCMI_HOOKS_FACTORY_PRIVATE
 +#include <clondike/tcmi/tcmi_hooks.h>
 +
+diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/fid.c linux-3.7.1/fs/9p/fid.c
+--- linux-3.7.1_original/linux-3.7.1//fs/9p/fid.c	2012-12-17 20:14:54.000000000 +0100
++++ linux-3.7.1/fs/9p/fid.c	2013-03-27 12:24:15.000000000 +0100
+@@ -161,9 +161,11 @@
+ 		if (access == V9FS_ACCESS_SINGLE)
+ 			return ERR_PTR(-EPERM);
+ 
++		/*	WTF?? Anyway does not work with our npfs | by Jiri Rakosnik
+ 		if (v9fs_proto_dotu(v9ses) || v9fs_proto_dotl(v9ses))
+ 				uname = NULL;
+ 		else
++		*/
+ 			uname = v9ses->uname;
+ 
+ 		fid = p9_client_attach(v9ses->clnt, NULL, uname, uid,
 diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.c linux-3.7.1/fs/9p/v9fs.c
 --- linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.c	2012-12-17 20:14:54.000000000 +0100
-+++ linux-3.7.1/fs/9p/v9fs.c	2013-01-15 14:43:27.000000000 +0100
++++ linux-3.7.1/fs/9p/v9fs.c	2013-03-27 12:06:16.000000000 +0100
 @@ -51,6 +51,9 @@
  enum {
  	/* Options that take integer arguments */
@@ -453,8 +469,8 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.c linux-3.7.1/fs/9p/v9fs
  	v9ses->cachetag = NULL;
  #endif
  
-+v9ses->cuid = 999; // By default clondike user id is used so that no aliasing is performed
-+v9ses->cgid = 999; // By default clondike group id is used so that no aliasing is performed
++	v9ses->cuid = 999; // By default clondike user id is used so that no aliasing is performed
++	v9ses->cgid = 999; // By default clondike group id is used so that no aliasing is performed
 +
  	if (!opts)
  		return 0;
@@ -474,21 +490,42 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.c linux-3.7.1/fs/9p/v9fs
  			v9ses->uname = match_strdup(&args[0]);
 diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.h linux-3.7.1/fs/9p/v9fs.h
 --- linux-3.7.1_original/linux-3.7.1//fs/9p/v9fs.h	2012-12-17 20:14:54.000000000 +0100
-+++ linux-3.7.1/fs/9p/v9fs.h	2013-01-15 14:44:48.000000000 +0100
++++ linux-3.7.1/fs/9p/v9fs.h	2013-03-27 12:07:06.000000000 +0100
 @@ -106,6 +106,9 @@
  	struct fscache_cookie *fscache;
  #endif
  
-+  unsigned int cuid;	/* Clondike aliased user id */
-+  unsigned int cgid;	/* Clondike aliased group id */
++  	unsigned int cuid;	/* Clondike aliased user id */
++  	unsigned int cgid;	/* Clondike aliased group id */
 +
  	char *uname;		/* user name to mount as */
  	char *aname;		/* name of remote hierarchy being mounted */
  	unsigned int maxdata;	/* max data for client interface */
 diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/vfs_inode.c linux-3.7.1/fs/9p/vfs_inode.c
 --- linux-3.7.1_original/linux-3.7.1//fs/9p/vfs_inode.c	2012-12-17 20:14:54.000000000 +0100
-+++ linux-3.7.1/fs/9p/vfs_inode.c	2013-02-19 18:28:13.000000000 +0100
-@@ -372,12 +372,20 @@
++++ linux-3.7.1/fs/9p/vfs_inode.c	2013-03-27 18:51:09.000000000 +0100
+@@ -283,9 +283,6 @@
+ 	inode->i_mapping->a_ops = &v9fs_addr_operations;
+ 
+ 	switch (mode & S_IFMT) {
+-	case S_IFIFO:
+-	case S_IFBLK:
+-	case S_IFCHR:
+ 	case S_IFSOCK:
+ 		if (v9fs_proto_dotl(v9ses)) {
+ 			inode->i_op = &v9fs_file_inode_operations_dotl;
+@@ -299,6 +296,10 @@
+ 		}
+ 		init_special_inode(inode, inode->i_mode, inode->i_rdev);
+ 		break;
++	
++	case S_IFIFO:
++	case S_IFBLK:
++	case S_IFCHR:
+ 	case S_IFREG:
+ 		if (v9fs_proto_dotl(v9ses)) {
+ 			inode->i_op = &v9fs_file_inode_operations_dotl;
+@@ -372,12 +373,20 @@
  	p9_debug(P9_DEBUG_VFS, "super block: %p mode: %ho\n", sb, mode);
  
  	inode = new_inode(sb);
@@ -511,7 +548,7 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/vfs_inode.c linux-3.7.1/fs/9p
  	if (err) {
  		iput(inode);
  		return ERR_PTR(err);
-@@ -1092,6 +1100,13 @@
+@@ -1092,6 +1101,13 @@
  	v9fs_stat2inode(st, dentry->d_inode, dentry->d_inode->i_sb);
  	generic_fillattr(dentry->d_inode, stat);
  
@@ -525,6 +562,21 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//fs/9p/vfs_inode.c linux-3.7.1/fs/9p
  	p9stat_free(st);
  	kfree(st);
  	return 0;
+@@ -1194,6 +1210,14 @@
+ 		inode->i_uid = stat->n_uid;
+ 		inode->i_gid = stat->n_gid;
+ 	}
++	// Clondike fix by Jiri Rakosnik
++	if ( inode->i_uid == v9ses->cuid )
++		// Make clondike aliasing
++		inode->i_uid = 999;
++	if ( inode->i_gid == v9ses->cgid )
++		// Make clondike aliasing
++		inode->i_gid = 999;
++	// End Clondike fix
+ 	if ((S_ISREG(inode->i_mode)) || (S_ISDIR(inode->i_mode))) {
+ 		if (v9fs_proto_dotu(v9ses) && (stat->extension[0] != '\0')) {
+ 			/*
 diff -Naur linux-3.7.1_original/linux-3.7.1//fs/exec.c linux-3.7.1/fs/exec.c
 --- linux-3.7.1_original/linux-3.7.1//fs/exec.c	2012-12-17 20:14:54.000000000 +0100
 +++ linux-3.7.1/fs/exec.c	2013-03-12 18:33:58.000000000 +0100
@@ -996,34 +1048,7 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//include/linux/signal.h linux-3.7.1/
          rt_sigmask(SIGXCPU)   |  rt_sigmask(SIGXFSZ)   | \
  	SIGEMT_MASK				       )
  
-diff -Naur linux-3.7.1_original/linux-3.7.1//include/uapi/linux/netfilter_ipv6/ip6t_HL.h linux-3.7.1/include/uapi/linux/netfilter_ipv6/ip6t_HL.h
---- linux-3.7.1_original/linux-3.7.1//include/uapi/linux/netfilter_ipv6/ip6t_HL.h	2012-12-17 20:14:54.000000000 +0100
-+++ linux-3.7.1/include/uapi/linux/netfilter_ipv6/ip6t_HL.h	1970-01-01 01:00:00.000000000 +0100
-@@ -1,24 +0,0 @@
--/* Hop Limit modification module for ip6tables
-- * Maciej Soltysiak <solt@dns.toxicfilms.tv>
-- * Based on HW's TTL module */
--
--#ifndef _IP6T_HL_H
--#define _IP6T_HL_H
--
--#include <linux/types.h>
--
--enum {
--	IP6T_HL_SET = 0,
--	IP6T_HL_INC,
--	IP6T_HL_DEC
--};
--
--#define IP6T_HL_MAXMODE	IP6T_HL_DEC
--
--struct ip6t_HL_info {
--	__u8	mode;
--	__u8	hop_limit;
--};
--
--
--#endif
+
 diff -Naur linux-3.7.1_original/linux-3.7.1//kernel/capability.c linux-3.7.1/kernel/capability.c
 --- linux-3.7.1_original/linux-3.7.1//kernel/capability.c	2012-12-17 20:14:54.000000000 +0100
 +++ linux-3.7.1/kernel/capability.c	2013-01-31 12:06:03.000000000 +0100
@@ -1748,7 +1773,7 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//kernel/timer.c linux-3.7.1/kernel/t
  	int j;
 diff -Naur linux-3.7.1_original/linux-3.7.1//Makefile linux-3.7.1/Makefile
 --- linux-3.7.1_original/linux-3.7.1//Makefile	2012-12-17 20:14:54.000000000 +0100
-+++ linux-3.7.1/Makefile	2013-01-10 23:51:49.000000000 +0100
++++ linux-3.7.1/Makefile	2013-03-28 21:33:32.000000000 +0100
 @@ -518,7 +518,7 @@
  
  # Objects we will link into vmlinux / subdirs we need to visit
@@ -1758,6 +1783,23 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//Makefile linux-3.7.1/Makefile
  net-y		:= net/
  libs-y		:= lib/
  core-y		:= usr/
+@@ -567,7 +567,7 @@
+ # command line.
+ # This allow a user to issue only 'make' to build a kernel including modules
+ # Defaults to vmlinux, but the arch makefile usually adds further targets
+-all: vmlinux
++all: clondike_symlink vmlinux
+ 
+ ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+ KBUILD_CFLAGS	+= -Os
+@@ -1419,3 +1419,6 @@
+ # Declare the contents of the .PHONY variable as phony.  We keep that
+ # information in a variable so we can use it in if_changed and friends.
+ .PHONY: $(PHONY)
++
++clondike_symlink:
++	(ln -fsn $(ARCH) clondike/src/arch/current)
+\ No newline at end of file
 diff -Naur linux-3.7.1_original/linux-3.7.1//mm/memory.c linux-3.7.1/mm/memory.c
 --- linux-3.7.1_original/linux-3.7.1//mm/memory.c	2012-12-17 20:14:54.000000000 +0100
 +++ linux-3.7.1/mm/memory.c	2013-01-31 13:27:19.000000000 +0100
@@ -1794,3 +1836,14 @@ diff -Naur linux-3.7.1_original/linux-3.7.1//mm/mmap.c linux-3.7.1/mm/mmap.c
  static DEFINE_MUTEX(mm_all_locks_mutex);
  
  static void vm_lock_anon_vma(struct mm_struct *mm, struct anon_vma *anon_vma)
+diff -Naur linux-3.7.1_original/linux-3.7.1//scripts/Makefile linux-3.7.1/scripts/Makefile
+--- linux-3.7.1_original/linux-3.7.1//scripts/Makefile	2012-12-17 20:14:54.000000000 +0100
++++ linux-3.7.1/scripts/Makefile	2013-03-28 21:32:06.000000000 +0100
+@@ -17,6 +17,7 @@
+ hostprogs-$(BUILD_C_RECORDMCOUNT) += recordmcount
+ hostprogs-$(CONFIG_BUILDTIME_EXTABLE_SORT) += sortextable
+ hostprogs-$(CONFIG_ASN1)	 += asn1_compiler
++hostprogs-$(CONFIG_TCMI)	+= ../clondike/src/scripts/dbgenv
+ 
+ HOSTCFLAGS_sortextable.o = -I$(srctree)/tools/include
+ HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include

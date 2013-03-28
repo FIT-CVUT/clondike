@@ -31,32 +31,29 @@ static void unlock_dir(struct dentry *dir)
 	dput(dir);
 }
 
-static int
-ccfs_create_underlying_file(struct inode *lower_dir_inode,
-				struct dentry *dentry, int mode,
-				struct nameidata *nd)
+//Replaced last parameter struct nameidata to bool excl and changed type mode parameter to umode_t | by Jiri Rakosnik
+static int ccfs_create_underlying_file(struct inode *lower_dir_inode, struct dentry *dentry, umode_t mode, bool excl)
 {
 	struct dentry *lower_dentry = ccfs_get_nested_dentry(dentry);
-	struct vfsmount *lower_mnt = ccfs_dentry_to_nested_mnt(dentry);
+	//struct vfsmount *lower_mnt = ccfs_dentry_to_nested_mnt(dentry);
 	struct dentry *dentry_save;
-	struct vfsmount *vfsmount_save;
+	//struct vfsmount *vfsmount_save;
 	int rc;
 
-	dentry_save = nd->path.dentry;
-	vfsmount_save = nd->path.mnt;
-	nd->path.dentry = lower_dentry;
-	nd->path.mnt = lower_mnt;
+	dentry_save = dentry;
+	//vfsmount_save = nd->path.mnt;
+	dentry = lower_dentry;
+	//nd->path.mnt = lower_mnt;
 	
-	mdbg(INFO3,"Create file w/ lower_dentry->d_name.name = [%s] -> [%s] ", lower_dentry->d_name.name, nd->path.dentry->d_name.name);
-	rc = vfs_create(lower_dir_inode, lower_dentry, mode, nd);
-	nd->path.dentry = dentry_save;
-	nd->path.mnt = vfsmount_save;
+	mdbg(INFO3,"Create file w/ lower_dentry->d_name.name = [%s] -> [%s] ", lower_dentry->d_name.name, dentry->d_name.name);
+	rc = vfs_create(lower_dir_inode, lower_dentry, mode, excl);
+	dentry = dentry_save;
+	///nd->path.mnt = vfsmount_save;
 	return rc;
 }
 
-static int ccfs_do_create(struct inode *directory_inode,
-		   struct dentry *ecryptfs_dentry, int mode,
-		   struct nameidata *nd)
+//Replaced last parameter struct nameidata to bool excl and changed type mode parameter to umode_t | by Jiri Rakosnik
+static int ccfs_do_create(struct inode *directory_inode, struct dentry *ecryptfs_dentry, umode_t mode, bool excl)
 {
 	int rc;
 	struct dentry *lower_dentry;
@@ -70,8 +67,8 @@ static int ccfs_do_create(struct inode *directory_inode,
 		rc = PTR_ERR(lower_dir_dentry);
 		goto out;
 	}
-	rc = ccfs_create_underlying_file(lower_dir_dentry->d_inode,
-					     ecryptfs_dentry, mode, nd);
+	rc = ccfs_create_underlying_file(lower_dir_dentry->d_inode, ecryptfs_dentry, mode, excl);
+	
 	if (unlikely(rc)) {
 		mdbg(ERR1,
 				"Failure to create underlying file");
@@ -91,12 +88,12 @@ out:
 	return rc;
 }
 
-static int ccfs_create(struct inode *directory_inode, struct dentry *ccfs_dentry,
-		int mode, struct nameidata *nd)
+//Replaced last parameter struct nameidata to bool excl and changed type mode parameter to umode_t | by Jiri Rakosnik
+static int ccfs_create(struct inode *directory_inode, struct dentry *ccfs_dentry, umode_t mode, bool excl)
 {
 	int rc;
 
-	rc = ccfs_do_create(directory_inode, ccfs_dentry, mode, nd);
+	rc = ccfs_do_create(directory_inode, ccfs_dentry, mode, excl);
 	if (unlikely(rc)) {
 		printk(KERN_WARNING "Failed to create file in"
 				"lower filesystem\n");
@@ -108,9 +105,8 @@ static int ccfs_create(struct inode *directory_inode, struct dentry *ccfs_dentry
 out:
 	return rc;
 }
-
-static struct dentry *ccfs_lookup(struct inode *dir, struct dentry *dentry,
-				      struct nameidata *nd)
+//Replaced last parameter struct nameidata to unsigned int flags | kernel 3.7.1 | by Jiri Rakosnik
+static struct dentry *ccfs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
 {
 	int rc = 0;
 	struct dentry *lower_dir_dentry;
@@ -150,7 +146,7 @@ static struct dentry *ccfs_lookup(struct inode *dir, struct dentry *dentry,
 		lower_dentry->d_name.name);
 
 	fsstack_copy_attr_atime(dir, lower_dir_dentry->d_inode);
-	BUG_ON(!atomic_read(&lower_dentry->d_count));
+	//BUG_ON(!atomic_read(&lower_dentry->d_count));
 
 	ccfs_set_dentry_private(dentry,
 				    kmem_cache_alloc(ccfs_dentry_cache,
@@ -184,12 +180,13 @@ static struct dentry *ccfs_lookup(struct inode *dir, struct dentry *dentry,
 		mdbg(INFO3, "Is a special file; returning");
 		goto out;
 	}
+	/*	Commented because nd does not exists by Jiri Rakosnik
 	if (!nd) {
 		mdbg(INFO3,"We have a NULL nd, just leave"
 				"as we *think* we are about to unlink");
 		goto out;
 	}
-
+	*/
 
 	goto out;
 out_dput:
@@ -297,7 +294,7 @@ out_lock:
 	return rc;
 }
 
-static int ccfs_mkdir(struct inode *dir, struct dentry *dentry, int mode)
+static int ccfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
 {
 	int rc;
 	struct dentry *lower_dentry;
@@ -349,7 +346,7 @@ static int ccfs_rmdir(struct inode *dir, struct dentry *dentry)
 	return rc;
 }
 
-static int ccfs_mknod(struct inode *dir, struct dentry *dentry, int mode, dev_t dev)
+static int ccfs_mknod(struct inode *dir, struct dentry *dentry, umode_t mode, dev_t dev)
 {
 	int rc;
 	struct dentry *lower_dentry;
