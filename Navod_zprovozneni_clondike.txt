@@ -21,19 +21,6 @@ make menuconfig Clondike > Enable TCMI
                 Filesystems > Network File Systems > Plan 9 Resource Sharing Support
 Mezernikem menite konfiguraci v menu, po dokonceni konfigurace jadra ulozte do .conf pomoci Save an Alternate Configuration File, pak jen Exit
 
-Modifikace souboru:
-vložit do ../clondike/src/dbg.h k definům 
-
-#define APP_NAME 0 
-#define MDBG_CRIT 1 
-#define MDBG_ERR 1 
-#define MDBG_WARN 1 
-#define MDBG_INFO 1
-                                         
-ln -s x86_64 ../clondike/src/arch/current
-
-Modifikace souboru:
-v souboru kernel/signal.c odstranit static před funkci do_tkill
 
 cp -R ../clondike/src/ clondike/kernel_xxx/
 

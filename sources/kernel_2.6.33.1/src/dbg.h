@@ -85,12 +85,14 @@
 #define MDBG_INFO3   0x00000007
 #define MDBG_INFO4   0x0000000F
 
+/*
 #define APP_NAME 0
 #define MDBG_CRIT 1
 #define MDBG_ERR 1
 #define MDBG_WARN 1
 #define MDBG_INFO 1
-
+*/
+ 
 /* Default levels for each category */
 #ifndef MDBG_CRIT 
 #error MDBG_CRIT not defined

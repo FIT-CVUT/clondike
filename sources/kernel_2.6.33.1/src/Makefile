@@ -45,7 +45,8 @@ include $(src)/debug.make
 export PATH := $(PATH):$(NPWD)/$(src)/scripts:$(src)/scripts
 
 subdir-ccflags-y   := -I$(src) 
-obj-$(CONFIG_TCMI) := kkc/ director/ ccfs/ proxyfs/ tcmi/ 
+obj-$(CONFIG_TCMI) := kkc/ director/ ccfs/ proxyfs/ tcmi/
+EXTRA_CFLAGS += -DMDBG_CRIT=4 -DMDBG_ERR=4 -DMDBG_WARN=4 -DMDBG_INFO=0 
 
 endif
 
