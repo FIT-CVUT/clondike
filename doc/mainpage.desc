@@ -1,10 +1,11 @@
-/** \mainpage Clondike(0-08)
- * \author Jan Capek, Petr Malat, Martin Stava
+/** \mainpage Clondike(CTU FIT version converted from FEL version for kernel 2.6.33.1 and 3.7.1 beta)
+ * \author Jan Capek, Petr Malat, Martin Stava, Jiri Rakosnik, Tomas Vicher, Zdenek Novy
  * \version KKC-1-02 TCMI-1-06
- * \date 2007-08-01
+ * \date 2013-14-03
  *
  * \section cnt Content
  * - \ref sec_mainpage_intro 
+ * - \ref sec_mainpage_install_manual
  * - \ref sec_mainpage_style
  *   - \ref subsec_mainpage_style_overall
  *   - \ref subsec_mainpage_style_ref
@@ -19,17 +20,15 @@
  *   - \ref subsec_mainpage_patch_do_exit
  *   - \ref subsec_mainpage_patch_tmp_debug
  *   - \ref subsec_mainpage_patch_kconfig
- * - \ref sec_mainpage_install
  * - \ref page_manual
  * - \ref sec_mainpage_dir_layout
- * - \ref sec_mainpage_tcmichangelogs
- * - \ref sec_mainpage_kkcchangelogs
- * - \ref sec_mainpage_srcstats
- *
+ * - \ref sec_old_changelogs
+ *    - \ref subsec_mainpage_tcmichangelogs
+ * 
  *
  * \section sec_mainpage_intro Introduction
  *
- * Clondike is a project developed at FEE CTU, Prague. The main goal
+ * Clondike is a project developed at FEE and FIT CTU, Prague. The main goal
  * is to create a cluster of non-dedicated workstations. This web page
  * is automatically generated from clondike sources and explains
  * various implementation aspects. Currently, clondike has three main
@@ -38,9 +37,14 @@
  * - \link kkc_class Kernel-to-Kernel Communication library(KKC) \endlink
  * - \link tcmi_module_class Task Checkpointing and Migration Infrastructure(TCMI) \endlink
  * - \link proxyfs_module_class Proxy File System(ProxyFS) \endlink
+ * -  Cache Clondike Filesystem - Support cache file system for measuring 
  *
  * All clondike classes can be viewed in a <a href="modules.html">tree-like structure </a>
  *
+ * \section sec_mainpage_install_manual Install manual Clondike
+ * \verbinclude doc/install_manual_clondike-en.desc
+ * 
+ * 
  *
  * \section sec_mainpage_style Software Design Style
  *
@@ -180,6 +184,7 @@
  * - \c tcmi_ for \link tcmi_module_class TCMI \endlink
  * - \c proxyfs_ for \link proxyfs_module_class ProxyFS \endlink
  * - \c kkc_  for \link kkc_class KKC \endlink
+ * - \c ccfs_ for CCFS
  *
  * based on the subsystem they belong to. The implementation of a
  * class is carried out in the .h and .c file of the same name as the
@@ -264,11 +269,8 @@
  * \verbinclude README
  *
  *
- *
- * \section sec_mainpage_install Installation
- * \verbinclude INSTALL
- *
- * \section sec_mainpage_tcmichangelogs Changelogs - TCMI
+ * \section sec_old_changelogs Historical changelogs
+ * \subsection subsec_mainpage_tcmichangelogs Changelogs - TCMI
  * \ref tcmi_module_class (\a src/tcmi/ChangeLog)
  * \verbinclude src/tcmi/ChangeLog
  *
@@ -293,10 +295,8 @@
  * \ref tcmi_task_group (\a src/tcmi/task/ChangeLog)
  * \verbinclude src/tcmi/task/ChangeLog
  *
- * \section sec_mainpage_kkcchangelogs Changelogs - KKC
+ * \subsection sec_mainpage_kkcchangelogs Changelogs - KKC
  * \ref kkc_class(\a src/kkc/ChangeLog)
  * \verbinclude src/kkc/ChangeLog
  *	
- * \section sec_mainpage_srcstats Current Source Code Statistics
- * \image html src_stats.png
  */
