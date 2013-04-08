@@ -44,6 +44,7 @@ int errno = 0;
 #include <tcmi/manager/tcmi_migman.h>
 
 #include "tcmi_taskhelper.h"
+#include "linux/sched.h"
 
 /** TODO: Move this somewhere to arch */
 #if defined(__x86_64__)
@@ -51,8 +52,13 @@ int errno = 0;
 
 int clondike_execve(const char *filename, char *const argv[], char *const envp[]);
 
-static inline int copyof_kernel_execve(const char *filename, char *const argv[], char *const envp[]) {
-	return clondike_execve(filename, argv, envp);
+static inline int copyof_kernel_execve(char *filename, const char * argv[], const char * envp[]) {
+	long ret;
+	struct pt_regs *p = current_pt_regs();
+	ret = do_execve(filename, argv, envp, p);
+	
+	return ret;
+	
 }
 
 #endif
@@ -822,6 +828,7 @@ memory_sanity_check("Sanity check on execve");
 
 	//mm_segment_t fs = get_fs();
 memory_sanity_check("Sanity check on execve - just before the call");
+	minfo(ERR4, "KONTROLNI BOD PRED KERNEL_EXECUTE");
 	if ((err = copyof_kernel_execve(self_tsk->ckpt_pathname, self_tsk->argv,
 	/* if ((err = execve(self_tsk->ckpt_pathname, self_tsk->argv, */
 			  self_tsk->envp)) < 0) {
