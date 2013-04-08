@@ -45,7 +45,7 @@ static int mount_9p_fs(const char* mount_point, struct fs_mounter* mounter, int1
 		minfo(ERR1, "Failed to mount filesystem: %d", err);
 		goto exit1;
 	}
-	//return 0;
+	return 0;
 
 exit1:
 	kfree(connect_param);

@@ -329,10 +329,12 @@ static int tcmi_ckpt_openfile_read_newfd(struct tcmi_ckpt *ckpt)
 			goto exit1;
 		}
 		/* setup the file position */
+		/*
 		if (new_hdr.pos != vfs_llseek(current->files->fdt->fd[fd], new_hdr.pos, 0)) {
 			mdbg(ERR3, "Failed to set position %Lx in file '%s'", new_hdr.pos, (char*)page);
 			goto exit1;
 		}
+		*/
 	}
 
 	/*
