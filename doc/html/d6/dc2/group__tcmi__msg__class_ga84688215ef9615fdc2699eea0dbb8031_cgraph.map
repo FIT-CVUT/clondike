@@ -1,0 +1,6 @@
+<map id="tcmi_msg_recv" name="tcmi_msg_recv">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga111890916880384e47495e8859f57c95" title="&lt;&lt;public&gt;&gt; Locks this socket instance for receiving, interruptible version, the process can be woken ..." alt="" coords="163,5,370,32"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#ga82295120b31f3818bbc9b9a462a22b56" title="&lt;&lt;public&gt;&gt; Unlocks this socket instance for receiving." alt="" coords="193,56,340,83"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gadafc7c835c7d6d94be66f61a050108b7" title="&lt;&lt;public&gt;&gt; Receives requested number of bytes of data." alt="" coords="213,107,321,133"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gaff5e8804c93f0cb2a4b5e2e12f64e743" title="&lt;&lt;private&gt;&gt; Transfers a required number of bytes." alt="" coords="419,107,562,133"/>
+</map>

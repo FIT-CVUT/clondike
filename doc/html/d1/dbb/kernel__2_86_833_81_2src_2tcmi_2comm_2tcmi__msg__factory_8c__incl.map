@@ -1,0 +1,27 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_msg_factory.c" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_msg_factory.c">
+<area shape="rect" id="node2" href="$da/dbf/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__msg__factory_8h.html" title="tcmi_msg_factory.h" alt="" coords="5,381,141,408"/>
+<area shape="rect" id="node16" href="$d2/d6e/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__messages__dsc_8h.html" title="tcmi_messages_dsc.h" alt="" coords="1157,125,1309,152"/>
+<area shape="rect" id="node3" href="$df/d27/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__msg_8h.html" title="tcmi_msg.h" alt="" coords="712,456,803,483"/>
+<area shape="rect" id="node8" href="$d9/d7f/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__transaction_8h.html" title="tcmi_transaction.h" alt="" coords="535,531,664,557"/>
+<area shape="rect" id="node13" href="$de/df5/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__messages__id_8h.html" title="tcmi_messages_id.h" alt="" coords="741,531,883,557"/>
+<area shape="rect" id="node17" href="$da/dca/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__skel__msg_8h.html" title="tcmi_skel_msg.h" alt="" coords="1221,381,1341,408"/>
+<area shape="rect" id="node18" href="$d5/d11/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__skelresp__msg_8h.html" title="tcmi_skelresp_msg.h" alt="" coords="199,299,345,325"/>
+<area shape="rect" id="node20" href="$d2/d82/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__signal__msg_8h.html" title="tcmi_signal_msg.h" alt="" coords="352,381,483,408"/>
+<area shape="rect" id="node21" href="$d9/d05/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__p__emigrate__msg_8h.html" title="tcmi_p_emigrate_msg.h" alt="" coords="507,381,668,408"/>
+<area shape="rect" id="node22" href="$d3/d99/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__authenticate__msg_8h.html" title="tcmi_authenticate_msg.h" alt="" coords="561,208,729,235"/>
+<area shape="rect" id="node24" href="$d5/d17/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__authenticate__resp__msg_8h.html" title="tcmi_authenticate_resp\l_msg.h" alt="" coords="937,201,1095,242"/>
+<area shape="rect" id="node26" href="$de/d48/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__disconnect__msg_8h.html" title="tcmi_disconnect_msg.h" alt="" coords="753,208,913,235"/>
+<area shape="rect" id="node27" href="$dc/dfd/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__skel__procmsg_8h.html" title="tcmi_skel_procmsg.h" alt="" coords="2163,299,2309,325"/>
+<area shape="rect" id="node29" href="$db/d1c/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__skelresp__procmsg_8h.html" title="tcmi_skelresp_procmsg.h" alt="" coords="1644,208,1815,235"/>
+<area shape="rect" id="node31" href="$d7/df8/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__exit__procmsg_8h.html" title="tcmi_exit_procmsg.h" alt="" coords="2334,299,2476,325"/>
+<area shape="rect" id="node32" href="$de/d7d/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__rpc__procmsg_8h.html" title="tcmi_rpc_procmsg.h" alt="" coords="2501,299,2640,325"/>
+<area shape="rect" id="node33" href="$de/d24/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__rpcresp__procmsg_8h.html" title="tcmi_rpcresp_procmsg.h" alt="" coords="1455,208,1620,235"/>
+<area shape="rect" id="node35" href="$d7/d8c/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__guest__started__procmsg_8h.html" title="tcmi_guest_started\l_procmsg.h" alt="" coords="1839,201,1972,242"/>
+<area shape="rect" id="node36" href="$d2/de0/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__ppm__p__migr__back__guestreq__procmsg_8h.html" title="tcmi_ppm_p_migr_back\l_guestreq_procmsg.h" alt="" coords="1996,201,2156,242"/>
+<area shape="rect" id="node37" href="$d7/df9/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__ppm__p__migr__back__shadowreq__procmsg_8h.html" title="tcmi_ppm_p_migr_back\l_shadowreq_procmsg.h" alt="" coords="1271,201,1431,242"/>
+<area shape="rect" id="node38" href="$d8/d2c/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__vfork__done__procmsg_8h.html" title="tcmi_vfork_done_procmsg.h" alt="" coords="1955,299,2137,325"/>
+<area shape="rect" id="node39" href="$dc/d03/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__generic__user__msg_8h.html" title="tcmi_generic_user_msg.h" alt="" coords="968,381,1139,408"/>
+<area shape="rect" id="node19" href="$da/d34/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__err__msg_8h.html" title="tcmi_err_msg.h" alt="" coords="216,381,328,408"/>
+<area shape="rect" id="node28" href="$d8/dd5/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__procmsg_8h.html" title="tcmi_procmsg.h" alt="" coords="1784,381,1899,408"/>
+<area shape="rect" id="node30" href="$dd/dc8/kernel__2_86_833_81_2src_2tcmi_2comm_2tcmi__err__procmsg_8h.html" title="tcmi_err_procmsg.h" alt="" coords="1641,299,1777,325"/>
+</map>

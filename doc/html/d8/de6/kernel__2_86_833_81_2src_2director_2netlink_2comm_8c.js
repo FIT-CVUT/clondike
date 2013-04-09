@@ -1,0 +1,25 @@
+var kernel__2_86_833_81_2src_2director_2netlink_2comm_8c =
+[
+    [ "check_for_error", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#ae2479089f7107aec24a9c89a13101d0d", null ],
+    [ "destroy_director_comm", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a6826d8945c835043da42a0d8d4ce1333", null ],
+    [ "get_unique_seq", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a4559dadd35469f8de48ab278303e40a0", null ],
+    [ "init_director_comm", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#adcff1f9e763e8ce87f887f308fccb3df", null ],
+    [ "is_director_connected", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a5f190e32af9d5c630100bee151c00717", null ],
+    [ "is_director_pid", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a2f2d20d22eb367dbc69ecdbc8ac7576b", null ],
+    [ "msg_transaction_do", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#af68cf85dec3fb86013cb79568bb30026", null ],
+    [ "msg_transaction_request", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#ab708cd00ae28bb68e7a53b6784f6f937", null ],
+    [ "msg_transaction_response", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a66ea56ce29053fb1d9ab6d337429652d", null ],
+    [ "register_pid_handler", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#ab756eb2402821f70775e9a1a3518f0a1", null ],
+    [ "ack_ops_ref", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a645fc0b5745c4eac7ca1f23c0b90ce98", null ],
+    [ "check_npm_ops_ref", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#aa7b188afbf893b44d4b6bd1baa92aa8e", null ],
+    [ "DIRECTOR_CHANNEL_NAME", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#abc05b74c7ba8820abcbb4f1f156c40d0", null ],
+    [ "director_genl_policy", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#afc1a25ad843108590a79f9bfae8e1807", null ],
+    [ "director_gnl_family", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a7063cf75070e69153b56d44a5890b132", null ],
+    [ "director_seq", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a54fa3d61dd08915012164e0bbb100d74", null ],
+    [ "immigration_request_ops_ref", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a33af6b383bb5d347eeec47fb5c961dd3", null ],
+    [ "node_connected_ops_ref", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a5c870c630ce9d7417b9ab3e853064a9b", null ],
+    [ "read_timeout", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#af3df35858d42e83dd83e6e22e7caac82", null ],
+    [ "register_pid_ops", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#af3bd3c3acf37cc3e6cd90691be57626f", null ],
+    [ "send_user_message_ops", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a7d45fc66aa629fde28f181b1f10eeb18", null ],
+    [ "user_director_pid", "d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a04faa946ca0b533bccd7acc5cc0fdd85", null ]
+];

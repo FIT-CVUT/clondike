@@ -1,0 +1,8 @@
+<map id="kkc_sock_sleeper_remove_match" name="kkc_sock_sleeper_remove_match">
+<area shape="rect" id="node2" href="$d3/d28/kernel__3_87_81_2src_2kkc_2kkc__sock__sleeper_8h.html#gad67f0eb200b07cfaa2b4961450729234" title="&lt;&lt;public&gt;&gt; Removes a sleeper from its socket, from the list and disposes it." alt="" coords="230,56,405,83"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="455,5,622,32"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="453,56,624,83"/>
+<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#gaaea15a738e84235d0594ad65af7f4505" title="&lt;&lt;public&gt;&gt; Removes a task from the queue of processes sleeping on the socket." alt="" coords="461,107,617,149"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="673,5,833,32"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="672,56,835,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="tcmi_migman_init_ctlfs_dirs" name="tcmi_migman_init_ctlfs_dirs">
+<area shape="rect" id="node2" href="$dc/def/group__tcmi__ctlfs__dir__class.html#ga1f51ad6279415ce522a3a932178702d6" title="&lt;&lt;public&gt;&gt; Creates a new directory entry in the tcmi_ctlfs tree." alt="" coords="242,5,371,32"/>
+<area shape="rect" id="node3" href="$dc/def/group__tcmi__ctlfs__dir__class.html#ga571b8ac681691e3ceca2e833b89b6a21" title="&lt;&lt;public&gt;&gt; Creates a new directory entry in the tcmi_ctlfs tree." alt="" coords="239,56,374,83"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaab2e404bb2da373a66578541e2dc4ba9" title="&lt;&lt;public&gt;&gt; Instance accessor, Calls instance custom get method and increments the reference counter..." alt="" coords="237,107,376,133"/>
+<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga6d6cbcd957efaaa590b335ac3150bb30" title="&lt;&lt;public&gt;&gt; Calls the instance custom put method(if any) and Decrements the reference counter of the d..." alt="" coords="237,157,376,184"/>
+<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="425,132,578,159"/>
+</map>

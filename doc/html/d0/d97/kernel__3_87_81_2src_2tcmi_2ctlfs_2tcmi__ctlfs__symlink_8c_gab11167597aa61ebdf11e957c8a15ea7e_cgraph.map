@@ -1,0 +1,5 @@
+<map id="tcmi_ctlfs_symlink_get_link" name="tcmi_ctlfs_symlink_get_link">
+<area shape="rect" id="node2" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga8a5db62b2c9c6edfad1c1e250a1d7834" title="&lt;&lt;public&gt;&gt; Calculates the depth of the entry in the tree." alt="" coords="190,5,343,32"/>
+<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga6273db7c0aede033cd4dd2563cc4848d" title="&lt;&lt;public&gt;&gt; Fills in the entry&#39;s pathname into the specified buffer." alt="" coords="184,56,349,83"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gad56d4df45a818d731f8c69d55b500ae3" title="&lt;&lt;public&gt;&gt; Calculates the length of the pathname string (including &#39;/&#39; for every path element)..." alt="" coords="193,107,340,149"/>
+</map>

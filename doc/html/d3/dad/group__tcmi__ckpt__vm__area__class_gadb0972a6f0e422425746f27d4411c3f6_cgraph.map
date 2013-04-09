@@ -1,0 +1,6 @@
+<map id="tcmi_ckpt_vm_area_write_h" name="tcmi_ckpt_vm_area_write_h">
+<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#gac5d7b45cd57fdd09ac83ce079260ec7e" title="&lt;&lt;public&gt;&gt; Aligns the position in the checkpoint file to page boundary." alt="" coords="238,5,386,32"/>
+<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga6128870e21ea3aef1bf88d8e34e4cd48" title="&lt;&lt;public&gt;&gt; Seeks in the checkpoint file based on specified offset." alt="" coords="255,56,369,83"/>
+<area shape="rect" id="node4" href="$df/d54/group__tcmi__ckpt__class.html#gab3d478dd860126047413a05828c02360" title="&lt;&lt;public&gt;&gt; Writes a specified number of bytes into a checkpoint file." alt="" coords="255,107,369,133"/>
+<area shape="rect" id="node5" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="435,107,581,133"/>
+</map>

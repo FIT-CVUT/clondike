@@ -1,0 +1,5 @@
+<map id="proxyfs_fs_fdinode_read" name="proxyfs_fs_fdinode_read">
+<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#gaf339a236eacb30281cf28cd69e943722" title="&lt;&lt;public&gt;&gt; Get file status" alt="" coords="216,5,371,32"/>
+<area shape="rect" id="node3" href="$da/d8e/group__proxyfs__proxy__file__class.html#gaed9be391b9d0edca16db9a7cc57410b4" title="&lt;&lt;public&gt;&gt; Read from file to user space buffer" alt="" coords="230,57,357,98"/>
+<area shape="rect" id="node4" href="$da/d8e/group__proxyfs__proxy__file__class.html#ga0957a03255bb2c20e99bf5453e3ba03e" title="&lt;&lt;public&gt;&gt; Interruptible wait on file" alt="" coords="230,122,357,163"/>
+</map>

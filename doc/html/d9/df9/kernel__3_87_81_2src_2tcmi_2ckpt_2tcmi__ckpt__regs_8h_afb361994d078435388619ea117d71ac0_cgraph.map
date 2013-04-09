@@ -1,0 +1,6 @@
+<map id="tcmi_ckpt_regs_write" name="tcmi_ckpt_regs_write">
+<area shape="rect" id="node2" href="$d5/d1e/kernel__2_86_833_81_2src_2arch_2common_2regs_8h.html#ad2a5c3156d56f8aa440bd552d4bfec52" title="Dumps debug information about current platform registers." alt="" coords="200,5,315,32"/>
+<area shape="rect" id="node3" href="$d5/d1e/kernel__2_86_833_81_2src_2arch_2common_2regs_8h.html#a79e9bcae0391a65adab144409a081a4c" title="Loads value of pt_regs into the current architecture type specific regs." alt="" coords="209,56,306,83"/>
+<area shape="rect" id="node4" href="$df/d54/group__tcmi__ckpt__class.html#gab3d478dd860126047413a05828c02360" title="&lt;&lt;public&gt;&gt; Writes a specified number of bytes into a checkpoint file." alt="" coords="201,107,314,133"/>
+<area shape="rect" id="node5" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="363,107,509,133"/>
+</map>

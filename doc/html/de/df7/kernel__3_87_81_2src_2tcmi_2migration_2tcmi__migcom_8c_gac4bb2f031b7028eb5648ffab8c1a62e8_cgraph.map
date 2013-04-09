@@ -1,0 +1,11 @@
+<map id="tcmi_migcom_mig_mode_handler" name="tcmi_migcom_mig_mode_handler">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga0fce20d29a557abe480312086dad8b45" title="&lt;&lt;public&gt;&gt; Exit code accessor." alt="" coords="245,5,387,32"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#gadcb547384aea0db7f2be54ae48cdc2d9" title="&lt;&lt;public&gt;&gt; Processes all methods in the queue." alt="" coords="221,56,411,83"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga9317afe43a9b9343c70eaf42409864b7" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="264,107,368,133"/>
+<area shape="rect" id="node5" href="$d2/daf/group__tcmi__taskhelper__class.html#ga3cc343e5d33a25284eca845d4d0abb9b" title="&lt;&lt;public&gt;&gt; Dettaches the TCMI task from its process The user specifies only kernel task..." alt="" coords="236,157,396,184"/>
+<area shape="rect" id="node7" href="$d2/daf/group__tcmi__taskhelper__class.html#gae9732c6fadc0ba89ff2f6d04096438ea" title="&lt;&lt;public&gt;&gt; This method is intended for migration mode handler, it should be the very first check it p..." alt="" coords="238,230,394,271"/>
+<area shape="rect" id="node6" href="$d2/daf/group__tcmi__taskhelper__class.html#gaa2fb4cca9aa2b4bbcf606e149151b991" title="&lt;&lt;private&gt;&gt; Dettaches the TCMI task from a specified process &#45; lock free version." alt="" coords="459,147,634,173"/>
+<area shape="rect" id="node8" href="$de/d2f/group__tcmi__task__class.html#gaccbe464cf89735f8da8ff88fc1a202a8" title="&lt;&lt;public&gt;&gt; Checks whether the task has been picked up." alt="" coords="474,197,619,224"/>
+<area shape="rect" id="node9" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="478,248,615,275"/>
+<area shape="rect" id="node10" href="$de/d2f/group__tcmi__task__class.html#gad1f29bebb7bb9f2174559555d97d8f29" title="&lt;&lt;public&gt;&gt; Signals, the tcmi task has been pickedup by the associated process.n" alt="" coords="481,299,612,325"/>
+</map>

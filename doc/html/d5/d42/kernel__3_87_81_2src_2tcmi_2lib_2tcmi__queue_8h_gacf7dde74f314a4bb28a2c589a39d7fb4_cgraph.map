@@ -1,0 +1,6 @@
+<map id="tcmi_queue_remove" name="tcmi_queue_remove">
+<area shape="rect" id="node2" href="$d5/d42/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__queue_8h.html#ga844cb792b28e461d4ecf34ed47252b85" title="&lt;&lt;public&gt;&gt; Removes an element in the head of the queue, assumes the lock is held already." alt="" coords="193,5,343,32"/>
+<area shape="rect" id="node4" href="$d5/d42/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__queue_8h.html#ga3ae4d7e0a4d5d21ec8b9fff138f5b0d4" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="208,56,328,83"/>
+<area shape="rect" id="node5" href="$d5/d42/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__queue_8h.html#ga2e0e25eec1d5e4ea6e89dfde81ed43f4" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="201,107,335,133"/>
+<area shape="rect" id="node3" href="$d5/d42/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__queue_8h.html#ga2b0f1376bcd561196e77599cbc23090f" title="tcmi_queue_empty" alt="" coords="393,5,525,32"/>
+</map>

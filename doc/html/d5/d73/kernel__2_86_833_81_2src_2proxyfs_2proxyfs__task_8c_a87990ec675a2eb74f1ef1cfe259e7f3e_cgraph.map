@@ -1,0 +1,7 @@
+<map id="proxyfs_task_handle_dead_peers" name="proxyfs_task_handle_dead_peers">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="195,5,362,32"/>
+<area shape="rect" id="node4" href="$d3/d52/group__proxyfs__peer__class.html#ga30abfc6d4f6d183a2ab5a0a2e578c5c1" title="&lt;&lt;public&gt;&gt; Disconnects peer" alt="" coords="195,56,362,83"/>
+<area shape="rect" id="node5" href="$d3/d52/group__proxyfs__peer__class.html#ga8947b90fdcf4dc5fbc4857d0d060bf2b" title="&lt;&lt;public&gt;&gt; Getter of peer state" alt="" coords="200,107,357,133"/>
+<area shape="rect" id="node6" href="$d3/d52/group__proxyfs__peer__class.html#ga0dc1598ce5116c8fe21c66b8b977ab4b" title="&lt;&lt;public&gt;&gt; Puts proxyfs_peer instance reference and on reaching zero destroys the instance..." alt="" coords="218,157,339,184"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="411,5,571,32"/>
+</map>

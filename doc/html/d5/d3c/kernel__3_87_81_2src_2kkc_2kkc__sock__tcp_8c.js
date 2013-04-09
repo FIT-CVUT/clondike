@@ -1,0 +1,26 @@
+var kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c =
+[
+    [ "KKC_SOCK_TCP_PRIVATE", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#a7b63b61b1a9b996f96d5f56a04835b84", null ],
+    [ "EXPORT_SYMBOL_GPL", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#a49af272898df3cd4ef1f1bef7ae984ae", null ],
+    [ "kkc_sock_enable_keepalive", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga4600da550b392fddf22c7ce5766493d1", null ],
+    [ "kkc_sock_tcp_accept", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gabb1cc2b64569dfcf6631424a7afa4638", null ],
+    [ "kkc_sock_tcp_add_wait_queue", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gaa082082145de9c25dc601e9d763747e0", null ],
+    [ "kkc_sock_tcp_callback", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga2d7705de74084c18916b4ca43da6654d", null ],
+    [ "kkc_sock_tcp_connect", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga023990efc9a718a0476ae0c774a338cb", null ],
+    [ "kkc_sock_tcp_disable_nagle", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gaf49fbb927ff0c0e4bccf80dcdc1ce4ba", null ],
+    [ "kkc_sock_tcp_enable_quickack", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga9ef881f63a803634192dcea259805aef", null ],
+    [ "kkc_sock_tcp_extract_addr", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga28bc67ba129091290e57a0517911816f", null ],
+    [ "kkc_sock_tcp_free", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gacfba52464d41e95b24a041d367cfcbe3", null ],
+    [ "kkc_sock_tcp_getname", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga45b0e618f09148a8cc19285a1a8ec482", null ],
+    [ "kkc_sock_tcp_is_address_equal_to", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gaace6bdb2995b3bd358146142c28ae14a", null ],
+    [ "kkc_sock_tcp_listen", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gadd9a0a8a9c512e4815f444dc37ebc6ca", null ],
+    [ "kkc_sock_tcp_new", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gad319eb46487801ffb9824619d9ec852c", null ],
+    [ "kkc_sock_tcp_recv", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga4e5eb6b24e294c5d913a67e39010e702", null ],
+    [ "kkc_sock_tcp_register_read_callback", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#gac67440b3a754c3d6749ae2480e802bf4", null ],
+    [ "kkc_sock_tcp_remove_wait_queue", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga0c687425470f16e0717ffb1067f1f7db", null ],
+    [ "kkc_sock_tcp_send", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga3c199f332f579adddb4f826fa0045d29", null ],
+    [ "kkc_sock_tcp_shutdown", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga6162999a015ba13f7e528feb89fa95c8", null ],
+    [ "kkc_arch_tcp", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#a60b258fa6589ec519c738b441913da59", null ],
+    [ "tcp_arch_ops", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga467e43287db059475622c00b67244ec5", null ],
+    [ "tcp_sock_ops", "d5/d3c/kernel__3_87_81_2src_2kkc_2kkc__sock__tcp_8c.html#ga4c8db1d5ce81d2da1e0251abbe7cb378", null ]
+];

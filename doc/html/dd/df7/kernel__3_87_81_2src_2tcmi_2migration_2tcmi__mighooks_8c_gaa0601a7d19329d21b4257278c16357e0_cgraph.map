@@ -1,0 +1,12 @@
+<map id="tcmi_mighooks_do_exit" name="tcmi_mighooks_do_exit">
+<area shape="rect" id="node2" href="$d7/d4a/kernel__2_86_833_81_2src_2director_2director_8c.html#afc6e7c293f7c2ac0d34c2937058fe734" title="Called, when a task exits." alt="" coords="239,5,364,32"/>
+<area shape="rect" id="node3" href="$db/d78/group__proxyfs__server__class.html#ga77d912a797d8b74f05bda041fa8c489a" title="&lt;&lt;public&gt;&gt; &lt;&lt;exported&gt;&gt; Release all files taken from current proccess" alt="" coords="214,56,389,83"/>
+<area shape="rect" id="node4" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#a9c20f5bd7542a43136e9ac435aa9dee5" title="Synchronizes all files open by &quot;current&quot; process." alt="" coords="237,107,366,149"/>
+<area shape="rect" id="node5" href="$de/d2f/group__tcmi__task__class.html#ga724d575729c5a3f2be09db7ee6833999" title="&lt;&lt;public&gt;&gt; Called from method queue &#45; Exits a task." alt="" coords="248,173,355,200"/>
+<area shape="rect" id="node6" href="$d2/daf/group__tcmi__taskhelper__class.html#ga7421f53cc8c717b52a92daaac326f81d" title="&lt;&lt;public&gt;&gt; current process notification &#45; submission of a method." alt="" coords="225,225,377,266"/>
+<area shape="rect" id="node7" href="$de/d2f/group__tcmi__task__class.html#ga2bf62635c09738ef0c1385ea258bec2f" title="&lt;&lt;public&gt;&gt; Flushes all pending methods in the queue submits a method for execution." alt="" coords="455,137,596,178"/>
+<area shape="rect" id="node8" href="$de/d2f/group__tcmi__task__class.html#ga0409e631915b37fbcfe096dfc498bbbb" title="&lt;&lt;public&gt;&gt; Submits a method for execution." alt="" coords="438,203,613,229"/>
+<area shape="rect" id="node9" href="$d2/daf/group__tcmi__taskhelper__class.html#ga2420f9c7c246746d3bbc87578357338f" title="&lt;&lt;public&gt;&gt; This method is registered by CCN or PEN component as the SIGUNUSED signal handler..." alt="" coords="458,254,593,295"/>
+<area shape="rect" id="node11" href="$de/d2f/group__tcmi__task__class.html#gade1e8f7b12614ca0fecbc40aaae9a6c5" title="&lt;&lt;public&gt;&gt; Process context accessor." alt="" coords="461,320,590,347"/>
+<area shape="rect" id="node10" href="$de/d2f/group__tcmi__task__class.html#gabc853647b7b732333c5909e617030f44" title="&lt;&lt;public&gt;&gt; Process context setter." alt="" coords="661,261,816,288"/>
+</map>

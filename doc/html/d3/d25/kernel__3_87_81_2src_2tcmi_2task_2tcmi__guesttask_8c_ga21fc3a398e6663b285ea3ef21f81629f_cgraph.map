@@ -1,0 +1,9 @@
+<map id="tcmi_guesttask_exit" name="tcmi_guesttask_exit">
+<area shape="rect" id="node2" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#a9c20f5bd7542a43136e9ac435aa9dee5" title="Synchronizes all files open by &quot;current&quot; process." alt="" coords="238,5,367,46"/>
+<area shape="rect" id="node3" href="$d4/d5a/group__tcmi__exit__procmsg__class.html#ga4d0e9afc9e69c4260b898e672262aa04" title="&lt;&gt;&gt; Exit message tx constructor." alt="" coords="213,71,393,97"/>
+<area shape="rect" id="node4" href="$d6/dc2/group__tcmi__msg__class.html#gac86a4090b7e1902ef603cb03191d6281" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="251,121,355,148"/>
+<area shape="rect" id="node6" href="$de/d2f/group__tcmi__task__class.html#ga2f054ae4772c0921004eebdb48d39dcf" title="&lt;&lt;public&gt;&gt; Remote PID accessor." alt="" coords="227,172,378,199"/>
+<area shape="rect" id="node7" href="$de/d2f/group__tcmi__task__class.html#ga4e660ea948542a5a057e25640a762efc" title="&lt;&lt;public&gt;&gt; Sends a specified message." alt="" coords="193,223,413,249"/>
+<area shape="rect" id="node5" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="485,121,627,148"/>
+<area shape="rect" id="node8" href="$d6/dc2/group__tcmi__msg__class.html#ga7a8fe8cbfd4b25c15589c8599f66e574" title="&lt;&lt;public&gt;&gt; Sends a message via a specified connection." alt="" coords="462,223,650,249"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="proxyfs_server_listen" name="proxyfs_server_listen">
+<area shape="rect" id="node2" href="$de/d96/group__kkc__class.html#gacf3eeb3137650f2008a9eda4dc69c99e" title="&lt;&lt;public&gt;&gt; Starts listening on a specified interface." alt="" coords="246,5,327,32"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#ga980a8df7e87a7e87c02cdae7bc221a53" title="&lt;&lt;public&gt;&gt; Adds a task to the queue of processes sleeping on the socket." alt="" coords="197,56,376,83"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gaae3f9fa27f3adcdbfaca7fab91f0c879" title="&lt;&lt;public&gt;&gt; Registers data_ready callback function, that should be called when there are some data rea..." alt="" coords="207,107,367,149"/>
+<area shape="rect" id="node5" href="$d5/d73/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__task_8c.html#a546cab74c15585105448bdbccbdcb6dc" title="Callback function that should be registered to all associated sockets." alt="" coords="203,173,370,214"/>
+<area shape="rect" id="node6" href="$da/ddf/group__proxyfs__task__class.html#gaa74f23008a777c38e461fa771869d14f" title="&lt;&lt;public&gt;&gt; Notifies task that there are data ready (either for writing/reading/both)" alt="" coords="425,173,559,214"/>
+</map>

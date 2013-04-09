@@ -1,0 +1,6 @@
+<map id="proxyfs_real_file class" name="proxyfs_real_file class">
+<area shape="rect" id="node1" href="$dd/d5d/group__proxyfs__generic__real__file__class.html" title="This class is used by server task for accessing generic files." alt="" coords="379,5,520,46"/>
+<area shape="rect" id="node2" href="$de/d0d/group__proxyfs__tty__real__file__class.html" title="This class is used by server task for accessing to TTYs." alt="" coords="381,135,518,177"/>
+<area shape="rect" id="node5" href="$d2/dc8/group__proxyfs__pipe__real__file__class.html" title="This class is used by server task for accessing pipe files." alt="" coords="376,70,523,111"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html" title="This is used on between VFS and proxyfs_client task." alt="" coords="5,77,128,104"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="tcmi_taskhelper_restart" name="tcmi_taskhelper_restart">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#gab1a418ac9d8b708dcee524671db07518" title="&lt;&lt;public&gt;&gt; Executes the file that has been previously setup for execution." alt="" coords="238,5,365,32"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#ga2bf62635c09738ef0c1385ea258bec2f" title="&lt;&lt;public&gt;&gt; Flushes all pending methods in the queue submits a method for execution." alt="" coords="231,57,372,98"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga24a9d8c612da1a4484b1b3a28a181c15" title="&lt;&lt;public&gt;&gt; Prepares execution of a file given the arrays of arguments and environment." alt="" coords="213,123,389,149"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="tcmi_ckpt_openfile_write_newfd" name="tcmi_ckpt_openfile_write_newfd">
+<area shape="rect" id="node2" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#ae73c5991f03548d8f100d7200d80113e" title="Creates a name of a proxy file." alt="" coords="203,5,349,32"/>
+<area shape="rect" id="node3" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#a25be89ac94beb85ee51564c78d4031d7" title="Returns true, if the path points to a dev null file." alt="" coords="233,56,319,83"/>
+<area shape="rect" id="node4" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#a074be037b0aae4d248a61c90c2c68737" title="Checks, whether the file is proxyfs file." alt="" coords="224,107,328,133"/>
+<area shape="rect" id="node5" href="$db/d78/group__proxyfs__server__class.html#ga0cf24b2ce6d39d211a219c3e0f53ff41" title="&lt;&lt;public&gt;&gt; &lt;&lt;exported&gt;&gt; Make file available trought proxyfs" alt="" coords="185,157,367,184"/>
+<area shape="rect" id="node6" href="$df/d54/group__tcmi__ckpt__class.html#ga59be6dd10ef81e4812417bfe0dd5f4c5" title="&lt;&lt;public&gt;&gt; Adds a file descriptor &#45; file object pair into the fd cache." alt="" coords="197,208,355,235"/>
+<area shape="rect" id="node8" href="$df/d54/group__tcmi__ckpt__class.html#gab3d478dd860126047413a05828c02360" title="&lt;&lt;public&gt;&gt; Writes a specified number of bytes into a checkpoint file." alt="" coords="219,259,333,285"/>
+<area shape="rect" id="node7" href="$dd/d41/group__tcmi__fdcache__class.html#ga613fb750743c8a42aab62f9bcc230bd6" title="&lt;&lt;public&gt;&gt; Adds a file descriptor &#45; file object pair into the fd cache." alt="" coords="426,208,553,235"/>
+<area shape="rect" id="node9" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="417,259,562,285"/>
+</map>

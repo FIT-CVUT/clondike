@@ -1,0 +1,5 @@
+<map id="msg_transaction_request" name="msg_transaction_request">
+<area shape="rect" id="node2" href="$db/def/kernel__2_86_833_81_2src_2director_2netlink_2genl__ext_8c.html#ac461d0210fcfe8dde0588f23aebf9aab" title="genlmsg_unicast_tx &#45; wrapper around generic netlink unicast." alt="" coords="227,5,365,32"/>
+<area shape="rect" id="node3" href="$d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a4559dadd35469f8de48ab278303e40a0" title="Returns unique sequence number for transaction." alt="" coords="239,56,353,83"/>
+<area shape="rect" id="node4" href="$d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#a5f190e32af9d5c630100bee151c00717" title="Returns pid of director process if there is user&#45;space director connected, 0 otherwise." alt="" coords="221,107,371,133"/>
+</map>

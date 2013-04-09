@@ -1,0 +1,11 @@
+<map id="tcmi_syscall_hooks_in_fork" name="tcmi_syscall_hooks_in_fork">
+<area shape="rect" id="node2" href="$d6/de0/group__tcmi__man__class.html#ga34c83e593357e4cf14838d2fca19b9d2" title="&lt;&lt;public&gt;&gt; Method that performs task fork" alt="" coords="192,172,299,199"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#ga90412716287ffdaf54ba3f6f1e374a38" title="&lt;&lt;public&gt;&gt; Accessor of vector slot index of the migration manager associated with this task..." alt="" coords="347,5,507,46"/>
+<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="364,71,489,97"/>
+<area shape="rect" id="node7" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="371,121,483,148"/>
+<area shape="rect" id="node8" href="$d6/da2/group__tcmi__migman__class.html#gacd13117046ccc1fa12ac743b893fcfca" title="&lt;&lt;public&gt;&gt; Instance accessor, increments the reference counter." alt="" coords="364,172,489,199"/>
+<area shape="rect" id="node5" href="$da/d0c/group__tcmi__slot__class.html#ga821f6b686443bfc7fff52dd3b155de37" title="&lt;&lt;public&gt;&gt; Slot index accessor." alt="" coords="771,157,885,184"/>
+<area shape="rect" id="node9" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="357,273,496,300"/>
+<area shape="rect" id="node10" href="$d6/da2/group__tcmi__migman__class.html#gab536c262c24d8fc76cdbdfa8d6d65b81" title="&lt;&lt;public&gt;&gt; The manager is shutdown exactly in this order:" alt="" coords="364,324,489,351"/>
+<area shape="rect" id="node4" href="$d6/da2/group__tcmi__migman__class.html#gafca6221a82ff480ee067fcfa39745719" title="&lt;&lt;public&gt;&gt; Migration manager slot index getter" alt="" coords="555,92,722,119"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="tcmi_syscall_hooks_exit" name="tcmi_syscall_hooks_exit">
+<area shape="rect" id="node2" href="$de/da7/group__tcmi__syscallhooks__groupident__class.html#ga1da150fd25043357fdc04de7cb492eee" title="&lt;&lt;public&gt;&gt; Unregisters all user identifikation syscalls hooks." alt="" coords="219,5,357,46"/>
+<area shape="rect" id="node3" href="$db/d5e/group__tcmi__syscallhooks__other__class.html#ga832a46b9cefbc52fc454fd643e00bfe8" title="&lt;&lt;public&gt;&gt; Unregisters all syscalls hooks." alt="" coords="219,70,357,111"/>
+<area shape="rect" id="node4" href="$d7/da0/group__tcmi__syscallhooks__pidman__class.html#ga2e8a5f90575bcb32773dca34ad7709ec" title="&lt;&lt;public&gt;&gt; Unregisters all PID manipulation syscalls hooks." alt="" coords="219,135,357,177"/>
+<area shape="rect" id="node5" href="$d8/dfc/group__tcmi__syscallhooks__signal__class.html#gacde8fdfd4c794b92f4707c9bb69d3879" title="&lt;&lt;public&gt;&gt; Unregisters all syscalls hooks." alt="" coords="219,201,357,242"/>
+<area shape="rect" id="node6" href="$d1/db6/group__tcmi__syscallhooks__userident__class.html#ga1c2f4380293f9be89fdb28119e2b62ea" title="&lt;&lt;public&gt;&gt; Unregisters all user identifikation syscalls hooks." alt="" coords="219,266,357,307"/>
+</map>

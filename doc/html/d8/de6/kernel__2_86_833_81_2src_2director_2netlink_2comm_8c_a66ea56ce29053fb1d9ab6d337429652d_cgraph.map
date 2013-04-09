@@ -1,0 +1,4 @@
+<map id="msg_transaction_response" name="msg_transaction_response">
+<area shape="rect" id="node2" href="$d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#ae2479089f7107aec24a9c89a13101d0d" title="Checks, if the transaction returned an error." alt="" coords="258,5,369,32"/>
+<area shape="rect" id="node3" href="$db/def/kernel__2_86_833_81_2src_2director_2netlink_2genl__ext_8c.html#a98fc505709c73b6933abbacd5a656cb9" title="Blocking read call that will read netlink response for the specified transaction." alt="" coords="232,56,395,83"/>
+</map>

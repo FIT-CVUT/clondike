@@ -1,0 +1,5 @@
+<map id="tcmi_man_reserve_migmanslot" name="tcmi_man_reserve_migmanslot">
+<area shape="rect" id="node2" href="$d0/db7/group__tcmi__slotvec__class.html#gabd12f97cda4c9b4b4142f6de475645d9" title="&lt;&lt;public&gt;&gt; Finds the first empty slot and reserves it." alt="" coords="257,23,399,65"/>
+<area shape="rect" id="node3" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="455,5,580,32"/>
+<area shape="rect" id="node4" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="448,56,587,83"/>
+</map>

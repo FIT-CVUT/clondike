@@ -1,0 +1,11 @@
+<map id="tcmi_migcom_migrated_task" name="tcmi_migcom_migrated_task">
+<area shape="rect" id="node2" href="$da/d69/kernel__2_86_833_81_2src_2tcmi_2migration_2fs_2fs__mounter__register_8c.html#a9d0c99254b26fb79fa50989ef80630a0" title="Releases mounter instance." alt="" coords="263,5,361,32"/>
+<area shape="rect" id="node3" href="$da/d69/kernel__2_86_833_81_2src_2tcmi_2migration_2fs_2fs__mounter__register_8c.html#ab204dfd5a3981e1c59ba444405f53821" title="Returns new mounter instance with specified params." alt="" coords="250,56,374,83"/>
+<area shape="rect" id="node4" href="$de/df7/kernel__3_87_81_2src_2tcmi_2migration_2tcmi__migcom_8c.html#ae92cbf20e29a61772aece33021388463" title="Mounts local machine procfs into some directory in chrooted env, so that it can be later accessed if ..." alt="" coords="245,107,379,133"/>
+<area shape="rect" id="node6" href="$de/df7/kernel__3_87_81_2src_2tcmi_2migration_2tcmi__migcom_8c.html#aa58233394eaecded65de5a4e12be2d52" title="mount_proxyfs" alt="" coords="259,157,365,184"/>
+<area shape="rect" id="node10" href="$d2/daf/group__tcmi__taskhelper__class.html#ga41526f4b1eb09e8b8c00ca114d16bed9" title="Runs migration mode handler of the current process." alt="" coords="243,209,381,250"/>
+<area shape="rect" id="node5" href="$d7/d75/kernel__2_86_833_81_2src_2tcmi_2lib_2util_8h.html#a216dcc3733fd76ba8099e396fb7290bc" title="Creates a new directory." alt="" coords="479,107,540,133"/>
+<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#ga705b6d499116fcd74f3d5bdfcbf7564d" title="&lt;&lt;public&gt;&gt; Architecture name accessor." alt="" coords="429,157,589,184"/>
+<area shape="rect" id="node9" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="429,208,589,235"/>
+<area shape="rect" id="node8" href="$d5/ddf/group__kkc__arch__class.html#ga84a8539c1971651af4a8ad753c7853e5" title="&lt;&lt;public&gt;&gt; Architecture name accessor." alt="" coords="637,157,752,184"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="proxyfs_real_file_write_buf_info" name="proxyfs_real_file_write_buf_info">
+<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#ga3004ef37f6c2f6542b3f65e54151e620" title="&lt;&lt;public&gt;&gt; get count of total data contained in the buffer" alt="" coords="228,5,335,32"/>
+<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga40f24aba8f8c1498274799b8206e27b1" title="&lt;&lt;public&gt;&gt; Returns base address for reading &#45;" alt="" coords="203,56,359,83"/>
+<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#ga41d1f494f53a00e4654c8aedada9b046" title="&lt;&lt;public&gt;&gt; Returns maximum amount of data which are continuos &#45; can by copied with one memcpy call..." alt="" coords="204,107,359,133"/>
+<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="409,5,546,32"/>
+</map>

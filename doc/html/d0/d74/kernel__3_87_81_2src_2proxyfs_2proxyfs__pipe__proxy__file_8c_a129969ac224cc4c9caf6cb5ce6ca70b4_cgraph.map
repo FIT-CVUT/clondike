@@ -1,0 +1,6 @@
+<map id="proxyfs_pipe_proxy_file_write_user" name="proxyfs_pipe_proxy_file_write_user">
+<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="190,5,327,32"/>
+<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#gafe3c4ff2382eaa8754c1d23a06546403" title="&lt;&lt;public&gt;&gt; Write to buffer from user space" alt="" coords="192,56,325,83"/>
+<area shape="rect" id="node4" href="$df/dad/kernel__2_86_833_81_2src_2tcmi_2migration_2tcmi__npm__params_8c.html#acc026454809c9e854f4ce3e7aec89377" title="count" alt="" coords="231,107,286,133"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="191,158,326,199"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="tcmi_transaction_wait" name="tcmi_transaction_wait">
+<area shape="rect" id="node2" href="$df/d19/kernel__3_87_81_2src_2tcmi_2comm_2tcmi__transaction_8h.html#gafebfbc6a51c59cbdb2bd9470b82afc18" title="&lt;&lt;public&gt;&gt; Checks on aborted transaction." alt="" coords="213,5,347,46"/>
+<area shape="rect" id="node3" href="$df/d19/kernel__3_87_81_2src_2tcmi_2comm_2tcmi__transaction_8h.html#ga755c57502b82f1c20a9adcdea11990a9" title="&lt;&lt;public&gt;&gt; Checks on a complete transaction." alt="" coords="213,70,347,111"/>
+<area shape="rect" id="node4" href="$df/d19/kernel__3_87_81_2src_2tcmi_2comm_2tcmi__transaction_8h.html#ga01baf770d7a3fdaa6931024d50f9d039" title="&lt;&lt;public&gt;&gt; Transaction state accessor." alt="" coords="203,136,357,163"/>
+</map>

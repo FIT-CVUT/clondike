@@ -1,0 +1,6 @@
+<map id="proxyfs_fs_fdinode_write" name="proxyfs_fs_fdinode_write">
+<area shape="rect" id="node2" href="$da/d8e/group__proxyfs__proxy__file__class.html#gac0acfce3dd7f0b3e2a10323343c2f6f0" title="&lt;&lt;public&gt;&gt; Interruptible wait for space in file" alt="" coords="184,5,373,46"/>
+<area shape="rect" id="node3" href="$da/d8e/group__proxyfs__proxy__file__class.html#ga0957a03255bb2c20e99bf5453e3ba03e" title="&lt;&lt;public&gt;&gt; Interruptible wait on file" alt="" coords="215,70,342,111"/>
+<area shape="rect" id="node4" href="$da/d8e/group__proxyfs__proxy__file__class.html#gad733540f4f45cc23a1a323bd0f3bc551" title="&lt;&lt;public&gt;&gt; Write to file from user space buffer" alt="" coords="215,135,342,177"/>
+<area shape="rect" id="node5" href="$da/ddf/group__proxyfs__task__class.html#gaa74f23008a777c38e461fa771869d14f" title="&lt;&lt;public&gt;&gt; Notifies task that there are data ready (either for writing/reading/both)" alt="" coords="211,201,346,242"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="proxyfs_generic_real_file_open" name="proxyfs_generic_real_file_open">
+<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="209,5,343,46"/>
+<area shape="rect" id="node3" href="$d1/d14/group__proxyfs__file__class.html#ga40169031d7a24ef6d2b1ac3c3fbc72cc" title="&lt;&lt;public&gt;&gt; Sets peer and aquires its reference." alt="" coords="204,71,348,97"/>
+<area shape="rect" id="node4" href="$dc/d71/group__proxyfs__msg__class.html#ga60323723423ceaadf6fe16da2243d9b8" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor" alt="" coords="213,121,339,148"/>
+<area shape="rect" id="node5" href="$d3/d52/group__proxyfs__peer__class.html#gadd03a0c5d82eb8400ef3e5b1babbef59" title="&lt;&lt;public&gt;&gt; Add message to sending queue" alt="" coords="195,172,357,199"/>
+</map>

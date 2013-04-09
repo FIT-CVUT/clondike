@@ -1,0 +1,5 @@
+<map id="tcmi_man_get_non_shutdowning_migman" name="tcmi_man_get_non_shutdowning_migman">
+<area shape="rect" id="node2" href="$d6/da2/group__tcmi__migman__class.html#ga828da1bb7df2ccb80dd93c62f1b0731c" title="&lt;&lt;public&gt;&gt; Migration manager state accessor." alt="" coords="265,5,401,32"/>
+<area shape="rect" id="node3" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="271,56,396,83"/>
+<area shape="rect" id="node4" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="264,107,403,133"/>
+</map>

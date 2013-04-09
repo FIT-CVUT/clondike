@@ -1,0 +1,7 @@
+<map id="proxyfs_server_duplicate_overtaken_file" name="proxyfs_server_duplicate_overtaken_file">
+<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="614,32,749,73"/>
+<area shape="rect" id="node3" href="$d7/ddd/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__real__file_8c.html#aa8bee110603ba3a6715496c0d4387874" title="&lt;&lt;public&gt;&gt; Adds shadow task into a shadow list of the file" alt="" coords="230,32,373,73"/>
+<area shape="rect" id="node4" href="$da/d41/group__proxyfs__real__file__class.html#gad4ca43cdfe83775498c3c52ac5f7df18" title="&lt;&lt;public&gt;&gt; Deinitialize real_file" alt="" coords="219,98,384,124"/>
+<area shape="rect" id="node5" href="$d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ad4aa6f1a2c9ee37939e3cfc52f6c6cd8" title="proxyfs_server_register\l_poll_callback" alt="" coords="224,149,379,190"/>
+<area shape="rect" id="node6" href="$d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ab50c180af3b49b9044929be991b6e74d" title="&lt;&lt;private&gt;&gt; Method used for waiting on files, callback for poll structure" alt="" coords="433,90,565,132"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="proxyfs_clone_file_names" name="proxyfs_clone_file_names">
+<area shape="rect" id="node2" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#ab59a1cd53be257804c046bd384ea59ad" title="Modifies proxyfs file name to reflect a new owner of the file." alt="" coords="179,5,314,46"/>
+<area shape="rect" id="node3" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#a074be037b0aae4d248a61c90c2c68737" title="Checks, whether the file is proxyfs file." alt="" coords="363,41,467,68"/>
+<area shape="rect" id="node4" href="$d9/d21/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__helper_8h.html#afd09b6bc667dba6516ff4458eb0dabad" title="Helper method, that is used for altering file names on distant fork." alt="" coords="183,121,311,148"/>
+</map>

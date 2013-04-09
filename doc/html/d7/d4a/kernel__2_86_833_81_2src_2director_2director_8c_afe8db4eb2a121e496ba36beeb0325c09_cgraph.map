@@ -1,0 +1,5 @@
+<map id="director_npm_check" name="director_npm_check">
+<area shape="rect" id="node2" href="$d0/d19/kernel__2_86_833_81_2src_2director_2netlink_2npm__msg_8c.html#a1d1a4b7c77f49fcc1abe3a9af5634a75" title="Checks, whether the process should be non&#45;preemptively migrated to some other node." alt="" coords="203,5,293,32"/>
+<area shape="rect" id="node3" href="$d0/d19/kernel__2_86_833_81_2src_2director_2netlink_2npm__msg_8c.html#a121f4aa2722c3f36ebb6f7021ba8aaa7" title="Checks, whether the process should be non&#45;preemptively migrated to some other node." alt="" coords="192,56,304,83"/>
+<area shape="rect" id="node4" href="$d8/de6/kernel__2_86_833_81_2src_2director_2netlink_2comm_8c.html#af68cf85dec3fb86013cb79568bb30026" title="Performs a netlink transaction." alt="" coords="352,56,491,83"/>
+</map>

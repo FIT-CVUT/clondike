@@ -1,0 +1,5 @@
+<map id="tcmi_taskhelper_attach_exclusive" name="tcmi_taskhelper_attach_exclusive">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#gafb7d2e6227e173c0bdc6fb99ff12bcbc" title="&lt;&lt;public&gt;&gt; Instance accessor, increments the reference counter." alt="" coords="228,5,332,32"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#ga68c818baf665eed96e9e0b277c599d36" title="&lt;&lt;public&gt;&gt; Get task type" alt="" coords="212,56,348,83"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="211,107,349,133"/>
+</map>

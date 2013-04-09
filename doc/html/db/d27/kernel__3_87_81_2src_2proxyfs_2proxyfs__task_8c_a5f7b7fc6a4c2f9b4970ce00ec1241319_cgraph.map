@@ -1,0 +1,12 @@
+<map id="proxyfs_task_recv_peers" name="proxyfs_task_recv_peers">
+<area shape="rect" id="node2" href="$d3/d52/group__proxyfs__peer__class.html#ga265d8484b4733879a822fb046076674a" title="&lt;&lt;public&gt;&gt; Delete received message, and prepare to receiving new one" alt="" coords="224,21,387,48"/>
+<area shape="rect" id="node4" href="$d3/d52/group__proxyfs__peer__class.html#ga3fda8eac203ffb0c54088fb3b4c76845" title="&lt;&lt;public&gt;&gt; Nonblocking recv messages" alt="" coords="228,148,383,175"/>
+<area shape="rect" id="node5" href="$d3/d52/group__proxyfs__peer__class.html#gaa0dd87fc845e99b424c27767fd415774" title="&lt;&lt;public&gt;&gt; Setter of peer state" alt="" coords="227,199,384,225"/>
+<area shape="rect" id="node6" href="$d5/d73/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__task_8c.html#a24c26bd3c47f4e339fc91294964ab052" title="&lt;&lt;protected&gt;&gt; Handle receive messagge" alt="" coords="219,97,392,124"/>
+<area shape="rect" id="node3" href="$dc/d71/group__proxyfs__msg__class.html#ga0b79d334f8e0b2441e178a38d38b1a29" title="&lt;&lt;public&gt;&gt; Returns size of message (header + data)" alt="" coords="643,7,795,33"/>
+<area shape="rect" id="node7" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="651,79,786,121"/>
+<area shape="rect" id="node8" href="$d1/d14/group__proxyfs__file__class.html#gad887878933cce7d3a3195c5f5c9b70c4" title="&lt;&lt;public&gt;&gt; Submit that data was written to file on other side" alt="" coords="451,174,584,215"/>
+<area shape="rect" id="node9" href="$d1/d14/group__proxyfs__file__class.html#ga054fa4f7e7ef3db48364d5596ae25ef7" title="&lt;&lt;public&gt;&gt; Writes to file from peer &#45; writes to read buffer" alt="" coords="457,239,578,281"/>
+<area shape="rect" id="node10" href="$d3/d52/group__proxyfs__peer__class.html#gaa65b0692e91ab87eb34260873b2a1afe" title="&lt;&lt;public&gt;&gt; Recv message" alt="" coords="441,21,594,48"/>
+<area shape="rect" id="node11" href="$d5/d73/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__task_8c.html#a6994f999239f37b14c0a7a92cebbd53c" title="proxyfs_task_find_file" alt="" coords="444,123,591,149"/>
+</map>

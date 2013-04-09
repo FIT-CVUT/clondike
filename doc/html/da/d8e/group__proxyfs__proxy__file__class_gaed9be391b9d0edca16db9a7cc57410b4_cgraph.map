@@ -1,0 +1,7 @@
+<map id="proxyfs_proxy_file_read_user" name="proxyfs_proxy_file_read_user">
+<area shape="rect" id="node2" href="$d5/d8c/group__proxyfs__client__class.html#ga0b7563077d76effeebc0b23f425d6716" title="&lt;&lt;public&gt;&gt; Asynchronously sends a message" alt="" coords="206,5,343,46"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="207,70,342,111"/>
+<area shape="rect" id="node5" href="$dc/d71/group__proxyfs__msg__class.html#gae386d833d535603242dfdff6e97cdc2f" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor" alt="" coords="181,136,368,163"/>
+<area shape="rect" id="node6" href="$d7/dd3/proxyfs__proxy__file_8c.html#a5b627881b4d10d07153deb9a28435bf9" title="virtual_proxyfs_proxy\l_file_read_user" alt="" coords="203,187,346,229"/>
+<area shape="rect" id="node3" href="$d3/d52/group__proxyfs__peer__class.html#gadd03a0c5d82eb8400ef3e5b1babbef59" title="&lt;&lt;public&gt;&gt; Add message to sending queue" alt="" coords="416,12,579,39"/>
+</map>

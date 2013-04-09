@@ -1,0 +1,8 @@
+<map id="tcmi_man_do_send_generic_user_message" name="tcmi_man_do_send_generic_user_message">
+<area shape="rect" id="node2" href="$d4/dbe/group__tcmi__generic__user__class.html#ga2e21db4afa16f7805800919224711c94" title="&lt;&lt;public&gt;&gt; Message tx constructor." alt="" coords="252,5,412,46"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#ga91bf5b41a1d4faa3eab11e6867ec34e4" title="&lt;&lt;public&gt;&gt; Communication socket accesor." alt="" coords="265,71,399,97"/>
+<area shape="rect" id="node5" href="$d6/dc2/group__tcmi__msg__class.html#gac86a4090b7e1902ef603cb03191d6281" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="280,121,384,148"/>
+<area shape="rect" id="node7" href="$d6/dc2/group__tcmi__msg__class.html#ga7a8fe8cbfd4b25c15589c8599f66e574" title="&lt;&lt;public&gt;&gt; Sends a message via a specified connection." alt="" coords="238,172,426,199"/>
+<area shape="rect" id="node4" href="$d3/d7e/group__tcmi__sock__class.html#ga8573cfac9adbb5996cd90395d8a78502" title="&lt;&lt;public&gt;&gt; KKC socket accessor." alt="" coords="475,71,645,97"/>
+<area shape="rect" id="node6" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="489,121,631,148"/>
+</map>

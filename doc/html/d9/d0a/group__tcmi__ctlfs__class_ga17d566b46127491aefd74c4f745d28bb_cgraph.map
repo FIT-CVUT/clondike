@@ -1,0 +1,4 @@
+<map id="tcmi_ctlfs_get_super" name="tcmi_ctlfs_get_super">
+<area shape="rect" id="node2" href="$d2/d88/kernel__3_87_81_2src_2tcmi_2ctlfs_2tcmi__ctlfs_8c.html#ga317a044cf2282a14839a817b4ac9fdee" title="&lt;&lt;private&gt;&gt; Sets up super block and instantiates the root directory." alt="" coords="197,5,333,32"/>
+<area shape="rect" id="node3" href="$dc/def/group__tcmi__ctlfs__dir__class.html#gad89f76bbf0883e5e40723543d815048e" title="&lt;&lt;public&gt;&gt; Root directory is instantiated by delegating all work to the parent class." alt="" coords="382,5,533,32"/>
+</map>

@@ -1,0 +1,44 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/ctlfs/tcmi_ctlfs.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/ctlfs/tcmi_ctlfs.h">
+<area shape="rect" id="node2" href="$d0/d02/tcmi__ctlfs_8c.html" title="TCMI control file system module provides basic super block handling and is responsible for root direc..." alt="" coords="2601,109,2772,165"/>
+<area shape="rect" id="node3" href="$da/d37/tcmi__sock_8c.html" title="A implementation of wrapper class for KKC listenings." alt="" coords="2797,109,2963,165"/>
+<area shape="rect" id="node4" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="4119,445,4339,501"/>
+<area shape="rect" id="node5" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3038,109,3257,165"/>
+<area shape="rect" id="node8" href="$dd/dbd/tcmi__man_8c.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="3385,325,3583,381"/>
+<area shape="rect" id="node15" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="2974,445,3193,501"/>
+<area shape="rect" id="node24" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1955,213,2129,269"/>
+<area shape="rect" id="node13" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="3675,445,3840,501"/>
+<area shape="rect" id="node6" href="$d2/dc4/tcmi__ccnmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3334,213,3575,269"/>
+<area shape="rect" id="node9" href="$df/db0/tcmi__man_8h.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="3651,213,3849,269"/>
+<area shape="rect" id="node16" href="$d6/d82/tcmi__migman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="2043,445,2263,501"/>
+<area shape="rect" id="node17" href="$dc/d77/tcmi__penmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="2777,325,3017,381"/>
+<area shape="rect" id="node20" href="$db/d10/tcmi__migcom_8h.html" title="TCMI migration component." alt="" coords="3093,318,3259,389"/>
+<area shape="rect" id="node21" href="$da/d61/tcmi__guesttask_8c.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="2478,445,2684,501"/>
+<area shape="rect" id="node22" href="$d7/d0a/tcmi__shadowtask_8c.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="1601,445,1820,501"/>
+<area shape="rect" id="node23" href="$de/d84/tcmi__task_8c.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1845,445,2019,501"/>
+<area shape="rect" id="node7" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="3409,445,3649,501"/>
+<area shape="rect" id="node10" href="$d6/d7d/tcmi__ccnman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3851,325,4071,381"/>
+<area shape="rect" id="node14" href="$d9/de9/tcmi__penman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3607,325,3827,381"/>
+<area shape="rect" id="node12" href="$db/d35/tcmi__syscallhooks__other_8c.html" title="other syscalls hooks." alt="" coords="3865,438,4095,509"/>
+<area shape="rect" id="node11" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="3219,438,3384,509"/>
+<area shape="rect" id="node18" href="$d9/ded/tcmi__penmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="2709,445,2949,501"/>
+<area shape="rect" id="node19" href="$dc/d44/tcmi__migcom_8c.html" title="TCMI migration component." alt="" coords="2288,438,2453,509"/>
+<area shape="rect" id="node25" href="$df/d9d/tcmi__rpcresp__procmsg_8c.html" title="TCMI error message &#45; carries an error status code." alt="" coords="1943,318,2135,389"/>
+<area shape="rect" id="node26" href="$de/d7b/tcmi__shadow__rpc_8h.html" title="a RPC class used by shadow process ." alt="" coords="915,325,1149,381"/>
+<area shape="rect" id="node40" href="$d7/dc5/tcmi__syscallhooks__pidman_8c.html" title="syscalls hooks for proces identification manipulation." alt="" coords="1394,318,1624,389"/>
+<area shape="rect" id="node41" href="$d7/d05/tcmi__taskhelper_8h.html" title="TCMI task helper, supports task manipulation" alt="" coords="2210,325,2419,381"/>
+<area shape="rect" id="node42" href="$da/dc0/tcmi__guesttask_8h.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="2443,325,2649,381"/>
+<area shape="rect" id="node43" href="$d8/dcb/tcmi__shadowtask_8h.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="1649,325,1868,381"/>
+<area shape="rect" id="node27" href="$de/deb/tcmi__shadow__fork__rpc_8h.html" title="a RPC class used by shadow process for fork syscall" alt="" coords="1378,438,1576,509"/>
+<area shape="rect" id="node29" href="$d5/dbf/tcmi__shadow__groupident__rpc_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_groupident_rpc.h" alt="" coords="5,438,203,509"/>
+<area shape="rect" id="node31" href="$d8/dd5/tcmi__shadow__pidman__rpc_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_pidman_rpc.h" alt="" coords="227,438,425,509"/>
+<area shape="rect" id="node33" href="$d6/d52/tcmi__shadow__rpc_8c.html" title="CCN part of RPCs" alt="" coords="451,445,685,501"/>
+<area shape="rect" id="node34" href="$d7/da1/tcmi__shadow__signal__rpc_8h.html" title="a RPC class used by shadow process ." alt="" coords="710,438,908,509"/>
+<area shape="rect" id="node36" href="$d6/dd5/tcmi__shadow__userident__rpc_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_userident_rpc.h" alt="" coords="933,438,1131,509"/>
+<area shape="rect" id="node38" href="$dd/d76/tcmi__shadow__wait__rpc_8h.html" title="a RPC class used by shadow process for wait syscall" alt="" coords="1155,438,1353,509"/>
+<area shape="rect" id="node28" href="$d7/d3f/tcmi__shadow__fork__rpc_8c.html" title="shadow part of fork syscall rpc" alt="" coords="1378,558,1576,629"/>
+<area shape="rect" id="node30" href="$da/d4d/tcmi__shadow__groupident__rpc_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_groupident_rpc.c" alt="" coords="5,558,203,629"/>
+<area shape="rect" id="node32" href="$db/d23/tcmi__shadow__pidman__rpc_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_pidman_rpc.c" alt="" coords="227,558,425,629"/>
+<area shape="rect" id="node35" href="$d1/d23/tcmi__shadow__signal__rpc_8c.html" title="shadow part of rpc" alt="" coords="710,558,908,629"/>
+<area shape="rect" id="node37" href="$d2/d71/tcmi__shadow__userident__rpc_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/syscall/tcmi_shadow\l_userident_rpc.c" alt="" coords="933,558,1131,629"/>
+<area shape="rect" id="node39" href="$d2/dc2/tcmi__shadow__wait__rpc_8c.html" title="shadow part of wait syscall rpc" alt="" coords="1155,558,1353,629"/>
+</map>

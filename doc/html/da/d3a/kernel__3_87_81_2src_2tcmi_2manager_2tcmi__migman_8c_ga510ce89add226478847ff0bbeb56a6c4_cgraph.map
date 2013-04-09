@@ -1,0 +1,8 @@
+<map id="tcmi_migman_notify_peer_disconnect" name="tcmi_migman_notify_peer_disconnect">
+<area shape="rect" id="node2" href="$d4/de6/group__tcmi__disconnect__msg__class.html#ga19a79788a771ec551e8b131a90966665" title="&lt;&lt;public&gt;&gt; Disconnect message tx constructor." alt="" coords="212,5,361,46"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#ga91bf5b41a1d4faa3eab11e6867ec34e4" title="&lt;&lt;public&gt;&gt; Communication socket accesor." alt="" coords="219,71,354,97"/>
+<area shape="rect" id="node5" href="$d6/dc2/group__tcmi__msg__class.html#gac86a4090b7e1902ef603cb03191d6281" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="235,121,339,148"/>
+<area shape="rect" id="node7" href="$d6/dc2/group__tcmi__msg__class.html#ga7a8fe8cbfd4b25c15589c8599f66e574" title="&lt;&lt;public&gt;&gt; Sends a message via a specified connection." alt="" coords="193,172,381,199"/>
+<area shape="rect" id="node4" href="$d3/d7e/group__tcmi__sock__class.html#ga8573cfac9adbb5996cd90395d8a78502" title="&lt;&lt;public&gt;&gt; KKC socket accessor." alt="" coords="429,71,600,97"/>
+<area shape="rect" id="node6" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="443,121,586,148"/>
+</map>

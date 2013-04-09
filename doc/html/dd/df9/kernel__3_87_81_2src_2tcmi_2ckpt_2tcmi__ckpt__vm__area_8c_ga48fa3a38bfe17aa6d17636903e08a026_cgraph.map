@@ -1,0 +1,8 @@
+<map id="tcmi_ckpt_vm_area_read_h" name="tcmi_ckpt_vm_area_read_h">
+<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#gac8491faf16814e68e4da2dbf77c1f9cf" title="&lt;&lt;public&gt;&gt; Helper method that performs a memory mapping on the checkpoint file at its current offset..." alt="" coords="250,5,393,32"/>
+<area shape="rect" id="node4" href="$df/d54/group__tcmi__ckpt__class.html#gac5d7b45cd57fdd09ac83ce079260ec7e" title="&lt;&lt;public&gt;&gt; Aligns the position in the checkpoint file to page boundary." alt="" coords="247,56,395,83"/>
+<area shape="rect" id="node5" href="$dd/df9/kernel__3_87_81_2src_2tcmi_2ckpt_2tcmi__ckpt__vm__area_8c.html#gaf3bb948cfeb680ab12571de3f8b23dc5" title="&lt;&lt;private&gt;&gt; This method is responsible for fixing a the stack in the area just read from the checkpoi..." alt="" coords="235,107,408,149"/>
+<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga6128870e21ea3aef1bf88d8e34e4cd48" title="&lt;&lt;public&gt;&gt; Seeks in the checkpoint file based on specified offset." alt="" coords="456,5,571,32"/>
+<area shape="rect" id="node6" href="$df/d54/group__tcmi__ckpt__class.html#ga5cd1d8b3a1dbbc588cf3fe538b39e385" title="&lt;&lt;public&gt;&gt; Reads a specified number of bytes from a checkpoint file." alt="" coords="458,115,569,141"/>
+<area shape="rect" id="node7" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="619,115,765,141"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="tcmi_migman_create_symlink" name="tcmi_migman_create_symlink">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="197,5,357,32"/>
+<area shape="rect" id="node3" href="$dd/d30/group__tcmi__ctlfs__symlink__class.html#ga952244eff8b5630626b305e1b6c68b97" title="&lt;&lt;public&gt;&gt; Symbolic link is created as a regular ctlfs entry." alt="" coords="197,56,357,83"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga532181c3f7224fe5aa7651a69e6ad6b4" title="&lt;&lt;public&gt;&gt; This method is used when initializing a new entry." alt="" coords="405,81,544,108"/>
+<area shape="rect" id="node9" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaab2e404bb2da373a66578541e2dc4ba9" title="&lt;&lt;public&gt;&gt; Instance accessor, Calls instance custom get method and increments the reference counter..." alt="" coords="405,31,544,57"/>
+<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="594,31,747,57"/>
+<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga4fbd3f1c3789bd79d4e2c684fc08d1a2" title="&lt;&lt;private&gt;&gt; Checks whether a directory entry contains entry of the specified name" alt="" coords="593,81,749,108"/>
+<area shape="rect" id="node7" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga256f5088d3434bfadcdb0cb59bf25cb7" title="&lt;&lt;private&gt;&gt; A method for inode allocation." alt="" coords="600,132,741,159"/>
+<area shape="rect" id="node8" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaeeb7fba5f385c90d93878a60a4dcf1dc" title="&lt;&lt;private&gt;&gt; The new dentry is allocated based on the parent&#39;s dentry and the current name of the ..." alt="" coords="597,183,745,225"/>
+</map>

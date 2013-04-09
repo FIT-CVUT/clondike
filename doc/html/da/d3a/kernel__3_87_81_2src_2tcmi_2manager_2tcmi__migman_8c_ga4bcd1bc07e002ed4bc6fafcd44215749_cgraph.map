@@ -1,0 +1,16 @@
+<map id="tcmi_migman_stop_request" name="tcmi_migman_stop_request">
+<area shape="rect" id="node2" href="$d6/da2/group__tcmi__migman__class.html#gad131e3ab84c0ce68226c297b508dfcc4" title="Requests asynchronous shutdown of connection with peer." alt="" coords="238,129,370,156"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#ga42cc54b16a70368b84405761bf8780d5" title="Actual implementation of stop, see tcmi_migman_stop." alt="" coords="419,129,602,156"/>
+<area shape="rect" id="node4" href="$d6/da2/group__tcmi__migman__class.html#gafca6221a82ff480ee067fcfa39745719" title="&lt;&lt;public&gt;&gt; Migration manager slot index getter" alt="" coords="651,5,818,32"/>
+<area shape="rect" id="node6" href="$d6/da2/group__tcmi__migman__class.html#ga9115d78a679e54cf4bf78cf051d6782e" title="&lt;&lt;public&gt;&gt; Set atomically a new state of the migration manager, assuming current state == old_state..." alt="" coords="660,57,809,98"/>
+<area shape="rect" id="node7" href="$d6/da2/group__tcmi__migman__class.html#ga510ce89add226478847ff0bbeb56a6c4" title="tcmi_migman_notify\l_peer_disconnect" alt="" coords="665,122,804,163"/>
+<area shape="rect" id="node14" href="$d6/da2/group__tcmi__migman__class.html#gab536c262c24d8fc76cdbdfa8d6d65b81" title="&lt;&lt;public&gt;&gt; The manager is shutdown exactly in this order:" alt="" coords="672,188,797,215"/>
+<area shape="rect" id="node15" href="$d6/da2/group__tcmi__migman__class.html#ga828da1bb7df2ccb80dd93c62f1b0731c" title="&lt;&lt;public&gt;&gt; Migration manager state accessor." alt="" coords="667,239,803,265"/>
+<area shape="rect" id="node5" href="$da/d0c/group__tcmi__slot__class.html#ga821f6b686443bfc7fff52dd3b155de37" title="&lt;&lt;public&gt;&gt; Slot index accessor." alt="" coords="905,5,1018,32"/>
+<area shape="rect" id="node8" href="$d4/de6/group__tcmi__disconnect__msg__class.html#ga19a79788a771ec551e8b131a90966665" title="&lt;&lt;public&gt;&gt; Disconnect message tx constructor." alt="" coords="887,61,1036,102"/>
+<area shape="rect" id="node9" href="$d6/dc2/group__tcmi__msg__class.html#ga7a8fe8cbfd4b25c15589c8599f66e574" title="&lt;&lt;public&gt;&gt; Sends a message via a specified connection." alt="" coords="867,127,1055,153"/>
+<area shape="rect" id="node10" href="$d6/da2/group__tcmi__migman__class.html#ga91bf5b41a1d4faa3eab11e6867ec34e4" title="&lt;&lt;public&gt;&gt; Communication socket accesor." alt="" coords="894,177,1029,204"/>
+<area shape="rect" id="node12" href="$d6/dc2/group__tcmi__msg__class.html#gac86a4090b7e1902ef603cb03191d6281" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="909,228,1013,255"/>
+<area shape="rect" id="node11" href="$d3/d7e/group__tcmi__sock__class.html#ga8573cfac9adbb5996cd90395d8a78502" title="&lt;&lt;public&gt;&gt; KKC socket accessor." alt="" coords="1104,177,1275,204"/>
+<area shape="rect" id="node13" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="1118,228,1261,255"/>
+</map>

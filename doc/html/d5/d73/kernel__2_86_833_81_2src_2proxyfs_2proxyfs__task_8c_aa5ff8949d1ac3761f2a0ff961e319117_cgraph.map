@@ -1,0 +1,8 @@
+<map id="proxyfs_task_send_buffers" name="proxyfs_task_send_buffers">
+<area shape="rect" id="node2" href="$d5/d73/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__task_8c.html#abf436438b225b5b457962f5aff001291" title="&lt;&lt;protected&gt;&gt; Try to create new messages from data in buffer" alt="" coords="229,136,419,163"/>
+<area shape="rect" id="node3" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="490,5,625,46"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html#ga77e6670adfb68789ba5fcae809774575" title="&lt;&lt;public&gt;&gt; Get maximum amount and address of data, that can be read at one time" alt="" coords="497,70,618,111"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#ga95b9bee080e83d0f4866c8571e5218cf" title="&lt;&lt;public&gt;&gt; Reads from file to peer &#45; reads from write buffer" alt="" coords="473,136,642,163"/>
+<area shape="rect" id="node6" href="$dc/d71/group__proxyfs__msg__class.html#gacf49653e7e5979e1773350c2c3ccd5e9" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor." alt="" coords="467,187,648,229"/>
+<area shape="rect" id="node7" href="$d3/d52/group__proxyfs__peer__class.html#gadd03a0c5d82eb8400ef3e5b1babbef59" title="&lt;&lt;public&gt;&gt; Add message to sending queue" alt="" coords="476,253,639,280"/>
+</map>

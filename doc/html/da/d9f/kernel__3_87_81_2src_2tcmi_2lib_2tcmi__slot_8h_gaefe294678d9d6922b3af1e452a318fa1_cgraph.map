@@ -1,0 +1,5 @@
+<map id="tcmi_slot_insert" name="tcmi_slot_insert">
+<area shape="rect" id="node2" href="$da/d9f/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__slot_8h.html#ga109d6d783ebf06046f364f970f84da1f" title="&lt;&lt;public&gt;&gt; Locks the slot data." alt="" coords="175,5,281,32"/>
+<area shape="rect" id="node3" href="$da/d9f/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__slot_8h.html#ga8d6885be2677819158e0d956f0cca5b2" title="&lt;&lt;private&gt;&gt; Moves a slot into the specified list." alt="" coords="172,56,284,83"/>
+<area shape="rect" id="node4" href="$da/d9f/kernel__3_87_81_2src_2tcmi_2lib_2tcmi__slot_8h.html#ga5447231fec5f42040c40307eb2e6a13c" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="168,107,288,133"/>
+</map>

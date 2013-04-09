@@ -1,0 +1,8 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/ckpt/tcmi_ckpt.c" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/ckpt/tcmi_ckpt.c">
+<area shape="rect" id="node6" href="$d6/db7/tcmi__ckpt_8h.html" title="a helper class that provides functionality to create a process checkpoint" alt="" coords="447,184,538,211"/>
+<area shape="rect" id="node18" href="$d4/d83/tcmi__ckpt__openfile_8h.html" title="a helper class that provides functionality to store/restore information about an open file in the che..." alt="" coords="289,109,430,136"/>
+<area shape="rect" id="node19" href="$da/d20/tcmi__ckpt__vm__area_8h.html" title="a helper class that provides functionality to store a single VM area (memory regions)" alt="" coords="641,109,786,136"/>
+<area shape="rect" id="node17" href="$d2/def/arch__ids_8h.html" title="arch/arch_ids.h" alt="" coords="929,259,1039,285"/>
+<area shape="rect" id="node11" href="$de/d64/tcmi__fdcache_8h.html" title="a helper class that allows caching of used file descriptors." alt="" coords="684,259,794,285"/>
+<area shape="rect" id="node13" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="613,333,667,360"/>
+</map>

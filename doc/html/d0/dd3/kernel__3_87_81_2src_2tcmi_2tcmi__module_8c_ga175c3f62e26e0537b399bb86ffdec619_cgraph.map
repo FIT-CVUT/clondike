@@ -1,0 +1,5 @@
+<map id="tcmi_register_director_user_message_handler" name="tcmi_register_director_user_message_handler">
+<area shape="rect" id="node2" href="$d7/d4a/kernel__2_86_833_81_2src_2director_2director_8c.html#a4348033b7817bb6935531d46e7cf7a6c" title="Registers handler for send generic user message command." alt="" coords="216,5,379,61"/>
+<area shape="rect" id="node3" href="$d0/dd3/kernel__3_87_81_2src_2tcmi_2tcmi__module_8c.html#gaaacf622c2787358083b9609b65716b3a" title="tcmi_send_generic_user\l_message_handler" alt="" coords="216,86,379,127"/>
+<area shape="rect" id="node4" href="$d6/de0/group__tcmi__man__class.html#gaff233e88cb97d1c5bf33f91c697529ed" title="&lt;&lt;public&gt;&gt; Send generic user message" alt="" coords="427,86,589,127"/>
+</map>

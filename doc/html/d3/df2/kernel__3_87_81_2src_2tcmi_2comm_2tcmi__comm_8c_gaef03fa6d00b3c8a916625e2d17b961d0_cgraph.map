@@ -1,0 +1,11 @@
+<map id="tcmi_comm_thread" name="tcmi_comm_thread">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="189,5,355,32"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="187,56,357,83"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#gadafc7c835c7d6d94be66f61a050108b7" title="&lt;&lt;public&gt;&gt; Receives requested number of bytes of data." alt="" coords="218,107,326,133"/>
+<area shape="rect" id="node7" href="$de/dc6/group__tcmi__msg__factory__class.html#gad7b63f4c6657bcd0eaf759d79d344981" title="&lt;&lt;public&gt;&gt; Materializes the message." alt="" coords="209,157,335,184"/>
+<area shape="rect" id="node8" href="$d6/dc2/group__tcmi__msg__class.html#gac86a4090b7e1902ef603cb03191d6281" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="220,208,324,235"/>
+<area shape="rect" id="node10" href="$d6/dc2/group__tcmi__msg__class.html#ga84688215ef9615fdc2699eea0dbb8031" title="&lt;&lt;public&gt;&gt; Receives a message via a specified connection." alt="" coords="217,259,327,285"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="407,5,567,32"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="405,56,568,83"/>
+<area shape="rect" id="node9" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="415,208,558,235"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="tcmi_taskhelper_checkpoint" name="tcmi_taskhelper_checkpoint">
+<area shape="rect" id="node2" href="$d4/dcf/group__tcmi__ckptcom__class.html#gaf223b90f9bab6b4b553448917adbbd08" title="&lt;&lt;public&gt;&gt; Creates a non&#45;preemptive process checkpoint." alt="" coords="238,5,445,32"/>
+<area shape="rect" id="node3" href="$d4/dcf/group__tcmi__ckptcom__class.html#ga87d900819b5cc6bbe1144e22d4e03836" title="&lt;&lt;public&gt;&gt; Creates a preemptive process checkpoint." alt="" coords="238,56,445,83"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#gade1e8f7b12614ca0fecbc40aaae9a6c5" title="&lt;&lt;public&gt;&gt; Process context accessor." alt="" coords="277,107,406,133"/>
+<area shape="rect" id="node5" href="$de/d2f/group__tcmi__task__class.html#ga24a9d8c612da1a4484b1b3a28a181c15" title="&lt;&lt;public&gt;&gt; Prepares execution of a file given the arrays of arguments and environment." alt="" coords="253,157,429,184"/>
+</map>

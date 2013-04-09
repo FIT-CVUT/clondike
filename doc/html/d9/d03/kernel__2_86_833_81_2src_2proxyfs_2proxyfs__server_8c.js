@@ -1,0 +1,25 @@
+var kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c =
+[
+    [ "PROXYFS_REAL_FILE_PROTECTED", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#aeb12aadfa73d6fef21fbac4d1679d140", null ],
+    [ "PROXYFS_SERVER_PRIVATE", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#aeccd636c81eac2b3ffa7daca804a78f6", null ],
+    [ "PROXYFS_SERVER_PROTECTED", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#a79f323dde7056ac3060263c0390002e4", null ],
+    [ "_syscall3", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#abd87741daebf5ef06652d71a882c7554", null ],
+    [ "EXPORT_SYMBOL_GPL", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#adeb6e31491830db6a1a26a19a0487215", null ],
+    [ "EXPORT_SYMBOL_GPL", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ac17dfe38b6cbd2125a678a3856d65f9e", null ],
+    [ "EXPORT_SYMBOL_GPL", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#aa7f9153f6888f30e96ca4116d497d833", null ],
+    [ "proxyfs_server_accept", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#a97dc337522da2b955999ca7a6656eba7", null ],
+    [ "proxyfs_server_duplicate_all_parent", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#gaeb977fa48d903588bc74d4dff9bc7de8", null ],
+    [ "proxyfs_server_duplicate_overtaken_file", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ad2f261ff44b5b81d9dcd8e6a3ff317bf", null ],
+    [ "proxyfs_server_free", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#a9836357f0b0ac2c556b6bdf36d8218d5", null ],
+    [ "proxyfs_server_handle_msg", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#abdba5f78b0e41c8a1bd48444fe071c76", null ],
+    [ "proxyfs_server_listen", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#a5e2ed1be0e3a64c252466328ca6b98b0", null ],
+    [ "proxyfs_server_loop", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#a4e9b102bd7898eceb35651bcebfc8407", null ],
+    [ "proxyfs_server_overtake_file", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ga0cf24b2ce6d39d211a219c3e0f53ff41", null ],
+    [ "proxyfs_server_poll_queue_proc", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ab50c180af3b49b9044929be991b6e74d", null ],
+    [ "proxyfs_server_read_and_write_real_files", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#aecdd816b571ba58420005a29c3fb21dd", null ],
+    [ "proxyfs_server_register_poll_callback", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ad4aa6f1a2c9ee37939e3cfc52f6c6cd8", null ],
+    [ "proxyfs_server_release_all", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ga77d912a797d8b74f05bda041fa8c489a", null ],
+    [ "proxyfs_server_thread", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#gabeb1449a952bb7f16b449b8efb5dd6e6", null ],
+    [ "errno", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#ad65a8842cc674e3ddf69355898c0ecbf", null ],
+    [ "self", "d9/d03/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__server_8c.html#acffc38573c809dad4512ce637724ab7e", null ]
+];

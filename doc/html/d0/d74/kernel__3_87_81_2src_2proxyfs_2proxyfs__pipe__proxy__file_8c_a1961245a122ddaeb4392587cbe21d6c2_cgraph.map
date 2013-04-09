@@ -1,0 +1,8 @@
+<map id="proxyfs_pipe_proxy_file_read_user" name="proxyfs_pipe_proxy_file_read_user">
+<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#gadb9efe21b0b60c0c5470f468acf4ef5b" title="&lt;&lt;public&gt;&gt; Destructively read from buffer to userspace" alt="" coords="209,5,340,32"/>
+<area shape="rect" id="node3" href="$d5/d8c/group__proxyfs__client__class.html#gaa45a08a64f9738ddf6126ed360c94cb7" title="&lt;&lt;public&gt;&gt; Forward a syscall on file" alt="" coords="189,56,360,83"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="207,107,342,149"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#gab87dcba5308ae13e1f6987b6c903d006" title="&lt;&lt;public&gt;&gt; Marks the file as read requested" alt="" coords="197,173,352,214"/>
+<area shape="rect" id="node6" href="$d1/d14/group__proxyfs__file__class.html#ga46034bcf6fcc8ced0ecbf1ba73549bbc" title="&lt;&lt;public&gt;&gt; Checks, whether read was requested for this file" alt="" coords="200,238,349,279"/>
+<area shape="rect" id="node7" href="$dc/d71/group__proxyfs__msg__class.html#ga60323723423ceaadf6fe16da2243d9b8" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor" alt="" coords="211,304,338,331"/>
+</map>

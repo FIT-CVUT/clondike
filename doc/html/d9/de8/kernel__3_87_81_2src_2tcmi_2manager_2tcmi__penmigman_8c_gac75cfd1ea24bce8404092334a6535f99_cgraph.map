@@ -1,0 +1,10 @@
+<map id="tcmi_penmigman_stop" name="tcmi_penmigman_stop">
+<area shape="rect" id="node2" href="$d7/d4a/kernel__2_86_833_81_2src_2director_2director_8c.html#ad59c56c478f3a91729eded5d6da33615" title="Called, when a peer node disconnets." alt="" coords="208,5,392,32"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#gafca6221a82ff480ee067fcfa39745719" title="&lt;&lt;public&gt;&gt; Migration manager slot index getter" alt="" coords="217,56,383,83"/>
+<area shape="rect" id="node5" href="$d9/de8/kernel__3_87_81_2src_2tcmi_2manager_2tcmi__penmigman_8c.html#gaff726802f28d813c892ca2b77595d4f7" title="Forward declaration." alt="" coords="215,137,385,178"/>
+<area shape="rect" id="node4" href="$da/d0c/group__tcmi__slot__class.html#ga821f6b686443bfc7fff52dd3b155de37" title="&lt;&lt;public&gt;&gt; Slot index accessor." alt="" coords="459,27,573,53"/>
+<area shape="rect" id="node6" href="$da/d93/group__tcmi__migcom__class.html#gadc5871d3fb9ab2901eabc69f9e3accc4" title="&lt;&lt;public&gt;&gt; Migrates a task back to its home node using preemptive migration with physical checkpoint ..." alt="" coords="441,78,591,119"/>
+<area shape="rect" id="node7" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="453,144,579,171"/>
+<area shape="rect" id="node8" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="447,195,585,221"/>
+<area shape="rect" id="node9" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="447,245,585,272"/>
+</map>

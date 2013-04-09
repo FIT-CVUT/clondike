@@ -1,0 +1,11 @@
+<map id="tcmi_taskhelper_notify_by_pid" name="tcmi_taskhelper_notify_by_pid">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga2bf62635c09738ef0c1385ea258bec2f" title="&lt;&lt;public&gt;&gt; Flushes all pending methods in the queue submits a method for execution." alt="" coords="223,5,364,46"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#ga9317afe43a9b9343c70eaf42409864b7" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="241,71,345,97"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga0409e631915b37fbcfe096dfc498bbbb" title="&lt;&lt;public&gt;&gt; Submits a method for execution." alt="" coords="206,121,381,148"/>
+<area shape="rect" id="node5" href="$db/dbe/kernel__3_87_81_2src_2tcmi_2task_2tcmi__taskhelper_8h.html#ga9dbb48f23b9ec6a00498db53f026ef4b" title="&lt;&lt;public&gt;&gt; Switches the task into migration mode." alt="" coords="218,173,369,214"/>
+<area shape="rect" id="node9" href="$db/dbe/kernel__3_87_81_2src_2tcmi_2task_2tcmi__taskhelper_8h.html#gab89ca5c0deb987d20cf94fe2d000c58f" title="&lt;&lt;public&gt;&gt; Finds a TCMI task based on PID, in addition checks whether the task has a valid migration ..." alt="" coords="223,238,364,279"/>
+<area shape="rect" id="node6" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="649,149,786,176"/>
+<area shape="rect" id="node7" href="$de/d2f/group__tcmi__task__class.html#gac263213bf219960dea9c7d4b4e6f3b34" title="Returns a task_struct associated with the tcmi_task." alt="" coords="430,187,599,213"/>
+<area shape="rect" id="node8" href="$d7/d75/kernel__2_86_833_81_2src_2tcmi_2lib_2util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="658,225,777,252"/>
+<area shape="rect" id="node10" href="$de/d2f/group__tcmi__task__class.html#gafb7d2e6227e173c0bdc6fb99ff12bcbc" title="&lt;&lt;public&gt;&gt; Instance accessor, increments the reference counter." alt="" coords="463,288,567,315"/>
+</map>

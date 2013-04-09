@@ -1,0 +1,8 @@
+<map id="tcmi_man_emig_ppm_p" name="tcmi_man_emig_ppm_p">
+<area shape="rect" id="node2" href="$d6/da2/group__tcmi__migman__class.html#gacd13117046ccc1fa12ac743b893fcfca" title="&lt;&lt;public&gt;&gt; Instance accessor, increments the reference counter." alt="" coords="220,5,345,32"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#gab536c262c24d8fc76cdbdfa8d6d65b81" title="&lt;&lt;public&gt;&gt; The manager is shutdown exactly in this order:" alt="" coords="220,56,345,83"/>
+<area shape="rect" id="node4" href="$da/d0c/group__tcmi__slot__class.html#ga821f6b686443bfc7fff52dd3b155de37" title="&lt;&lt;public&gt;&gt; Slot index accessor." alt="" coords="226,107,339,133"/>
+<area shape="rect" id="node5" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="227,157,339,184"/>
+<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="220,208,345,235"/>
+<area shape="rect" id="node7" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="213,259,352,285"/>
+</map>

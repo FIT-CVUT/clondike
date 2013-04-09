@@ -1,0 +1,8 @@
+<map id="tcmi_shadowtask_execve" name="tcmi_shadowtask_execve">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga724d575729c5a3f2be09db7ee6833999" title="&lt;&lt;public&gt;&gt; Called from method queue &#45; Exits a task." alt="" coords="247,5,353,32"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#ga2bf62635c09738ef0c1385ea258bec2f" title="&lt;&lt;public&gt;&gt; Flushes all pending methods in the queue submits a method for execution." alt="" coords="229,57,371,98"/>
+<area shape="rect" id="node4" href="$d2/daf/group__tcmi__taskhelper__class.html#ga9dbb48f23b9ec6a00498db53f026ef4b" title="&lt;&lt;public&gt;&gt; Switches the task into migration mode." alt="" coords="225,122,375,163"/>
+<area shape="rect" id="node5" href="$de/d2f/group__tcmi__task__class.html#gac263213bf219960dea9c7d4b4e6f3b34" title="Returns a task_struct associated with the tcmi_task." alt="" coords="425,104,594,131"/>
+<area shape="rect" id="node7" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="643,155,781,181"/>
+<area shape="rect" id="node6" href="$d7/d75/kernel__2_86_833_81_2src_2tcmi_2lib_2util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="653,104,771,131"/>
+</map>

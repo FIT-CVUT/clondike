@@ -1,0 +1,5 @@
+<map id="tcmi_resolve_restart_block" name="tcmi_resolve_restart_block">
+<area shape="rect" id="node2" href="$d7/da3/kernel__3_87_81_2src_2arch_2i386_2restart__fixup_8h.html#ab4c4006ed5078f2b37308ef3ad5f622e" title="If we were in 64 bit syscall, we have to fixup some regs to work correctly after resume to user space..." alt="" coords="193,5,316,32"/>
+<area shape="rect" id="node3" href="$d5/d1e/kernel__2_86_833_81_2src_2arch_2common_2regs_8h.html#a9cc4535df03653446291382d8e8628bf" title="Checks whether a process with specified registers has been in system call." alt="" coords="206,56,303,83"/>
+<area shape="rect" id="node4" href="$d7/da3/kernel__3_87_81_2src_2arch_2i386_2restart__fixup_8h.html#abe85f8ad9f13d5136489635072621d35" title="This method is used for handling migration restart." alt="" coords="192,107,317,133"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="tcmi_guest_rpc class" name="tcmi_guest_rpc class">
+<area shape="rect" id="node1" href="$d8/d14/group__tcmi__guest__rpc__groupident__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on PEN side." alt="" coords="355,56,488,83"/>
+<area shape="rect" id="node2" href="$db/da8/group__tcmi__guest__rpc__generic__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on PEN side." alt="" coords="369,5,474,32"/>
+<area shape="rect" id="node3" href="$d0/d92/group__tcmi__guest__rpc__signal__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on PEN side." alt="" coords="368,107,475,133"/>
+<area shape="rect" id="node4" href="$d2/d43/group__tcmi__rpc__class.html" title="A &lt;&lt;virtual&gt;&gt; RPC class, used as parent for both guest and shadow side." alt="" coords="5,81,112,108"/>
+<area shape="rect" id="node6" href="$d1/d86/group__tcmi__guest__rpc__userident__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on PEN side." alt="" coords="359,157,484,184"/>
+</map>

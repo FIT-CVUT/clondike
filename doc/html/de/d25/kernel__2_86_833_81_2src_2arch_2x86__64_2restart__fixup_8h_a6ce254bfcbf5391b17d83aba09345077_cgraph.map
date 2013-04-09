@@ -1,0 +1,6 @@
+<map id="tcmi_resolve_restart_block" name="tcmi_resolve_restart_block">
+<area shape="rect" id="node2" href="$de/d25/kernel__2_86_833_81_2src_2arch_2x86__64_2restart__fixup_8h.html#a56e87b02c626445de698600fcc84cbcc" title="We need to export this in order to prepare vsyscall page for 32 bit applications." alt="" coords="193,5,351,32"/>
+<area shape="rect" id="node3" href="$de/d25/kernel__2_86_833_81_2src_2arch_2x86__64_2restart__fixup_8h.html#aaf4547b9a493ade37dee310865f21868" title="32 bit apps do not need to use restart block" alt="" coords="203,57,341,98"/>
+<area shape="rect" id="node5" href="$de/d25/kernel__2_86_833_81_2src_2arch_2x86__64_2restart__fixup_8h.html#ab6533b8739f26d6b59576f1200a4c8f4" title="64 bit apps do not need to use restart block." alt="" coords="203,122,341,163"/>
+<area shape="rect" id="node4" href="$d5/d1e/kernel__2_86_833_81_2src_2arch_2common_2regs_8h.html#a9cc4535df03653446291382d8e8628bf" title="Checks whether a process with specified registers has been in system call." alt="" coords="401,97,498,124"/>
+</map>

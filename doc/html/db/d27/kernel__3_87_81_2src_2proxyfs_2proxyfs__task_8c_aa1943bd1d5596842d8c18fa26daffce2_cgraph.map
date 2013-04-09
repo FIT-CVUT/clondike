@@ -1,0 +1,7 @@
+<map id="proxyfs_task_free" name="proxyfs_task_free">
+<area shape="rect" id="node2" href="$d3/d52/group__proxyfs__peer__class.html#ga30abfc6d4f6d183a2ab5a0a2e578c5c1" title="&lt;&lt;public&gt;&gt; Disconnects peer" alt="" coords="179,5,346,32"/>
+<area shape="rect" id="node3" href="$d3/d52/group__proxyfs__peer__class.html#ga0dc1598ce5116c8fe21c66b8b977ab4b" title="&lt;&lt;public&gt;&gt; Puts proxyfs_peer instance reference and on reaching zero destroys the instance..." alt="" coords="202,56,323,83"/>
+<area shape="rect" id="node4" href="$d5/d73/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__task_8c.html#a0967f6187b4f2547cdc4cb05b61f50ea" title="&lt;&lt;protected&gt;&gt; Releases task files." alt="" coords="190,107,335,149"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="405,78,539,119"/>
+<area shape="rect" id="node6" href="$d1/d14/group__proxyfs__file__class.html#gaf339a236eacb30281cf28cd69e943722" title="&lt;&lt;public&gt;&gt; Get file status" alt="" coords="395,144,549,171"/>
+</map>

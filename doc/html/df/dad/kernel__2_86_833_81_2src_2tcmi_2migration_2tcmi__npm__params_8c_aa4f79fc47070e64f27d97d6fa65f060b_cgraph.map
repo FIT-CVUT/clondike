@@ -1,0 +1,6 @@
+<map id="extract_tcmi_npm_params" name="extract_tcmi_npm_params">
+<area shape="rect" id="node2" href="$df/dad/kernel__2_86_833_81_2src_2tcmi_2migration_2tcmi__npm__params_8c.html#aa9a5df4c649f407a131a0c44a2cdad04" title="copy_strings" alt="" coords="273,5,369,32"/>
+<area shape="rect" id="node4" href="$df/dad/kernel__2_86_833_81_2src_2tcmi_2migration_2tcmi__npm__params_8c.html#acc026454809c9e854f4ce3e7aec89377" title="count" alt="" coords="294,56,349,83"/>
+<area shape="rect" id="node5" href="$da/d3b/kernel__2_86_833_81_2src_2tcmi_2migration_2tcmi__npm__params_8h.html#a091259df2d963061baac4e12b9bf0e6d" title="Given a npm params structure, this method will fixup args and envp pointers to point to correct place..." alt="" coords="229,107,413,133"/>
+<area shape="rect" id="node3" href="$da/d3b/kernel__2_86_833_81_2src_2tcmi_2migration_2tcmi__npm__params_8h.html#a666e66daab3a643c4271a70428b25390" title="UGLY UGLY! Following 2 funcs would ideally not be in a header." alt="" coords="461,56,603,83"/>
+</map>

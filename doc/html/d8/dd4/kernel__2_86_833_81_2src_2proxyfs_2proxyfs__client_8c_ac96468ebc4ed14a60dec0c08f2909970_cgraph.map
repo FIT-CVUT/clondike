@@ -1,0 +1,11 @@
+<map id="proxyfs_client_handle_msg" name="proxyfs_client_handle_msg">
+<area shape="rect" id="node2" href="$d8/dd4/kernel__2_86_833_81_2src_2proxyfs_2proxyfs__client_8c.html#a704f317f9342306070833b9638d2cab9" title="&lt;&lt;private&gt;&gt; Helper method that retrieves file by id either from open files or from &quot;standard&quot; files..." alt="" coords="239,5,379,32"/>
+<area shape="rect" id="node3" href="$d1/d14/group__proxyfs__file__class.html#gab30bc0df77483e4d24d0e874d1f0e362" title="&lt;&lt;public&gt;&gt; Set file status" alt="" coords="435,31,589,57"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html#ga40169031d7a24ef6d2b1ac3c3fbc72cc" title="&lt;&lt;public&gt;&gt; Sets peer and aquires its reference." alt="" coords="237,107,381,133"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#ga09bf2c02a87032c44fd9872fa157bf8e" title="&lt;&lt;public&gt;&gt; Set file status" alt="" coords="232,157,387,184"/>
+<area shape="rect" id="node6" href="$d1/d14/group__proxyfs__file__class.html#gab294b5935d54bd1755b88681043312f0" title="&lt;&lt;public&gt;&gt; Set file status" alt="" coords="246,209,373,250"/>
+<area shape="rect" id="node7" href="$d6/dfe/group__proxyfs__generic__proxy__file__class.html#ga711ceedfa4d6a6edd3a6b0df65c5a5ac" title="&lt;&lt;public&gt;&gt; Specialize proxyfs_proxy_file to proxyfs_generic_proxy_file" alt="" coords="233,274,385,315"/>
+<area shape="rect" id="node8" href="$dc/d71/group__proxyfs__msg__class.html#ga0b79d334f8e0b2441e178a38d38b1a29" title="&lt;&lt;public&gt;&gt; Returns size of message (header + data)" alt="" coords="436,365,588,392"/>
+<area shape="rect" id="node9" href="$d3/d52/group__proxyfs__peer__class.html#gaa65b0692e91ab87eb34260873b2a1afe" title="&lt;&lt;public&gt;&gt; Recv message" alt="" coords="233,391,386,417"/>
+<area shape="rect" id="node10" href="$d1/d8c/group__proxyfs__pipe__proxy__file__class.html#gad1263b415dace0104fc6d0a5210de7fe" title="&lt;&lt;public&gt;&gt; Specialize proxyfs_proxy_file to proxyfs_pipe_proxy_file" alt="" coords="240,442,379,483"/>
+</map>

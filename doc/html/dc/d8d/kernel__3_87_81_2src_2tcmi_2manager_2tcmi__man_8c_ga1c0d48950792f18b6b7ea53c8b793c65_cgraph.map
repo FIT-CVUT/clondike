@@ -1,0 +1,5 @@
+<map id="tcmi_man_init_ctlfs_dirs" name="tcmi_man_init_ctlfs_dirs">
+<area shape="rect" id="node2" href="$dc/def/group__tcmi__ctlfs__dir__class.html#ga1f51ad6279415ce522a3a932178702d6" title="&lt;&lt;public&gt;&gt; Creates a new directory entry in the tcmi_ctlfs tree." alt="" coords="221,5,350,32"/>
+<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga6d6cbcd957efaaa590b335ac3150bb30" title="&lt;&lt;public&gt;&gt; Calls the instance custom put method(if any) and Decrements the reference counter of the d..." alt="" coords="216,56,355,83"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="403,56,557,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="kkc_sock_sleeper_add" name="kkc_sock_sleeper_add">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga980a8df7e87a7e87c02cdae7bc221a53" title="&lt;&lt;public&gt;&gt; Adds a task to the queue of processes sleeping on the socket." alt="" coords="208,5,387,32"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="214,56,381,83"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="212,107,383,133"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="436,56,596,83"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="435,107,597,133"/>
+</map>
