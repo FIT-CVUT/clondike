@@ -108,6 +108,7 @@ int tcmi_ctlfs_entry_init(struct tcmi_ctlfs_entry *self,
 	}
 	/* Custom operations of the child class */
 	self->entry_ops = entry_ops;
+	d_set_d_op(self->dentry, self->dentry->d_op);		//Fix for new kernel, this function set dentry->flags according to dentry->op | by Jiri Rakosnik
 	return 0;
 	/* error handling */
  exit1:

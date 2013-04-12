@@ -252,7 +252,7 @@ static struct tcmi_ctlfs_entry* tcmi_ctlfs_genericfile_new(struct tcmi_ctlfs_ent
 		goto exit2;
 	}
 	file->maxlen = maxlen;
-	sema_init(&file->f_sem, 1); //Replaced macro init_MUTEX to sema_init for kernel 3.7.x | by Jiri Rakosnik
+	sema_init(&file->f_sem, 1); //Replaced macro init_MUTEX to sema_init for kernel 3.x.x | by Jiri Rakosnik
 	/* object associated with the file */
 	file->object = object;
 	file->read_method = read_method; /*TESTING */

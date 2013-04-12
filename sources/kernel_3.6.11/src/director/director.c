@@ -74,7 +74,7 @@ int director_node_connected(const char* address, int slot_index, int auth_data_s
 EXPORT_SYMBOL(director_node_connected);
 
 int director_node_disconnected(int slot_index, int detached, int reason) {
-	minfo(ERR1, "Node disconnected being called");
+	minfo(INFO4, "Node disconnected being called");
 	
 	return node_disconnected(slot_index, detached, reason);
 }
