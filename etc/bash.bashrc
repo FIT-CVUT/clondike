@@ -104,8 +104,8 @@ if ${use_color} ; then
 		fi
 	fi
 
-	if [[ ${EUID} == 0 ]] ; then
-		PS1='\[\033[01;31m\] `ifconfig eth0 | sed -n 2p | cut -d: -f2 | cut -d" " -f1` $(($(ls -1 /clondike/pen/nodes/ | wc -l)/2))/$(($(ls -1 /clondike/ccn/nodes/ | wc -l)/2))\[\033[01;34m\] \W \$\[\033[00m\] '
+	if [[ ${EUID} == 0 && -d /clondike/pen/nodes && -d /clondike/ccn/nodes ]] ; then
+		PS1='\[\033[01;31m\]`ifconfig eth0 | sed -n 2p | cut -d: -f2 | cut -d" " -f1` $(($(ls -1 /clondike/pen/nodes/ | wc -l)/2))/$(($(ls -1 /clondike/ccn/nodes/ | wc -l)/2))\[\033[01;34m\] \W \$\[\033[00m\] '
 	else
 		PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
 	fi
