@@ -36,7 +36,6 @@
 	menu: File systems/Network File systems/NFS client support (ENABLE *) 
           > Enable ROOT_NFS (and also dependencies, search /root_nfs)
 	menu: File systems/Network File Systems > Enable Plan 9 Resource Sharing Support
-	menu: Networking support/Networking options > Disable Appletalk protocol support
 	menu: Networking support > Enable Plan 9 Resource Sharing Support
 
 9. Copy recursively a directory Clondike/src to the directory clondike i.e. 
@@ -73,35 +72,27 @@
 
 18. Compile npfs server for function 9p sharing filesystem:
 	NPFS is in folder /root/npfs_install
-	18.1. Compile NPFS command "make"
-	18.2. Copy file /root/npfs_install/fs/npfs to folder /root/npfs/ and make it executable
-	18.2. Copy file /root/npfs_install/npfs-start to folder /root/npfs/ and make it executable
-	18.3. Execute script /root/npfs/npfs-start &
-	18.4. Copy init script for NPFS from /etc/init.d/npfsd to same location in system and make it executable 
+	17.1. Compile NPFS command "make"
+	17.2. Copy file /root/npfs_install/fs/npfs to folder /root/npfs
+	17.3. Execute script /root/npfs/npfs-start &
+	17.4. Copy init script for NPFS from /etc/init.d/npfsd to same location in system 
                            for clondike /etc/init.d/rc.local to same location in system and overwrite it 
 
 	Single commands:
-	# "mkdir /root/npfs"
-	# "cp /root/clondike/root/npfs_install/fs/npfs /root/npfs/"
-	# "cp /root/clondike/root/npfs/npfs-start /root/npfs/"
-	# "chmod +x /root/npfs/*"
-	# "/root/npfs/npfs-start &"
-	# "cp /root/clondike/etc/init.d/npfsd /etc/init.d/"
-	# "chmod +x /etc/init.d/npfsd"
-	# "cp /root/clondike/etc/init.d/rc.local /etc/init.d/"
+	# cp /root/clondike/root/npfs_install/fs/npfs /root/npfs/
+	# chmod +x /root/npfs/npfs-start
+	# /root/npfs/npfs-start &
+	# cp /root/clondike/etc/init.d/npfsd /etc/init.d/
+	# cp /root/clondike/etc/init.d/rc.local /etc/init.d/
 
 19. Registered script for npfsd into INIT process by command:
 	# update-rc.d npfsd defaults
 
-20. Copy bash prompt
-	"cp /root/clondike/etc/bash.bashrc /etc/"
-	
-21. Copy configuration file for migration
+20. Copy configuration file for migration
 	"cp /root/clondike/root/.migration.conf /root/"
 
-
-22. Execute script 
+21. Execute script 
     "/root/clondike/scripts/install.sh"
 
-23. Restart director to generate new unique certificate
+22. Restart director to generate new unique certificate
 	"/root/clondike/scripts/restart-director.sh"

@@ -56,3 +56,5 @@ useradd --uid $CLONDIKEUID $CLONDIKEUSER  && {
     echo "Created local proc directory '$LOCALPROCDIR'."
 }
 
+echo 'PROMPT_COMMAND="source $HOME/clondike/scripts/bash_prompt.sh"' >> /root/.bashrc
+

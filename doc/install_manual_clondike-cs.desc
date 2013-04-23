@@ -53,27 +53,31 @@ menu: Networking support > Enable Plan 9 Resource Sharing Support
 
 16. Instalace ruby pomoci "apt-get install ruby"
 
-17. Kompilace npfs server pro funkci 9p sdileni filesystemu:
+17. Zkopirujte obsah složky root do /root
+
+18. Kompilace npfs server pro funkci 9p sdileni filesystemu:
 	NPFS je v adresari /root/npfs_install
 	18.1. Kompilace NPFS prikaz "make"
-	18.2. Spouseci soubor /root/npfs_install/fs zkopirovat do adresare /root/npfs
+	18.2. Spousteci soubor /root/npfs_install/fs/npfs zkopirovat do adresare /root/npfs
 	18.3. Spustit skript /root/npfs/npfs-start &
 	18.4. Zkopirovat init skript z /etc/init.d/npfsd do stejneho umisteni v systemu 
                            for clondike /etc/init.d/rc.local do stejneho umisteni v systemu a prepsat stavajici soubor
 
 	Jednoduche prikazy pro provedeni postupu vyse:
 	# mkdir /root/npfs
-	# /root/clondike/root/npfs_install/fs/npfs /root/npfs/
-	# /root/clondike/root/npfs/npfs-start /root/npfs/
+	# cp /root/clondike/root/npfs_install/fs/npfs /root/npfs/
 	# chmod +x /root/npfs/npfs-start
 	# /root/npfs/npfs-start &
 	# cp /root/clondike/etc/init.d/npfsd /etc/init.d/
 	# cp /root/clondike/etc/init.d/rc.local /etc/init.d/
 
-18. Registovat skript pro npfsd do INIT procesu prikazem:
+19. Registovat skript pro npfsd do INIT procesu prikazem:
 	# update-rc.d npfsd defaults
 
-19. Spustit instalacni skript /root/clondike/scripts/install.sh
+20. Zkopirovat konfiguracni soubor .migration
+	"cp /root/clondike/root/.migration.conf /root/"
 
-20. Restartovat director, aby se vygeneroval novy unikatni certifikat
+21. Spustit instalacni skript /root/clondike/scripts/install.sh
+
+22. Restartovat director, aby se vygeneroval novy unikatni certifikat
 "/root/clondike/scripts/restart-director.sh"
