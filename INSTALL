@@ -20,7 +20,7 @@
    "cd linux-2.6.33.1".
 
 6. Make a new kernel patch by command 
-   "patch -p1 < path_to_the_downloaded_patch"  (clondike_kernel_2.6.33.1.patch)
+   "patch -p1 < path_to_the_downloaded_patch"  (clondike/patches/clondike_kernel_2.6.33.1.patch)
 	
 7. If we've old and functional kernel config file, for example config-2.6.32-5-xen-amd64, we can use it. If we haven't, skip this step.
    Rename it to actual config file .config and compile it: 
