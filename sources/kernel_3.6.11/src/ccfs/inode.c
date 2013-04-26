@@ -105,7 +105,7 @@ static int ccfs_create(struct inode *directory_inode, struct dentry *ccfs_dentry
 out:
 	return rc;
 }
-//Replaced last parameter struct nameidata to unsigned int flags | kernel 3.7.1 | by Jiri Rakosnik
+//Replaced last parameter struct nameidata to unsigned int flags | kernel 3.x.x | by Jiri Rakosnik
 static struct dentry *ccfs_lookup(struct inode *dir, struct dentry *dentry, unsigned int flags)
 {
 	int rc = 0;
@@ -227,7 +227,7 @@ static int ccfs_link(struct dentry *old_dentry, struct inode *dir,
 		goto out_lock;
 	fsstack_copy_attr_times(dir, lower_new_dentry->d_inode);
 	fsstack_copy_inode_size(dir, lower_new_dentry->d_inode);
-	set_nlink(old_dentry->d_inode, ccfs_get_nested_inode(old_dentry->d_inode)->i_nlink); //Fix for kernel 3.7.1 use function set_nlink by Jiri Rakosnik
+	set_nlink(old_dentry->d_inode, ccfs_get_nested_inode(old_dentry->d_inode)->i_nlink); //Fix for kernel 3.x.x use function set_nlink by Jiri Rakosnik
 	i_size_write(new_dentry->d_inode, file_size_save);
 out_lock:
 	unlock_dir(lower_dir_dentry);
@@ -253,7 +253,7 @@ static int ccfs_unlink(struct inode *dir, struct dentry *dentry)
 		goto out_unlock;
 	}
 	fsstack_copy_attr_times(dir, lower_dir_inode);
-	set_nlink(dentry->d_inode, ccfs_get_nested_inode(dentry->d_inode)->i_nlink); //Fix for kernel 3.7.1 use function set_nlink by Jiri Rakosnik
+	set_nlink(dentry->d_inode, ccfs_get_nested_inode(dentry->d_inode)->i_nlink); //Fix for kernel 3.x.x use function set_nlink by Jiri Rakosnik
 	dentry->d_inode->i_ctime = dir->i_ctime;
 	d_drop(dentry);
 out_unlock:
@@ -312,7 +312,7 @@ static int ccfs_mkdir(struct inode *dir, struct dentry *dentry, umode_t mode)
 		goto out;
 	fsstack_copy_attr_times(dir, lower_dir_dentry->d_inode);
 	fsstack_copy_inode_size(dir, lower_dir_dentry->d_inode);
-	set_nlink(dir, lower_dir_dentry->d_inode->i_nlink);   //Fix for kernel 3.7.1 use function set_nlink by Jiri Rakosnik
+	set_nlink(dir, lower_dir_dentry->d_inode->i_nlink);   //Fix for kernel 3.x.x use function set_nlink by Jiri Rakosnik
 out:
 	unlock_dir(lower_dir_dentry);
 	if (!dentry->d_inode)
@@ -338,7 +338,7 @@ static int ccfs_rmdir(struct inode *dir, struct dentry *dentry)
 	if (!rc)
 		d_delete(lower_dentry);
 	fsstack_copy_attr_times(dir, lower_dir_dentry->d_inode);
-	set_nlink(dir, lower_dir_dentry->d_inode->i_nlink); //Fix for kernel 3.7.1 use function set_nlink by Jiri Rakosnik
+	set_nlink(dir, lower_dir_dentry->d_inode->i_nlink); //Fix for kernel 3.x.x use function set_nlink by Jiri Rakosnik
 	unlock_dir(lower_dir_dentry);
 	if (!rc)
 		d_drop(dentry);

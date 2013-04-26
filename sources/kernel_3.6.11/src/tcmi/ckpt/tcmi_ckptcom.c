@@ -308,7 +308,7 @@ memory_sanity_check("Post mm");
 			mdbg(INFO2, "ACTIVE %p MM nr_ptes: %lu", current->active_mm, current->active_mm->nr_ptes);
 
 		// We have to unlock temprarily guar to prevent recursive lock (we are calling recursive exceve). TODO: Some better solution?
-		// Moved cred_guard_mutex to struct signal in new kernel 3.7.1 => Fix by Jiri Rakosnik
+		// Moved cred_guard_mutex to struct signal in new kernel 3.x.x => Fix by Jiri Rakosnik
     mutex_unlock(&current->signal->cred_guard_mutex);
 		current->fs->in_exec = 0; // Required to pass through 'check_unsafe_exec'
 
@@ -319,7 +319,7 @@ memory_sanity_check("Post mm");
 		mdbg(INFO3, "NPM internal execution result %d", exec_result);
 
 		// And now we relock again as the relock of outer execve will be attempted.
-		// Moved cred_guard_mutex to struct signal in new kernel 3.7.1 => Fix by Jiri Rakosnik
+		// Moved cred_guard_mutex to struct signal in new kernel 3.x.x => Fix by Jiri Rakosnik
     if (mutex_lock_interruptible(&current->signal->cred_guard_mutex)) {
 			minfo(ERR3, "Failed to relock cred guard!");		
 		}				

@@ -87,7 +87,7 @@ static inline int tcmi_ckpt_fsstruct_read(struct tcmi_ckpt *ckpt, struct task_st
 	}
 
 	/* Lookup path data */
-	error = kern_path(pwd, LOOKUP_FOLLOW, &path);      // Fix for kernel 3.7.1 substitute function path_lookup to kerm_path by Jiri Rakosnik 
+	error = kern_path(pwd, LOOKUP_FOLLOW, &path);      // Fix for kernel 3.x.x substitute function path_lookup to kerm_path by Jiri Rakosnik 
 	if ( error ) {
 		mdbg(ERR3, "Cannot lookup path: %s", pwd);
 		goto exit0;

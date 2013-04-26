@@ -16,7 +16,7 @@
 #include <dbg.h>
 
 static int ccfs_init_persistent_file_unlocked(struct dentry *ccfsdentry, struct inode* ccfsinode) {
-  	struct path ccfs_path;   //Fix Clondike for kernel 3.7.1 add struct ccfs_path contains *lower_dentry and *lower_mnt  by Jiri Rakosnik
+  	struct path ccfs_path;   //Fix Clondike for kernel 3.x.x add struct ccfs_path contains *lower_dentry and *lower_mnt  by Jiri Rakosnik
     struct ccfs_inode *inode_info =
 		ccfs_inode_to_private(ccfsinode);
 	int rc = 0;
@@ -37,7 +37,7 @@ static int ccfs_init_persistent_file_unlocked(struct dentry *ccfsdentry, struct 
 
 		// TODO: Write mode is now attempted only for non-cacheable files
 		try_write_mode = !ccfs_is_inode_cacheable(ccfsinode);
-		// Fix function dentry_open for kernel 3.7.1 remove lower_mnt parametr because it is in ccfs_path
+		// Fix function dentry_open for kernel 3.x.x remove lower_mnt parametr because it is in ccfs_path
     inode_info->lower_file = dentry_open(&ccfs_path,
 						     try_write_mode ? (O_RDWR | O_LARGEFILE) : (O_RDONLY | O_LARGEFILE),
 						     current_cred()		
@@ -47,7 +47,7 @@ static int ccfs_init_persistent_file_unlocked(struct dentry *ccfsdentry, struct 
 			       lower_dentry, lower_mnt);
 			dget(lower_dentry);
 			mntget(lower_mnt);
-			// Fix function dentry_open for kernel 3.7.1 remove lower_mnt parametr because it is in ccfs_path
+			// Fix function dentry_open for kernel 3.x.x remove lower_mnt parametr because it is in ccfs_path
       inode_info->lower_file = dentry_open(&ccfs_path,
 							     (O_RDONLY
 							      | O_LARGEFILE), current_cred());
@@ -238,7 +238,7 @@ static int ccfs_read_super(struct super_block *sb, const char *dev_name)
 	struct dentry *lower_root;
 	struct vfsmount *lower_mnt;
 
-	// Fix for kernel 3.7.1 substitute function path_lookup to kern_path() and struct nameidata is replaced to struct path by Jiri Rakosnik
+	// Fix for kernel 3.x.x substitute function path_lookup to kern_path() and struct nameidata is replaced to struct path by Jiri Rakosnik
 
 	memset(&path, 0, sizeof(struct path));
 	rc = kern_path(dev_name, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);  
@@ -311,7 +311,7 @@ static int ccfs_parse_options(struct super_block *sb, char *options) {
 out:
 	return rc;
 }
-//This function renamed from ccfs_get_sb to ccfs_mount and deleted last parameter struct vfsmount *mnt for kernel 3.7.1 by Jiri Rakosnik
+//This function renamed from ccfs_get_sb to ccfs_mount and deleted last parameter struct vfsmount *mnt for kernel 3.x.x by Jiri Rakosnik
 //Instead of vfsmount *mnt is use return type struct dentry * and it is root dentry, which contain of d_sb = super_block structure
 
 static struct dentry * ccfs_mount(struct file_system_type *fs_type, int flags,
@@ -319,7 +319,7 @@ static struct dentry * ccfs_mount(struct file_system_type *fs_type, int flags,
 {
 	struct dentry *root;
 	int rc = 0;
-  // Substitute name function get_sb_nodev for mount_nodev and delete last parameter mnt (kernel 3.7.1)
+  // Substitute name function get_sb_nodev for mount_nodev and delete last parameter mnt (kernel 3.x.x)
   root = mount_nodev(fs_type, flags, raw_data, ccfs_fill_super);
 	if ((void*)root < 0) {
 		printk(KERN_ERR "Mount failed");
@@ -351,7 +351,7 @@ static void ccfs_kill_block_super(struct super_block *sb)
 	generic_shutdown_super(sb);
 }
 
-// Substitute get_sb to mount for fix kernel 3.7.1 by Jiri Rakosnik
+// Substitute get_sb to mount for fix kernel 3.x.x by Jiri Rakosnik
 static struct file_system_type ccfs_fs_type = {
 	.owner = THIS_MODULE,
 	.name = "ccfs",

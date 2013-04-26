@@ -30,7 +30,7 @@
 
 #include <linux/module.h>
 #include <linux/types.h>
-#include <linux/slab.h>		//Added include slab for kernel 3.7.1 by Jiri Rakosnik
+#include <linux/slab.h>		//Added include slab for kernel 3.x.x by Jiri Rakosnik
 
 #include "kkc_sock.h"
 #include "kkc_sock_sleeper.h"

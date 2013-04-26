@@ -96,7 +96,7 @@ static int mount_local_procfs(struct kkc_sock* sock) {
 	//struct nameidata nd;
 	struct path path;	//Replaced struct nameidata to struct path | by Jiri Rakosnik
 	int err;
-  //Replaced function path_lookup to kern_path for kernel 3.7.1 | by Jiri Rakosnik 
+  //Replaced function path_lookup to kern_path for kernel 3.x.x | by Jiri Rakosnik 
 	err = kern_path(proc_path, LOOKUP_FOLLOW | LOOKUP_DIRECTORY, &path);
 	if ( err ) {
 		minfo(ERR1, "Failed to lookup path %s: %d. Trying to create", proc_path, err);

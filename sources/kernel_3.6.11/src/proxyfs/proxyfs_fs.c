@@ -84,7 +84,7 @@ static int proxyfs_fs_fill_super(struct super_block *sb, void *data, int silent)
 	rootinode->i_mode = S_IFDIR | S_IRUSR | S_IXUSR;
 	rootinode->i_mtime = rootinode->i_atime = rootinode->i_ctime = CURRENT_TIME;
 
-  //Fix change call function from d_alloc_root to d_make_root for kernel 3.7.1 by Jiri Rakosnik
+  //Fix change call function from d_alloc_root to d_make_root for kernel 3.x.x by Jiri Rakosnik
 	if( !(sb->s_root = d_make_root(rootinode)) ){  
 		iput(rootinode);
 		return -ENOMEM;
@@ -130,7 +130,7 @@ static void proxyfs_fs_kill_sb(struct super_block *super)
 //	inode->i_mtime = inode->i_atime = inode->i_ctime = CURRENT_TIME;
 //}
 
-// Fix for kernel 3.7.1. Changed second parameter from int to struct writeback_control *wbc by Jiri Rakosnik
+// Fix for kernel 3.x.x. Changed second parameter from int to struct writeback_control *wbc by Jiri Rakosnik
 static int proxyfs_fs_super_write_inode(struct inode *inode, struct writeback_control *wbc) 
 {
 	mdbg(INFO3, "write inode i_ino=%lx %d", inode->i_ino, (int)i_size_read(inode));

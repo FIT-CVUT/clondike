@@ -54,7 +54,7 @@ int kkc_sock_init(struct kkc_sock *self, struct kkc_arch *arch,
 	self->arch = arch;
 	self->sock_ops = sock_ops;
 	atomic_set(&self->ref_count, 1);
-	sema_init(&self->sock_send_sem, 1);		// Change macro init_MUTEX to contain of original macro sema_init(sem,1) for kernel 3.7.1 by Jiri Rakosnik
+	sema_init(&self->sock_send_sem, 1);		// Change macro init_MUTEX to contain of original macro sema_init(sem,1) for kernel 3.x.x by Jiri Rakosnik
 	sema_init(&self->sock_recv_sem, 1);
 	INIT_LIST_HEAD(&self->pub_list);
 

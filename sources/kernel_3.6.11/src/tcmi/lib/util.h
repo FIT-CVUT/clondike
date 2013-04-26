@@ -11,7 +11,7 @@ static inline struct task_struct* task_find_by_pid(pid_t pid) {
 /**
  * Creates a new directory. Assumes, its parent directory already exists!!
  * 
- * Fix kernel 3.7.1
+ * Fix kernel 3.x.x
  * Renamed first parameter path to name 
  */
 static inline int mk_dir(const char* name, int mode) {
@@ -19,7 +19,7 @@ static inline int mk_dir(const char* name, int mode) {
     struct path path;
 	int err;
   
-  err = kern_path(name, LOOKUP_PARENT ,&path);           // Replaced function path_lookup to kern_path for kernel 3.7.1 by Jiri Rakosnik
+  err = kern_path(name, LOOKUP_PARENT ,&path);           // Replaced function path_lookup to kern_path for kernel 3.x.x by Jiri Rakosnik
 	if ( err ) {
 		return err;
 	}

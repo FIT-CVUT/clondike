@@ -48,7 +48,7 @@ void proxyfs_fs_exit(void);
 #ifdef PROXYFS_FS_PRIVATE
 
 /* \<\<private\>\> Returns superblock */
-static struct dentry * proxyfs_fs_mount(struct file_system_type *, int, const char *, void *);		//Delete last parameter vfsmount mnt* and rename function from get_sb to mount for kernel 3.7.1 by Jiri Rakosnik
+static struct dentry * proxyfs_fs_mount(struct file_system_type *, int, const char *, void *);		//Delete last parameter vfsmount mnt* and rename function from get_sb to mount for kernel 3.x.x by Jiri Rakosnik
 /* \<\<private\>\> Frees superblock */
 static void proxyfs_fs_kill_sb(struct super_block *);
 
@@ -58,13 +58,13 @@ static void proxyfs_fs_kill_sb(struct super_block *);
 /** \<\<private\>\> Called when reading superinode */
 //static void proxyfs_fs_super_read_inode(struct inode *);
 /** \<\<private\>\> Called when writing inode */
-static int proxyfs_fs_super_write_inode(struct inode *, struct writeback_control *wbc);	// Fix for kernel 3.7.1. Changed second parameter from int to struct writeback_control *wbc by Jiri Rakosnik
+static int proxyfs_fs_super_write_inode(struct inode *, struct writeback_control *wbc);	// Fix for kernel 3.x.x. Changed second parameter from int to struct writeback_control *wbc by Jiri Rakosnik
 
 
 
 /* inode_operations */
 /** \<\<private\>\> lookup inode */
-static struct dentry *proxyfs_fs_rootinode_lookup(struct inode *, struct dentry *, unsigned int );  // Fix for kernel 3.7.1. Changed second parameter from struct nameidata * to unsigned int by Jiri Rakosnik
+static struct dentry *proxyfs_fs_rootinode_lookup(struct inode *, struct dentry *, unsigned int );  // Fix for kernel 3.x.x. Changed second parameter from struct nameidata * to unsigned int by Jiri Rakosnik
 
 
 /** \<\<private\>\> getattr */
@@ -86,7 +86,7 @@ static int proxyfs_fs_fdinode_open(struct inode *, struct file *);
 static long proxyfs_fs_fdinode_ioctl (struct file *file, unsigned int cmd, unsigned long arg);
 
 /** \<\<private\>\> Fsync function for VFS */
-static int proxyfs_fs_fdinode_fsync(struct file *file, loff_t, loff_t, int datasync);   // Fix for kernel 3.7.1. Changed second parameter from struct dentry * to two parameters type loff_t by Jiri Rakosnik
+static int proxyfs_fs_fdinode_fsync(struct file *file, loff_t, loff_t, int datasync);   // Fix for kernel 3.x.x. Changed second parameter from struct dentry * to two parameters type loff_t by Jiri Rakosnik
 
 
 /** \<\<private\>\> poll */

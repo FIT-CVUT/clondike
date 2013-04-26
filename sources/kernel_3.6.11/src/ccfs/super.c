@@ -80,7 +80,7 @@ static void ccfs_put_super(struct super_block *sb)
 
 static int ccfs_statfs(struct dentry *dentry, struct kstatfs *buf)
 {
-	// Fix Clondike for kernel 3.7.1 add define struct path and fill path.dentry = original dentry which is returned by ccfs_get_nested_dentry
+	// Fix Clondike for kernel 3.x.x add define struct path and fill path.dentry = original dentry which is returned by ccfs_get_nested_dentry
 	// When calling vfs_statfs with address other parameter ccfs_path which contains of record pointer to original dentry
 	// This fix was applied because function vfs_statfs has a different type of parameter 
 	struct path ccfs_path;
@@ -110,7 +110,7 @@ static int ccfs_drop_inode(struct inode *inode)
 }
 
 // Change type of second parametr from vfsmount to dentry and in function dentry->d_sb for getting superblock
-// This fix is for kernel 3.7.1 by Jiri Rakosnik
+// This fix is for kernel 3.x.x by Jiri Rakosnik
 static int ccfs_show_options(struct seq_file *m, struct dentry *dentry)
 {
 	struct super_block *sb = dentry->d_sb;

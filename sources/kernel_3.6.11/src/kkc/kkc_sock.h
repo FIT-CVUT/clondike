@@ -30,7 +30,7 @@
 #include <linux/list.h>
 #include <asm/atomic.h>
 #include <linux/semaphore.h>
-#include <linux/mutex.h>		//Added two includes mutex and slab for kernel 3.7.1 by Jiri Rakosnik
+#include <linux/mutex.h>		//Added two includes mutex and slab for kernel 3.x.x by Jiri Rakosnik
 #include <linux/slab.h>
 
 #include "kkc_arch.h"

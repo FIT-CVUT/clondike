@@ -7,7 +7,7 @@
 
 #include <dbg.h>
 
-//Replaced second parameter struct nameidata to unsigned int flags | kernel 3.7.1 | by Jiri Rakosnik
+//Replaced second parameter struct nameidata to unsigned int flags | kernel 3.x.x | by Jiri Rakosnik
 static int ccfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 {
 	struct dentry *lower_dentry = ccfs_get_nested_dentry(dentry);
@@ -29,7 +29,7 @@ static int ccfs_d_revalidate(struct dentry *dentry, unsigned int flags)
 		goto out;
 
 	dentry_save = dentry;
-	//vfsmount_save = nd->path.mnt;			//Commented vfsmount | kernel 3.7.1 | by Jiri Rakosnik
+	//vfsmount_save = nd->path.mnt;			//Commented vfsmount | kernel 3.x.x | by Jiri Rakosnik
 	dentry = lower_dentry;
 	//nd->path.mnt = lower_mnt;
 	rc = lower_dentry->d_op->d_revalidate(lower_dentry, flags);

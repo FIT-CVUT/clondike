@@ -356,7 +356,7 @@ static int kkc_sock_tcp_add_wait_queue(struct kkc_sock *self, wait_queue_t *wait
 	mdbg(INFO4, "TCP adding to wait queue..");
 	/* add to socket wait queue */
 	add_wait_queue(sk_sleep(KKC_SOCK_TCP(self)->sock->sk), wait);
-	// Fix for kernel 3.7.1 call inline function sk_sleep instead of original record sk_sleep in structure sk | by Jiri Rakosnik
+	// Fix for kernel 3.x.x call inline function sk_sleep instead of original record sk_sleep in structure sk | by Jiri Rakosnik
 
 	return err;
 }
@@ -377,7 +377,7 @@ static int kkc_sock_tcp_remove_wait_queue(struct kkc_sock *self, wait_queue_t *w
 	mdbg(INFO4, "TCP removing from wait queue..");
 	/* remove from socket wait queue */
 	remove_wait_queue(sk_sleep(KKC_SOCK_TCP(self)->sock->sk), wait);
-	// Fix for kernel 3.7.1 call inline function sk_sleep instead of original record sk_sleep in structure sk | by Jiri Rakosnik
+	// Fix for kernel 3.x.x call inline function sk_sleep instead of original record sk_sleep in structure sk | by Jiri Rakosnik
 	return err;
 }
 

@@ -142,7 +142,7 @@ static int
 ccfs_fsync(struct file *file, loff_t start, loff_t end, int datasync)
 {
 	struct file *lower_file = ccfs_get_nested_file(file);
-	//struct dentry *lower_dentry = ccfs_get_nested_dentry(dentry);			 Commented for kernel 3.7.1 by Jiri Rakosnik
+	//struct dentry *lower_dentry = ccfs_get_nested_dentry(dentry);			 Commented for kernel 3.x.x by Jiri Rakosnik
 	//struct inode *lower_inode = lower_dentry != NULL ? lower_dentry->d_inode : NULL;
 	struct inode *lower_inode = NULL;
 	int rc = -EINVAL;
