@@ -4,3 +4,4 @@ nekolik
 zmen
 po
 sobe
+build se zapne za hodinu od ted
