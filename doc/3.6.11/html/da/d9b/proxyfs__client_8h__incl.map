@@ -1,0 +1,12 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_client.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_client.h">
+<area shape="rect" id="node2" href="$da/dc7/proxyfs__task_8h.html" title="Proxyfs task class." alt="" coords="223,109,329,136"/>
+<area shape="rect" id="node6" href="$db/d4d/proxyfs__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="362,259,499,285"/>
+<area shape="rect" id="node15" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="863,184,969,211"/>
+<area shape="rect" id="node27" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="498,109,651,136"/>
+<area shape="rect" id="node9" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="674,557,728,584"/>
+<area shape="rect" id="node13" href="$d1/de9/proxyfs__file_8h.html" title="Main file class (used by proxyfs_task)" alt="" coords="452,408,551,435"/>
+<area shape="rect" id="node16" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="894,259,972,285"/>
+<area shape="rect" id="node19" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="929,408,1017,435"/>
+<area shape="rect" id="node26" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="897,333,1036,360"/>
+<area shape="rect" id="node23" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="1155,483,1241,509"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="tcmi_slotvec_insert_at" name="tcmi_slotvec_insert_at">
+<area shape="rect" id="node2" href="$da/d0c/group__tcmi__slot__class.html#gaefe294678d9d6922b3af1e452a318fa1" title="&lt;&lt;public&gt;&gt; Inserts a new node into the slot." alt="" coords="205,56,320,83"/>
+<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="207,107,319,133"/>
+<area shape="rect" id="node3" href="$da/d0c/group__tcmi__slot__class.html#ga109d6d783ebf06046f364f970f84da1f" title="&lt;&lt;public&gt;&gt; Locks the slot data." alt="" coords="375,5,481,32"/>
+<area shape="rect" id="node4" href="$da/d0c/group__tcmi__slot__class.html#ga8d6885be2677819158e0d956f0cca5b2" title="&lt;&lt;private&gt;&gt; Moves a slot into the specified list." alt="" coords="372,56,484,83"/>
+<area shape="rect" id="node5" href="$da/d0c/group__tcmi__slot__class.html#ga5447231fec5f42040c40307eb2e6a13c" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="368,107,488,133"/>
+</map>

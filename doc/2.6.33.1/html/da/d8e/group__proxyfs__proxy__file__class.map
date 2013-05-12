@@ -1,0 +1,5 @@
+<map id="proxyfs_proxy_file class" name="proxyfs_proxy_file class">
+<area shape="rect" id="node1" href="$d6/dfe/group__proxyfs__generic__proxy__file__class.html" title="This is used between VFS and proxyfs_client task for proxying generics." alt="" coords="352,5,504,46"/>
+<area shape="rect" id="node3" href="$d1/d8c/group__proxyfs__pipe__proxy__file__class.html" title="This is used between VFS and proxyfs_client task for proxying pipes." alt="" coords="361,70,495,111"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html" title="This is used on between VFS and proxyfs_client task." alt="" coords="5,45,128,72"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="tcmi_ctlfs_dir_new" name="tcmi_ctlfs_dir_new">
+<area shape="rect" id="node2" href="$dc/def/group__tcmi__ctlfs__dir__class.html#ga571b8ac681691e3ceca2e833b89b6a21" title="&lt;&lt;public&gt;&gt; Creates a new directory entry in the tcmi_ctlfs tree." alt="" coords="185,111,319,137"/>
+<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga532181c3f7224fe5aa7651a69e6ad6b4" title="&lt;&lt;public&gt;&gt; This method is used when initializing a new entry." alt="" coords="368,81,507,108"/>
+<area shape="rect" id="node8" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga71558bf14c4a13eed4e4b9ca240fd016" title="&lt;&lt;public&gt;&gt; Increments the number of links referencing this entry&#39;s inode." alt="" coords="368,133,507,174"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="557,5,710,32"/>
+<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga4fbd3f1c3789bd79d4e2c684fc08d1a2" title="&lt;&lt;private&gt;&gt; Checks whether a directory entry contains entry of the specified name" alt="" coords="555,56,711,83"/>
+<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga256f5088d3434bfadcdb0cb59bf25cb7" title="&lt;&lt;private&gt;&gt; A method for inode allocation." alt="" coords="563,107,704,133"/>
+<area shape="rect" id="node7" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaeeb7fba5f385c90d93878a60a4dcf1dc" title="&lt;&lt;private&gt;&gt; The new dentry is allocated based on the parent&#39;s dentry and the current name of the ..." alt="" coords="559,158,707,199"/>
+</map>

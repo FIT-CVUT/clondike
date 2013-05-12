@@ -1,0 +1,6 @@
+<map id="circ_buf_write_user" name="circ_buf_write_user">
+<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#gaa8deefe1777efa66c134bd3833ad63bf" title="&lt;&lt;public&gt;&gt; Adjust write pointer" alt="" coords="187,5,352,32"/>
+<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga9ae1b52cee79db39b53854daa20ceb16" title="&lt;&lt;public&gt;&gt; Returns base address for writting &#45;" alt="" coords="190,56,349,83"/>
+<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="191,107,348,133"/>
+<area shape="rect" id="node3" href="$d4/d2b/tcmi__npm__params_8c.html#af64f4ee0104b701e4f843c457b77e14c" title="count" alt="" coords="401,81,455,108"/>
+</map>

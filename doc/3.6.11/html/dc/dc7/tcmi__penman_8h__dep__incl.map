@@ -1,0 +1,6 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_penman.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_penman.h">
+<area shape="rect" id="node2" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="5,126,160,197"/>
+<area shape="rect" id="node3" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="185,126,343,197"/>
+<area shape="rect" id="node4" href="$db/d35/tcmi__syscallhooks__other_8c.html" title="other syscalls hooks." alt="" coords="367,126,523,197"/>
+<area shape="rect" id="node5" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="548,133,711,189"/>
+</map>

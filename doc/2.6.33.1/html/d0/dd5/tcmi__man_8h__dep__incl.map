@@ -1,0 +1,11 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/manager/tcmi_man.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/manager/tcmi_man.h">
+<area shape="rect" id="node2" href="$d6/d7d/tcmi__ccnman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="527,109,747,165"/>
+<area shape="rect" id="node8" href="$dd/dbd/tcmi__man_8c.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="1149,109,1347,165"/>
+<area shape="rect" id="node9" href="$d9/de9/tcmi__penman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="853,109,1072,165"/>
+<area shape="rect" id="node6" href="$db/d35/tcmi__syscallhooks__other_8c.html" title="other syscalls hooks." alt="" coords="1138,214,1368,285"/>
+<area shape="rect" id="node3" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="5,221,224,277"/>
+<area shape="rect" id="node4" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="249,221,489,277"/>
+<area shape="rect" id="node5" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="515,214,680,285"/>
+<area shape="rect" id="node7" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="704,221,869,277"/>
+<area shape="rect" id="node10" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="894,221,1113,277"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="tcmi_sock" name="tcmi_sock">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#da/d0d/structkkc__sock" title="A coumpound structure that contains generic information about a KKC socket." alt="" coords="155,451,284,602"/>
+<area shape="rect" id="node3" href="$d5/ddf/group__kkc__arch__class.html#db/d0a/structkkc__arch" title="Compound structure, describes one particular architecture." alt="" coords="39,213,113,320"/>
+<area shape="rect" id="node4" href="$d5/ddf/group__kkc__arch__class.html#d0/d60/structkkc__arch__ops" title="Architecture specific operations." alt="" coords="5,5,147,83"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#d9/db1/structkkc__sock__ops" title="Socket operations that support polymorphism." alt="" coords="138,147,301,386"/>
+<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#db/d2a/structtcmi__ctlfs__entry" title="An entry compound structure." alt="" coords="317,481,432,573"/>
+<area shape="rect" id="node7" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#df/d10/structtcmi__ctlfs__ops" title="entry operations that support polymorphism" alt="" coords="327,228,439,305"/>
+</map>

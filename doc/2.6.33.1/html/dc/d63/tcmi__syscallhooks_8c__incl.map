@@ -1,0 +1,9 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/syscall/tcmi_syscallhooks.c" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/syscall/tcmi_syscallhooks.c">
+<area shape="rect" id="node2" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="150,109,204,136"/>
+<area shape="rect" id="node6" href="$dd/d42/tcmi__syscallhooks__signal_8h.html" title="other syscall hooks." alt="" coords="229,109,411,136"/>
+<area shape="rect" id="node7" href="$db/d6a/tcmi__syscallhooks__pidman_8h.html" title="syscalls hooks for proces identification manipulation." alt="" coords="435,109,625,136"/>
+<area shape="rect" id="node8" href="$d3/da7/tcmi__syscallhooks__userident_8h.html" title="&#45;" alt="" coords="650,109,851,136"/>
+<area shape="rect" id="node9" href="$d6/da7/tcmi__syscallhooks__groupident_8h.html" title="&#45;" alt="" coords="876,109,1084,136"/>
+<area shape="rect" id="node10" href="$da/db0/tcmi__syscallhooks__other_8h.html" title="other syscall hooks." alt="" coords="1109,109,1285,136"/>
+<area shape="rect" id="node11" href="$de/d5d/tcmi__syscallhooks_8h.html" title="a separate module that install syscalls hooks into the kernel." alt="" coords="1311,109,1452,136"/>
+</map>

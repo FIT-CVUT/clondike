@@ -1,0 +1,39 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/manager/tcmi_penmigman.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/manager/tcmi_penmigman.h">
+<area shape="rect" id="node3" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1915,109,2025,136"/>
+<area shape="rect" id="node31" href="$d3/dc2/fs__mount__params_8h.html" title="tcmi/migration/fs/fs\l_mount_params.h" alt="" coords="893,366,1024,407"/>
+<area shape="rect" id="node7" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="2877,373,2955,400"/>
+<area shape="rect" id="node18" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="1879,185,2061,226"/>
+<area shape="rect" id="node43" href="$d0/db1/tcmi__comm_8h.html" title="TCMI communication communication component." alt="" coords="3429,283,3600,309"/>
+<area shape="rect" id="node44" href="$d0/d49/tcmi__ctlfs_8h.html" title="TCMI control file system module declaration exports the root directory entry" alt="" coords="3980,373,4127,400"/>
+<area shape="rect" id="node46" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="3673,456,3783,483"/>
+<area shape="rect" id="node48" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="3821,366,3955,407"/>
+<area shape="rect" id="node50" href="$d9/d2c/tcmi__sock_8h.html" title="A wrapper class for KKC listenings." alt="" coords="3624,283,3763,309"/>
+<area shape="rect" id="node21" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="1871,531,2021,557"/>
+<area shape="rect" id="node29" href="$d2/def/arch__ids_8h.html" title="arch/arch_ids.h" alt="" coords="1551,373,1661,400"/>
+<area shape="rect" id="node10" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="2694,531,2783,557"/>
+<area shape="rect" id="node17" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="2537,456,2676,483"/>
+<area shape="rect" id="node13" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="2845,605,2931,632"/>
+<area shape="rect" id="node16" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="2493,680,2547,707"/>
+<area shape="rect" id="node19" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="2167,373,2257,400"/>
+<area shape="rect" id="node24" href="$dc/d0c/tcmi__skel__msg_8h.html" title="TCMI test communication message &#45; can be used as skeleton for other messages." alt="" coords="1993,283,2113,309"/>
+<area shape="rect" id="node25" href="$d8/d2b/tcmi__skelresp__msg_8h.html" title="TCMI test response message &#45; can be used as skeleton for response message." alt="" coords="2139,283,2285,309"/>
+<area shape="rect" id="node26" href="$d6/d23/tcmi__signal__msg_8h.html" title="TCMI signal communication message" alt="" coords="2843,283,2973,309"/>
+<area shape="rect" id="node27" href="$d5/d20/tcmi__p__emigrate__msg_8h.html" title="PPM/NPM physical emigration message." alt="" coords="2998,283,3159,309"/>
+<area shape="rect" id="node28" href="$d5/dac/tcmi__authenticate__msg_8h.html" title="authenticate message" alt="" coords="1616,283,1784,309"/>
+<area shape="rect" id="node30" href="$d6/dd3/tcmi__authenticate__resp__msg_8h.html" title="authentication response message" alt="" coords="1435,275,1592,317"/>
+<area shape="rect" id="node32" href="$d4/d74/tcmi__disconnect__msg_8h.html" title="disconnect message" alt="" coords="1808,283,1968,309"/>
+<area shape="rect" id="node33" href="$d6/d96/tcmi__skel__procmsg_8h.html" title="TCMI test process communication message &#45; can be used as skeleton for other process control messages..." alt="" coords="2309,283,2456,309"/>
+<area shape="rect" id="node34" href="$db/dcb/tcmi__skelresp__procmsg_8h.html" title="TCMI test response process message &#45; can be used as skeleton for any response process message..." alt="" coords="2480,283,2651,309"/>
+<area shape="rect" id="node35" href="$d0/d50/tcmi__exit__procmsg_8h.html" title="TCMI exit message, send by guest task from PEN" alt="" coords="2675,283,2817,309"/>
+<area shape="rect" id="node36" href="$df/de9/tcmi__rpc__procmsg_8h.html" title="TCMI rpc process communication message &#45; used for rpcs forwarding." alt="" coords="347,283,487,309"/>
+<area shape="rect" id="node37" href="$d9/df2/tcmi__rpcresp__procmsg_8h.html" title="TCMI RPC response process message" alt="" coords="512,283,677,309"/>
+<area shape="rect" id="node38" href="$d3/db1/tcmi__guest__started__procmsg_8h.html" title="response from the guest task when it is succesfully started" alt="" coords="701,275,835,317"/>
+<area shape="rect" id="node39" href="$d0/def/tcmi__ppm__p__migr__back__guestreq__procmsg_8h.html" title="migrate back request initiated by guest" alt="" coords="859,275,1019,317"/>
+<area shape="rect" id="node40" href="$d2/dfd/tcmi__ppm__p__migr__back__shadowreq__procmsg_8h.html" title="migrate back request initiated by shadow" alt="" coords="1043,275,1203,317"/>
+<area shape="rect" id="node41" href="$d0/d73/tcmi__vfork__done__procmsg_8h.html" title="TCMI vfork done, send to notify about vfork completition" alt="" coords="1227,283,1409,309"/>
+<area shape="rect" id="node42" href="$da/d22/tcmi__generic__user__msg_8h.html" title="generic userspace message." alt="" coords="3184,283,3355,309"/>
+<area shape="rect" id="node20" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="1994,456,2123,483"/>
+<area shape="rect" id="node23" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="1827,456,1969,483"/>
+<area shape="rect" id="node22" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="2017,605,2103,632"/>
+<area shape="rect" id="node47" href="$df/d2f/tcmi__ctlfs__entry_8h.html" title="Declaration of a generic entry class in tcmifs" alt="" coords="2695,605,2820,632"/>
+</map>

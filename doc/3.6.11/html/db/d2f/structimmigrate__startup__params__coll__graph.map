@@ -1,0 +1,7 @@
+<map id="immigrate_startup_params" name="immigrate_startup_params">
+<area shape="rect" id="node2" href="$d3/dc2/fs__mount__params_8h.html#d8/dce/structfs__mount__params" title="Helper structure that keeps data about the mounting which should be performed on PEN." alt="" coords="5,473,131,580"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#da/d0d/structkkc__sock" title="A coumpound structure that contains generic information about a KKC socket." alt="" coords="155,451,284,602"/>
+<area shape="rect" id="node4" href="$d5/ddf/group__kkc__arch__class.html#db/d0a/structkkc__arch" title="Compound structure, describes one particular architecture." alt="" coords="92,213,167,320"/>
+<area shape="rect" id="node5" href="$d5/ddf/group__kkc__arch__class.html#d0/d60/structkkc__arch__ops" title="Architecture specific operations." alt="" coords="59,5,200,83"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#d9/db1/structkkc__sock__ops" title="Socket operations that support polymorphism." alt="" coords="191,147,355,386"/>
+</map>

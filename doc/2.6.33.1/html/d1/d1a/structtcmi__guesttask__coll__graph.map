@@ -1,0 +1,17 @@
+<map id="tcmi_guesttask" name="tcmi_guesttask">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#d1/dd2/structtcmi__task" title="Compound structure that gathers necessary process information." alt="" coords="396,1315,519,1583"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#d5/d04/structtcmi__task__ops" title="TCMI task operations that support polymorphism." alt="" coords="5,1011,155,1250"/>
+<area shape="rect" id="node4" href="$d0/db7/group__tcmi__slotvec__class.html#da/ded/structtcmi__slotvec" title="A slot vector compound structure." alt="" coords="354,723,464,888"/>
+<area shape="rect" id="node6" href="$d6/da2/group__tcmi__migman__class.html#d2/d8c/structtcmi__migman" title="A compound structure that holds all current shadow processes and other migration related data..." alt="" coords="537,1041,660,1221"/>
+<area shape="rect" id="node5" href="$da/d0c/group__tcmi__slot__class.html#d9/dbb/structtcmi__slot" title="A slot compound structure." alt="" coords="521,451,631,616"/>
+<area shape="rect" id="node7" href="$d3/d7e/group__tcmi__sock__class.html#da/dba/structtcmi__sock" title="A compound structure that holds the actual KKC listening." alt="" coords="489,759,575,851"/>
+<area shape="rect" id="node8" href="$d6/d8e/group__kkc__sock__class.html#da/d0d/structkkc__sock" title="A coumpound structure that contains generic information about a KKC socket." alt="" coords="215,458,344,609"/>
+<area shape="rect" id="node16" href="$d9/dfc/group__tcmi__comm__class.html#de/d0f/structtcmi__comm" title="Compound structure that holds reference to the connection and the user method." alt="" coords="231,737,329,873"/>
+<area shape="rect" id="node9" href="$d5/ddf/group__kkc__arch__class.html#db/d0a/structkkc__arch" title="Compound structure, describes one particular architecture." alt="" coords="135,213,209,320"/>
+<area shape="rect" id="node10" href="$d5/ddf/group__kkc__arch__class.html#d0/d60/structkkc__arch__ops" title="Architecture specific operations." alt="" coords="101,5,243,83"/>
+<area shape="rect" id="node11" href="$d6/d8e/group__kkc__sock__class.html#d9/db1/structkkc__sock__ops" title="Socket operations that support polymorphism." alt="" coords="234,147,397,386"/>
+<area shape="rect" id="node12" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#db/d2a/structtcmi__ctlfs__entry" title="An entry compound structure." alt="" coords="857,487,972,579"/>
+<area shape="rect" id="node13" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#df/d10/structtcmi__ctlfs__ops" title="entry operations that support polymorphism" alt="" coords="859,228,971,305"/>
+<area shape="rect" id="node14" href="$d6/da2/group__tcmi__migman__class.html#d6/d88/structtcmi__migman__ops" title="Migration manager operations that support polymorphism." alt="" coords="739,723,867,888"/>
+<area shape="rect" id="node15" href="$dc/d0c/group__tcmi__queue__class.html#d5/d9a/structtcmi__queue" title="compound structure" alt="" coords="1013,737,1101,873"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_generic_proxy_file.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_generic_proxy_file.c">
+<area shape="rect" id="node6" href="$d6/df4/proxyfs__generic__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="376,126,528,167"/>
+<area shape="rect" id="node7" href="$db/d4d/proxyfs__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="416,216,553,243"/>
+<area shape="rect" id="node9" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="550,813,604,840"/>
+<area shape="rect" id="node13" href="$dc/ddb/proxyfs__client_8h.html" title="Proxyfs client task." alt="" coords="551,291,664,317"/>
+<area shape="rect" id="node31" href="$d1/de9/proxyfs__file_8h.html" title="Main file class (used by proxyfs_task)" alt="" coords="1418,515,1517,541"/>
+<area shape="rect" id="node14" href="$da/dc7/proxyfs__task_8h.html" title="Proxyfs task class." alt="" coords="1302,365,1409,392"/>
+<area shape="rect" id="node18" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="516,440,622,467"/>
+<area shape="rect" id="node30" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="647,365,800,392"/>
+<area shape="rect" id="node19" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="684,515,762,541"/>
+<area shape="rect" id="node22" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="779,664,868,691"/>
+<area shape="rect" id="node29" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="761,589,900,616"/>
+<area shape="rect" id="node26" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="658,739,744,765"/>
+</map>

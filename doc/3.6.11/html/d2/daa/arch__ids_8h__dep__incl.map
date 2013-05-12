@@ -1,0 +1,51 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/arch/arch_ids.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/arch/arch_ids.h">
+<area shape="rect" id="node2" href="$d5/de7/arch__ids_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/arch_ids.c" alt="" coords="5,117,160,173"/>
+<area shape="rect" id="node3" href="$d9/dc7/common_2regs_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/common/regs.h" alt="" coords="237,117,403,173"/>
+<area shape="rect" id="node4" href="$d2/d9f/i386_2regs_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/i386/regs.h" alt="" coords="121,357,276,413"/>
+<area shape="rect" id="node8" href="$d8/d65/i386_2thread_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/i386/thread.h" alt="" coords="427,117,583,173"/>
+<area shape="rect" id="node6" href="$db/d9f/x86__64_2regs_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/x86_64/regs.h" alt="" coords="297,237,455,293"/>
+<area shape="rect" id="node9" href="$d6/db7/tcmi__ckpt_8h.html" title="a helper class that provides functionality to create a process checkpoint" alt="" coords="1195,117,1369,173"/>
+<area shape="rect" id="node10" href="$d1/dc6/tcmi__ckpt_8c.html" title="a helper class that provides functionality to create a process checkpoint" alt="" coords="671,357,845,413"/>
+<area shape="rect" id="node32" href="$d6/dd3/tcmi__authenticate__resp__msg_8h.html" title="authentication response message" alt="" coords="2779,110,2999,181"/>
+<area shape="rect" id="node48" href="$d5/dac/tcmi__authenticate__msg_8h.html" title="authenticate message" alt="" coords="3115,117,3377,173"/>
+<area shape="rect" id="node49" href="$d4/d74/tcmi__disconnect__msg_8h.html" title="disconnect message" alt="" coords="3402,117,3656,173"/>
+<area shape="rect" id="node37" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="2581,350,2736,421"/>
+<area shape="rect" id="node5" href="$d3/db6/i386_2regs_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/i386/regs.c" alt="" coords="121,477,276,533"/>
+<area shape="rect" id="node7" href="$d3/dc8/x86__64_2regs_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/arch/x86_64/regs.c" alt="" coords="301,357,459,413"/>
+<area shape="rect" id="node11" href="$d4/d83/tcmi__ckpt__openfile_8h.html" title="a helper class that provides functionality to store/restore information about an open file in the che..." alt="" coords="787,230,949,301"/>
+<area shape="rect" id="node13" href="$da/d20/tcmi__ckpt__vm__area_8h.html" title="a helper class that provides functionality to store a single VM area (memory regions)" alt="" coords="549,230,712,301"/>
+<area shape="rect" id="node15" href="$db/d06/tcmi__ckpt__fsstruct_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/tcmi/ckpt/tcmi_ckpt\l_fsstruct.h" alt="" coords="1261,230,1424,301"/>
+<area shape="rect" id="node17" href="$dc/dc6/tcmi__ckpt__mm_8h.html" title="a helper class that provides functionality to store a single VM area (memory regions)" alt="" coords="1448,237,1651,293"/>
+<area shape="rect" id="node18" href="$dd/d4a/tcmi__ckpt__npm__params_8h.html" title="a helper class that provides functionality to non&#45;preemtive migration process parameters (args..." alt="" coords="1675,230,1837,301"/>
+<area shape="rect" id="node12" href="$d4/d62/tcmi__ckpt__openfile_8c.html" title="a helper class that provides functionality to store/restore information about an open file in the che..." alt="" coords="888,350,1051,421"/>
+<area shape="rect" id="node19" href="$de/d5f/tcmi__ckpt__regs_8h.html" title="a helper class that provides functionality to store process registers" alt="" coords="1862,237,2068,293"/>
+<area shape="rect" id="node20" href="$da/dab/tcmi__ckpt__resources_8h.html" title="a helper class that provides functionality to checkpoint process rlimits" alt="" coords="2093,230,2256,301"/>
+<area shape="rect" id="node21" href="$d6/d15/tcmi__ckpt__sig_8h.html" title="a class that provides functionality to store a signal settings" alt="" coords="2281,237,2479,293"/>
+<area shape="rect" id="node22" href="$df/d07/tcmi__ckpt__thread_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/tcmi/ckpt/tcmi_ckpt\l_thread.h" alt="" coords="1024,230,1187,301"/>
+<area shape="rect" id="node16" href="$db/d70/tcmi__ckptcom_8c.html" title="Process checkpointing component." alt="" coords="1553,357,1751,413"/>
+<area shape="rect" id="node23" href="$d7/d05/tcmi__taskhelper_8h.html" title="TCMI task helper, supports task manipulation" alt="" coords="1990,357,2199,413"/>
+<area shape="rect" id="node14" href="$dc/d9a/tcmi__ckpt__vm__area_8c.html" title="a helper class that provides functionality to store a single VM area (memory regions)" alt="" coords="484,350,647,421"/>
+<area shape="rect" id="node24" href="$d6/d82/tcmi__migman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="2017,470,2172,541"/>
+<area shape="rect" id="node25" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="2625,710,2780,781"/>
+<area shape="rect" id="node26" href="$dc/d44/tcmi__migcom_8c.html" title="TCMI migration component." alt="" coords="2970,590,3128,661"/>
+<area shape="rect" id="node27" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="1605,710,1763,781"/>
+<area shape="rect" id="node28" href="$da/d61/tcmi__guesttask_8c.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="2586,597,2792,653"/>
+<area shape="rect" id="node29" href="$d7/d0a/tcmi__shadowtask_8c.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="2627,477,2845,533"/>
+<area shape="rect" id="node30" href="$de/d84/tcmi__task_8c.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="2197,477,2371,533"/>
+<area shape="rect" id="node31" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="1788,717,1951,773"/>
+<area shape="rect" id="node33" href="$d0/d99/tcmi__authenticate__msg_8c.html" title="TCMI authentication request" alt="" coords="2953,237,3215,293"/>
+<area shape="rect" id="node34" href="$d8/d37/tcmi__authenticate__resp__msg_8c.html" title="TCMI authenticate response message" alt="" coords="2606,230,2825,301"/>
+<area shape="rect" id="node35" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="3240,237,3488,293"/>
+<area shape="rect" id="node40" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="2854,710,3009,781"/>
+<area shape="rect" id="node46" href="$d9/ded/tcmi__penmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="3205,590,3360,661"/>
+<area shape="rect" id="node36" href="$dd/d10/tcmi__msg__factory_8c.html" title="TCMI message factory message." alt="" coords="3277,350,3451,421"/>
+<area shape="rect" id="node38" href="$d2/dc4/tcmi__ccnmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="2395,470,2551,541"/>
+<area shape="rect" id="node42" href="$df/db0/tcmi__man_8h.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="1691,477,1889,533"/>
+<area shape="rect" id="node45" href="$dc/d77/tcmi__penmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3154,470,3309,541"/>
+<area shape="rect" id="node47" href="$db/d10/tcmi__migcom_8h.html" title="TCMI migration component." alt="" coords="2971,470,3129,541"/>
+<area shape="rect" id="node39" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="2395,710,2551,781"/>
+<area shape="rect" id="node41" href="$dd/dbd/tcmi__man_8c.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="2170,597,2368,653"/>
+<area shape="rect" id="node43" href="$d6/d7d/tcmi__ccnman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1871,590,2027,661"/>
+<area shape="rect" id="node44" href="$d9/de9/tcmi__penman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1691,590,1847,661"/>
+<area shape="rect" id="node50" href="$d4/dbc/tcmi__disconnect__msg_8c.html" title="TCMI disconnection request" alt="" coords="3614,237,3868,293"/>
+</map>

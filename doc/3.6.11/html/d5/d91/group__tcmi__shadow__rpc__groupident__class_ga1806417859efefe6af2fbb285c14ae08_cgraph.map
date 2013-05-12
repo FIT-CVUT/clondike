@@ -1,0 +1,31 @@
+<map id="tcmi_shadow_rpc_getgroups" name="tcmi_shadow_rpc_getgroups">
+<area shape="rect" id="node2" href="$d4/d2b/tcmi__npm__params_8c.html#af64f4ee0104b701e4f843c457b77e14c" title="count" alt="" coords="311,157,366,184"/>
+<area shape="rect" id="node3" href="$d2/da2/group__tcmi__rpc__procmsg__class.html#ga293ff16b06123583a6eb0e40b9fc35b2" title="&lt;&lt;public&gt;&gt; Return RPC parameter." alt="" coords="241,208,437,235"/>
+<area shape="rect" id="node4" href="$d0/d86/group__tcmi__rpcresp__procmsg__class.html#gad5934495826b004098c357c677da6309" title="&lt;&lt;public&gt;&gt; Create response to rpc message" alt="" coords="261,259,416,301"/>
+<area shape="rect" id="node30" href="$d0/d86/group__tcmi__rpcresp__procmsg__class.html#gaccdced14bf7e1e3b7ff19684ee321345" title="&lt;&lt;public&gt;&gt; Set if and how data will be freed on last put" alt="" coords="261,325,416,366"/>
+<area shape="rect" id="node5" href="$d0/d86/group__tcmi__rpcresp__procmsg__class.html#gab749afc50481f4ff94d9707df9814778" title="&lt;&lt;public&gt;&gt; RPC response process message tx constructor." alt="" coords="489,175,644,217"/>
+<area shape="rect" id="node27" href="$d6/dc2/group__tcmi__msg__class.html#ga5a09e9d377637eba6c3df1236fc97926" title="&lt;&lt;public&gt;&gt; Request transaction ID accessor." alt="" coords="506,241,627,268"/>
+<area shape="rect" id="node28" href="$de/d2f/group__tcmi__task__class.html#ga2f054ae4772c0921004eebdb48d39dcf" title="&lt;&lt;public&gt;&gt; Remote PID accessor." alt="" coords="491,292,642,319"/>
+<area shape="rect" id="node29" href="$d2/da2/group__tcmi__rpc__procmsg__class.html#ga3faa701b0512840c23a97dc58e13e75c" title="&lt;&lt;public&gt;&gt; Return RPC number." alt="" coords="486,343,647,369"/>
+<area shape="rect" id="node6" href="$d7/dc8/group__tcmi__procmsg__class.html#gaa22b26ec117d20a804758f501e9d3e59" title="&lt;&lt;public&gt;&gt; Initializes the message for transferring." alt="" coords="696,183,843,209"/>
+<area shape="rect" id="node7" href="$d6/dc2/group__tcmi__msg__class.html#gace79df438ec4f7c8f7cee3bfe42f6d93" title="&lt;&lt;public&gt;&gt; Initializes the message for transferring." alt="" coords="891,183,1013,209"/>
+<area shape="rect" id="node8" href="$db/dc8/tcmi__msg_8c.html#a5c394462e393c496f11d949b265b8a9e" title="Shared initialization fuction of both rx and tx messages." alt="" coords="1061,132,1211,159"/>
+<area shape="rect" id="node9" href="$d4/d8c/group__tcmi__transaction__class.html#gada9d9436def8919a10997233cd6b5ea1" title="&lt;&lt;public&gt;&gt; Creates a new transaction." alt="" coords="1062,183,1210,209"/>
+<area shape="rect" id="node15" href="$d4/d8c/group__tcmi__transaction__class.html#gaac666feaaab1fe5c341237a3e0283501" title="&lt;&lt;public&gt;&gt; Transaction ID accessor." alt="" coords="1671,259,1806,285"/>
+<area shape="rect" id="node10" href="$d4/d8c/group__tcmi__transaction__class.html#gad66082869d71dbe73b9a0b60cb2f437c" title="&lt;&lt;private&gt;&gt; Generates a transaction ID." alt="" coords="1259,157,1421,184"/>
+<area shape="rect" id="node11" href="$d0/db7/group__tcmi__slotvec__class.html#ga463d8dd03bd30b24c3ebfed5a0239d8a" title="&lt;&lt;public&gt;&gt; Hashmask accessor." alt="" coords="1259,208,1421,235"/>
+<area shape="rect" id="node12" href="$d4/d8c/group__tcmi__transaction__class.html#ga244e6188e1c4f9e1faba20d0892f5441" title="&lt;&lt;private&gt;&gt; Callback for the kernel timer that handles transaction timeouts." alt="" coords="1263,107,1417,133"/>
+<area shape="rect" id="node24" href="$d0/db7/group__tcmi__slotvec__class.html#ga4f973395848150fbebecf3cc292c80ba" title="&lt;&lt;public&gt;&gt; The index where the insertion takes place has to be a valid slot." alt="" coords="1470,56,1621,83"/>
+<area shape="rect" id="node13" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="1474,157,1617,184"/>
+<area shape="rect" id="node14" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="1676,157,1801,184"/>
+<area shape="rect" id="node16" href="$da/d0c/group__tcmi__slot__class.html#ga1d6232adcf00094597a66d9f5740d5f8" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="1677,107,1800,133"/>
+<area shape="rect" id="node23" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="1669,208,1808,235"/>
+<area shape="rect" id="node17" href="$da/d0c/group__tcmi__slot__class.html#ga29d8101c5815a6519567c548da4a3c7e" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="1857,157,1994,184"/>
+<area shape="rect" id="node21" href="$da/d0c/group__tcmi__slot__class.html#ga109d6d783ebf06046f364f970f84da1f" title="&lt;&lt;public&gt;&gt; Locks the slot data." alt="" coords="1872,107,1979,133"/>
+<area shape="rect" id="node22" href="$da/d0c/group__tcmi__slot__class.html#ga5447231fec5f42040c40307eb2e6a13c" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="1865,56,1985,83"/>
+<area shape="rect" id="node18" href="$da/d0c/group__tcmi__slot__class.html#ga6dd63ff2854a9939a5aa094f6543a5d1" title="&lt;&lt;public&gt;&gt; Checks if the slot is empty." alt="" coords="2065,157,2183,184"/>
+<area shape="rect" id="node19" href="$da/d0c/group__tcmi__slot__class.html#ga2550a3e6624b54e323c73cb1d06e6cd0" title="&lt;&lt;public&gt;&gt; Moves a slot among unused_slots." alt="" coords="2043,81,2205,108"/>
+<area shape="rect" id="node20" href="$da/d0c/group__tcmi__slot__class.html#ga8d6885be2677819158e0d956f0cca5b2" title="&lt;&lt;private&gt;&gt; Moves a slot into the specified list." alt="" coords="2253,44,2365,71"/>
+<area shape="rect" id="node25" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="1683,5,1795,32"/>
+<area shape="rect" id="node26" href="$da/d0c/group__tcmi__slot__class.html#gaefe294678d9d6922b3af1e452a318fa1" title="&lt;&lt;public&gt;&gt; Inserts a new node into the slot." alt="" coords="1681,56,1796,83"/>
+</map>

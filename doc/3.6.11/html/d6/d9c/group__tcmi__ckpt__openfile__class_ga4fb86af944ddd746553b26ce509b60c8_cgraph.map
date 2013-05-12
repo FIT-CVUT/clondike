@@ -1,0 +1,6 @@
+<map id="tcmi_ckpt_openfile_read" name="tcmi_ckpt_openfile_read">
+<area shape="rect" id="node2" href="$d6/d9c/group__tcmi__ckpt__openfile__class.html#gac7b4f72b5f4bf1f21f74a5bc178284c8" title="&lt;&lt;private&gt;&gt; Reads a duplicate file descriptor chunk from the checkpoint file." alt="" coords="216,5,347,46"/>
+<area shape="rect" id="node5" href="$d6/d9c/group__tcmi__ckpt__openfile__class.html#ga59af0d4928f72054b6034dc4fe11fcab" title="&lt;&lt;private&gt;&gt; Reads a new file chunk from the checkpoint file." alt="" coords="216,70,347,111"/>
+<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga5cd1d8b3a1dbbc588cf3fe538b39e385" title="&lt;&lt;public&gt;&gt; Reads a specified number of bytes from a checkpoint file." alt="" coords="395,77,506,104"/>
+<area shape="rect" id="node4" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="555,77,701,104"/>
+</map>

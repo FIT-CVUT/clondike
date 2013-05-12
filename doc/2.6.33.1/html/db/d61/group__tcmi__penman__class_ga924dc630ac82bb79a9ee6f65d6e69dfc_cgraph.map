@@ -1,0 +1,7 @@
+<map id="check_duplicates" name="check_duplicates">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#gac08d05e2be11ce3c48c57f9babcd597e" title="&lt;&lt;public&gt;&gt; Checks, whether an address passed as string is equal to this socket local/peer port..." alt="" coords="177,5,325,46"/>
+<area shape="rect" id="node3" href="$d6/da2/group__tcmi__migman__class.html#ga91bf5b41a1d4faa3eab11e6867ec34e4" title="&lt;&lt;public&gt;&gt; Communication socket accesor." alt="" coords="183,71,318,97"/>
+<area shape="rect" id="node5" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="188,121,313,148"/>
+<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="181,172,320,199"/>
+<area shape="rect" id="node4" href="$d3/d7e/group__tcmi__sock__class.html#ga8573cfac9adbb5996cd90395d8a78502" title="&lt;&lt;public&gt;&gt; KKC socket accessor." alt="" coords="373,71,544,97"/>
+</map>

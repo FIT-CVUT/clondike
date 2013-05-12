@@ -1,0 +1,7 @@
+<map id="tcmi_guesttask_post_fork_set_tid" name="tcmi_guesttask_post_fork_set_tid">
+<area shape="rect" id="node2" href="$d5/d77/proxyfs__helper_8h.html#afe83a59a45354c9be0c0d92d6ef4c307" title="This method is used after remote&#45;fork on a client side." alt="" coords="211,63,336,105"/>
+<area shape="rect" id="node6" href="$de/d2f/group__tcmi__task__class.html#ga2f054ae4772c0921004eebdb48d39dcf" title="&lt;&lt;public&gt;&gt; Remote PID accessor." alt="" coords="198,129,349,156"/>
+<area shape="rect" id="node3" href="$d5/d77/proxyfs__helper_8h.html#ab59a1cd53be257804c046bd384ea59ad" title="Modifies proxyfs file name to reflect a new owner of the file." alt="" coords="398,5,533,46"/>
+<area shape="rect" id="node4" href="$d5/d77/proxyfs__helper_8h.html#a074be037b0aae4d248a61c90c2c68737" title="Checks, whether the file is proxyfs file." alt="" coords="581,41,685,68"/>
+<area shape="rect" id="node5" href="$d5/d77/proxyfs__helper_8h.html#afd09b6bc667dba6516ff4458eb0dabad" title="Helper method, that is used for altering file names on distant fork." alt="" coords="401,121,529,148"/>
+</map>

@@ -1,0 +1,8 @@
+<map id="tcmi_ckpt_write_hdr" name="tcmi_ckpt_write_hdr">
+<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#gac1c519443be61f5923b9f6cc8fe92d1e" title="&lt;&lt;private&gt;&gt; Calculates the number of open files of the current process." alt="" coords="197,63,339,89"/>
+<area shape="rect" id="node5" href="$df/d54/group__tcmi__ckpt__class.html#gacea45b22c76a0bff6422d8d4e3731925" title="&lt;&lt;private&gt;&gt; Calculates the number of memory regions of the current process." alt="" coords="193,8,343,35"/>
+<area shape="rect" id="node6" href="$df/d54/group__tcmi__ckpt__class.html#gab3d478dd860126047413a05828c02360" title="&lt;&lt;public&gt;&gt; Writes a specified number of bytes into a checkpoint file." alt="" coords="211,117,325,144"/>
+<area shape="rect" id="node3" href="$d4/d2b/tcmi__npm__params_8c.html#af64f4ee0104b701e4f843c457b77e14c" title="count" alt="" coords="438,5,493,32"/>
+<area shape="rect" id="node4" href="$d6/d9c/group__tcmi__ckpt__openfile__class.html#ga733163f46fde5d5e4502bf35fe4f8a4d" title="&lt;&lt;public&gt;&gt; Class method &#45; checks if the specified file(represented by its inode) is supported by chec..." alt="" coords="400,57,531,98"/>
+<area shape="rect" id="node7" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="393,123,538,149"/>
+</map>

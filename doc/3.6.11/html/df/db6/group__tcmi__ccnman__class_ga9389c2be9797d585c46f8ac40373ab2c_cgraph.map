@@ -1,0 +1,10 @@
+<map id="tcmi_ccnman_remove_sleepers" name="tcmi_ccnman_remove_sleepers">
+<area shape="rect" id="node2" href="$d6/dfa/group__kkc__sock__sleeper.html#ga6c58cbd362eca4db807ba1b3d50d7537" title="&lt;&lt;public&gt;&gt; Checks if the specified socket matches the socket stored in the sleeper." alt="" coords="203,49,378,90"/>
+<area shape="rect" id="node9" href="$d3/d7e/group__tcmi__sock__class.html#ga8573cfac9adbb5996cd90395d8a78502" title="&lt;&lt;public&gt;&gt; KKC socket accessor." alt="" coords="205,115,376,141"/>
+<area shape="rect" id="node3" href="$d6/dfa/group__kkc__sock__sleeper.html#gad67f0eb200b07cfaa2b4961450729234" title="&lt;&lt;public&gt;&gt; Removes a sleeper from its socket, from the list and disposes it." alt="" coords="427,56,602,83"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="653,5,819,32"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="651,56,821,83"/>
+<area shape="rect" id="node8" href="$d6/d8e/group__kkc__sock__class.html#gaaea15a738e84235d0594ad65af7f4505" title="&lt;&lt;public&gt;&gt; Removes a task from the queue of processes sleeping on the socket." alt="" coords="658,107,814,149"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="871,5,1031,32"/>
+<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="869,56,1032,83"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="tcmi_authenticate_resp_msg_recv" name="tcmi_authenticate_resp_msg_recv">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#gadafc7c835c7d6d94be66f61a050108b7" title="&lt;&lt;public&gt;&gt; Receives requested number of bytes of data." alt="" coords="211,12,319,39"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gaff5e8804c93f0cb2a4b5e2e12f64e743" title="&lt;&lt;private&gt;&gt; Transfers a required number of bytes." alt="" coords="369,12,511,39"/>
+</map>

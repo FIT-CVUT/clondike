@@ -1,0 +1,10 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_proxy_file.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_proxy_file.h">
+<area shape="rect" id="node2" href="$dc/ddb/proxyfs__client_8h.html" title="Proxyfs client task." alt="" coords="519,117,704,173"/>
+<area shape="rect" id="node3" href="$d3/d9d/proxyfs__client_8c.html" title="proxyfs_client task." alt="" coords="214,237,399,293"/>
+<area shape="rect" id="node5" href="$d6/df4/proxyfs__generic__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="67,110,252,181"/>
+<area shape="rect" id="node7" href="$d6/dd0/proxyfs__pipe__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="329,110,495,181"/>
+<area shape="rect" id="node4" href="$d4/dd9/proxyfs__fs_8c.html" title="Proxy filesystem for file related system calls forwarding" alt="" coords="630,237,793,293"/>
+<area shape="rect" id="node9" href="$d7/dd3/proxyfs__proxy__file_8c.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="781,117,989,173"/>
+<area shape="rect" id="node6" href="$d6/d5d/proxyfs__generic__proxy__file_8c.html" title="client generic fileclass (used by proxyfs_client_task)" alt="" coords="5,230,189,301"/>
+<area shape="rect" id="node8" href="$d5/d2c/proxyfs__pipe__proxy__file_8c.html" title="client pipe file class (used by proxyfs_client_task)" alt="" coords="423,230,589,301"/>
+</map>

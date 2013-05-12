@@ -1,0 +1,10 @@
+<map id="proxyfs_file_set_peer" name="proxyfs_file_set_peer">
+<area shape="rect" id="node2" href="$d3/d52/group__proxyfs__peer__class.html#ga1604af8b88fc1df0b359a4b2b622906f" title="&lt;&lt;public&gt;&gt; Gets proxyfs peers reference" alt="" coords="198,5,319,32"/>
+<area shape="rect" id="node3" href="$d3/d52/group__proxyfs__peer__class.html#ga0dc1598ce5116c8fe21c66b8b977ab4b" title="&lt;&lt;public&gt;&gt; Puts proxyfs_peer instance reference and on reaching zero destroys the instance..." alt="" coords="198,56,319,83"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="522,31,689,57"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#ga9f980056fbf3436596c4cfdf3913e85c" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="369,81,471,108"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="740,31,900,57"/>
+<area shape="rect" id="node7" href="$d5/ddf/group__kkc__arch__class.html#ga06049c969ae0324d0607f10db99af65c" title="&lt;&lt;public&gt;&gt; Decrements the reference counter on the module owning the architecture." alt="" coords="555,81,655,108"/>
+<area shape="rect" id="node8" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="520,132,691,159"/>
+<area shape="rect" id="node9" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="739,132,901,159"/>
+</map>

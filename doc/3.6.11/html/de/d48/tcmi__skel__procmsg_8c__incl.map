@@ -1,0 +1,13 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/comm/tcmi_skel_procmsg.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/comm/tcmi_skel_procmsg.c">
+<area shape="rect" id="node3" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="704,349,832,376"/>
+<area shape="rect" id="node17" href="$d6/d96/tcmi__skel__procmsg_8h.html" title="TCMI test process communication message &#45; can be used as skeleton for other process control messages..." alt="" coords="539,125,686,152"/>
+<area shape="rect" id="node14" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="1449,573,1503,600"/>
+<area shape="rect" id="node10" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="242,424,392,451"/>
+<area shape="rect" id="node13" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="258,499,344,525"/>
+<area shape="rect" id="node18" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="374,200,488,227"/>
+<area shape="rect" id="node19" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="386,275,476,301"/>
+<area shape="rect" id="node20" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="469,349,611,376"/>
+<area shape="rect" id="node21" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="551,424,698,451"/>
+<area shape="rect" id="node22" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="1007,424,1122,451"/>
+<area shape="rect" id="node25" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="1301,499,1387,525"/>
+</map>

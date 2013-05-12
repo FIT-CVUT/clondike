@@ -1,0 +1,6 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/buffer.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/buffer.h">
+<area shape="rect" id="node2" href="$d3/d8b/buffer_8c.html" title="Class representing circullar buffer." alt="" coords="5,109,160,165"/>
+<area shape="rect" id="node3" href="$d6/d66/proxyfs__file_8c.html" title="Main file class (used by proxyfs_task)" alt="" coords="185,109,356,165"/>
+<area shape="rect" id="node4" href="$d4/dd9/proxyfs__fs_8c.html" title="Proxy filesystem for file related system calls forwarding" alt="" coords="381,109,544,165"/>
+<area shape="rect" id="node5" href="$d0/dc1/proxyfs__server_8c.html" title="Proxyfs server task." alt="" coords="569,109,756,165"/>
+</map>

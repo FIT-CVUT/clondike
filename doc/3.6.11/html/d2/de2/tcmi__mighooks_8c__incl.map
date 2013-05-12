@@ -1,0 +1,27 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/migration/tcmi_mighooks.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/migration/tcmi_mighooks.c">
+<area shape="rect" id="node7" href="$d7/d05/tcmi__taskhelper_8h.html" title="TCMI task helper, supports task manipulation" alt="" coords="367,133,549,160"/>
+<area shape="rect" id="node29" href="$d0/d73/tcmi__vfork__done__procmsg_8h.html" title="TCMI vfork done, send to notify about vfork completition" alt="" coords="2013,126,2163,167"/>
+<area shape="rect" id="node31" href="$d6/d7d/tcmi__ccnman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1592,133,1787,160"/>
+<area shape="rect" id="node34" href="$d9/de9/tcmi__penman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1373,133,1568,160"/>
+<area shape="rect" id="node36" href="$d7/d46/tcmi__mighooks_8h.html" title="a separate module that install migration hooks into the kernel." alt="" coords="1227,133,1348,160"/>
+<area shape="rect" id="node37" href="$d9/d10/tcmi__npm__params_8h.html" title="non&#45;preemtive migration process parameters (args, env,..)" alt="" coords="2519,224,2659,251"/>
+<area shape="rect" id="node19" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="2191,472,2245,499"/>
+<area shape="rect" id="node42" href="$dd/de6/director_8h.html" title="director/director.h" alt="" coords="2392,133,2515,160"/>
+<area shape="rect" id="node44" href="$db/ded/proxyfs__server_8h.html" title="Proxyfs server task." alt="" coords="2948,133,3111,160"/>
+<area shape="rect" id="node50" href="$d5/d77/proxyfs__helper_8h.html" title="proxyfs/proxyfs_helper.h" alt="" coords="1040,133,1203,160"/>
+<area shape="rect" id="node15" href="$db/d7c/tcmi__ckptcom_8h.html" title="Process checkpointing component." alt="" coords="541,224,715,251"/>
+<area shape="rect" id="node17" href="$d6/db7/tcmi__ckpt_8h.html" title="a helper class that provides functionality to create a process checkpoint" alt="" coords="739,224,887,251"/>
+<area shape="rect" id="node21" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1191,224,1281,251"/>
+<area shape="rect" id="node28" href="$d8/d3c/util_8h.html" title="tcmi/lib/util.h" alt="" coords="281,315,377,341"/>
+<area shape="rect" id="node22" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="1258,397,1368,424"/>
+<area shape="rect" id="node23" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="2005,307,2139,349"/>
+<area shape="rect" id="node25" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="1495,315,1645,341"/>
+<area shape="rect" id="node30" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="2084,224,2199,251"/>
+<area shape="rect" id="node32" href="$d3/dc2/fs__mount__params_8h.html" title="tcmi/migration/fs/fs\l_mount_params.h" alt="" coords="1775,217,1907,258"/>
+<area shape="rect" id="node33" href="$df/db0/tcmi__man_8h.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="1609,224,1700,251"/>
+<area shape="rect" id="node43" href="$d0/dfb/handlers_8h.html" title="handlers.h" alt="" coords="2412,224,2495,251"/>
+<area shape="rect" id="node45" href="$da/dc7/proxyfs__task_8h.html" title="Proxyfs task class." alt="" coords="2758,315,2911,341"/>
+<area shape="rect" id="node46" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="2935,397,3088,424"/>
+<area shape="rect" id="node47" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="2935,315,3088,341"/>
+<area shape="rect" id="node49" href="$d3/d9c/proxyfs__real__file_8h.html" title="Main real file class (used by proxyfs_server_task)" alt="" coords="2853,217,2992,258"/>
+</map>
