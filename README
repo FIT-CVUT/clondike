@@ -101,3 +101,4 @@ userspace/  - Application in userspace contains of C-API and Ruby scripts
          ruby-director-api/ Ruby wrapper which make possible call function from C-API
          simple-ruby-director/ Ruby scripts provide directoring whole the Clondike mechanism
                               Director.rb - main scripts for execute director
+
