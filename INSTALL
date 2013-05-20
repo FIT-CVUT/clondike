@@ -109,9 +109,10 @@ lbnl-dev
 Compile director-api and ruby-director-api by Makefiles which are in same named folders
 Execute in this folders:
 
-#make
+# make
 
 Install directorApi into Ruby libraries
 In directory ruby-director-api execute
 
-#make install
+# make install
+
