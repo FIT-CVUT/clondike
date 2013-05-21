@@ -1,4 +1,4 @@
-Install for Linux distribution Debian:
+Clondike install manual for Linux distribution Debian:
 
 1. Install the necessary tools and library for kernel compilation:
     1.1 gcc
