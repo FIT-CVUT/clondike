@@ -3,7 +3,7 @@
 CLONDIKE_HOME=/root/clondike
 CLONDIKE_SCRIPTS=$CLONDIKE_HOME/scripts
 until echo $MY_IP | grep '[0-9]*\.[0-9]*\.' > /dev/null ; do
-	MY_IP=`$CLONDIKE_SCRIPTS/parse-interface-ip.sh eth`
+	MY_IP=`$CLONDIKE_SCRIPTS/parse-interface-ip.sh eth0.91`
 done
 $CLONDIKE_SCRIPTS/listen.sh $MY_IP
 
