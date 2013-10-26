@@ -13,7 +13,7 @@ class ManagerMonitor
 		# In seconds
 		@heartBeatPeriod = 10
 
-		@interconnection.addReceiveHandler(HeartBeatMessage, HeartBeatHandler.new(membershipManager, nodeRepository)) if ( interconnection )
+		@interconnection.addReceiveHandler(HeartBeatMessage, HeartBeatHandler.new(membershipManager, nodeRepository, filesystemConnector)) if ( interconnection )
 	end
 
 	# Starts background threads
@@ -109,17 +109,30 @@ class ManagerMonitor
 		message = HeartBeatMessage.new(@currentNodeId)
 		@interconnection.dispatchToSlot(managerSlot, message)
 	end
-	end
+end
 
 class HeartBeatHandler
-	def initialize(membershipManager, nodeRepository)
+	def initialize(membershipManager, nodeRepository, filesystemConnector)
 		@membershipManager = membershipManager
 		@nodeRepository = nodeRepository
+		@filesystemConnector = filesystemConnector
 	end
 
 	# TODO: Proper sync of this method?
 	def handleFrom(heartBeatMessage, fromManagerSlot)
 		nodeId = heartBeatMessage.nodeId
+		#p heartBeatMessage
+
+		# Will update detached manageres from filesystem; This fix disconnecting
+		fsDetachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
+		fsDetachedManagers.each { |detachedManager|
+			if @membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex].nil?
+				@membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex] = detachedManager
+				$log.debug "Adding new detached manager #{detachedManager}"
+			end
+		}
+		#p @membershipManager.detachedManagers
+
 		if ( fromManagerSlot.slotType == CORE_MANAGER_SLOT )
 			node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]
 			if node.id == nil

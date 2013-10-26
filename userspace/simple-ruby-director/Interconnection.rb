@@ -120,10 +120,11 @@ end
 class InterconnectionUDPMessageDispatcher
 	DEFAULT_PORT = 5387
 
-	def initialize(port = DEFAULT_PORT)
-		@socket = UDPSocket.new
-		@socket.bind("", port)
+	def initialize(filesystemConnector, port = DEFAULT_PORT)
+		@filesystemConnector = filesystemConnector
 		@port = port
+		@socket = UDPSocket.new
+		@socket.bind(@filesystemConnector.get_local_ip, port)
 		@socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 	end
 
@@ -131,7 +132,7 @@ class InterconnectionUDPMessageDispatcher
 	# TO: Either null (broadcast) or a nodeId (publicKey) of the target node
 	# MESSAGE: Message object to be sent
 	def dispatch(to, message)
-		#        $log.debug("Interconnect is dispatching message to #{to}.")
+		#$log.debug("Interconnect is dispatching message to #{to}.")
 		# Dummy implementation -> Broadcast everything
 		@socket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
 	end
@@ -140,12 +141,19 @@ class InterconnectionUDPMessageDispatcher
 		# Loop while we get a message from remote IP (has to ignore local messages)
 		while (true) do
 			recvData, addr = @socket.recvfrom(60000)
-			break if ( !isLocalIp(addr))
+			break if ( !local_ip?(addr.last))
 			#$log.debug("Ignoring message from local IP (#{addr})")
 		end
 		message = Marshal.load(recvData)
-		#         $log.debug("Interconnect received message.")
+		$log.debug("Interconnect received message.")
+		p message
 		return message
+	end
+	private
+	# Detects whether a passed IP is local
+	def local_ip?(ipAddress)
+		#puts "LOCAL IP TEST: #{local_ip()} vs #{ipAddress} => #{local_ip() == ipAddress}"
+		return @filesystemConnector.get_local_ip == ipAddress
 	end
 end
 

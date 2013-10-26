@@ -91,4 +91,4 @@ class UserConfiguration
 			@execConfigs[execName] = ExecutableConfig.new(execName, allowedNodeIds)
 		end
 	end
-end
+	end

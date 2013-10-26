@@ -14,7 +14,7 @@ end
 # Class, containing information about one cluster node
 class Node
 	# Unidue id of the node
-	attr_reader :id
+	attr_reader :id # Cause warning: Object#id will be deprecated; use Object#object_id; TODO: rename id to nodeId
 	# IP address, where is the node located
 	attr_reader :ipAddress
 	# Globally distributed information about node (like load, etc..)

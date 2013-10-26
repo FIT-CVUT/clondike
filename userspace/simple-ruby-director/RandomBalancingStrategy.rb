@@ -24,4 +24,4 @@ class RandomBalancingStrategy
 	def findRebalancing()
 		return nil
 	end
-end
+	end

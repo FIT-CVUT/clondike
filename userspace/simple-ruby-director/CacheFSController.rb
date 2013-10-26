@@ -38,7 +38,7 @@ class CacheFSController
 	end
 
 	def mountCacheFS(ipAddress)
-		$log.debug ("Mounting ccfs for ip #{ipAddress}")
+		$log.debug "Mounting ccfs for ip #{ipAddress}"
 		pathsToMount = ["/usr/local", "/usr/lib", "/usr/lib32", "/usr/share", "/usr/bin", "/usr/sbin", "/lib", "/etc/", "/bin", "/sbin"]
 		prefix = "/mnt/clondike/#{ipAddress}-0-0"
 

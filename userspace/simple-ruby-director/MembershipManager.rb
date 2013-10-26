@@ -12,12 +12,12 @@ require 'Manager'
 # When some other class wants to connect/disconnect remote nodes (for example LoadBalancer), it should tell this class
 class MembershipManager
 	# Manager of the core node
-	attr_reader :coreManager
+	attr_accessor :coreManager
 	# Array of managers of all detached nodes on this node (every connection to remote CCN has its own dedicated datached manager)
 	# Detached managers are placed in the array in the slot corresponding to their
 	# slot index in kernel module
 	# Slots with no manager are nil
-	attr_reader :detachedManagers
+	attr_accessor :detachedManagers
 
 	# How many peers should manager try to keep connected even if there are no explicit peers requirements from higher layers.
 	attr_accessor :minimumConnectedPeers

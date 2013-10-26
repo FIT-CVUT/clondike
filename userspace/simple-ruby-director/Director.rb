@@ -64,7 +64,7 @@ class Director
 		@measurementLimiter = MeasurementAcceptLimiter.new()
 		@immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
-		@interconnection = Interconnection.new(InterconnectionUDPMessageDispatcher.new(), CONF_DIR)
+		@interconnection = Interconnection.new(InterconnectionUDPMessageDispatcher.new(@filesystemConnector), CONF_DIR)
 		initializeTrust()
 
 		#idResolver = IpBasedNodeIdResolver.new

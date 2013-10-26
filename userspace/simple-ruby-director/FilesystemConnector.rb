@@ -97,6 +97,11 @@ class FilesystemConnector
 			root = getRoot(slotType)
 			`echo 1 > #{root}/nodes/#{index}/kill`
 		end
+
+		def get_local_ip
+			get_listen_data["ipAddress"]
+		end
+
 		private
 		def getRoot(slotType)
 			root = @detachedRootPath
@@ -104,5 +109,25 @@ class FilesystemConnector
 				root = @coreRootPath
 			end
 			return root
+		end
+
+		# Read listen data from filesystem and return hash for example:
+		#   {"protocol" => "tcp", "ipAddress" => "192.168.1.1", "port" => "54321"}
+		def get_listen_data
+			protocol = ""
+			ipAddress = ""
+			port = ""
+			File.open("#{@coreRootPath}/listen", "r") { |listenFile|
+				readData = listenFile.readline("\0")
+				data = readData.split(":")
+				protocol  = data[0]
+				ipAddress = data[1]
+				port      = data[2]
+			}
+			{
+				"protocol"  => protocol,
+				"ipAddress" => ipAddress,
+				"port"      => port,
+			}
 		end
 		end
