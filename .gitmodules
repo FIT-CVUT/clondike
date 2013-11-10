@@ -1,3 +1,3 @@
-[submodule "userspace/libcage"]
-	path = userspace/libcage
+[submodule "userspace/dht/libcage-api/libcage"]
+	path = userspace/dht/libcage-api/libcage
 	url = https://github.com/ytakano/libcage.git
