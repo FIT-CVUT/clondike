@@ -32,7 +32,7 @@ connfile=/clondike/pen/connect
 }
 
 #echo 9p > /clondike/pen/fs-mount
-insmod ../src/proxyfs/proxyfs.ko
+#insmod ../src/proxyfs/proxyfs.ko # This module was compiled into kernel
 
 echo -n Connecting to $connstr..
 echo $connstr > $connfile

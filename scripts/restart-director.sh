@@ -1,6 +1,8 @@
-#!/bin/sh
+#!/bin/bash
+
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/configuration.sh
 
 pkill ruby
-./clear-current-config.sh
+$CLONDIKE_SCRIPTS/clear-current-config.sh
 sleep 1
-./clondike-init &
+$CLONDIKE_SCRIPTS/clondike-init &
