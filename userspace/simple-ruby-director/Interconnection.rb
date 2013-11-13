@@ -117,7 +117,7 @@ class Interconnection
 end
 
 # Simple strategy for dispatching message.. broadcast everything
-class InterconnectionUDPMessageDispatcher
+class InterconnectionUDPMessageBroadcastDispatcher
 	DEFAULT_PORT = 5387
 
 	def initialize(filesystemConnector, port = DEFAULT_PORT)

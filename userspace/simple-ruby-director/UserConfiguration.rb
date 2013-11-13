@@ -38,7 +38,7 @@ class UserConfiguration
 		@execConfigs = {}
 
 		begin
-			pwdStruct = Etc.getpwuid(0)
+			pwdStruct = Etc.getpw.nodeId
 			loadUserConfig(pwdStruct)
 		rescue SystemCallError => err
 			$log.warn "Requesting user config of user with id #{uid}, but it does not exist"

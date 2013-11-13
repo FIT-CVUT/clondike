@@ -64,14 +64,13 @@ class Director
 		@measurementLimiter = MeasurementAcceptLimiter.new()
 		@immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
-		@interconnection = Interconnection.new(InterconnectionUDPMessageDispatcher.new(@filesystemConnector), CONF_DIR)
+		@interconnection = Interconnection.new(InterconnectionUDPMessageBroadcastDispatcher.new(@filesystemConnector), CONF_DIR)
 		initializeTrust()
 
-		#idResolver = IpBasedNodeIdResolver.new
 		@idResolver = PublicKeyNodeIdResolver.new(@trustManagement)
 		@nodeInfoProvider = NodeInfoProvider.new(@idResolver, @immigratedTasksController)
 		@trustManagement.registerIdProvider(@idResolver)
-		currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider)
+		currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider,@filesystemConnector.get_local_ip())
 
 		$log.info("Starting director on node with id #{currentNode.id}")
 
@@ -94,7 +93,7 @@ class Director
 		@loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
 		@nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository, @idResolver.getCurrentId)
 		@nodeInfoConsumer.registerNewNodeListener(@membershipManager)
-		@informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer)
+		@informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @filesystemConnector)
 		@nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
 		@nodeInfoProvider.addListener(currentNode)
 		@nodeInfoProvider.addLimiter(acceptLimiter)
