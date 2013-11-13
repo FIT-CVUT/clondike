@@ -75,26 +75,7 @@ class CurrentNode<Node
 		updateInfo(nodeInfoWithId.nodeInfo)
 	end
 
-	def self.createCurrentNode(nodeInfoProvider)
-		# TODO: Fill in local IP? Is that possible though?
-		CurrentNode.new(nodeInfoProvider.getCurrentId, "localhost", nodeInfoProvider.getCurrentStaticInfo)
-	end
-end
-
-# Resolver of node id based on current IP (obsolete)
-class IpBasedNodeIdResolver
-	# Cached id of current node
-	@@currentNodeId = nil
-
-	def getCurrentId()
-		if ( !@@currentNodeId )
-			#For now it is ip.. the parsing is really ugly ;)
-			`ifconfig -a`.each_line("\n") { |line|
-				next if line !~ /.*inet addr:.*/
-					interfaceIp = line.split(":")[1].split(" ")[0]
-				@@currentNodeId = interfaceIp if interfaceIp !~ /^127/ #Exclude loopback
-			}
-		end
-		@@currentNodeId
+	def self.createCurrentNode(nodeInfoProvider, localIP)
+		CurrentNode.new(nodeInfoProvider.getCurrentId, localIP, nodeInfoProvider.getCurrentStaticInfo)
 	end
 end

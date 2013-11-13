@@ -6,14 +6,14 @@ class InformationDistributionStrategy
 	#UDP port used for information exchange
 	PORT = 54433
 
-	def initialize(nodeInfoProvider, informationConsumer)
+	def initialize(nodeInfoProvider, informationConsumer, filesystemConnector)
 		# Disabling of socket reverse lookups saves us some potential nasty jitter on recvfrom, where the reverse lookup would be performed
 		BasicSocket.do_not_reverse_lookup = true
 		@nodeInfoProvider = nodeInfoProvider
 		@informationConsumer = informationConsumer
 		@sendQueue = BlockingQueue.new()
 		@socket = UDPSocket.new
-		@socket.bind("", PORT)
+		@socket.bind(filesystemConnector.get_local_ip, PORT)
 		@socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 	end
 
