@@ -13,7 +13,7 @@ end
 node = Libcage.new(ARGV[0].to_i)
 
 if ARGV.length == 3
-	node.join ARGV[1].to_s, ARGV[2].to_i
+	node.connect ARGV[1].to_s, ARGV[2].to_i
 end
 
 node.print_state
