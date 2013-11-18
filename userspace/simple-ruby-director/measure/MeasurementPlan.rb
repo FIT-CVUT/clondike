@@ -311,7 +311,7 @@ class Measurement
 		preferredBinding.each { |nodeIp, nodeName|
 			node = nodeRepository.getNodeWithIp(nodeIp)
 			if ( node ) then
-				candidateNodes.delete(node.id)
+				candidateNodes.delete(node.nodeId)
 				@nodeMapping[nodeName] = node
 				nodeCount = nodeCount + 1
 			end
@@ -324,7 +324,7 @@ class Measurement
 				@nodeMapping[name] = node
 				nodeCount = nodeCount + 1
 			else
-				@nodesToBlock.add(node.id)
+				@nodesToBlock.add(node.nodeId)
 			end
 		}
 
@@ -336,12 +336,12 @@ class Measurement
 		node = @nodeMapping[nodeName]
 		raise "Node '#{nodeName}' not found in name mapping. You have to initialize node mapping via buildNodeMapping with sufficiently large requiredNodeCount" if !node
 
-		@measurementPlan.addNodeTaskAssignement(node.id, task)
+		@measurementPlan.addNodeTaskAssignement(node.nodeId, task)
 	end
 
 	def addAllNodesTaskAssignement(task)
 		@nodeMapping.each_value { |node|
-			@measurementPlan.addNodeTaskAssignement(node.id, task)
+			@measurementPlan.addNodeTaskAssignement(node.nodeId, task)
 		}
 	end
 
@@ -378,11 +378,11 @@ class Measurement
 		File.open(fileName, "w") { |file|
 			file.puts("-------------------- Execution results ----------------------")
 			@nodeMapping.each { |name, node|
-				@measurementPlan.saveToFile(file, node.id, name)
+				@measurementPlan.saveToFile(file, node.nodeId, name)
 			}
 			file.puts("-------------------- Usage stats------ ----------------------")
 			@nodeMapping.each { |name, node|
-				@measurementPlan.saveStatsToFile(file, node.id, name)
+				@measurementPlan.saveStatsToFile(file, node.nodeId, name)
 			}
 			file.puts("----------------------- End of results ----------------------")
 		}

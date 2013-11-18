@@ -13,7 +13,7 @@ class InformationDistributionStrategy
 		@informationConsumer = informationConsumer
 		@sendQueue = BlockingQueue.new()
 		@socket = UDPSocket.new
-		@socket.bind(filesystemConnector.get_local_ip, PORT)
+		@socket.bind(filesystemConnector.getLocalIP, PORT)
 		@socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 	end
 

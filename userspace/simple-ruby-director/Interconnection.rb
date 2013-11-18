@@ -1,6 +1,7 @@
 require 'PersistentIdSequence.rb'
 require 'trust/TrustManagement.rb'
 require 'Util.rb'
+require 'pp' # PrettyPrint
 
 # Class for handling inter node message exchanges
 # TODO: This is now a duplicite mechanism with InformationDistributionStrategy -> Rewrite that class to use this class?
@@ -38,6 +39,9 @@ class Interconnection
 	end
 
 	def dispatchToSlot(slot, message)
+		$log.debug "Interconnection:dispatchToSlot #{slot} the message (it should be a hearbeat):"
+		pp slot
+		pp message
 		serializedMessage = Marshal.dump(message)
 		# No strategies for slot messages, they simply go through the kernel now
 		@netlinkConnector.connectorSendUserMessage(slot, serializedMessage.length, serializedMessage)
@@ -100,6 +104,9 @@ class Interconnection
 		handlerSet = @handlers[message.class]
 		return if !handlerSet
 
+		$log.info "Interconnection: Received Message via Netlink from #{from}"
+		pp message
+
 		handlerSet.each { |handler|
 			if ( handler.respond_to?("handleFrom") )
 				# Handle from version has additional parameter that can be id NodeId or ManagerSlot, depending on a way the message arrived
@@ -124,7 +131,7 @@ class InterconnectionUDPMessageBroadcastDispatcher
 		@filesystemConnector = filesystemConnector
 		@port = port
 		@socket = UDPSocket.new
-		@socket.bind(@filesystemConnector.get_local_ip, port)
+		@socket.bind(@filesystemConnector.getLocalIP, port)
 		@socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 	end
 
@@ -134,6 +141,9 @@ class InterconnectionUDPMessageBroadcastDispatcher
 	def dispatch(to, message)
 		#$log.debug("Interconnect is dispatching message to #{to}.")
 		# Dummy implementation -> Broadcast everything
+		$log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
+		pp to
+		pp message
 		@socket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
 	end
 
@@ -141,19 +151,19 @@ class InterconnectionUDPMessageBroadcastDispatcher
 		# Loop while we get a message from remote IP (has to ignore local messages)
 		while (true) do
 			recvData, addr = @socket.recvfrom(60000)
-			break if ( !local_ip?(addr.last))
-			#$log.debug("Ignoring message from local IP (#{addr})")
+			break if ( !isLocalIP(addr.last))
+			$log.debug("Ignoring message from local IP (#{addr})")
 		end
 		message = Marshal.load(recvData)
-		$log.debug("Interconnect received message.")
-		p message
+		$log.debug("Interconnect received message from address #{addr.last}")
+		pp addr
+		pp message
 		return message
 	end
 	private
 	# Detects whether a passed IP is local
-	def local_ip?(ipAddress)
-		#puts "LOCAL IP TEST: #{local_ip()} vs #{ipAddress} => #{local_ip() == ipAddress}"
-		return @filesystemConnector.get_local_ip == ipAddress
+	def isLocalIP(ipAddress)
+		return @filesystemConnector.getLocalIP == ipAddress
 	end
 end
 

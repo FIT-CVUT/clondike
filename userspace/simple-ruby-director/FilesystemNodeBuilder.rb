@@ -57,4 +57,4 @@ class FilesystemNodeBuilder
 		detachedManagers
 	end
 
-	end
+end

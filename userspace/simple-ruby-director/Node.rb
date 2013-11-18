@@ -14,7 +14,7 @@ end
 # Class, containing information about one cluster node
 class Node
 	# Unidue id of the node
-	attr_reader :id # Cause warning: Object#id will be deprecated; use Object#object_id; TODO: rename id to nodeId
+	attr_reader :nodeId # only :id caused in ruby 1.8.7 warning: Object#id will be deprecated; use Object#object_id
 	# IP address, where is the node located
 	attr_reader :ipAddress
 	# Globally distributed information about node (like load, etc..)
@@ -27,8 +27,8 @@ class Node
 	# Globally distributed information about node that does not change in time
 	attr_accessor :staticNodeInfo
 
-	def initialize(id, ipAddress)
-		@id = id
+	def initialize(nodeId, ipAddress)
+		@nodeId = nodeId
 		@ipAddress = ipAddress
 		@nodeInfo = nil # We have no info in the beginning
 		@staticNodeInfo = nil
@@ -52,7 +52,7 @@ class Node
 	end
 
 	def ==(other)
-		other.class == Node && @id == other.id
+		other.class == Node && @nodeId == other.nodeId
 	end
 
 	def to_s
@@ -64,8 +64,8 @@ end
 # The difference is, it does not get nodeInfo from outside, but it is provided
 # directly by the NodeInfoProvider
 class CurrentNode<Node
-	def initialize(id, ipAddress, staticInfo)
-		super(id, ipAddress)
+	def initialize(nodeId, ipAddress, staticInfo)
+		super(nodeId, ipAddress)
 		@staticNodeInfo = staticInfo
 	end
 

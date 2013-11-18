@@ -14,10 +14,10 @@ class PerNodeTaskCounter
 				removePid(@pidToNode[pid], pid)
 				end
 
-				pids = @counters[node.id]
+				pids = @counters[node.nodeId]
 				if !pids
 					pids = Set.new
-					@counters[node.id] = pids
+					@counters[node.nodeId] = pids
 				end
 				pids.add(pid)
 
@@ -27,7 +27,7 @@ class PerNodeTaskCounter
 
 			def removePid(node, pid)
 				@lock.synchronize {
-					pids = @counters[node.id]
+					pids = @counters[node.nodeId]
 					return if !pids
 					pids.delete(pid)
 					@pidToNode.delete(pid)
@@ -37,7 +37,7 @@ class PerNodeTaskCounter
 			def taskForked(node, childPid, parentPid)
 				parentTask = nil
 				@lock.synchronize {
-					pids = @counters[node.id]
+					pids = @counters[node.nodeId]
 
 					if ( pids && pids.include?(parentPid) )
 						addPid(node, childPid)
@@ -54,7 +54,7 @@ class PerNodeTaskCounter
 			def getCount(node)
 				res = nil
 				@lock.synchronize {
-					pids = @counters[node.id]
+					pids = @counters[node.nodeId]
 					if ( !pids )
 						res = 0
 					else
@@ -68,7 +68,7 @@ class PerNodeTaskCounter
 				res = 0
 				@lock.synchronize {
 					@counters.each { |nodeId, pids|
-						next if nodeId == selfNode.id
+						next if nodeId == selfNode.nodeId
 
 						if ( pids )
 							res = res + pids.size()
@@ -82,7 +82,7 @@ class PerNodeTaskCounter
 			def getPidsSnapshot(node)
 				res = nil
 				@lock.synchronize {
-					pids = @counters[node.id]
+					pids = @counters[node.nodeId]
 					if ( !pids )
 						res = nil
 					else
@@ -195,7 +195,7 @@ class PerNodeTaskCounter
 			return if !@log
 
 			debugDumpState()
-			if ( targetNode && targetNode.id != @nodeRepository.selfNode.id )
+			if ( targetNode && targetNode.nodeId != @nodeRepository.selfNode.nodeId )
 				@log.write("Migrating #{pid} to #{targetNode.ipAddress}\n");
 			else
 				@log.write("#{pid} kept locally\n");

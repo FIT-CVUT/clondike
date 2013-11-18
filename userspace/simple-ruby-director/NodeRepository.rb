@@ -13,14 +13,14 @@ class NodeRepository
 
 	def addOrReplaceNode node
 		@lock.synchronize {
-			@nodes[node.id] = node
+			@nodes[node.nodeId] = node
 		}
 	end
 
 	# Do we really need that? ;)
 	def removeNode node
 		@lock.synchronize {
-			@nodes[node.id] = nil
+			@nodes[node.nodeId] = nil
 		}
 	end
 

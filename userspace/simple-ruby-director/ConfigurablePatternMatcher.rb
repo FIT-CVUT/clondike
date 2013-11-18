@@ -16,4 +16,4 @@ module ConfigurablePatternMatcher
 		end
 		matching
 	end
-	end
+end

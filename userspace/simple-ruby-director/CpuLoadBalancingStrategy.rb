@@ -38,4 +38,4 @@ class CpuLoadBalancingStrategy
 			node.nodeInfo.cpuUsage
 		}
 	end
-	end
+end

@@ -70,9 +70,9 @@ class Director
 		@idResolver = PublicKeyNodeIdResolver.new(@trustManagement)
 		@nodeInfoProvider = NodeInfoProvider.new(@idResolver, @immigratedTasksController)
 		@trustManagement.registerIdProvider(@idResolver)
-		currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider,@filesystemConnector.get_local_ip())
+		currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider,@filesystemConnector.getLocalIP)
 
-		$log.info("Starting director on node with id #{currentNode.id}")
+		$log.info("Starting director on node with id #{currentNode.nodeId}")
 
 		@nodeRepository = NodeRepository.new(currentNode)
 		@membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement)
@@ -202,6 +202,7 @@ end
 
 $log = Logger.new(STDOUT)
 $log.level = Logger::DEBUG;
+#$log.datetime_format = "%Y-%m-%d %H:%M:%S"
 
 $useProcTrace = false
 

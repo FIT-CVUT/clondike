@@ -19,7 +19,7 @@ end
 class GroupTargetResolver
 	def onIssue(certificateRecord)
 		# On group membership issue, notify a member of the group about
-		certificateRecord.addPendingAck(certificateRecord.certificate.member))
+		certificateRecord.addPendingAck(certificateRecord.certificate.member)
 	end
 
 	def onReceive(certificateRecord)

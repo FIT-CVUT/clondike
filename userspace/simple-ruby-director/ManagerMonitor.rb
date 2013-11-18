@@ -8,7 +8,7 @@ class ManagerMonitor
 	def initialize(interconnection, membershipManager, nodeRepository, filesystemConnector)
 		@interconnection = interconnection
 		@membershipManager = membershipManager
-		@currentNodeId = nodeRepository.selfNode.id
+		@currentNodeId = nodeRepository.selfNode.nodeId
 		@filesystemConnector = filesystemConnector
 		# In seconds
 		@heartBeatPeriod = 10
@@ -58,7 +58,7 @@ class ManagerMonitor
 		end
 	end
 
-	# Thread purging dead nodex
+	# Thread purging dead nodes
 	# TODO: Attemp kill only if disconnect fails.. and maybe add separate asynchronicity for it?
 	def purgeDeadNodesThread()
 		while true do
@@ -66,7 +66,8 @@ class ManagerMonitor
 				next if !element
 				next if element.state != NodeState::DEAD
 
-				$log.info("Disconnecting code node index #{slotIndex} due to too many missed heartbeats")
+				$log.info("Disconnecting core node index #{slotIndex} due to too many missed heartbeats")
+				pp @membershipManager.coreManager.detachedNodes[slotIndex]
 
 				@filesystemConnector.disconnectNode(CORE_MANAGER_SLOT, slotIndex)
 				sleep 5
@@ -78,6 +79,7 @@ class ManagerMonitor
 				next if element.coreNode.state != NodeState::DEAD
 
 				$log.info("Disconnecting detached node index #{slotIndex} due to too many missed heartbeats")
+				pp @membershipManager.detachedManagers[slotIndex]
 
 				@filesystemConnector.disconnectNode(DETACHED_MANAGER_SLOT, slotIndex)
 				sleep 5
@@ -107,6 +109,7 @@ class ManagerMonitor
 		end
 
 		message = HeartBeatMessage.new(@currentNodeId)
+		$log.debug "Will Emit the HeartBeat"
 		@interconnection.dispatchToSlot(managerSlot, message)
 	end
 end
@@ -126,16 +129,39 @@ class HeartBeatHandler
 		# Will update detached manageres from filesystem; This fix disconnecting
 		fsDetachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
 		fsDetachedManagers.each { |detachedManager|
+			if detachedManager.nil?
+				$log.debug "Weird: From FileSystem I read nil detachedManager. I skip it."
+				pp fsDetachedManagers
+				next
+			end
+
 			if @membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex].nil?
 				@membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex] = detachedManager
 				$log.debug "Adding new detached manager #{detachedManager}"
+				pp detachedManager
 			end
 		}
-		#p @membershipManager.detachedManagers
+		pp @membershipManager.detachedManagers
+		
+		# Will update core nodes from filesystem; This fix disconnecting after 1 node left
+		fsCoreManager = FilesystemNodeBuilder.new().parseCoreManager(@filesystemConnector, @nodeRepository);
+		if fsCoreManager.connectedNodesCount != @membershipManager.coreManager.connectedNodesCount
+			$log.warn "membershipManager.CoreManager and newly read from filesystem coreManager have difference in count of nodes!"
+			pp @membershipManager.coreManager
+			pp fsCoreManager
+		end
+		pp @membershipManager.coreManager
+
+		# fsCoreManager.each { |detachedManager|
+		# 	if @membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex].nil?
+		# 		@membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex] = detachedManager
+		# 		$log.debug "Adding new core manager #{detachedManager}"
+		# 	end
+		# }
 
 		if ( fromManagerSlot.slotType == CORE_MANAGER_SLOT )
 			node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]
-			if node.id == nil
+			if node.nodeId.nil?
 				$log.debug "Updated core node id #{nodeId} from a heartbeat message"
 				node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
 				@membershipManager.coreManager.unregisterDetachedNode(fromManagerSlot.slotIndex)
@@ -145,7 +171,7 @@ class HeartBeatHandler
 			node.updateLastHeartBeatTime();
 		else
 			node = @membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode
-			if node.id == nil
+			if node.nodeId.nil?
 				$log.debug "Updated detached node id #{nodeId} from a heartbeat message"
 				node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
 				@membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode = node

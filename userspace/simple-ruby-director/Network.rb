@@ -20,4 +20,5 @@ class Network
 		def connect(node, connectionCallback = nil)
 
 		end
-		end
+	end
+end

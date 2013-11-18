@@ -79,12 +79,12 @@ class MembershipManager
 		# Better would be to make connection non-blocking (especially the auth-negotiation which actually uses message interconnect)
 		ExceptionAwareThread.new() {
 			nodeIpAddress = node.ipAddress
-			nodePublicKey = @trustManagement.getKey(node.id);
+			nodePublicKey = @trustManagement.getKey(node.nodeId);
 
 			# Do not know the key yet
 			if nodePublicKey then
 				$log.debug("Trying to connect to #{nodeIpAddress}")
-				session = @trustManagement.authenticate(node.id, nodePublicKey)
+				session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
 
 				if session then
 					# TODO: Devel proof
