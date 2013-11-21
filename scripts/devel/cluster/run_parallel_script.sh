@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#################################################################
+#
+#  Utility for run some bash script at all local nodes parallel
+#
+#################################################################
+
 if [ $# -ne 4  ]; then
     echo "Usage:"
     echo "  $0 <local_script> <address_of_network> <ip_start_node> <ip_end_node>"
