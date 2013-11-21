@@ -15,7 +15,7 @@ end
 class Node
 	# Unidue id of the node
 	attr_reader :nodeId # only :id caused in ruby 1.8.7 warning: Object#id will be deprecated; use Object#object_id
-	# IP address, where is the node located
+	# IP address, where is the node located # TODO: ipAddress replace with NetworkAddress (ipAddesss & port)
 	attr_reader :ipAddress
 	# Globally distributed information about node (like load, etc..)
 	attr_reader :nodeInfo

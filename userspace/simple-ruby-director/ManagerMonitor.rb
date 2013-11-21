@@ -125,25 +125,29 @@ class HeartBeatHandler
 	def handleFrom(heartBeatMessage, fromManagerSlot)
 		nodeId = heartBeatMessage.nodeId
 
+		$log.debug "ManagerMonitor: handleFrom: heartBeatMessage"
+		pp fromManagerSlot
+		pp heartBeatMessage
+
 		if ( fromManagerSlot.slotType == CORE_MANAGER_SLOT )
 			node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]
-			if node.nodeId.nil?
+			if node != nil && node.nodeId.nil?
 				$log.debug "Updated core node id #{nodeId} from a heartbeat message"
 				node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
 				@membershipManager.coreManager.unregisterDetachedNode(fromManagerSlot.slotIndex)
 				@membershipManager.coreManager.registerDetachedNode(fromManagerSlot.slotIndex,node)
 			end
-
 			node.updateLastHeartBeatTime();
 		else
-			node = @membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode
-			if node.nodeId.nil?
-				$log.debug "Updated detached node id #{nodeId} from a heartbeat message"
-				node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
-				@membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode = node
+			unless @membershipManager.detachedManagers[fromManagerSlot.slotIndex].nil?
+				node = @membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode
+				if node.nodeId.nil?
+					$log.debug "Updated detached node id #{nodeId} from a heartbeat message"
+					node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
+					@membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode = node
+				end
+				node.updateLastHeartBeatTime();
 			end
-
-			node.updateLastHeartBeatTime();
 		end
 	end
 end

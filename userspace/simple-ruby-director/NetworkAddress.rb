@@ -1,4 +1,4 @@
-# The storage for contact any node
+# The crate for contact node
 class NetworkAddress
 	attr_reader :ipAddress
 	attr_reader :port

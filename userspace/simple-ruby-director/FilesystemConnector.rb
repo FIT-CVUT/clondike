@@ -81,8 +81,19 @@ class FilesystemConnector
 	#the connection attempt result
 	def connect(ipAddress, authenticationData)
 		authString = authenticationData != nil ? "@#{authenticationData}" : ""
-		#TODO: Hardcoded protocol and port
-		`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
+		
+		# This:
+		#
+		#`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
+		#
+		# is pretty good, but caused creating something like this:
+		#    /clondike/pen/nodes/192.168.0.4:54321
+		#                                    ^^^^^
+		# TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
+
+		# TODO: Hardcoded protocol and port
+		$log.debug "echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect"
+		`echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect`
 		$? == 0 ? true : false
 	end
 
