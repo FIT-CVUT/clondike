@@ -112,7 +112,7 @@ class NetlinkConnector
 		# Reason: 0 locally requested, 1 remotely requested... not imporant right now..
 		$log.info("Node disconnected: #{slotType}/#{slotIndex} Reason: #{reason}")
 
-			@membershipManager.nodeDisconnected(ManagerSlot.new(slotType, slotIndex))
+		@membershipManager.nodeDisconnected(ManagerSlot.new(slotType, slotIndex))
 	end
 
 	def pushUserMessageHandler(handler)

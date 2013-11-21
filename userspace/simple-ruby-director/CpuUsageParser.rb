@@ -24,7 +24,7 @@ class CpuUsageParser
 	private
 	def getUsage(index)
 		return 0 if !@oldUsageInfo
-		differences = each2(@usageInfo, @oldUsageInfo) { |a, b| a - b }
+		differences = each2(@usageInfo, @oldUsageInfo) { |a, b| a - b }  # TODO: Fix [BUG] Segmentation Fault in ruby 1.8.7 patchlevel 358
 		totalSum = differences.inject(0) { |sum, element| sum += element }
 		totalSum = 1 if totalSum < 1
 		#puts "#{differences} / #{totalSum}"

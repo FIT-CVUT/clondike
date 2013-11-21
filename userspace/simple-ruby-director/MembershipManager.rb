@@ -1,4 +1,6 @@
 require 'Manager'
+require 'trust/TrustMessages.rb'
+require 'Node'
 
 #This class keeps internal both core and detached node managers. Via these manager
 #it keeps track about membership info about all cluster in which this machine
@@ -22,11 +24,16 @@ class MembershipManager
 	# How many peers should manager try to keep connected even if there are no explicit peers requirements from higher layers.
 	attr_accessor :minimumConnectedPeers
 
-	def initialize(filesystemConnector, nodeRepository, trustManagement)
+	def initialize(filesystemConnector, nodeRepository, trustManagement, interconnection)
+
 		@filesystemConnector = filesystemConnector
 		@nodeRepository = nodeRepository
 		@trustManagement = trustManagement
+		@interconnection = interconnection
 		@minimumConnectedPeers = 50
+
+		# We will use this messeges here for auto-discovery nodes on local subnets
+		@interconnection.addReceiveHandler(PublicKeyDisseminationMessage, PublicKeyDisseminationMessageHandler.new(@nodeRepository))
 
 		# Init core manager reference, if there is a core node registered on this machine
 		@coreManager = FilesystemNodeBuilder.new().parseCoreManager(@filesystemConnector, @nodeRepository);
@@ -124,8 +131,25 @@ class MembershipManager
 		@nodeRepository.eachNode { |node|
 			# TODO: This is incorrect, we just connect all nodes not yet connected
 			# A better solution would be to send a "connect-me" message to peer if connectedNodesCount < minimumConnectedPeers .. this way, we would act from a position of core node, instead of detached node as now..
-			connectToNode(node) if !containsDetachedNode(node)
+			# connectToNode(node) if !containsDetachedNode(node)
+			if !containsDetachedNode(node)
+				$log.debug "MembershipManager: connectAllUnconnectedNodes: connectToNode(node)"
+				pp node
+				connectToNode(node)
+			end
 			#    connectToNode(node) if @coreManager.connectedNodesCount < @minimumConnectedPeers && !@coreManager.containsNode(node)
 		}
+	end
+	class PublicKeyDisseminationMessageHandler
+		def initialize(nodeRepository)
+			@nodeRepository = nodeRepository
+		end
+
+		def handleFrom(message, from)
+			node = Node.new message.nodeId, from.ipAddress
+			@nodeRepository.addOrReplaceNode node
+			$log.debug "MemberShipmanager: I added or replace node #{node} in nodeRepository"
+			pp node
+		end
 	end
 end

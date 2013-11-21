@@ -1,6 +1,7 @@
 require 'PersistentIdSequence.rb'
 require 'trust/TrustManagement.rb'
 require 'Util.rb'
+require 'NetworkAddress.rb'
 require 'pp' # PrettyPrint
 
 # Class for handling inter node message exchanges
@@ -62,13 +63,15 @@ class Interconnection
 	def userMessageReceived(managerSlot, messageLength, message)
 		deserializedMessage = Marshal.load(message)
 		@messageQueue.enqueue([deserializedMessage, managerSlot])
+		$log.debug "Interconnect: From slot #{managerSlot} received user message:"
+		pp deserializedMessage
 	end
 	private
 	def recvMessageThread
 		while true
 			begin
-				message = @messageDispatcher.receive()
-				handle(message)
+				message, from = @messageDispatcher.receive()
+				handle(message, from)
 			rescue => err
 				$log.error "Error in recvMessageThread: #{err.message} \n#{err.backtrace.join("\n")}"
 			end
@@ -78,21 +81,22 @@ class Interconnection
 	# Async thread processing unwrapped messages
 	def processMessageThread
 		while true
-			message, sender = @messageQueue.dequeue
-			handleUnwrappedMessage(message, sender)
+			message, from = @messageQueue.dequeue
+			handleUnwrappedMessage(message, from)
 		end
 	end
 
-	def handle(message)
+	def handle(message, from)
 		case message
 		when MessageWrapper
 			currentId = @identityProvider.getCurrentId
 			# Ignore non-broadcast message that are not sent for us
 			return if (message.target != nil && message.target != currentId)
 
-			doDispatch(message.target, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
+			doDispatch(from.ipAddress, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
+
 			# TODO: Extend wrapper by key of sender and pass the key here
-			@messageQueue.enqueue([message.message, nil])
+			@messageQueue.enqueue([message.message, from])
 		when AckMessage
 			@ackTracking.ackReceived(message.messageId, message.recipientId) if ( message.verifySignature(@trustManagement))
 		else
@@ -103,9 +107,6 @@ class Interconnection
 	def handleUnwrappedMessage(message, from)
 		handlerSet = @handlers[message.class]
 		return if !handlerSet
-
-		$log.info "Interconnection: Received Message via Netlink from #{from}"
-		pp message
 
 		handlerSet.each { |handler|
 			if ( handler.respond_to?("handleFrom") )
@@ -130,9 +131,14 @@ class InterconnectionUDPMessageBroadcastDispatcher
 	def initialize(filesystemConnector, port = DEFAULT_PORT)
 		@filesystemConnector = filesystemConnector
 		@port = port
-		@socket = UDPSocket.new
-		@socket.bind(@filesystemConnector.getLocalIP, port)
-		@socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
+		@ip = @filesystemConnector.getLocalIP
+
+		@recievingSocket = UDPSocket.new
+		@recievingSocket.bind("", @port)
+
+		@sendingSocket = UDPSocket.new
+		@sendingSocket.connect(@ip, @port)
+		@sendingSocket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
 	end
 
 	# Schedules message to be sent
@@ -144,26 +150,28 @@ class InterconnectionUDPMessageBroadcastDispatcher
 		$log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
 		pp to
 		pp message
-		@socket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
+		@sendingSocket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
 	end
 
 	def receive()
 		# Loop while we get a message from remote IP (has to ignore local messages)
 		while (true) do
-			recvData, addr = @socket.recvfrom(60000)
+			recvData, addr = @recievingSocket.recvfrom(60000)
 			break if ( !isLocalIP(addr.last))
-			$log.debug("Ignoring message from local IP (#{addr})")
 		end
 		message = Marshal.load(recvData)
 		$log.debug("Interconnect received message from address #{addr.last}")
 		pp addr
 		pp message
-		return message
+		from = NetworkAddress.new(addr.last, addr[1])
+		pp from
+
+		[message, from]
 	end
 	private
 	# Detects whether a passed IP is local
 	def isLocalIP(ipAddress)
-		return @filesystemConnector.getLocalIP == ipAddress
+		return @ip == ipAddress
 	end
 end
 

@@ -124,40 +124,6 @@ class HeartBeatHandler
 	# TODO: Proper sync of this method?
 	def handleFrom(heartBeatMessage, fromManagerSlot)
 		nodeId = heartBeatMessage.nodeId
-		#p heartBeatMessage
-
-		# Will update detached manageres from filesystem; This fix disconnecting
-		fsDetachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
-		fsDetachedManagers.each { |detachedManager|
-			if detachedManager.nil?
-				$log.debug "Weird: From FileSystem I read nil detachedManager. I skip it."
-				pp fsDetachedManagers
-				next
-			end
-
-			if @membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex].nil?
-				@membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex] = detachedManager
-				$log.debug "Adding new detached manager #{detachedManager}"
-				pp detachedManager
-			end
-		}
-		pp @membershipManager.detachedManagers
-		
-		# Will update core nodes from filesystem; This fix disconnecting after 1 node left
-		fsCoreManager = FilesystemNodeBuilder.new().parseCoreManager(@filesystemConnector, @nodeRepository);
-		if fsCoreManager.connectedNodesCount != @membershipManager.coreManager.connectedNodesCount
-			$log.warn "membershipManager.CoreManager and newly read from filesystem coreManager have difference in count of nodes!"
-			pp @membershipManager.coreManager
-			pp fsCoreManager
-		end
-		pp @membershipManager.coreManager
-
-		# fsCoreManager.each { |detachedManager|
-		# 	if @membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex].nil?
-		# 		@membershipManager.detachedManagers[detachedManager.coreNodeSlotIndex] = detachedManager
-		# 		$log.debug "Adding new core manager #{detachedManager}"
-		# 	end
-		# }
 
 		if ( fromManagerSlot.slotType == CORE_MANAGER_SLOT )
 			node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]

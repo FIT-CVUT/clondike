@@ -75,7 +75,7 @@ class Director
 		$log.info("Starting director on node with id #{currentNode.nodeId}")
 
 		@nodeRepository = NodeRepository.new(currentNode)
-		@membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement)
+		@membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement,@interconnection)
 		@managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
 		@taskRepository = TaskRepository.new(@nodeRepository, @membershipManager)
 		@taskRepository.addExecClassificator(CompileNameClassificator.new())
@@ -108,7 +108,7 @@ class Director
 
 		#@cacheFSController = CacheFSController.new(@interconnection)
 
-		#initializeMeasurements()
+		initializeMeasurements()
 		#initializeCliServer()
 	end
 

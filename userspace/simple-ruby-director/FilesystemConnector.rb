@@ -98,6 +98,7 @@ class FilesystemConnector
 		`echo 1 > #{root}/nodes/#{index}/kill`
 	end
 
+	# TODO: This should be maybe alone outside the FilesystemConnector too
 	def getLocalIP
 		getListenData["ipAddress"]
 	end

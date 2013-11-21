@@ -27,34 +27,35 @@ class FilesystemNodeBuilder
 
 	def parseCoreNodeManager(filesystemConnector, nodeRepository, coreNodeManager)
 		filesystemConnector.forEachCoreManagerNodeDir() { |slotIndex, fullFileName|
-			File.open("#{fullFileName}/connections/ctrlconn/peername", "r") { |aFile|
-				#$log.debug "parsing core manager node at index #{slotIndex}"
-				readData = aFile.readline("\0")
-				ipAddress = readData.split(":").first
-				#node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
-				placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
-				#$log.debug "registering node #{ipAddress}"
-				coreNodeManager.registerDetachedNode(slotIndex.to_i, placeHolderNode)
-			}
+			ipAddress = readDataFromPeernameFile("#{fullFileName}/connections/ctrlconn/peername")["ipAddress"]
+			#node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
+			placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
+			#$log.debug "registering node #{ipAddress}"
+			coreNodeManager.registerDetachedNode(slotIndex.to_i, placeHolderNode)
 		}
 		coreNodeManager
 	end
 
-
 	def parseDetachedManagerNodes(filesystemConnector, nodeRepository)
 		detachedManagers = []
 		filesystemConnector.forEachDetachedManagerDir() { |slotIndex, fullFileName|
-			File.open("#{fullFileName}/connections/ctrlconn/peername", "r") { |aFile|
-				#$log.debug "parsing detached manager node at index #{slotIndex}"
-				readData = aFile.readline("\0")
-				ipAddress = readData.split(":").first
-				#node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
-				placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
-				#$log.debug "registering node #{placeHolderNode} from #{ipAddress}."
-				detachedManagers[slotIndex.to_i] = DetachedNodeManager.new(placeHolderNode, slotIndex.to_i)
-			}
+			ipAddress = readDataFromPeernameFile("#{fullFileName}/connections/ctrlconn/peername")["ipAddress"]
+			#node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
+			placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
+			#$log.debug "registering node #{placeHolderNode} from #{ipAddress}."
+			detachedManagers[slotIndex.to_i] = DetachedNodeManager.new(placeHolderNode, slotIndex.to_i)
 		}
 		detachedManagers
 	end
 
+	def readDataFromPeernameFile(pathToFile)
+		File.open(pathToFile, "r") { |peernameFile|
+			ipAddressAndPortInline = peernameFile.readline("\0")
+			ipAddressAndPort = ipAddressAndPortInline.split(":")
+		}
+		{
+			"ipAddress" => ipAddressAndPort[0],
+			"port"      => ipAddressAndPort[1],
+		}
+	end
 end
