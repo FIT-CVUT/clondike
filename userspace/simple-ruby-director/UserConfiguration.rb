@@ -37,12 +37,9 @@ class UserConfiguration
 	def initialize(uid)
 		@execConfigs = {}
 
-		begin
-			pwdStruct = Etc.getpw.nodeId
-			loadUserConfig(pwdStruct)
-		rescue SystemCallError => err
-			$log.warn "Requesting user config of user with id #{uid}, but it does not exist"
-		end
+		homeDir = getHomeDir(uid)
+		loadUserConfig(homeDir)
+		$log.warn "Requesting user config of user with id #{uid}, but it does not exist" if homeDir.nil?
 	end
 
 	def canMigrateTo(execName, targetNodeId)
@@ -75,8 +72,8 @@ class UserConfiguration
 		userConfig
 	end
 	private
-	def loadUserConfig(pwdStruct)
-		configFileName = "#{pwdStruct.dir}/.migration.conf"
+	def loadUserConfig(homeDir)
+		configFileName = "#{homeDir}/.migration.conf"
 		$log.debug "Loading user config from file #{configFileName}"
 		IO.foreach(configFileName) do |line|
 			execName, allowedNodesString = line.split(" - ")
@@ -91,4 +88,14 @@ class UserConfiguration
 			@execConfigs[execName] = ExecutableConfig.new(execName, allowedNodeIds)
 		end
 	end
+	def getHomeDir(uid)
+		while pwent=Etc.getpwent do
+			if pwent.uid == uid
+				homeDir = pwent.dir
+				break
+			end
+		end
+		Etc.endpwent
+		homeDir
 	end
+end
