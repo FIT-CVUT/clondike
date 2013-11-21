@@ -5,6 +5,8 @@
 #
 #  IMPORTANT: If you need proxy setting, you must fill below proxy access data!
 #
+#  WARNING: Do not push your access username and password to GIT!
+#
 
 PROXY_USER=
 PROXY_PASSWORD=

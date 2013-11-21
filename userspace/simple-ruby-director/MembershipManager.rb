@@ -1,6 +1,7 @@
 require 'Manager'
 require 'trust/TrustMessages.rb'
 require 'Node'
+require 'pp'
 
 #This class keeps internal both core and detached node managers. Via these manager
 #it keeps track about membership info about all cluster in which this machine
@@ -99,7 +100,12 @@ class MembershipManager
 					$log.info("Connection attempt to #{nodeIpAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
 					if succeeded
 						slotIndex = @filesystemConnector.findDetachedManagerSlot(nodeIpAddress)
-						@detachedManagers[slotIndex] = DetachedNodeManager.new(node, slotIndex)
+						if slotIndex.nil?
+							$log.debug "MembershipManager.rb: connectToNode: no slotIndex find for node:"
+							pp node
+						else
+							@detachedManagers[slotIndex] = DetachedNodeManager.new(node, slotIndex)
+						end
 					end
 				end
 			end

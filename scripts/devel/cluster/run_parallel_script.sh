@@ -2,7 +2,7 @@
 
 #################################################################
 #
-#  Utility for run some bash script at all local nodes parallel
+#  Utility for run parallel some bash script at all local nodes
 #
 #################################################################
 
