@@ -7,390 +7,390 @@ require 'pp' # PrettyPrint
 # Class for handling inter node message exchanges
 # TODO: This is now a duplicite mechanism with InformationDistributionStrategy -> Rewrite that class to use this class?
 class Interconnection
-	def initialize(messageDispatcher, configDirectory)
-		# Handlers of message receiving
-		@handlers = {}
-		@messageDispatcher = messageDispatcher
-		@sequenceId = PersistentIdSequence.new("#{configDirectory}/msg-seq")
-		@ackTracking = AckTracking.new(:doDispatch, configDirectory)
+  def initialize(messageDispatcher, configDirectory)
+    # Handlers of message receiving
+    @handlers = {}
+    @messageDispatcher = messageDispatcher
+    @sequenceId = PersistentIdSequence.new("#{configDirectory}/msg-seq")
+    @ackTracking = AckTracking.new(:doDispatch, configDirectory)
 
-		# Default messages are not acked
-		@defaultDeliveryOptions = DeliveryOptions::NO_ACK
-		# FIFO queue of received messages to be processed
-		@messageQueue = BlockingQueue.new
-	end
+    # Default messages are not acked
+    @defaultDeliveryOptions = DeliveryOptions::NO_ACK
+    # FIFO queue of received messages to be processed
+    @messageQueue = BlockingQueue.new
+  end
 
-	def start(trustManagement, netlinkConnector, identityProvider)
-		@identityProvider = identityProvider
-		@netlinkConnector = netlinkConnector
-		@trustManagement = trustManagement
-		@recvThread = Thread.new() { recvMessageThread()  }
-		@processThread = ExceptionAwareThread.new() { processMessageThread() }
-	end
+  def start(trustManagement, netlinkConnector, identityProvider)
+    @identityProvider = identityProvider
+    @netlinkConnector = netlinkConnector
+    @trustManagement = trustManagement
+    @recvThread = Thread.new() { recvMessageThread()  }
+    @processThread = ExceptionAwareThread.new() { processMessageThread() }
+  end
 
-	# Schedules message to be sent
-	# TO: Either null (broadcast) or a nodeId (publicKey) of the target node
-	# MESSAGE: Message object to be sent
-	def dispatch(to, message, deliveryOptions = nil)
-		deliveryOptions = @defaultDeliveryOptions if !deliveryOptions
-		messageId = @sequenceId.nextId
-		messageWrapper = MessageWrapper.new(messageId, to, message, deliveryOptions.requireAck)
-		@ackTracking.newMessageSent(messageWrapper, deliveryOptions)
-		doDispatch(to, messageWrapper)
-	end
+  # Schedules message to be sent
+  # TO: Either null (broadcast) or a nodeId (publicKey) of the target node
+  # MESSAGE: Message object to be sent
+  def dispatch(to, message, deliveryOptions = nil)
+    deliveryOptions = @defaultDeliveryOptions if !deliveryOptions
+    messageId = @sequenceId.nextId
+    messageWrapper = MessageWrapper.new(messageId, to, message, deliveryOptions.requireAck)
+    @ackTracking.newMessageSent(messageWrapper, deliveryOptions)
+    doDispatch(to, messageWrapper)
+  end
 
-	def dispatchToSlot(slot, message)
-		$log.debug "Interconnection:dispatchToSlot #{slot} the message (it should be a hearbeat):"
-		pp slot
-		pp message
-		serializedMessage = Marshal.dump(message)
-		# No strategies for slot messages, they simply go through the kernel now
-		@netlinkConnector.connectorSendUserMessage(slot, serializedMessage.length, serializedMessage)
-	end
+  def dispatchToSlot(slot, message)
+    $log.debug "Interconnection:dispatchToSlot #{slot} the message (it should be a hearbeat):"
+    pp slot
+    pp message
+    serializedMessage = Marshal.dump(message)
+    # No strategies for slot messages, they simply go through the kernel now
+    @netlinkConnector.connectorSendUserMessage(slot, serializedMessage.length, serializedMessage)
+  end
 
-	# Registers receive message handler for a particular message class
-	def addReceiveHandler(messageClass, handler)
-		handlerSet = @handlers[messageClass]
-		if ( !handlerSet )
-			handlerSet = Set.new
-			@handlers[messageClass] = handlerSet
-		end
+  # Registers receive message handler for a particular message class
+  def addReceiveHandler(messageClass, handler)
+    handlerSet = @handlers[messageClass]
+    if ( !handlerSet )
+      handlerSet = Set.new
+      @handlers[messageClass] = handlerSet
+    end
 
-		handlerSet.add(handler)
-	end
+    handlerSet.add(handler)
+  end
 
-	# Callback function to handle incoming user messages (registered to netlink API)
-	def userMessageReceived(managerSlot, messageLength, message)
-		deserializedMessage = Marshal.load(message)
-		@messageQueue.enqueue([deserializedMessage, managerSlot])
-		$log.debug "Interconnect: From slot #{managerSlot} received user message:"
-		pp deserializedMessage
-	end
-	private
-	def recvMessageThread
-		while true
-			begin
-				message, from = @messageDispatcher.receive()
-				handle(message, from)
-			rescue => err
-				$log.error "Error in recvMessageThread: #{err.message} \n#{err.backtrace.join("\n")}"
-			end
-		end
-	end
+  # Callback function to handle incoming user messages (registered to netlink API)
+  def userMessageReceived(managerSlot, messageLength, message)
+    deserializedMessage = Marshal.load(message)
+    @messageQueue.enqueue([deserializedMessage, managerSlot])
+    $log.debug "Interconnect: From slot #{managerSlot} received user message:"
+    pp deserializedMessage
+  end
+  private
+  def recvMessageThread
+    while true
+      begin
+        message, from = @messageDispatcher.receive()
+        handle(message, from)
+      rescue => err
+        $log.error "Error in recvMessageThread: #{err.message} \n#{err.backtrace.join("\n")}"
+      end
+    end
+  end
 
-	# Async thread processing unwrapped messages
-	def processMessageThread
-		while true
-			message, from = @messageQueue.dequeue
-			handleUnwrappedMessage(message, from)
-		end
-	end
+  # Async thread processing unwrapped messages
+  def processMessageThread
+    while true
+      message, from = @messageQueue.dequeue
+      handleUnwrappedMessage(message, from)
+    end
+  end
 
-	def handle(message, from)
-		case message
-		when MessageWrapper
-			currentId = @identityProvider.getCurrentId
-			# Ignore non-broadcast message that are not sent for us
-			return if (message.target != nil && message.target != currentId)
+  def handle(message, from)
+    case message
+    when MessageWrapper
+      currentId = @identityProvider.getCurrentId
+      # Ignore non-broadcast message that are not sent for us
+      return if (message.target != nil && message.target != currentId)
 
-			doDispatch(from.ipAddress, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
+      doDispatch(from.ipAddress, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
 
-			# TODO: Extend wrapper by key of sender and pass the key here
-			@messageQueue.enqueue([message.message, from])
-		when AckMessage
-			@ackTracking.ackReceived(message.messageId, message.recipientId) if ( message.verifySignature(@trustManagement))
-		else
-			$log.error "Unexpected message class arrived -> #{message.class}"
-		end
-	end
+      # TODO: Extend wrapper by key of sender and pass the key here
+      @messageQueue.enqueue([message.message, from])
+    when AckMessage
+      @ackTracking.ackReceived(message.messageId, message.recipientId) if ( message.verifySignature(@trustManagement))
+    else
+      $log.error "Unexpected message class arrived -> #{message.class}"
+    end
+  end
 
-	def handleUnwrappedMessage(message, from)
-		handlerSet = @handlers[message.class]
-		return if !handlerSet
+  def handleUnwrappedMessage(message, from)
+    handlerSet = @handlers[message.class]
+    return if !handlerSet
 
-		handlerSet.each { |handler|
-			if ( handler.respond_to?("handleFrom") )
-				# Handle from version has additional parameter that can be id NodeId or ManagerSlot, depending on a way the message arrived
-				handler.handleFrom(message, from)
-			else
-				handler.handle(message)
-			end
-		}
-	end
+    handlerSet.each { |handler|
+      if ( handler.respond_to?("handleFrom") )
+        # Handle from version has additional parameter that can be id NodeId or ManagerSlot, depending on a way the message arrived
+        handler.handleFrom(message, from)
+      else
+        handler.handle(message)
+      end
+    }
+  end
 
-	# Internal implementation of dispatch. It does not care of acks, it is assumed to be handled in public method
-	def doDispatch(to, message)
-		@messageDispatcher.dispatch(to, message)
-	end
+  # Internal implementation of dispatch. It does not care of acks, it is assumed to be handled in public method
+  def doDispatch(to, message)
+    @messageDispatcher.dispatch(to, message)
+  end
 end
 
 # Simple strategy for dispatching message.. broadcast everything
 class InterconnectionUDPMessageBroadcastDispatcher
-	DEFAULT_PORT = 5387
+  DEFAULT_PORT = 5387
 
-	def initialize(filesystemConnector, port = DEFAULT_PORT)
-		@filesystemConnector = filesystemConnector
-		@port = port
-		@ip = @filesystemConnector.getLocalIP
+  def initialize(filesystemConnector, port = DEFAULT_PORT)
+    @filesystemConnector = filesystemConnector
+    @port = port
+    @ip = @filesystemConnector.getLocalIP
 
-		@recievingSocket = UDPSocket.new
-		@recievingSocket.bind("", @port)
+    @recievingSocket = UDPSocket.new
+    @recievingSocket.bind("", @port)
 
-		@sendingSocket = UDPSocket.new
-		@sendingSocket.connect(@ip, @port)
-		@sendingSocket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
-	end
+    @sendingSocket = UDPSocket.new
+    @sendingSocket.connect(@ip, @port)
+    @sendingSocket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
+  end
 
-	# Schedules message to be sent
-	# TO: Either null (broadcast) or a nodeId (publicKey) of the target node
-	# MESSAGE: Message object to be sent
-	def dispatch(to, message)
-		#$log.debug("Interconnect is dispatching message to #{to}.")
-		# Dummy implementation -> Broadcast everything
-		$log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
-		pp to
-		pp message
-		@sendingSocket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
-	end
+  # Schedules message to be sent
+  # TO: Either null (broadcast) or a nodeId (publicKey) of the target node
+  # MESSAGE: Message object to be sent
+  def dispatch(to, message)
+    #$log.debug("Interconnect is dispatching message to #{to}.")
+    # Dummy implementation -> Broadcast everything
+    $log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
+    pp to
+    pp message
+    @sendingSocket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
+  end
 
-	def receive()
-		# Loop while we get a message from remote IP (has to ignore local messages)
-		while (true) do
-			recvData, addr = @recievingSocket.recvfrom(60000)
-			break if ( !isLocalIP(addr.last))
-		end
-		message = Marshal.load(recvData)
-		$log.debug("Interconnect received message from address #{addr.last}")
-		pp addr
-		pp message
-		from = NetworkAddress.new(addr.last, addr[1])
-		pp from
+  def receive()
+    # Loop while we get a message from remote IP (has to ignore local messages)
+    while (true) do
+      recvData, addr = @recievingSocket.recvfrom(60000)
+      break if ( !isLocalIP(addr.last))
+    end
+    message = Marshal.load(recvData)
+    $log.debug("Interconnect received message from address #{addr.last}")
+    pp addr
+    pp message
+    from = NetworkAddress.new(addr.last, addr[1])
+    pp from
 
-		[message, from]
-	end
-	private
-	# Detects whether a passed IP is local
-	def isLocalIP(ipAddress)
-		return @ip == ipAddress
-	end
+    [message, from]
+  end
+  private
+  # Detects whether a passed IP is local
+  def isLocalIP(ipAddress)
+    return @ip == ipAddress
+  end
 end
 
 # Class configuring delivery options of a message
 class DeliveryOptions
-	# Boolean flag whether the ack is required
-	attr_accessor :requireAck
-	# Maximum time (in seconds) to wait till we discard this message altogether
-	# nil if no timeout applies
-	attr_accessor :maximumTimeout
-	# Seconds between retransmits
-	attr_accessor :retransmitInterval
+  # Boolean flag whether the ack is required
+  attr_accessor :requireAck
+  # Maximum time (in seconds) to wait till we discard this message altogether
+  # nil if no timeout applies
+  attr_accessor :maximumTimeout
+  # Seconds between retransmits
+  attr_accessor :retransmitInterval
 
-	def initialize(requireAck, maximumTimeout, retransmitInterval)
-		@requireAck = requireAck
-		@maximumTimeout = maximumTimeout
-		@retransmitInterval = retransmitInterval
-	end
+  def initialize(requireAck, maximumTimeout, retransmitInterval)
+    @requireAck = requireAck
+    @maximumTimeout = maximumTimeout
+    @retransmitInterval = retransmitInterval
+  end
 
-	NO_ACK = DeliveryOptions.new(false, 0, 0)
-	# Wait at most 10 days for ack, retransmit every hour
-	ACK_10_DAYS = DeliveryOptions.new(true, 10*24*60*60, 60*60)
-	# Wait at most one hour for ack, retransmit every minute
-	ACK_1_HOUR = DeliveryOptions.new(true, 60*60, 60)
-	# Wait at most one minute for ack, retransmit every 5 seconds
-	ACK_1_MIN = DeliveryOptions.new(true, 60, 5)
+  NO_ACK = DeliveryOptions.new(false, 0, 0)
+  # Wait at most 10 days for ack, retransmit every hour
+  ACK_10_DAYS = DeliveryOptions.new(true, 10*24*60*60, 60*60)
+  # Wait at most one hour for ack, retransmit every minute
+  ACK_1_HOUR = DeliveryOptions.new(true, 60*60, 60)
+  # Wait at most one minute for ack, retransmit every 5 seconds
+  ACK_1_MIN = DeliveryOptions.new(true, 60, 5)
 end
 
 # Class wrapping a generic message and giving it a unique tracking number
 class MessageWrapper
-	# Unique message ID
-	attr_reader :messageId
-	# Public key of the target recipient (nil in case of broadcast)
-	attr_reader :target
-	# Original message
-	attr_reader :message
-	# Flag, indicating if we wait for ack (hint to recipient)
-	attr_reader :requiresAck
+  # Unique message ID
+  attr_reader :messageId
+  # Public key of the target recipient (nil in case of broadcast)
+  attr_reader :target
+  # Original message
+  attr_reader :message
+  # Flag, indicating if we wait for ack (hint to recipient)
+  attr_reader :requiresAck
 
-	def initialize(messageId, target, message, requiresAck)
-		@messageId = messageId
-		@target = target
-		@message = message
-		@requiresAck = requiresAck
-	end
+  def initialize(messageId, target, message, requiresAck)
+    @messageId = messageId
+    @target = target
+    @message = message
+    @requiresAck = requiresAck
+  end
 end
 
 # Tracking of message status
 class MessageStatus
-	attr_reader :messageWrapper
-	attr_reader :firstTimeSent
-	attr_accessor :lastTimeSent
-	attr_reader :deliveryOptions
+  attr_reader :messageWrapper
+  attr_reader :firstTimeSent
+  attr_accessor :lastTimeSent
+  attr_reader :deliveryOptions
 
-	def initialize(messageWrapper, firstTimeSent, deliveryOptions)
-		@messageWrapper = messageWrapper
-		@firstTimeSent = firstTimeSent
-		@lastTimeSent = firstTimeSent
-		@deliveryOptions = deliveryOptions
-	end
+  def initialize(messageWrapper, firstTimeSent, deliveryOptions)
+    @messageWrapper = messageWrapper
+    @firstTimeSent = firstTimeSent
+    @lastTimeSent = firstTimeSent
+    @deliveryOptions = deliveryOptions
+  end
 
-	def expireTime
-		return nil if @deliveryOptions.maximumTimeout == nil
+  def expireTime
+    return nil if @deliveryOptions.maximumTimeout == nil
 
-		return firstTimeSent + @deliveryOptions.maximumTimeout
-	end
+    return firstTimeSent + @deliveryOptions.maximumTimeout
+  end
 
-	def isObsolote(now)
-		expireTime = expireTime()
+  def isObsolote(now)
+    expireTime = expireTime()
 
-		return expireTime != nil || expireTime < now ? true : false
-	end
+    return expireTime != nil || expireTime < now ? true : false
+  end
 
-	def nextRetransmitTime()
-		return @lastTimeSent + @deliveryOptions.retransmitInterval
-	end
+  def nextRetransmitTime()
+    return @lastTimeSent + @deliveryOptions.retransmitInterval
+  end
 
-	def shouldRetransmitNow(now)
-		return now > nextRetransmitTime()
-	end
+  def shouldRetransmitNow(now)
+    return now > nextRetransmitTime()
+  end
 end
 
 # Class that actually keeps track of pending acks, issues restransmits and deletes old pending acks
 class AckTracking
-	def initialize(retransmitMethod, directory)
-		# Method to be called for message retransmission
-		@retransmitMethod = retransmitMethod
-		# Hash of pending acks
-		# Key is the message ID, value is the MessageStatus class
-		@pendingAcks = {}
-		# Guard of pendingAcks
-		@lock = Mutex.new
-		# Root directory where the data are stored
-		@saveDirectory = "#{directory}/acks"
-		createAckStoreDir()
-		loadAllAckData()
+  def initialize(retransmitMethod, directory)
+    # Method to be called for message retransmission
+    @retransmitMethod = retransmitMethod
+    # Hash of pending acks
+    # Key is the message ID, value is the MessageStatus class
+    @pendingAcks = {}
+    # Guard of pendingAcks
+    @lock = Mutex.new
+    # Root directory where the data are stored
+    @saveDirectory = "#{directory}/acks"
+    createAckStoreDir()
+    loadAllAckData()
 
-		Thread.new() {
-			while true do
-				sleep(0.25) # 250ms sleep
-				cleanObsoloteRecords()
-				retransmitMessages()
-			end
-		}
-	end
+    Thread.new() {
+      while true do
+        sleep(0.25) # 250ms sleep
+        cleanObsoloteRecords()
+        retransmitMessages()
+      end
+    }
+  end
 
-	def ackReceived(messageId, recipient)
-		$log.debug("Ack received for message ID: #{messageId}")
-			@lock.synchronize  {
-			messageStatus = @pendingAcks[messageId]
-			return if !messageStatus
-			return if messageStatus.messageWrapper.target != recipient
+  def ackReceived(messageId, recipient)
+    $log.debug("Ack received for message ID: #{messageId}")
+    @lock.synchronize  {
+      messageStatus = @pendingAcks[messageId]
+      return if !messageStatus
+      return if messageStatus.messageWrapper.target != recipient
 
-			@pendingAcks.delete(messageId)
-		}
-			deleteAckData(messageId)
-	end
+      @pendingAcks.delete(messageId)
+    }
+    deleteAckData(messageId)
+  end
 
-	def newMessageSent(messageWrapper, deliveryOptions)
-		return if !deliveryOptions.requireAck
+  def newMessageSent(messageWrapper, deliveryOptions)
+    return if !deliveryOptions.requireAck
 
-		messageStatus = nil
-		@lock.synchronize {
-			if @pendingAcks.member?(messageWrapper.messageId) then
-				$log.warn("Duplicate message id in AckTracking! Id: #{messageWrapper.messageId}")
-					return
-			end
+    messageStatus = nil
+    @lock.synchronize {
+      if @pendingAcks.member?(messageWrapper.messageId) then
+        $log.warn("Duplicate message id in AckTracking! Id: #{messageWrapper.messageId}")
+        return
+      end
 
-			messageStatus = MessageStatus.new(messageWrapper, Time.now, deliveryOptions)
-			@pendingAcks[messageWrapper.messageId] = messageStatus
-		}
+      messageStatus = MessageStatus.new(messageWrapper, Time.now, deliveryOptions)
+      @pendingAcks[messageWrapper.messageId] = messageStatus
+    }
 
-		saveAckData(messageStatus)
-	end
+    saveAckData(messageStatus)
+  end
 
-	private
-	def cleanObsoloteRecords
-		now = Time.now
-		@pendingAcks.each { |key, value|
-			if ( value.isObsolote(now)) then
-				@pendingAcks.delete(key)
-				deleteAckData(key)
-			end
-		}
-	end
+  private
+  def cleanObsoloteRecords
+    now = Time.now
+    @pendingAcks.each { |key, value|
+      if ( value.isObsolote(now)) then
+        @pendingAcks.delete(key)
+        deleteAckData(key)
+      end
+    }
+  end
 
-	def retransmitMessages
-		now = Time.now
-		@pendingAcks.each { |key, value|
-			messageStatus = value
-			if ( messageStatus.shouldRetransmitNow(now)) then
-				$log.info("Retransmitting message ID: #{messageStatus.messageWrapper.messageId}")
-					@retransmitMethod.call(messageStatus.messageWrapper.target, messageStatus.messageWrapper.message)
-				messageStatus.lastTimeSent = Time.now
-				saveAckData(messageStatus)
-			end
-		}
-	end
+  def retransmitMessages
+    now = Time.now
+    @pendingAcks.each { |key, value|
+      messageStatus = value
+      if ( messageStatus.shouldRetransmitNow(now)) then
+        $log.info("Retransmitting message ID: #{messageStatus.messageWrapper.messageId}")
+        @retransmitMethod.call(messageStatus.messageWrapper.target, messageStatus.messageWrapper.message)
+        messageStatus.lastTimeSent = Time.now
+        saveAckData(messageStatus)
+      end
+    }
+  end
 
-	def createAckStoreDir
-		FileUtils::mkdir_p(@saveDirectory) if ( !File.exists?(@saveDirectory))
-	end
+  def createAckStoreDir
+    FileUtils::mkdir_p(@saveDirectory) if ( !File.exists?(@saveDirectory))
+  end
 
-	def saveAckData(messageStatus)
-		fileName = "#{@saveDirectory}/#{messageStatus.messageWrapper.messageId}"
-			File.open(fileName, "w") { |f| Marshal.dump(messageStatus, f) }
-	end
+  def saveAckData(messageStatus)
+    fileName = "#{@saveDirectory}/#{messageStatus.messageWrapper.messageId}"
+    File.open(fileName, "w") { |f| Marshal.dump(messageStatus, f) }
+  end
 
-	def deleteAckData(messageId)
-		fileName = "#{@saveDirectory}/#{messageId}"
-			File::delete(fileName)
-	end
+  def deleteAckData(messageId)
+    fileName = "#{@saveDirectory}/#{messageId}"
+    File::delete(fileName)
+  end
 
-	def loadAllAckData()
-		Find.find(@saveDirectory) do |path|
-			if File.basename(path).match(/\d/)
-				open(path) { |f|
-					messageStatus = Marshal.load(f)
-					@pendingAcks[messageStatus.messageWrapper.messageId] = messageStatus
-				}
-			end
-		end
-	end
+  def loadAllAckData()
+    Find.find(@saveDirectory) do |path|
+      if File.basename(path).match(/\d/)
+        open(path) { |f|
+          messageStatus = Marshal.load(f)
+          @pendingAcks[messageStatus.messageWrapper.messageId] = messageStatus
+        }
+      end
+    end
+  end
 end
 
 # Message for acking of message delivery
 class AckMessage
-	# Id of acked message
-	attr_reader :messageId
-	# Timestamp when the ack was generated
-	attr_reader :timestamp
-	# Signature confiruming valid ack
-	attr_reader :signature
-	# Id of node that recieved the message
-	attr_reader :recipientId
+  # Id of acked message
+  attr_reader :messageId
+  # Timestamp when the ack was generated
+  attr_reader :timestamp
+  # Signature confiruming valid ack
+  attr_reader :signature
+  # Id of node that recieved the message
+  attr_reader :recipientId
 
-	def initialize(messageId, recipientId, trustManagement)
-		@timestamp = Time.now
-		@recipientId = recipientId
-		@messageId = messageId
-		sign(trustManagement)
-	end
+  def initialize(messageId, recipientId, trustManagement)
+    @timestamp = Time.now
+    @recipientId = recipientId
+    @messageId = messageId
+    sign(trustManagement)
+  end
 
-	def verifySignature(trustManagement)
-		return false if (!signature)
-		recipientKey = trustManagement.getKey(@recipientId)
-		if !recipientKey then
-			$log.warn("Cannot verify signature, recipient key uknown: #{@recipientId}")
-				return false
-		end
+  def verifySignature(trustManagement)
+    return false if (!signature)
+    recipientKey = trustManagement.getKey(@recipientId)
+    if !recipientKey then
+      $log.warn("Cannot verify signature, recipient key uknown: #{@recipientId}")
+      return false
+    end
 
-		trustManagement.verifySignature(dataToSign(), @signature, recipientKey)
-	end
-	private
-	def dataToSign
-		"T: #{@timestamp} MID: #{@messageId}"
-	end
+    trustManagement.verifySignature(dataToSign(), @signature, recipientKey)
+  end
+  private
+  def dataToSign
+    "T: #{@timestamp} MID: #{@messageId}"
+  end
 
-	def sign(trustManagement)
-		@signature = trustManagement.sign(dataToSign())
-	end
+  def sign(trustManagement)
+    @signature = trustManagement.sign(dataToSign())
+  end
 end

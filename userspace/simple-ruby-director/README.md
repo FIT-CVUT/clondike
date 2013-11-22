@@ -2,25 +2,17 @@
 
 ## Naming ##
 
-### Class Names ###
+### Class Names and Modules ###
 
     UpperCamelCase
 
-### Methods ###
+### Methods and Class instance variables ###
 
     lowerCamelCase
-
-### Class instance variables ###
-
-    @lowerCamelCase
 
 ### Constants ###
 
     CAPITALIZED_WITH_UNDERSCORES
-
-## Indentation ##
-
-We use tabulators!
 
 ## Other ##
 
