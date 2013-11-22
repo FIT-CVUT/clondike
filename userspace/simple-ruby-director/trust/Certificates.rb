@@ -13,6 +13,7 @@ class Certificate
   def initialize(id, issuer)
     @id = id
     @issuer = issuer
+    @signature = nil
   end
 
   def sign(privateKey)

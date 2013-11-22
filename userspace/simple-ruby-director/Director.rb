@@ -1,3 +1,5 @@
+#!/usr/bin/ruby -w
+
 require 'FilesystemConnector'
 require 'FilesystemNodeBuilder'
 require 'MockNetlinkConnector'

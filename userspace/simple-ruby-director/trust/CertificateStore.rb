@@ -10,8 +10,6 @@ class CertificateRecord
   attr_reader :validatedBy
   # Set of certificate records, validated by this records
   attr_reader :validates
-  # Reference to a revocation certificate record, if any
-  attr_accessor :revokedBy
   # True, if the record was valid last time checked, false if not, nil if not checked so far
   attr_reader :lastValidState
 
