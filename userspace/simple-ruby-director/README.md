@@ -2,21 +2,13 @@
 
 ## Naming ##
 
-### Class Names and Modules ###
-
-    UpperCamelCase
-
 ### Methods and Class instance variables ###
 
     lowerCamelCase
 
-### Constants ###
+## All Other ##
 
-    CAPITALIZED_WITH_UNDERSCORES
-
-## Other ##
-
-For other convetions see the standard Ruby convetion defined in [The Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide)
+For all other convetions see the standard Ruby convetion defined in [The Ruby Style Guide](https://github.com/bbatsov/ruby-style-guide)
 
 # Useful tools #
 
