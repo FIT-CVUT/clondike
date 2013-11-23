@@ -164,3 +164,4 @@ pip-log.txt
 
 # Clondike specific
 userspace/simple-ruby-director/conf/*
+userspace/dht/

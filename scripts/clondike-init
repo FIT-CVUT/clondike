@@ -2,10 +2,13 @@
 
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/configuration.sh
 
-until echo $MY_IP | grep '[0-9]*\.[0-9]*\.' > /dev/null ; do
-	MY_IP=`$CLONDIKE_SCRIPTS/parse-interface-ip.sh eth0.91`
+MY_IP_COMMAND="$CLONDIKE_SCRIPTS/parse-interface-ip.sh eth0.91"
+MY_IP="`$MY_IP_COMMAND`"
+until echo "$MY_IP" | grep '[0-9]*\.[0-9]*\.' > /dev/null ; do
+    sleep 3
+    MY_IP="`$MY_IP_COMMAND`"
 done
 $CLONDIKE_SCRIPTS/clear-current-config.sh
-$CLONDIKE_SCRIPTS/listen.sh $MY_IP
+$CLONDIKE_SCRIPTS/listen.sh "$MY_IP"
 
 (cd $CLONDIKE_HOME/userspace/simple-ruby-director; ruby -w -I $CLONDIKE_SIMPLE_RUBY_DIRECTOR Director.rb > /tmp/director.log 2>&1)
