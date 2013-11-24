@@ -1,25 +1,27 @@
 #!/bin/bash
 
-#################################################################
 #
-#  Utility for run parallel some bash script at all local nodes
+#  Utility for run parallel some bash script at all subnet nodes
 #
-#################################################################
+#  Prerequisites:
+#     sshpass
+#     ssh
+#
 
 if [ $# -ne 4  ]; then
     echo "Usage:"
-    echo "  $0 <local_script> <address_of_network> <ip_start_node> <ip_end_node>"
+    echo "  $ bash $0 <local_script> <address_of_network> <end_of_ip_start_node> <end_of_ip_end_node>"
     echo
     echo "For example:"
     echo "  We have local script scripts/update_git_and_restart_clondike.sh and we have nodes with IP:"
-    echo "    192.168.1.20"
-    echo "    192.168.1.21"
-    echo "    192.168.1.22"
-    echo "    192.168.1.23"
+    echo "    192.168.1.1"
+    echo "    192.168.1.2"
+    echo "    192.168.1.3"
+    echo "    192.168.1.4"
     echo "    ..."
-    echo "    192.168.1.50"
+    echo "    192.168.1.24"
     echo "  We should run:"
-    echo "    $0 scripts/update_git_and_restart_clondike.sh 192.168.1 20 50"
+    echo "    $ bash $0 scripts/update_git_and_restart_clondike.sh 192.168.1 1 24"
     echo
 else
     LOCAL_SCRIPT=$1
@@ -34,13 +36,13 @@ else
     printf "Please type the password to ssh access to nodes: "
     read pass
     echo
-    export PASSWORD=$pass
+    export PASSWORD="$pass"
 
     # The argument $1 is node's IP
     function call_script_at_remote_node
     {
-        echo "sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < ${LOCAL_SCRIPT}"
-        sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < ${LOCAL_SCRIPT}
+        echo "sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < \"${LOCAL_SCRIPT}\""
+        sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < "${LOCAL_SCRIPT}"
     }
 
     for((nodeIP=$IP_START_NODE;nodeIP<=$IP_END_NODE;nodeIP++)); do
