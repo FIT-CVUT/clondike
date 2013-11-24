@@ -4,9 +4,9 @@ Clondike stands for **CL**uster **O**f **N**on-**D**edicated **I**nteroperating 
 
 ## History of the project ##
 The initial goal of the Clondike project was to design a new
-type of cluster of Linux machines. It should be capable of utilizing
+type of cluster of Linux machines. **It should be capable of utilizing
 standard Linux machines as its computational units, while still
-maintaining the illusion of a powerful **single system image (SSI)**.
+maintaining the illusion of a powerful single system image (SSI)**.
 The unique feature of the Clondike system is its ability to integrate
 the workstations even if they are not fully dedicated to the system,
 they could still be used and administered by their users/admins and
