@@ -8,9 +8,9 @@
 #     ssh
 #
 
-if [ $# -ne 4  ]; then
+if [ $# -ne 3  ]; then
     echo "Usage:"
-    echo "  $ bash $0 <local_script> <address_of_network> <end_of_ip_start_node> <end_of_ip_end_node>"
+    echo "  $ bash $0 <end_of_ip_start_node> <end_of_ip_end_node> <local_script>"
     echo
     echo "For example:"
     echo "  We have local script scripts/update_git_and_restart_clondike.sh and we have nodes with IP:"
@@ -21,13 +21,15 @@ if [ $# -ne 4  ]; then
     echo "    ..."
     echo "    192.168.1.24"
     echo "  We should run:"
-    echo "    $ bash $0 scripts/update_git_and_restart_clondike.sh 192.168.1 1 24"
+    echo "    $ bash $0 1 24 scripts/update_git_and_restart_clondike.sh"
+    echo 
+    echo "The network address 192.168.1.x is hardcoded"
     echo
 else
-    LOCAL_SCRIPT=$1
-    NETWORK=$2
-    IP_START_NODE=$3
-    IP_END_NODE=$4
+    NETWORK="192.168.1"
+    IP_START_NODE=$1
+    IP_END_NODE=$2
+    LOCAL_SCRIPT=$3
 
     echo "Local script that will run remotely: ${LOCAL_SCRIPT}"
     echo "Nodes: ${NETWORK}.${IP_START_NODE} ... ${NETWORK}.${IP_END_NODE}"
