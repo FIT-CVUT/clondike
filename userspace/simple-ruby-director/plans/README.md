@@ -1,5 +1,7 @@
 # Měřící framework v Clondike #
 
+TODO: Translate to english
+
 ## Použití ##
 
 Zkontrolujeme případně upravíme soubor ~/.migration.conf
@@ -12,9 +14,9 @@ například:
     /usr/lib64/gcc - Any
     /usr/lib/gcc - Any
     /usr/bin/gcc - Any
-    /usr/lib/gcc/x86\_64-linux-gnu/4.4.4/cc1 - Any
-    /usr/lib/gcc/x86\_64-linux-gnu/4.4.5/cc1 - Any
-    /usr/lib/gcc/x86\_64-linux-gnu/4.7/cc1 - Any
+    /usr/lib/gcc/x86_64-linux-gnu/4.4.4/cc1 - Any
+    /usr/lib/gcc/x86_64-linux-gnu/4.4.5/cc1 - Any
+    /usr/lib/gcc/x86_64-linux-gnu/4.7/cc1 - Any
 
 Spustíme ruby director s EMIG 1:
 
