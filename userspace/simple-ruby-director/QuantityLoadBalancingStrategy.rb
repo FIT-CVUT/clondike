@@ -115,19 +115,19 @@ class QuantityLoadBalancingStrategy
     @log = nil
   end
 
-  # Return ID of the node where the process shall be migrated
+  # Return index to @membershipManager.coreManager.detachedNodes of the node where the process shall be migrated
   # Returns nil, if no migration should be performed
   def findMigrationTarget(pid, uid, name, args, envp, emigPreferred)
     return nil if !@membershipManager.coreManager # Not a core node?
     detachedNodes = @membershipManager.coreManager.detachedNodes
-    bestTarget = findBestTarget(pid, uid, name, args, envp, emigPreferred, detachedNodes)
+    bestTargetIndex = findBestTarget(pid, uid, name, args, envp, emigPreferred, detachedNodes)
 
     #puts "Best target #{bestTarget} for name #{name}."
     # Temporary hack.. we count only tasks that are migrateable somewhere... TODO: Instead introduce either some filter for counting tasks, or count based on their CPU usage (unlikely.. to difficult for short term)
-    updateCounter(bestTarget, name, pid) if UserConfiguration.getConfig(uid).canMigrateSomewhere(name)
+    updateCounter(bestTargetIndex, name, pid) if UserConfiguration.getConfig(uid).canMigrateSomewhere(name)
     flushDebugLog()
 
-    bestTarget
+    bestTargetIndex
   end
 
   # Try to rebalance only in case there are more local tasks than
@@ -228,6 +228,7 @@ class QuantityLoadBalancingStrategy
     @counter.getCount(@nodeRepository.selfNode) < getCurrentLocalMinimum()
   end
 
+  # Return index of best node to emigrate task
   def findBestTarget(pid, uid, name, args, envp, emigPreferred, detachedNodes)
     #puts "Local task count #{@counter.getCount(@nodeRepository.selfNode)}"
     return nil if !emigPreferred && keepLocal()
@@ -235,19 +236,22 @@ class QuantityLoadBalancingStrategy
     # Do not emigrate non-preemptively master tasks (it may be worth considering, but now we have a problems with it)
     return nil if task and task.hasClassification(MasterTaskClassification.new())
 
-    best = findBestTargetRemoteOnly(pid, uid, name, detachedNodes)
+    bestTargetIndex = findBestTargetRemoteOnly(pid, uid, name, detachedNodes)
+
     # Not found best? Delegate further
-    return @nestedLoadBalancer.findMigrationTarget(pid, uid, name, args, envp, emigPreferred) if !best
+    return @nestedLoadBalancer.findMigrationTarget(pid, uid, name, args, envp, emigPreferred) if !bestTargetIndex
     # Found best
-    return best
+    return bestTargetIndex
   end
 
+  # Return the array index to the best node to detachedNodes
   def findBestTargetRemoteOnly(pid, uid, name, detachedNodes)
     best = TargetMatcher.performMatch(pid, uid, name, detachedNodes) { |node|
       taskCount = @counter.getCount(node)
       # Note that taskCount has to be returned negative, so that less tasks is better candidate!
       taskCount < @minimumTasksRemote ? -taskCount : nil
     }
+    # $log.debug "The best target node to emigrate the task is at index #{best} and it is the node #{detachedNodes[best]}"
     return best
   end
 

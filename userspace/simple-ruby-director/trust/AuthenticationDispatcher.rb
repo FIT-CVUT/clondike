@@ -1,5 +1,3 @@
-require 'monitor.rb'
-
 class TimeoutException<RuntimeError
   attr_reader :text
 
@@ -62,7 +60,15 @@ class NegotiatedSession
   end
 end
 
+module PseudoRandomNumberGenerator
+  def generatePseudoRandomNumber(bits = 64) # The longer is the better, but much long caused some troubles
+    rand(2**bits-1)
+    #rand(99999999999999999) # Deprecated, however well runable
+  end
+end
+
 class AuthenticationDispatcher
+  include PseudoRandomNumberGenerator
   attr_reader :localIdentity
   attr_reader :interconnection
 
@@ -100,7 +106,7 @@ class AuthenticationDispatcher
     remoteKey = @authenticatedNegotiations[proof].client
     @authenticatedNegotiations[proof] = nil # Remote the record
     # There is a chance we got here before getting the client confirmation message => give it a chance to arrive
-    @serverNegotiations[remoteKey].waitForConfirmationState(10)
+    @serverNegotiations[remoteKey].waitForConfirmationState(30)
     # Fail if the identity was not verified
     return false if !@serverNegotiations[remoteKey].confirmed
     # We know the proof is matching as we got neg session by the proof
@@ -112,14 +118,13 @@ class AuthenticationDispatcher
   # Returns proof to be presented on "connect", if the session negotiation was completed, nil otherwise
   def prepareSession(localNodeId, remoteNodeId, remoteKey)
     $log.debug("Trying to negotiate a new session")
-    # TODO: Here we should use a real large number not this bullshit!
-    xValue = rand(99999999999999999)
+    xValue = generatePseudoRandomNumber
     initialMessage = STSInitialRequest.new(@localIdentity.publicKey, localNodeId, xValue)
     @clientNegotiations[remoteKey] = NegotiatedSession.new(@localIdentity.publicKey, remoteKey, remoteNodeId)
     @clientNegotiations[remoteKey].clientChallenge = xValue
     @interconnection.dispatch(remoteNodeId, initialMessage)
     # Blocking wait for confirmation state (TODO: Better would be to make some callback action to handle this asynchronously so that we do not need to block here!)
-    @clientNegotiations[remoteKey].waitForConfirmationState(10)
+    @clientNegotiations[remoteKey].waitForConfirmationState(30)
     $log.debug("Negotiation finished. Confirmed = #{@clientNegotiations[remoteKey].confirmed}")
 
     return nil if ( @clientNegotiations[remoteKey].confirmed == false )
@@ -131,6 +136,7 @@ class AuthenticationDispatcher
   # Listens on initial session requests and issues server challenge key + signature
   # Executed on server
   class STSInitialRequestHandler
+    include PseudoRandomNumberGenerator
     def initialize(serverNegotiations, interconnection, localIdentity, authenticatedNegotiations)
       @serverNegotiations = serverNegotiations
       @interconnection = interconnection
@@ -141,9 +147,8 @@ class AuthenticationDispatcher
     def handle(message)
       # Server received an auth challenge => Prepare yValue and challenge the client
       xValue = message.challenge
-      # TODO: Here we should use a real large number not this bullshit!
-      yValue = rand(99999999999999999)
-      proof = rand(99999999999999999)
+      yValue = generatePseudoRandomNumber
+      proof = generatePseudoRandomNumber
       $log.info("Initial authentication request received. X: #{xValue} Y: #{yValue}")
       # TODO and use a real concat
       valueToSign = yValue.to_s + xValue.to_s

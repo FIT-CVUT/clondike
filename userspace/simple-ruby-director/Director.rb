@@ -95,7 +95,7 @@ class Director
     @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
     @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository, @idResolver.getCurrentId)
     @nodeInfoConsumer.registerNewNodeListener(@membershipManager)
-    @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @filesystemConnector)
+    @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
     @nodeInfoProvider.addListener(currentNode)
     @nodeInfoProvider.addLimiter(acceptLimiter)
@@ -108,10 +108,10 @@ class Director
     @taskRepository.registerListener(predictor)
     @loadBalancer.registerMigrationListener(@taskRepository)
 
-    #@cacheFSController = CacheFSController.new(@interconnection)
+    @cacheFSController = CacheFSController.new(@interconnection)
 
     initializeMeasurements()
-    #initializeCliServer()
+    initializeCliServer()
   end
 
   # Starts director processing
@@ -145,7 +145,7 @@ class Director
 
     @netlinkConnector.pushUserMessageHandler(@interconnection)
 
-    #@netlinkConnector.pushImmigrationHandler(@cacheFSController)
+    @netlinkConnector.pushImmigrationHandler(@cacheFSController)
     @netlinkConnector.pushImmigrationHandler(@immigrationController)
 
     @netlinkConnector.pushImmigrationConfirmedHandler(@immigratedTasksController)

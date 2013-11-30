@@ -116,7 +116,7 @@ class MembershipManager
   def containsDetachedNode(node)
     res = false;
     @detachedManagers.each { |manager|
-      if ( manager != nil && manager.coreNode == node )
+      if ( manager != nil && node != nil && manager.coreNode.nodeId == node.nodeId )
         res = true
         break
       end
@@ -139,8 +139,9 @@ class MembershipManager
       # A better solution would be to send a "connect-me" message to peer if connectedNodesCount < minimumConnectedPeers .. this way, we would act from a position of core node, instead of detached node as now..
       # connectToNode(node) if !containsDetachedNode(node)
       if !containsDetachedNode(node)
-        $log.debug "MembershipManager: connectAllUnconnectedNodes: connectToNode(node)"
-        pp node
+        #$log.debug "MembershipManager: connectAllUnconnectedNodes: connectToNode(node) #{node}"
+        #pp @nodeRepository
+        #pp node
         connectToNode(node)
       end
       #    connectToNode(node) if @coreManager.connectedNodesCount < @minimumConnectedPeers && !@coreManager.containsNode(node)
@@ -154,8 +155,6 @@ class MembershipManager
     def handleFrom(message, from)
       node = Node.new message.nodeId, from.ipAddress
       @nodeRepository.addOrReplaceNode node
-      $log.debug "MemberShipmanager: I added or replace node #{node} in nodeRepository"
-      pp node
     end
   end
 end

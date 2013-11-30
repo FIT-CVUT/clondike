@@ -40,9 +40,6 @@ class Interconnection
   end
 
   def dispatchToSlot(slot, message)
-    $log.debug "Interconnection:dispatchToSlot #{slot} the message (it should be a hearbeat):"
-    pp slot
-    pp message
     serializedMessage = Marshal.dump(message)
     # No strategies for slot messages, they simply go through the kernel now
     @netlinkConnector.connectorSendUserMessage(slot, serializedMessage.length, serializedMessage)
@@ -63,8 +60,8 @@ class Interconnection
   def userMessageReceived(managerSlot, messageLength, message)
     deserializedMessage = Marshal.load(message)
     @messageQueue.enqueue([deserializedMessage, managerSlot])
-    $log.debug "Interconnect: From slot #{managerSlot} received user message:"
-    pp deserializedMessage
+    #$log.debug "Interconnect: From slot #{managerSlot} received user message:"
+    #pp deserializedMessage
   end
   private
   def recvMessageThread
@@ -147,9 +144,9 @@ class InterconnectionUDPMessageBroadcastDispatcher
   def dispatch(to, message)
     #$log.debug("Interconnect is dispatching message to #{to}.")
     # Dummy implementation -> Broadcast everything
-    $log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
-    pp to
-    pp message
+    #$log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
+    #pp to
+    #pp message
     @sendingSocket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
   end
 
@@ -160,11 +157,10 @@ class InterconnectionUDPMessageBroadcastDispatcher
       break if ( !isLocalIP(addr.last))
     end
     message = Marshal.load(recvData)
-    $log.debug("Interconnect received message from address #{addr.last}")
-    pp addr
-    pp message
     from = NetworkAddress.new(addr.last, addr[1])
-    pp from
+    #$log.debug("Interconnect received message from address #{from}")
+    # pp from
+    # pp message
 
     [message, from]
   end

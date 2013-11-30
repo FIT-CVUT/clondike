@@ -73,7 +73,7 @@ class UserConfiguration
   end
   private
   def loadUserConfig(homeDir)
-    configFileName = "#{homeDir}/.migration.conf"
+    configFileName = "#{homeDir}/.migration.conf" # TODO: Location to this file should be better configurable
     $log.debug "Loading user config from file #{configFileName}"
     IO.foreach(configFileName) do |line|
       execName, allowedNodesString = line.split(" - ")

@@ -86,15 +86,19 @@ class FilesystemConnector
     #
     #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
     #
-    # is pretty good, but caused creating something like this:
+    # the authString is pretty good, but caused creating directory like this:
     #    /clondike/pen/nodes/192.168.0.4:54321
     #                                    ^^^^^
     # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
 
     # TODO: Hardcoded protocol and port
     $log.debug "echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect"
-    `echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect`
-    $? == 0 ? true : false
+    #$? == 0 ? true : false
+    if system("echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect")
+      true
+    else
+      false
+    end
   end
 
   # Attempt to gracefully disconnect node

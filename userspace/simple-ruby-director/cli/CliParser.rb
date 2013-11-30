@@ -59,6 +59,7 @@ class NamedParserWithAttributes
     # Key - Attribute name
     # Value - AttributeParser of that attribute
     @attributeParsers = {}
+    @valueParser = nil
   end
 
   def addAttributeParser(attributeParser)

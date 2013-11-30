@@ -51,11 +51,17 @@ class LoadBalancer
   def getEmigrationTarget(pid, uid, name, args, envp)
     #return nil if !canMigrate(name, uid)
     emigPreferred = isEmigrationPrefered(envp)
+    #$log.debug "emigPreferred = #{emigPreferred}"
     return @balancingStrategy.findMigrationTarget(pid, uid, name, args, envp, emigPreferred);
   end
 
   def isEmigrationPrefered(envp)
-    return envp.include?("EMIG=1")
+    if envp.include?("EMIG=1")
+      return true
+    else
+      $log.warn "Any task will NOT BE MIGRATED due the environment variable EMIG is not set, you should export EMIG=1"
+      return false
+    end
   end
 
   def shouldMigrateBack(pid, name, args, envp)

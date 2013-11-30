@@ -109,7 +109,6 @@ class ManagerMonitor
     end
 
     message = HeartBeatMessage.new(@currentNodeId)
-    $log.debug "Will Emit the HeartBeat"
     @interconnection.dispatchToSlot(managerSlot, message)
   end
 end
@@ -124,10 +123,6 @@ class HeartBeatHandler
   # TODO: Proper sync of this method?
   def handleFrom(heartBeatMessage, fromManagerSlot)
     nodeId = heartBeatMessage.nodeId
-
-    $log.debug "ManagerMonitor: handleFrom: heartBeatMessage"
-    pp fromManagerSlot
-    pp heartBeatMessage
 
     if ( fromManagerSlot.slotType == CORE_MANAGER_SLOT )
       node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]

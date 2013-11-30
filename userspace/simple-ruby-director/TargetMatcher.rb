@@ -6,13 +6,14 @@ class TargetMatcher
   # Accepts block param.. that calculates quality of the node candidate
   #                     - returns nil if the node cannot be used
   #                     - The higher number the better
+  # Return index to array candidateNodes the best quality node or nil
   def TargetMatcher.performMatch(pid, uid, name, candidateNodes)
     target = nil
     targetQuality = nil
     userConfig = UserConfiguration.getConfig(uid)
     candidateNodes.each_index do |index|
       node = candidateNodes[index]
-      #puts "Index: #{index} node #{node} #{node ? node.nodeInfo : "No Node"} #{node && node.nodeInfo ? node.nodeInfo.maximumAccept : "No Node-Info"}... #{node.nodeId}"
+      # $log.debug "Index: #{index} node #{node} #{node ? node.nodeInfo : "No Node"} #{node && node.nodeInfo ? node.nodeInfo.maximumAccept : "No Node-Info"}... #{node ? node.nodeId : "No nodeId"}"
       next if !canMigrateTo(pid, uid, name, node)
       nodeQuality = yield node
       if ( nodeQuality != nil && (targetQuality == nil || nodeQuality > targetQuality) ) then

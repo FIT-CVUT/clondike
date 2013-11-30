@@ -228,6 +228,8 @@ class ShowHandler
 
   def printNodeFromRoot(nodeId)
     entity = @trustManagement.dataStore.entities[nodeId]
+    $log.debug "CLI-SERVER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! entities:"
+    pp @trustManagement.dataStore.entities
     return "There is no entity with key #{nodeId}." if !entity
     entity = findRootEntity(entity)
 
