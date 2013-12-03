@@ -33,7 +33,11 @@ a P2P-based grid system**.
 
 ## How to install ##
 
-Full details about the build process can be found in the [Clondike install instructions](https://github.com/FIT-CVUT/clondike/blob/master/doc/install_manual_clondike-en.desc).
+### VMDK image virtual machine ###
 
-Soon we will have here an automatic generated run-able image of the Clondike for your easy tryout.
+You can download a [VMDK image the Clondike](http://clondike.fit.cvut.cz/production-version/) and run a virtual machine.
+
+### Manual installation ###
+
+Full details about the build process can be found in the [Clondike install instructions](https://github.com/FIT-CVUT/clondike/blob/master/doc/install_manual_clondike-en.desc).
 
