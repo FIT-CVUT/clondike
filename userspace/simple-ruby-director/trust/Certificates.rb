@@ -186,13 +186,13 @@ def loadCertificate(fileName)
 
   certificate = nil
   certificateId = valuePairs['Id']
-  issuerKey = RSAPublicKey.undecoratedLoad(valuePairs['Issuer'])
+  issuerKey = RSAKeyTools.undecoratedLoad(valuePairs['Issuer'])
 
   if ( !permissions.empty? )
     # Authorization cert
-    authorizee = RSAPublicKey.undecoratedLoad(valuePairs['Authorizee'])
+    authorizee = RSAKeyTools.undecoratedLoad(valuePairs['Authorizee'])
     authorizedGroup = valuePairs['Authorized group']
-    target = RSAPublicKey.undecoratedLoad(valuePairs['Target'])
+    target = RSAKeyTools.undecoratedLoad(valuePairs['Target'])
     targetGroup = valuePairs['Target group']
     canDelegate = valuePairs['Can delegate'] == 'true'
     backPropagate = valuePairs['Back propagate'] == 'true'
@@ -205,22 +205,22 @@ def loadCertificate(fileName)
   elsif ( valuePairs.has_key?("Member") )
     # Group cert
     groupName = valuePairs['Group name']
-    member = RSAPublicKey.undecoratedLoad(valuePairs['Member'])
+    member = RSAKeyTools.undecoratedLoad(valuePairs['Member'])
     certificate = GroupMembershipCertificate.new(certificateId, issuerKey, groupName, member)
   elsif ( valuePairs.has_key?("Master") )
     # Group interested certificate
     groupName = valuePairs['Group name']
-    master = RSAPublicKey.undecoratedLoad(valuePairs['Master'])
+    master = RSAKeyTools.undecoratedLoad(valuePairs['Master'])
     certificate = GroupInterestCertificate.new(certificateId, issuerKey, groupName, master)
   elsif ( valuePairs.has_key?("Alias name"))
     # Name alias cert
     aliasName = valuePairs['Alias name']
-    aliasKey = RSAPublicKey.undecoratedLoad(valuePairs['Alias key'])
+    aliasKey = RSAKeyTools.undecoratedLoad(valuePairs['Alias key'])
     certificate = AliasCertificate.new(certificateId, issuerKey, aliasName, aliasKey)
   elsif ( valuePairs.has_key?("Revoke id"))
     # Revocation certificate
     revokeId = valuePairs['Revoke id']
-    scope = RSAPublicKey.undecoratedLoad(valuePairs['Scope'])
+    scope = RSAKeyTools.undecoratedLoad(valuePairs['Scope'])
     certificate = RevocationCertificate.new(certificateId, issuerKey, scope, revokeId)
   else
     # Node certificate
@@ -233,7 +233,6 @@ def loadCertificate(fileName)
     signature = Base64.decode64(unsplitBase64(valuePairs['Signature']))
     certificate.signature = signature
   end
-
 
   return certificate
 end

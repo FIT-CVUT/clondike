@@ -19,6 +19,8 @@ class CertificateRecord
     @validatedBy = Set.new()
     # Set of change listeners
     @store = certificateStore
+    @revokedBy = nil
+    @lastValidState = nil
   end
 
   def eql?(other)
@@ -75,7 +77,7 @@ class CertificateRecord
   def isValid(localPublicKey)
     checkCertificate = certificate
     #puts "Checking certificate certificate #{certificate.class}##{certificate.id}"
-    return false if revokedBy != nil and isRevocationValid(localPublicKey, certificate, revokedBy.certificate)
+    return false if @revokedBy != nil and isRevocationValid(localPublicKey, certificate, @revokedBy.certificate)
     #puts "INVALID SIGNATURE for certificate #{certificate.class}##{certificate.id}"  if !checkCertificate.verifySignature()
     return false if !checkCertificate.verifySignature()
     return true if localPublicKey == checkCertificate.issuer

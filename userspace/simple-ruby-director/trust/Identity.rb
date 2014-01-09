@@ -136,19 +136,46 @@ class Identity
   end
 end
 
-def splitBase64(string)
-  r = []
-  len = 64
-  start = 0
-  while(start <= string.length) do
-    r << string[start...start+len]
-    start += len
+module Base64Tools
+  def splitBase64(string)
+    r = []
+    len = 64
+    start = 0
+    while(start <= string.length) do
+      r << string[start...start+len]
+      start += len
+    end
+    return r.join("\n")
   end
-  return r.join("\n")
+
+  def unsplitBase64(string)
+    string.gsub(/\n/,"")
+  end
 end
 
-def unsplitBase64(string)
-  res = string.gsub(/\n/,"")
+module RSAKeyDecorating
+  def undecoratedLoad(undecoratedPemKey)
+    res = undecoratedPemKey
+    res = res.sub("-----BEGIN PUBLIC KEY-----","")
+    res = res.sub("-----END PUBLIC KEY-----","")
+    unundecoratedText = RSAKeyTools.unsplitBase64(res)
+    decoratedText = RSAKeyTools.decoratedKey(unundecoratedText)
+    RSAPublicKey.new(decoratedText)
+  end
+  def decoratedKey(undecoratedPemKey)
+    "-----BEGIN PUBLIC KEY-----\n#{RSAKeyTools.splitBase64(undecoratedPemKey)}\n-----END PUBLIC KEY-----\n"
+  end
+end
+
+class RSAKeyTools
+  extend Base64Tools
+  extend RSAKeyDecorating
+
+  def self.generate(number)
+    rsaKey = RSAPublicKey.new(nil)
+    rsaKey.__setobj__(OpenSSL::PKey::RSA.generate(number))
+    return rsaKey
+  end
 end
 
 class RSAPublicKey < SimpleDelegator
@@ -157,18 +184,10 @@ class RSAPublicKey < SimpleDelegator
   end
 
   def undecorated_to_s
-    #puts "BEFORE UNDECOR: #{to_s}"
     res = __getobj__.to_s
-    res = res.sub("-----BEGIN RSA PUBLIC KEY-----","")
-    res = res.sub("-----END RSA PUBLIC KEY-----","")
-    unsplitBase64(res)
-    #res = res.gsub("\r","")
-  end
-
-  def self.undecoratedLoad(undecoratedPemKey)
-    decoratedText = decoratedKey(undecoratedPemKey)
-    #puts "DEC TEXT #{decoratedText}"
-    RSAPublicKey.new(decoratedText)
+    res = res.sub("-----BEGIN PUBLIC KEY-----","")
+    res = res.sub("-----END PUBLIC KEY-----","")
+    RSAKeyTools.unsplitBase64(res)
   end
 
   def public_key
@@ -192,12 +211,6 @@ class RSAPublicKey < SimpleDelegator
   # Short-cut method with hardcoded digest algorithm
   def verifySignature(signature, data)
     verify( OpenSSL::Digest::SHA1.new, signature, data)
-  end
-
-  def self.generate(number)
-    rsaKey = RSAPublicKey.new(nil)
-    rsaKey.__setobj__(OpenSSL::PKey::RSA.generate(number))
-    return rsaKey
   end
 
   def ==(other)
@@ -226,10 +239,5 @@ class RSAPublicKey < SimpleDelegator
 
   def eql?(other)
     self == other
-  end
-
-  private
-  def self.decoratedKey(undecoratedPemKey)
-    "-----BEGIN RSA PUBLIC KEY-----\n#{splitBase64(undecoratedPemKey)}\n-----END RSA PUBLIC KEY-----\n"
   end
 end

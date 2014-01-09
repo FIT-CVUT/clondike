@@ -1,0 +1,33 @@
+find_header: checking for director-api.h in ../../director-api/... -------------------- yes
+
+"gcc -o conftest -I/usr/include/x86_64-linux-gnu/ruby-2.0.0 -I/usr/include/ruby-2.0.0/ruby/backward -I/usr/include/ruby-2.0.0 -I. -D_FORTIFY_SOURCE=2   -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -fPIC conftest.c  -L. -L/usr/lib -L. -Wl,-z,relro -fstack-protector -rdynamic -Wl,-export-dynamic     -lruby-2.0  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux-gnu/ruby-2.0.0 -I/usr/include/ruby-2.0.0/ruby/backward -I/usr/include/ruby-2.0.0 -I. -D_FORTIFY_SOURCE=2   -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -fPIC  conftest.c -o conftest.i"
+conftest.c:3:26: fatal error: director-api.h: No such file or directory
+compilation terminated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <director-api.h>
+/* end */
+
+"gcc -E -I/usr/include/x86_64-linux-gnu/ruby-2.0.0 -I/usr/include/ruby-2.0.0/ruby/backward -I/usr/include/ruby-2.0.0 -I. -D_FORTIFY_SOURCE=2   -g -O2 -fstack-protector --param=ssp-buffer-size=4 -Wformat -Werror=format-security -fPIC -I../../director-api/ conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <director-api.h>
+/* end */
+
+--------------------
+
