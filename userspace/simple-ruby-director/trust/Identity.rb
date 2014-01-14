@@ -46,7 +46,7 @@ class Identity
 
   # Creates and returns a new identity data
   def self.create(directory, distributionStrategy)
-    newKey = RSAPublicKey.generate(1024)
+    newKey = RSAKeyTools.generate(1024)
 
     Identity.new(directory, distributionStrategy, newKey, newKey.public_key, NodeCertificate.new(0, newKey.public_key))
   end
