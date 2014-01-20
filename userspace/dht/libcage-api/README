@@ -1,6 +1,0 @@
-Libcage API depends on:
-	omake
-	libevent
-	boost
-	ruby
-	ruby-ffi

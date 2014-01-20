@@ -1,4 +1,5 @@
 require 'NodeInfo'
+require 'NetworkAddress'
 
 # Enum of states of the node
 class NodeState
@@ -15,8 +16,8 @@ end
 class Node
   # Unidue id of the node
   attr_reader :nodeId # only :id caused in ruby 1.8.7 warning: Object#id will be deprecated; use Object#object_id
-  # IP address, where is the node located # TODO: ipAddress replace with NetworkAddress (ipAddesss & port)
-  attr_reader :ipAddress
+  # IP address, where is the node located
+  attr_reader :networkAddress
   # Globally distributed information about node (like load, etc..)
   attr_reader :nodeInfo
   # Node state
@@ -27,9 +28,9 @@ class Node
   # Globally distributed information about node that does not change in time
   attr_accessor :staticNodeInfo
 
-  def initialize(nodeId, ipAddress)
+  def initialize(nodeId, networkAddress)
     @nodeId = nodeId
-    @ipAddress = ipAddress
+    @networkAddress = networkAddress
     @nodeInfo = nil # We have no info in the beginning
     @staticNodeInfo = nil
     @lastHeartBeatTime = Time.now()
@@ -53,6 +54,10 @@ class Node
 
   def ==(other)
     other.class == Node && @nodeId == other.nodeId
+  end
+
+  def getDistanceTo(node)
+    @nodeId.hex ^ node.nodeId.hex
   end
 
   def to_s
