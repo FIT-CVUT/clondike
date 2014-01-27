@@ -1,11 +1,10 @@
-require 'PersistentIdSequence.rb'
-require 'trust/TrustManagement.rb'
-require 'Util.rb'
-require 'NetworkAddress.rb'
+require 'PersistentIdSequence'
+require 'trust/TrustManagement'
+require 'Util'
+require 'NetworkAddress'
 require 'pp' # PrettyPrint
 
 # Class for handling inter node message exchanges
-# TODO: This is now a duplicite mechanism with InformationDistributionStrategy -> Rewrite that class to use this class?
 class Interconnection
   def initialize(messageDispatcher, configDirectory)
     # Handlers of message receiving
@@ -24,17 +23,21 @@ class Interconnection
     @identityProvider = identityProvider
     @netlinkConnector = netlinkConnector
     @trustManagement = trustManagement
-    @recvThread = Thread.new() { recvMessageThread()  }
+    @recvThread = ExceptionAwareThread.new() { recvMessageThread() }
     @processThread = ExceptionAwareThread.new() { processMessageThread() }
   end
 
   # Schedules message to be sent
-  # TO: Either null (broadcast) or a nodeId (publicKey) of the target node
+  # TO:
+  #   One of these:
+  #     a nil for send to all known nodes or
+  #     a nodeId of the target node or
+  #     a NetworkAddress of the target node
   # MESSAGE: Message object to be sent
   def dispatch(to, message, deliveryOptions = nil)
     deliveryOptions = @defaultDeliveryOptions if !deliveryOptions
     messageId = @sequenceId.nextId
-    messageWrapper = MessageWrapper.new(messageId, to, message, deliveryOptions.requireAck)
+    messageWrapper = MessageWrapper.new(messageId, nil, message, deliveryOptions.requireAck)
     @ackTracking.newMessageSent(messageWrapper, deliveryOptions)
     doDispatch(to, messageWrapper)
   end
@@ -63,15 +66,13 @@ class Interconnection
     #$log.debug "Interconnect: From slot #{managerSlot} received user message:"
     #pp deserializedMessage
   end
+
   private
+
   def recvMessageThread
     while true
-      begin
-        message, from = @messageDispatcher.receive()
-        handle(message, from)
-      rescue => err
-        $log.error "Error in recvMessageThread: #{err.message} \n#{err.backtrace.join("\n")}"
-      end
+      message, from = @messageDispatcher.receive()
+      handle(message, from)
     end
   end
 
@@ -90,7 +91,7 @@ class Interconnection
       # Ignore non-broadcast message that are not sent for us
       return if (message.target != nil && message.target != currentId)
 
-      doDispatch(from.ipAddress, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
+      doDispatch(from, AckMessage.new(message.messageId, currentId, @trustManagement)) if message.requiresAck
 
       # TODO: Extend wrapper by key of sender and pass the key here
       @messageQueue.enqueue([message.message, from])
@@ -121,56 +122,6 @@ class Interconnection
   end
 end
 
-# Simple strategy for dispatching message.. broadcast everything
-class InterconnectionUDPMessageBroadcastDispatcher
-  DEFAULT_PORT = 5387
-
-  def initialize(filesystemConnector, port = DEFAULT_PORT)
-    @filesystemConnector = filesystemConnector
-    @port = port
-    @ip = @filesystemConnector.getLocalIP
-
-    @recievingSocket = UDPSocket.new
-    @recievingSocket.bind("", @port)
-
-    @sendingSocket = UDPSocket.new
-    @sendingSocket.connect(@ip, @port)
-    @sendingSocket.setsockopt(Socket::SOL_SOCKET, Socket::SO_BROADCAST, 1)
-  end
-
-  # Schedules message to be sent
-  # TO: Either null (broadcast) or a nodeId (publicKey) of the target node
-  # MESSAGE: Message object to be sent
-  def dispatch(to, message)
-    #$log.debug("Interconnect is dispatching message to #{to}.")
-    # Dummy implementation -> Broadcast everything
-    #$log.debug "InterconnectionUDPMessageBroadcastDispatcher: dispatch: to:#{to} the message #{message} and port: #{@port}"
-    #pp to
-    #pp message
-    @sendingSocket.send(Marshal.dump(message), 0, "255.255.255.255", @port)
-  end
-
-  def receive()
-    # Loop while we get a message from remote IP (has to ignore local messages)
-    while (true) do
-      recvData, addr = @recievingSocket.recvfrom(60000)
-      break if ( !isLocalIP(addr.last))
-    end
-    message = Marshal.load(recvData)
-    from = NetworkAddress.new(addr.last, addr[1])
-    #$log.debug("Interconnect received message from address #{from}")
-    # pp from
-    # pp message
-
-    [message, from]
-  end
-  private
-  # Detects whether a passed IP is local
-  def isLocalIP(ipAddress)
-    return @ip == ipAddress
-  end
-end
-
 # Class configuring delivery options of a message
 class DeliveryOptions
   # Boolean flag whether the ack is required
@@ -194,6 +145,8 @@ class DeliveryOptions
   ACK_1_HOUR = DeliveryOptions.new(true, 60*60, 60)
   # Wait at most one minute for ack, retransmit every 5 seconds
   ACK_1_MIN = DeliveryOptions.new(true, 60, 5)
+  # Wait at most 8 seconds for ack, non-retransmit
+  ACK_8_SEC = DeliveryOptions.new(true, 8, 10)
 end
 
 # Class wrapping a generic message and giving it a unique tracking number
@@ -212,6 +165,10 @@ class MessageWrapper
     @target = target
     @message = message
     @requiresAck = requiresAck
+  end
+
+  def to_s
+    "#{message.inspect}"
   end
 end
 
@@ -265,7 +222,7 @@ class AckTracking
     createAckStoreDir()
     loadAllAckData()
 
-    Thread.new() {
+    ExceptionAwareThread.new() {
       while true do
         sleep(0.25) # 250ms sleep
         cleanObsoloteRecords()
@@ -381,6 +338,11 @@ class AckMessage
 
     trustManagement.verifySignature(dataToSign(), @signature, recipientKey)
   end
+
+  def to_s
+    "AckMessage(#{messageId}) to #{recipientId}"
+  end
+
   private
   def dataToSign
     "T: #{@timestamp} MID: #{@messageId}"

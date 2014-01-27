@@ -1,3 +1,4 @@
+require 'Util'
 
 # Interface representing a command to be executed as a part of measurement
 class MeasurementCommand
@@ -83,18 +84,14 @@ class MeasurementTask
 
   def execute(index, resultListener)
     startTime = Time.now.to_f
-    Thread.new() {
-      begin
-        $log.debug "Starting execution of command: #{command}"
-        @command.runCommand()
-        $log.debug "Finished execution of command: #{command}"
+    ExceptionAwareThread.new() {
+      $log.debug "Starting execution of command: #{command}"
+      @command.runCommand()
+      $log.debug "Finished execution of command: #{command}"
 
-        endTime = Time.now.to_f
-        result = MeasurementTaskResult.new(startTime, endTime)
-        resultListener.notifyNewResult(index, result)
-      rescue => err
-        $log.error "Error in command execution thread: #{err.message} \n#{err.backtrace.join("\n")}"
-      end
+      endTime = Time.now.to_f
+      result = MeasurementTaskResult.new(startTime, endTime)
+      resultListener.notifyNewResult(index, result)
     }
   end
 

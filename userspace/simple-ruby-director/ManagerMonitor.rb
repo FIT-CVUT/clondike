@@ -128,20 +128,20 @@ class HeartBeatHandler
       node = @membershipManager.coreManager.detachedNodes[fromManagerSlot.slotIndex]
       if node != nil && node.nodeId.nil?
         $log.debug "Updated core node id #{nodeId} from a heartbeat message"
-        node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
+        #@nodeRepository.insertIfNotExists(node)
         @membershipManager.coreManager.unregisterDetachedNode(fromManagerSlot.slotIndex)
         @membershipManager.coreManager.registerDetachedNode(fromManagerSlot.slotIndex,node)
       end
-      node.updateLastHeartBeatTime();
+      node.updateLastHeartBeatTime()
     else
       unless @membershipManager.detachedManagers[fromManagerSlot.slotIndex].nil?
         node = @membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode
         if node.nodeId.nil?
           $log.debug "Updated detached node id #{nodeId} from a heartbeat message"
-          node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
+          #node, isNew = @nodeRepository.getOrCreateNode(nodeId, node.ipAddress)
           @membershipManager.detachedManagers[fromManagerSlot.slotIndex].coreNode = node
         end
-        node.updateLastHeartBeatTime();
+        node.updateLastHeartBeatTime()
       end
     end
   end

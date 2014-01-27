@@ -12,7 +12,7 @@ end
 class STSInitialRequest
   # Public key of the node that is requesting authentication
   attr_reader :publicKey
-  # Id of resuesting node
+  # Id of requesting node
   attr_reader :nodeId
   # Random number (X)
   attr_reader :challenge
@@ -60,9 +60,11 @@ end
 class PublicKeyDisseminationMessage
   attr_reader :nodeId
   attr_reader :publicKey
+  attr_reader :sendMeYours
 
-  def initialize(nodeId, publicKey)
+  def initialize(nodeId, publicKey, sendMeYours = false)
     @nodeId = nodeId
     @publicKey = publicKey
+    @sendMeYours = sendMeYours
   end
 end

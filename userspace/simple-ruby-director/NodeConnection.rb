@@ -1,3 +1,4 @@
+# These 2 classes are not using anywhere in Clondike TODO: Maybe delete it
 
 class NodeConnection
   # Index of slot where the connection was established

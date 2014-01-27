@@ -1,3 +1,5 @@
+require 'NetworkAddress'
+
 # This class interacts with the kernel module via its exported pseudo-fs
 class FilesystemConnector
 
@@ -79,11 +81,11 @@ class FilesystemConnector
 
   #Tries to connect to a remote core node. Returns boolean informing about
   #the connection attempt result
-  def connect(ipAddress, authenticationData)
-    authString = authenticationData != nil ? "@#{authenticationData}" : ""
+  def connect(networkAddress, authenticationData)
 
     # This:
     #
+    #authString = authenticationData != nil ? "@#{authenticationData}" : ""
     #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
     #
     # the authString is pretty good, but caused creating directory like this:
@@ -92,9 +94,9 @@ class FilesystemConnector
     # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
 
     # TODO: Hardcoded protocol and port
-    $log.debug "echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect"
+    $log.debug "echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect"
     #$? == 0 ? true : false
-    if system("echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect")
+    if system("echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect")
       true
     else
       false
@@ -113,12 +115,17 @@ class FilesystemConnector
     `echo 1 > #{root}/nodes/#{index}/kill`
   end
 
-  # TODO: This should be maybe alone outside the FilesystemConnector too
-  def getLocalIP
-    getListenData["ipAddress"]
+  def getLocalNetworkAddress
+    NetworkAddress.new(getListenData["ip"], getListenData["port"], getListenData["protocol"])
+  end
+
+  def getBootstrapNodes
+    # TODO: Read file with nodes
+    return [NetworkAddress.new("192.168.1.1")]
   end
 
   private
+
   def getRoot(slotType)
     root = @detachedRootPath
     if ( slotType == CORE_MANAGER_SLOT )
@@ -128,21 +135,21 @@ class FilesystemConnector
   end
 
   # Read listen data from filesystem and return hash for example:
-  #   {"protocol" => "tcp", "ipAddress" => "192.168.1.1", "port" => "54321"}
+  #   {"protocol" => "tcp", "ip" => "192.168.1.1", "port" => "54321"}
   def getListenData
     protocol = ""
-    ipAddress = ""
+    ip = ""
     port = ""
     File.open("#{@coreRootPath}/listen", "r") { |listenFile|
       readData = listenFile.readline("\0")
       data = readData.split(":")
-      protocol  = data[0]
-      ipAddress = data[1]
-      port      = data[2]
+      protocol  = data[0].gsub(/\s+/, "")
+      ip        = data[1].gsub(/\s+/, "")
+      port      = data[2].gsub(/\s+/, "")
     }
     {
       "protocol"  => protocol,
-      "ipAddress" => ipAddress,
+      "ip"        => ip,
       "port"      => port,
     }
   end

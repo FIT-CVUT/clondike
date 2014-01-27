@@ -2,15 +2,17 @@ require 'BlockingQueue'
 
 #This class handles propagation and receiving of NodeInfos
 class InformationDistributionStrategy
+  DISTRIBUTION_PERIOD = 1 # in seconds
+
   def initialize(nodeInfoProvider, informationConsumer, interconnection)
     @nodeInfoProvider = nodeInfoProvider
     @informationConsumer = informationConsumer
     @interconnection = interconnection
-    @interconnection.addReceiveHandler(NodeInfoWithId, InformationDistributionStrategyMessageHandler.new(@informationConsumer))
+    @interconnection.addReceiveHandler(NodeInfoWithId, NodeInfoWithIdMessageHandler.new(@informationConsumer))
   end
 
   def start
-    @extractThread = Thread.new() { nodeInfoExtractThread() }
+    @extractThread = ExceptionAwareThread.new() { nodeInfoExtractThread() }
   end
 
   def waitForFinished
@@ -19,25 +21,26 @@ class InformationDistributionStrategy
 
   #Callback method, informing about significant change in a dynamic node info
   def notifyChange(nodeInfo)
-    @interconnection.dispatch(nil, nodeInfo) # broadcast to all nodes
-    #@sendQueue.enqueue(nodeInfo)
+    #@interconnection.dispatch(nil, nodeInfo) # FIXME: allow this
   end
+
   private
+
   #Enqueues dynamic info about the current node to be send (once per second)
   def nodeInfoExtractThread
     while true
-      sleep(1)
-      @interconnection.dispatch(nil, sendElement) # broadcast to all nodes
+      sleep(DISTRIBUTION_PERIOD)
+      #@interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId) # FIXME: allow this
     end
   end
 end
 
-class InformationDistributionStrategyMessageHandler
+class NodeInfoWithIdMessageHandler
   def initialize(informationConsumer)
     @informationConsumer = informationConsumer
   end
-  def handleFrom(message, from)
-    @informationConsumer.infoReceived(from, message)
+  def handle(message)
+    @informationConsumer.infoReceived(message)
   end
 end
 

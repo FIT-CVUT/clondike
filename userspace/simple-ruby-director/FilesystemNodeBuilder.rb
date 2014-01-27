@@ -29,7 +29,7 @@ class FilesystemNodeBuilder
     filesystemConnector.forEachCoreManagerNodeDir() { |slotIndex, fullFileName|
       ipAddress, port = readDataFromPeernameFile("#{fullFileName}/connections/ctrlconn/peername")
       #node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
-      placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
+      placeHolderNode = Node.new(nil, NetworkAddress.new(ipAddress, port)) # Just a placeholder node with no id, not even registered to repository
       #$log.debug "registering node #{ipAddress}"
       coreNodeManager.registerDetachedNode(slotIndex.to_i, placeHolderNode)
     }
@@ -41,7 +41,7 @@ class FilesystemNodeBuilder
     filesystemConnector.forEachDetachedManagerDir() { |slotIndex, fullFileName|
       ipAddress, port = readDataFromPeernameFile("#{fullFileName}/connections/ctrlconn/peername")
       #node, isNew = nodeRepository.getOrCreateNode(ipAddress, ipAddress)
-      placeHolderNode = Node.new(nil, ipAddress) # Just a placeholder node with no id, not even registered to repository
+      placeHolderNode = Node.new(nil, NetworkAddress.new(ipAddress, port)) # Just a placeholder node with no id, not even registered to repository
       #$log.debug "registering node #{placeHolderNode} from #{ipAddress}."
       detachedManagers[slotIndex.to_i] = DetachedNodeManager.new(placeHolderNode, slotIndex.to_i)
     }

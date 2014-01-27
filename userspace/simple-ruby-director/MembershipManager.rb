@@ -1,17 +1,20 @@
 require 'Manager'
 require 'trust/TrustMessages.rb'
 require 'Node'
+require 'dht/Config'
+require 'dht/Bootstrap'
+
 require 'pp'
 
-#This class keeps internal both core and detached node managers. Via these manager
-#it keeps track about membership info about all cluster in which this machine
-#participates
+# This class keeps internal both core and detached node managers. Via these manager
+# it keeps track about membership info about all cluster in which this machine
+# participates
 #
-#Initially, it parses membership information from file
-#Later, it responds to various external events, to keep membership information
-#up to date
+# Initially, it parses membership information from file
+# Later, it responds to various external events, to keep membership information
+# up to date
 #
-# This class is repsonsible for connecting new nodes (or disconnecting existing if they are no longer required).
+# This class is repsonsible for connecting new nodes (or disconnecting existing if they are no longer required) include bootstrapping
 # When some other class wants to connect/disconnect remote nodes (for example LoadBalancer), it should tell this class
 class MembershipManager
   # Manager of the core node
@@ -26,15 +29,14 @@ class MembershipManager
   attr_accessor :minimumConnectedPeers
 
   def initialize(filesystemConnector, nodeRepository, trustManagement, interconnection)
-
     @filesystemConnector = filesystemConnector
     @nodeRepository = nodeRepository
     @trustManagement = trustManagement
     @interconnection = interconnection
     @minimumConnectedPeers = 50
 
-    # We will use this messeges here for auto-discovery nodes on local subnets
-    @interconnection.addReceiveHandler(PublicKeyDisseminationMessage, PublicKeyDisseminationMessageHandler.new(@nodeRepository))
+    # We will use this messeges for connecting other node
+    @interconnection.addReceiveHandler(PublicKeyDisseminationMessage, self)
 
     # Init core manager reference, if there is a core node registered on this machine
     @coreManager = FilesystemNodeBuilder.new().parseCoreManager(@filesystemConnector, @nodeRepository);
@@ -42,13 +44,9 @@ class MembershipManager
     # Check via fs api if there is dn registered
     @detachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
 
-    startAutoconnectingThread()
-  end
-
-  #This callback is invoked, when we learn about existence of a new node
-  def notifyNewNode(node)
-    #Dummy.. we simply try to connect to every new node we learn about
-    connectToNode(node)
+    #startAutoconnectingThread() # We will try it without this
+    @bootstrap = Bootstrap.new(@filesystemConnector, @nodeRepository, @trustManagement, @interconnection)
+    @bootstrap.start
   end
 
   def canConnect(authenticationData)
@@ -57,7 +55,7 @@ class MembershipManager
     return verifyResult != nil
   end
 
-  #This callback is invoked, when a new remote node has connected to our core node
+  # This callback is invoked, when a new remote node has connected to our core node
   def nodeConnected(address, slotIndex)
     #nodeId = @filesystemConnector.findNodeIdByAddress(address)
     #node, isNew = @nodeRepository.getOrCreateNode(nodeId, address)
@@ -66,7 +64,7 @@ class MembershipManager
     @coreManager.registerDetachedNode(slotIndex, placeHolderNode)
   end
 
-  #This callback is invoked, when remote node is disconnected (could be both core or detached remote node)
+  # This callback is invoked, when remote node is disconnected (could be both core or detached remote node)
   def nodeDisconnected(managerSlot)
     $log.debug("Node disconnected: #{managerSlot}")
     if ( managerSlot.slotType == DETACHED_MANAGER_SLOT )
@@ -83,21 +81,26 @@ class MembershipManager
   end
 
   def connectToNode(node)
-    # The connection attempt is done in a separate thread so that we do not block receiving
-    # Better would be to make connection non-blocking (especially the auth-negotiation which actually uses message interconnect)
     ExceptionAwareThread.new() {
-      nodeIpAddress = node.ipAddress
+      nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);
 
       # Do not know the key yet
       if nodePublicKey then
+        # If the node is connected and verified already, we should not continue
+        clientNegotiations = @trustManagement.authenticationDispatcher.clientNegotiations
+        if (clientNegotiations.has_key?(nodePublicKey) && (clientNegotiations[nodePublicKey].confirmed || clientNegotiations[nodePublicKey].confirmed.nil?))
+          $log.debug "connectToNode: terminate due right now processing session #{clientNegotiations[nodePublicKey]}"
+          Thread.kill(Thread.current) 
+        end
+
         $log.debug("Trying to connect to #{nodeIpAddress}")
         session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
 
         if session then
           # TODO: Devel proof
-          succeeded = @filesystemConnector.connect(nodeIpAddress, session.authenticationProof)
-          $log.info("Connection attempt to #{nodeIpAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
+          succeeded = @filesystemConnector.connect(node.networkAddress, session.authenticationProof)
+          $log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
           if succeeded
             slotIndex = @filesystemConnector.findDetachedManagerSlot(nodeIpAddress)
             if slotIndex.nil?
@@ -112,49 +115,31 @@ class MembershipManager
     }
   end
 
+  def handleFrom(message, from)
+    @trustManagement.registerKey(message.nodeId, message.publicKey)
+
+    node = Node.new(message.nodeId, from)
+    @nodeRepository.insertIfNotExists(node)
+
+    unless containsDetachedNode(node)
+      $log.debug "MembershipManager: PublicKeyDisseminationMessageHandler: connectToNode!"
+      connectToNode(node)
+    end
+
+    if message.sendMeYours
+      publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
+      @interconnection.dispatch(from, publicKeyDisseminationMessage)
+    end
+  end
+
   private
+
   def containsDetachedNode(node)
-    res = false;
     @detachedManagers.each { |manager|
       if ( manager != nil && node != nil && manager.coreNode.nodeId == node.nodeId )
-        res = true
-        break
+        return true
       end
     }
-    return res;
-  end
-
-  def startAutoconnectingThread()
-    ExceptionAwareThread.new() {
-      while true do
-        sleep 10
-        connectAllUnconnectedNodes()
-      end
-    }
-  end
-
-  def connectAllUnconnectedNodes()
-    @nodeRepository.eachNode { |node|
-      # TODO: This is incorrect, we just connect all nodes not yet connected
-      # A better solution would be to send a "connect-me" message to peer if connectedNodesCount < minimumConnectedPeers .. this way, we would act from a position of core node, instead of detached node as now..
-      # connectToNode(node) if !containsDetachedNode(node)
-      if !containsDetachedNode(node)
-        #$log.debug "MembershipManager: connectAllUnconnectedNodes: connectToNode(node) #{node}"
-        #pp @nodeRepository
-        #pp node
-        connectToNode(node)
-      end
-      #    connectToNode(node) if @coreManager.connectedNodesCount < @minimumConnectedPeers && !@coreManager.containsNode(node)
-    }
-  end
-  class PublicKeyDisseminationMessageHandler
-    def initialize(nodeRepository)
-      @nodeRepository = nodeRepository
-    end
-
-    def handleFrom(message, from)
-      node = Node.new message.nodeId, from.ipAddress
-      @nodeRepository.addOrReplaceNode node
-    end
+    return false
   end
 end

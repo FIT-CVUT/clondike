@@ -66,10 +66,11 @@ class MeasurementPlanParser
       lines.shift
       line = lines.shift
       while ( !lines.empty? and !line.strip.empty? )
-        groups = line.match(/([^:]+): ([\d\.]+)/)
+        groups = line.match(/([^:]+): ([\d\.]+):?(\d*)/)
         break if !groups
         nodeName = groups[1].strip
         nodeIp = groups[2]
+        #nodePort = groups[3] #TODO: take this into consideration
         preferredBinding[nodeIp] = nodeName
 
         line = lines.shift

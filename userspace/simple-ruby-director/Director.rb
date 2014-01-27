@@ -39,6 +39,8 @@ require 'measure/MeasureCliHandlers.rb'
 require 'Interconnection.rb'
 require 'ProcTrace.rb'
 
+require 'dht/DHTMessageDispatcher'
+
 require 'TestMakeAcceptLimiter'
 require 'TaskNameBasedAcceptLimiter'
 require 'MeasurementAcceptLimiter'
@@ -66,17 +68,19 @@ class Director
     @measurementLimiter = MeasurementAcceptLimiter.new()
     @immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
-    @interconnection = Interconnection.new(InterconnectionUDPMessageBroadcastDispatcher.new(@filesystemConnector), CONF_DIR)
+    @dhtMessageDispatcher = DHTMessageDispatcher.new(@filesystemConnector.getLocalNetworkAddress)
+    @interconnection = Interconnection.new(@dhtMessageDispatcher, CONF_DIR)
     initializeTrust()
 
     @idResolver = PublicKeyNodeIdResolver.new(@trustManagement)
     @nodeInfoProvider = NodeInfoProvider.new(@idResolver, @immigratedTasksController)
     @trustManagement.registerIdProvider(@idResolver)
-    currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider,@filesystemConnector.getLocalIP)
+    selfNode = SelfNode.createSelfNode(@nodeInfoProvider,@filesystemConnector.getLocalNetworkAddress)
 
-    $log.info("Starting director on node with id #{currentNode.nodeId}")
+    $log.info("Starting director on node with id #{selfNode.nodeId}")
 
-    @nodeRepository = NodeRepository.new(currentNode)
+    @nodeRepository = NodeRepository.new(selfNode)
+    @dhtMessageDispatcher.registerNodeRepository(@nodeRepository)
     @membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement,@interconnection)
     @managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
     @taskRepository = TaskRepository.new(@nodeRepository, @membershipManager)
@@ -93,11 +97,10 @@ class Director
     balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
     balancingStrategy.startDebuggingToFile("LoadBalancer.log")
     @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
-    @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository, @idResolver.getCurrentId)
-    @nodeInfoConsumer.registerNewNodeListener(@membershipManager)
+    @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository)
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
-    @nodeInfoProvider.addListener(currentNode)
+    @nodeInfoProvider.addListener(selfNode)
     @nodeInfoProvider.addLimiter(acceptLimiter)
     @nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)

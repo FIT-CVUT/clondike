@@ -1,80 +1,112 @@
+require 'monitor'
+require 'dht/BucketManager'
+
 #This class keeps track of all nodes we've ever heard about
 class NodeRepository
-  # Hash of all known nodes. Node id is the key in hash
-  attr_reader :nodes
   # Information about "this" node
   attr_reader :selfNode
 
-  def initialize(currentNode)
-    @nodes = {}
-    @selfNode = currentNode
-    @lock = Mutex.new
-  end
+  def initialize(selfNode)
+    @selfNode = selfNode
+    @bucketManager = BucketManager.new(@selfNode)
+    @bucketManager.extend(MonitorMixin)
 
-  def addOrReplaceNode node
-    @lock.synchronize {
-      @nodes[node.nodeId] = node
+    ExceptionAwareThread.new {
+      loop do
+        $log.debug "In NodeRepository are nodes:"
+        getAllNodes.each { |node|
+          $log.debug "  #{node}"
+        }
+        sleep(30)
+      end
     }
   end
 
-  # Do we really need that? ;)
-  def removeNode node
-    @lock.synchronize {
-      @nodes[node.nodeId] = nil
+  def getNode(nodeId)
+    @bucketManager.synchronize {
+      return @bucketManager.getNode(nodeId)
     }
   end
 
-  def getNode nodeId
-    @lock.synchronize {
-      @nodes[nodeId]
+  def insertOrReplaceNode(node)
+    @bucketManager.synchronize {
+      @bucketManager.insertOrReplaceNode(node)
     }
   end
 
-  def getNodeWithIp(nodeIp)
-    @lock.synchronize {
-      @nodes.values.each { |node|
-        return node if ( node.ipAddress == nodeIp )
-      }
+  def insertIfNotExists(node)
+    @bucketManager.synchronize {
+      @bucketManager.insertOrReplaceNode(node) if @bucketManager.getNode(node.nodeId).nil?
     }
   end
 
-  # Iterates all 'remote' nodes
-  def eachNode
+  # Include self node
+  def getAllNodes
     nodesClone = nil
-    @lock.synchronize {
-      nodesClone = @nodes.dup
+    @bucketManager.synchronize {
+      nodesClone = @bucketManager.getAllNodes.dup
     }
+    return nodesClone
+  end
 
-    nodesClone.values.each() { |node|
-      yield(node)
+  def getContactToNode(nodeId)
+    node = nil
+    @bucketManager.synchronize {
+      node = @bucketManager.getNode(nodeId)
+    }
+    return nil if node.nil?
+    return node.networkAddress
+  end
+
+  # the node with the exact nodeId is NOT include in the returned array of nodes
+  def getClosestNodesTo(nodeId, count = DHTConfig::K)
+    closestNodes = nil
+    @bucketManager.synchronize {
+      closestNodes = @bucketManager.getClosestNodesTo(nodeId, count).dup
+    }
+    return closestNodes
+  end
+
+  def updateLastHeartBeatTime(networkAddress)
+    getNodesCopy.each { |node|
+      if node.networkAddress == networkAddress
+        @bucketManager.synchronize {
+          @bucketManager.updateLastHeartBeatTime(node.nodeId)
+        }
+        return
+      end
     }
   end
 
-  def getNodesCopy()
-    @lock.synchronize {
-      nodesClone = @nodes.dup
+  def updateInfo(nodeId, nodeInfo)
+    @bucketManager.synchronize {
+      @bucketManager.updateInfo(nodeId, nodeInfo)
+    }
+  end
+
+  def updateState(nodeId, nodeState)
+    @bucketManager.synchronize {
+      @bucketManager.updateState(nodeId, nodeState)
     }
   end
 
   # Count of known 'remote' nodes. Does not include self
   def knownNodesCount
-    return nodes.size
+    return(getAllNodes.length-1)
   end
 
-  #Gets node by id. If there is no such a node, creates it and registers it
-  #Returns array containing node, and indicator, whether this is a newly created
-  #node or not
-  def getOrCreateNode(nodeId, ipAddress)
-    node = nil
-    newNode = false
-    @lock.synchronize {
-      node = @nodes[nodeId]
-      if !node then
-        newNode = true
-        node = Node.new(nodeId, ipAddress)
-        @nodes[nodeId] = node
-      end
+  # For binding tasks on IP Addresses in MeasuementPlan
+  def getNodeWithIp(nodeIp)
+    getAllNodes.each { |node|
+      return node if node.networkAddress.ip == nodeIp
     }
-    [node, newNode]
+    return nil
+  end
+
+  def getNodeWithNetworkAddress(networkAddress)
+    getAllNodes.each { |node|
+      return node if node.networkAddress == networkAddress
+    }
+    return nil
   end
 end

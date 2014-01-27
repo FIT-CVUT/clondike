@@ -12,43 +12,32 @@ class Bucket
     @range = range
   end
 
-  def hasKeySpaceOverlapWith?(node)
-    node.nodeId.hex >= @range[:from] && node.nodeId.hex <= @range[:to]
-  end
-
-  def contain?(node)
-    @nodes.each { |bucketNode|
-      return true if bucketNode == node
-    }
-    return false
-  end
-
-  def update(node)
-    if hasKeySpaceOverlapWith?(node) == false
-      return
-    end
-
-    updated = false
-    updatedNodeIndex = 0
-    @nodes.each_index { |bucketNodeIndex|
-      if @nodes[bucketNodeIndex] == node
-        @nodes[bucketNodeIndex].updateLastHeartBeatTime()
-        updated = true
-        updatedNodeIndex = bucketNodeIndex
+  def insertOrReplaceNode(node)
+    updatedNodeIndex = nil
+    @nodes.each_index { |nodeIndex|
+      if @nodes[nodeIndex] == node
+        updatedNodeIndex = nodeIndex
       end
     }
-    if updated == true
-      # Move an actualized node to the end of a list
-      updatedNode = @nodes.delete_at(updatedNodeIndex)
-      @nodes.push(updatedNode)
-    end
-    if updated == false && filled? == false
+    moveNodeAtTheEnd(updatedNodeIndex) if updatedNodeIndex.nil? == false
+    if updatedNodeIndex.nil? && filled? == false
       @nodes.push(node)
     end
   end
 
+  def contain?(nodeId)
+    @nodes.each { |bucketNode|
+      return true if bucketNode.nodeId == nodeId
+    }
+    return false
+  end
+
   def filled?
     @nodes.length >= DHTConfig::K
+  end
+
+  def hasKeySpaceOverlapWith(nodeId)
+    nodeId.hex >= @range[:from] && nodeId.hex <= @range[:to]
   end
 
   def split
@@ -62,15 +51,53 @@ class Bucket
     })
 
     @nodes.each { |bucketNode|
-      if bucketLower.hasKeySpaceOverlapWith?(bucketNode)
-        bucketLower.update(bucketNode)
-      elsif bucketHigher.hasKeySpaceOverlapWith?(bucketNode)
-        bucketHigher.update(bucketNode)
+      if bucketLower.hasKeySpaceOverlapWith(bucketNode.nodeId)
+        bucketLower.insertOrReplaceNode(bucketNode)
+      elsif bucketHigher.hasKeySpaceOverlapWith(bucketNode.nodeId)
+        bucketHigher.insertOrReplaceNode(bucketNode)
       else
-        raise "Imposible happened" # TODO: Improve raise
+        raise "Impossible happened, needs fix the implementation of DHT Buckets"
       end
     }
 
     return bucketLower, bucketHigher
+  end
+
+  def updateLastHeartBeatTime(nodeId)
+    updatedNodeIndex = nil
+    @nodes.each_index { |nodeIndex|
+      if @nodes[nodeIndex].nodeId == nodeId
+        @nodes[nodeIndex].updateLastHeartBeatTime()
+        updatedNodeIndex = nodeIndex
+      end
+    }
+    return if updatedNodeIndex.nil?
+    moveNodeAtTheEnd(updatedNodeIndex)
+  end
+
+  def updateInfo(nodeId, nodeInfo)
+    @nodes.each { |node|
+      if node.nodeId == nodeId
+        node.updateInfo(nodeInfo)
+        return
+      end
+    }
+  end
+
+  def updateState(nodeId, nodeState)
+    @nodes.each { |node|
+      if node.nodeId == nodeId
+        node.updateState(nodeState)
+        return
+      end
+    }
+  end
+
+  private
+
+  # Move an actualized node to the end of a list of nodes
+  def moveNodeAtTheEnd(updatedNodeIndex)
+    updatedNode = @nodes.delete_at(updatedNodeIndex)
+    @nodes.push(updatedNode)
   end
 end

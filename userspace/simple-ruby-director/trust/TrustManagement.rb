@@ -15,8 +15,7 @@ class TrustManagement
     @localIdentity = localIdentity
     @dataStore = TrustInMemoryDataStore.newDataStore(localIdentity)
     @interconnection = interconnection
-    @interconnection.addReceiveHandler(CertificateMessage, CertificateHandler.new(self)) if ( interconnection )
-    @interconnection.addReceiveHandler(PublicKeyDisseminationMessage, PublicKeyDisseminationMessageHandler.new(self)) if ( interconnection )
+    @interconnection.addReceiveHandler(CertificateMessage, CertificateHandler.new(self)) if interconnection
 
     @authenticationDispatcher = AuthenticationDispatcher.new(localIdentity, interconnection)
 
@@ -25,9 +24,9 @@ class TrustManagement
 
     #@localIdentity.certificateStore.changeListener.addListener(BroadcastCertificateChangeListener.new(@interconnection))
 
-    ExceptionAwareThread.new() {
-      publicKeyBroadcastingThread();
-    }
+    #ExceptionAwareThread.new() {
+    #  publicKeyBroadcastingThread();
+    #}
   end
 
   # Called by a "client" when he wants to establish session with a remote node.
@@ -134,15 +133,15 @@ class TrustManagement
     return false
   end
 
-  # Thread to periodically broadcast full public key (mapped to nodeId)
-  def publicKeyBroadcastingThread
-    while true do
-      sleep(10)
-      next if !@idProvider
-      message = PublicKeyDisseminationMessage.new(@idProvider.getCurrentId, @localIdentity.publicKey)
-      @interconnection.dispatch(nil, message) if @interconnection
-    end
-  end
+#  # Thread to periodically broadcast full public key (mapped to nodeId)
+#  def publicKeyBroadcastingThread
+#    while true do
+#      sleep(10)
+#      next if !@idProvider
+#      message = PublicKeyDisseminationMessage.new(@idProvider.getCurrentId, @localIdentity.publicKey)
+#      @interconnection.dispatch(nil, message) if @interconnection
+#    end
+#  end
 end
 
 class CertificateHandler
@@ -195,16 +194,5 @@ class PublicKeyNodeIdResolver
 
   def requiredIdentityClass()
     return String.class
-  end
-end
-
-
-class PublicKeyDisseminationMessageHandler
-  def initialize(trustManagement)
-    @trustManagement = trustManagement
-  end
-
-  def handle(message)
-    @trustManagement.registerKey(message.nodeId, message.publicKey)
   end
 end

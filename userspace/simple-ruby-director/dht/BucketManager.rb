@@ -1,54 +1,89 @@
+#
+# Implements Kademlia DHT Routing Table
+# Based on a paper:
+#   Kademlia: A Peer-to-Peer Information System Based on the XOR Metric, Petar Maymounkov and David Mazieresi, 2002
+#
 require 'dht/Config'
 require 'dht/Bucket'
 
 class BucketManager
-  def initialize(currentNode)
-    checkValidityNode(currentNode)
-    @currentNode = currentNode
+  def initialize(selfNode)
+    checkValiditiyNodeId(selfNode.nodeId)
+    @selfNode = selfNode
     bucket = Bucket.new
-    bucket.update(@currentNode)
+    bucket.insertOrReplaceNode(@selfNode)
     @buckets = []
     @buckets.push(bucket)
   end
 
-  def getClosestNodesTo(node, count = DHTConfig::K)
-    checkValidityNode(node)
+  def getNode(nodeId)
+    bucketIndex = getBucketIndexFor(nodeId)
+    @buckets[bucketIndex].nodes.each { |node|
+      return node if node.nodeId == nodeId
+    }
+    return nil
+  end
+
+  def insertOrReplaceNode(node)
+    bucketIndex = getBucketIndexFor(node.nodeId)
+    if @buckets[bucketIndex].contain?(@selfNode.nodeId) && @buckets[bucketIndex].filled? && (@buckets[bucketIndex].contain?(node.nodeId) == false)
+      splitBucketWithIndex(bucketIndex)
+      insertOrReplaceNode(node) # Recursive
+    else
+      @buckets[bucketIndex].insertOrReplaceNode(node)
+    end
+  end
+
+  def getAllNodes
+    allNodes=[]
+    @buckets.each { |bucket|
+      allNodes.push(bucket.nodes)
+    }
+    return allNodes.flatten
+  end
+
+  # the node with the exact nodeId is NOT include in the returned array of nodes
+  def getClosestNodesTo(nodeId, count = DHTConfig::K)
     closestNodes = []
-    startIndexBucket = getBucketIndexFor(node)
+    startIndexBucket = getBucketIndexFor(nodeId)
     minimalDistance = 0
     while closestNodes.length < count do
-      index = getClosestBucketIndexFor(node, minimalDistance)
+      index = getClosestBucketIndexFor(nodeId, minimalDistance)
       break if index.nil?
       sortedBucketNodesList = @buckets[index].nodes.sort { |x,y|
-        x.getDistanceTo(node) <=> y.getDistanceTo(node)
+        x.getDistanceTo(nodeId) <=> y.getDistanceTo(nodeId)
       }
       sortedBucketNodesList.each { |bucketNode|
-        closestNodes.push(bucketNode) if closestNodes.length < count
+        closestNodes.push(bucketNode) if (closestNodes.length < count) && (bucketNode.nodeId != nodeId)
       }
       minimalDistance = getDifferenceDistancesWithIndexes(startIndexBucket, index)+1
     end
     closestNodes
   end
 
-  def update(node)
-    checkValidityNode(node)
-    bucketIndex = getBucketIndexFor(node)
-    if @buckets[bucketIndex].contain?(@currentNode) && @buckets[bucketIndex].filled? && (@buckets[bucketIndex].contain?(node) == false)
-      splitBucketWithIndex(bucketIndex)
-      update(node) # Recursive
-    else
-      @buckets[bucketIndex].update(node)
-    end
+  def updateLastHeartBeatTime(nodeId)
+    bucketIndex = getBucketIndexFor(nodeId)
+    @buckets[bucketIndex].updateLastHeartBeatTime(nodeId)
+  end
+
+  def updateInfo(nodeId, nodeInfo)
+    bucketIndex = getBucketIndexFor(nodeId)
+    @buckets[bucketIndex].updateInfo(nodeId, nodeInfo)
+  end
+
+  def updateState(nodeId, nodeState)
+    bucketIndex = getBucketIndexFor(nodeId)
+    @buckets[bucketIndex].updateState(nodeId, nodeState)
   end
 
   private
 
-  def checkValidityNode(node)
-    if node.nil?
-      raise "Node cannot be nil"
+  def checkValiditiyNodeId(nodeId)
+    if nodeId.nil?
+      raise "NodeId cannot be nil"
       return false
     end
-    if node.nodeId.hex < 0 || node.nodeId.hex > DHTConfig::SIZE_NODE_ID_SPACE-1
+    if nodeId.hex < 0 || nodeId.hex > DHTConfig::SIZE_NODE_ID_SPACE-1
       raise "Non-valid NodeId"
       return false
     end
@@ -66,16 +101,15 @@ class BucketManager
     return(diffDistFrom+diffDistTo)
   end
 
-  def getClosestBucketIndexFor(node, minimalDistance = 0)
-    startIndex = getBucketIndexFor(node)
+  # TODO: Too long
+  def getClosestBucketIndexFor(nodeId, minimalDistance = 0)
+    startIndex = getBucketIndexFor(nodeId)
     if minimalDistance == 0
       return startIndex
     end
 
     toLower = {:index => startIndex, :distance => 0}
     toHigher = {:index => startIndex, :distance => 0}
-
-    actualIndex = startIndex
 
     while toLower[:distance] < minimalDistance && toHigher[:distance] < minimalDistance
       if toLower[:index] > 0 && toHigher[:index] < (@buckets.length-1)
@@ -103,14 +137,15 @@ class BucketManager
     return toHigher[:index]
   end
 
-  def getBucketIndexFor(node)
+  def getBucketIndexFor(nodeId)
+    checkValiditiyNodeId(nodeId)
     # TODO: instead this should be smart map function
     @buckets.each_index { |bucketIndex|
-      if @buckets[bucketIndex].hasKeySpaceOverlapWith?(node)
+      if @buckets[bucketIndex].hasKeySpaceOverlapWith(nodeId)
         return bucketIndex
       end
     }
-    raise "Did not find bucket for node ", node
+    raise "Did not find bucket for nodeId ", nodeId
   end
 
   def splitBucketWithIndex(bucketIndex)

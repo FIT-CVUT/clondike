@@ -1,14 +1,4 @@
-class TimeoutException<RuntimeError
-  attr_reader :text
-
-  def initialize(text)
-    @text = text
-  end
-
-  def to_s
-    "#{text}"
-  end
-end
+require 'Util'
 
 class NegotiatedSession
   # Public key of the node requesting the session
@@ -58,12 +48,15 @@ class NegotiatedSession
       @condition.wait(timeoutSeconds) if @confirmed == nil
     }
   end
+
+  def to_s
+    "Session with #{@peerNodeId}, timestamp: #{@timestamp}, result: #{@confirmed}"
+  end
 end
 
 module PseudoRandomNumberGenerator
-  def generatePseudoRandomNumber(bits = 64) # The longer is the better, but much long caused some troubles
-    rand(2**bits-1)
-    #rand(99999999999999999) # Deprecated, however well runable
+  def generatePseudoRandomNumber(bits = 64) # The longer is the better, but much long unfortunately caused some troubles
+    rand(2**bits)
   end
 end
 
@@ -71,6 +64,8 @@ class AuthenticationDispatcher
   include PseudoRandomNumberGenerator
   attr_reader :localIdentity
   attr_reader :interconnection
+  attr_reader :clientNegotiations
+  attr_reader :serverNegotiations
 
   def initialize(localIdentity, interconnection)
     @localIdentity = localIdentity
