@@ -19,14 +19,12 @@ class TrustManagement
 
     @authenticationDispatcher = AuthenticationDispatcher.new(localIdentity, interconnection)
 
+    $log.debug "public Key: #{@localIdentity.publicKey}"
+
     # Maps nodeId -> public key of that node as known from periodic broadcast
     @keyMap = {}
 
     #@localIdentity.certificateStore.changeListener.addListener(BroadcastCertificateChangeListener.new(@interconnection))
-
-    #ExceptionAwareThread.new() {
-    #  publicKeyBroadcastingThread();
-    #}
   end
 
   # Called by a "client" when he wants to establish session with a remote node.
@@ -50,7 +48,7 @@ class TrustManagement
   # If the public key is allowed to connect, create and return a new session
   # otherwise nil is returned
   def verifyAuthentication(authenticationData)
-    return false if !authenticationData
+    return nil if !authenticationData
     proof = authenticationData
 
     requestValid = @authenticationDispatcher.checkNewSessionRequest(proof)
@@ -67,7 +65,8 @@ class TrustManagement
   end
 
   def getKey(nodeId)
-    return @keyMap[nodeId]
+    return @keyMap[nodeId] if @keyMap.has_key?(nodeId)
+    return nil
   end
 
   def registerIdProvider(idProvider)
@@ -101,7 +100,30 @@ class TrustManagement
   def verifySignature(data, signature, signedBy)
     signedBy.verifySignature(signature, data)
   end
+
+  # Returns true or false
+  # If a confirmation is just now proccessing, THIS METHOD WILL WAIT for the result of the confirmation
+  def isVerified?(nodeId)
+    session = getSession(nodeId)
+    return false if session.nil?
+    session.waitForConfirmationState()
+    return (session.confirmed == true ? true : false)
+  end
+
+  def getSession(nodeId)
+    key = getKey(nodeId)
+    return nil if key.nil?
+    cliNegs = @authenticationDispatcher.clientNegotiations
+    srvNegs = @authenticationDispatcher.serverNegotiations
+    return cliNegs[key] if (cliNegs.has_key?(key) && cliNegs[key].confirmed == true)
+    return srvNegs[key] if (srvNegs.has_key?(key) && srvNegs[key].confirmed == true)
+    return cliNegs[key] if cliNegs.has_key?(key)
+    return srvNegs[key] if srvNegs.has_key?(key)
+    return nil
+  end
+
   private
+
   def checkEntityPermission(localEntity, entity, permission)
     return true if ( checkEntityPermissionNoRecurse(localEntity, entity, permission) )
 
@@ -132,16 +154,6 @@ class TrustManagement
 
     return false
   end
-
-#  # Thread to periodically broadcast full public key (mapped to nodeId)
-#  def publicKeyBroadcastingThread
-#    while true do
-#      sleep(10)
-#      next if !@idProvider
-#      message = PublicKeyDisseminationMessage.new(@idProvider.getCurrentId, @localIdentity.publicKey)
-#      @interconnection.dispatch(nil, message) if @interconnection
-#    end
-#  end
 end
 
 class CertificateHandler

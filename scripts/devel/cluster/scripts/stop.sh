@@ -1,3 +1,3 @@
-pkill ruby
-pkill make
-pkill cc1
+#!/bin/bash
+
+/root/clondike/scripts/stop.sh

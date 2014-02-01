@@ -97,6 +97,7 @@ class NodeRepository
 
   # For binding tasks on IP Addresses in MeasuementPlan
   def getNodeWithIp(nodeIp)
+    return nil if nodeIp.nil?
     getAllNodes.each { |node|
       return node if node.networkAddress.ip == nodeIp
     }
@@ -104,6 +105,7 @@ class NodeRepository
   end
 
   def getNodeWithNetworkAddress(networkAddress)
+    return nil if networkAddress.class != NetworkAddress
     getAllNodes.each { |node|
       return node if node.networkAddress == networkAddress
     }

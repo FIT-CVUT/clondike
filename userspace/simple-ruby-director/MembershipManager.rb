@@ -44,9 +44,36 @@ class MembershipManager
     # Check via fs api if there is dn registered
     @detachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
 
-    #startAutoconnectingThread() # We will try it without this
     @bootstrap = Bootstrap.new(@filesystemConnector, @nodeRepository, @trustManagement, @interconnection)
     @bootstrap.start
+
+    ExceptionAwareThread.new {
+      $log.debug "Membership Auto-mounting thread starting!"
+      loop do
+        sleep(10)
+        $log.debug "Auto-mounting thread cycle:"
+        @nodeRepository.getAllNodes.each { |node|
+          next if node == @nodeRepository.selfNode
+          if @trustManagement.isVerified?(node.nodeId)
+            unless containsDetachedNode(node)
+              $log.debug "Try via echo to FS add #{node}"
+              if node.networkAddress.class == NetworkAddress
+                timer = Time.now
+                networkAddressHooked = NetworkAddress.new(node.networkAddress.ip, 54321)
+                res = @filesystemConnector.connect(networkAddressHooked, "") # This is time cost
+                $log.debug "FS connect result: #{res}, and trvalo to #{Time.now - timer} sekund"
+              elsif
+                $log.debug "Network address is invalid! #{node.networkAddress}"
+              end
+              sleep(1)
+            end
+          elsif
+            $log.debug "Auto-mounting thread: #{node} is not verified"
+            connectToNode(node)
+          end
+        }
+      end
+    }
   end
 
   def canConnect(authenticationData)
@@ -59,7 +86,18 @@ class MembershipManager
   def nodeConnected(address, slotIndex)
     #nodeId = @filesystemConnector.findNodeIdByAddress(address)
     #node, isNew = @nodeRepository.getOrCreateNode(nodeId, address)
-    placeHolderNode = Node.new(nil, address) # Just a placeholder node with no id, not even registered to repository
+    chunks = address.split(":")
+    if chunks.length != 2
+      $log.debug "MembershipManager: nodeConnected: invalid newtork address #{address}"
+      require 'Util'
+      showBacktrace()
+      return nil
+    end
+    networkAddress = NetworkAddress.new(chunks[0], chunks[1])
+    placeHolderNode = @nodeRepository.getNodeWithIp(networkAddress.ip)
+    if placeHolderNode.nil?
+      placeHolderNode = Node.new(nil, networkAddress) # Just a placeholder node with no id, not even registered to repository
+    end
     $log.debug("Adding detached placeholder node: #{slotIndex} .. #{placeHolderNode}")
     @coreManager.registerDetachedNode(slotIndex, placeHolderNode)
   end
@@ -85,20 +123,19 @@ class MembershipManager
       nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);
 
-      # Do not know the key yet
       if nodePublicKey then
-        # If the node is connected and verified already, we should not continue
-        clientNegotiations = @trustManagement.authenticationDispatcher.clientNegotiations
-        if (clientNegotiations.has_key?(nodePublicKey) && (clientNegotiations[nodePublicKey].confirmed || clientNegotiations[nodePublicKey].confirmed.nil?))
-          $log.debug "connectToNode: terminate due right now processing session #{clientNegotiations[nodePublicKey]}"
-          Thread.kill(Thread.current) 
+        session = nil
+        # If the node is verified already, we wont to verified again
+        if @trustManagement.isVerified?(node.nodeId)
+          negotiationSession = @trustManagement.getSession(node.nodeId)
+          session = Session.new(nodePublicKey, negotiationSession.proof)
+        elsif
+          $log.debug("Trying verify #{node}")
+          session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
         end
 
-        $log.debug("Trying to connect to #{nodeIpAddress}")
-        session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
-
         if session then
-          # TODO: Devel proof
+          # The Proof is prooved in trust/AuthenticationDispatcher.rb
           succeeded = @filesystemConnector.connect(node.networkAddress, session.authenticationProof)
           $log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
           if succeeded
@@ -111,6 +148,10 @@ class MembershipManager
             end
           end
         end
+      elsif
+        # Do not know the key yet
+        publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey, true)
+        @interconnection.dispatch(node.nodeId, publicKeyDisseminationMessage)
       end
     }
   end
@@ -135,6 +176,10 @@ class MembershipManager
   private
 
   def containsDetachedNode(node)
+    startTime = Time.now
+    @detachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
+    $log.debug "ParseDetachedManagers time: #{Time.now-startTime}"
+
     @detachedManagers.each { |manager|
       if ( manager != nil && node != nil && manager.coreNode.nodeId == node.nodeId )
         return true

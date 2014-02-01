@@ -30,8 +30,13 @@ class Node
   attr_accessor :staticNodeInfo
 
   def initialize(nodeId, networkAddress)
-    @nodeId = nodeId
+    @nodeId = nodeId.to_s
     @networkAddress = networkAddress
+    if @networkAddress.class != NetworkAddress
+      $log.warn "Node.new: Appeared non-valid network address: #{@networkAddress}"
+      require 'Util'
+      showBacktrace()
+    end
     @nodeInfo = nil # We have no info in the beginning
     @staticNodeInfo = nil
     @lastHeartBeatTime = Time.now()
@@ -58,7 +63,7 @@ class Node
   end
 
   def ==(other)
-    other.class == Node && @nodeId == other.nodeId
+    (other.class == Node || other.class == SelfNode) && @nodeId == other.nodeId
   end
 
   def getDistanceTo(nodeId)
@@ -66,7 +71,7 @@ class Node
   end
 
   def to_s
-    "Node: #{networkAddress} - #{nodeId} - #{state}"
+    "#{nodeId} [#{networkAddress}]"
   end
 end
 

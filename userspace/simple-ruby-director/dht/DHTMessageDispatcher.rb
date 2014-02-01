@@ -38,7 +38,7 @@ class DHTMessageDispatcher
       end
       @nodeRepository.getAllNodes.each { |node|
         next if node.nodeId == @nodeRepository.selfNode.nodeId
-        $log.debug "SEND #{message} TO #{node}"
+        $log.debug "SEND TO #{node}\n#{message}"
         #showBacktrace
         #@sendingSocket.send(Marshal.dump(message), 0, node.networkAddress.ip, node.networkAddress.port)
         @sendingSocket.send(Marshal.dump(message), 0, node.networkAddress.ip, @port) # FIXME: hardcoded port
@@ -63,7 +63,7 @@ class DHTMessageDispatcher
         end
       end
 
-      $log.debug "SEND #{message} TO #{contact}"
+      $log.debug "SEND TO #{contact}\n#{message}"
       #showBacktrace
       #@sendingSocket.send(Marshal.dump(message), 0, contact.ip, contact.port)
       @sendingSocket.send(Marshal.dump(message), 0, contact.ip, @port) # FIXME: hardcoded port
@@ -78,7 +78,7 @@ class DHTMessageDispatcher
     end
     message = Marshal.load(recvData)
     from = NetworkAddress.new(addr.last, addr[1])
-    $log.debug("RECEIVE #{message} FROM #{from}")
+    $log.debug("RECEIVE FROM #{from}\n#{message}")
 
     [message, from]
   end

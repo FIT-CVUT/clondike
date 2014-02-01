@@ -37,7 +37,7 @@ class Bootstrap
             initLookUpNodeIdRequest(node) unless @requestedNodes.include?(node.nodeId)
           }
         }
-        sleep(4)
+        sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)
       end
       $log.debug "Bootstrap: Successful Completed!"
       @nodeRepository.getAllNodes.each { |node|
@@ -88,6 +88,7 @@ class Bootstrap
     }
 
     # Wait for appear some 'remote' nodes in NodeRepository
+    # TODO: Nicer will be non-active waiting via Monitor, VariableCondition, Wait and Signal/Broadcast
     loop do
       break if areWeJoinedAtLeastOneNode?
       sleep(1)

@@ -1,4 +1,7 @@
+require 'set'
+require 'Util'
 require 'NetworkAddress'
+require 'monitor'
 
 # This class interacts with the kernel module via its exported pseudo-fs
 class FilesystemConnector
@@ -7,6 +10,48 @@ class FilesystemConnector
     @rootPath = "/clondike"
     @coreRootPath = "#{@rootPath}/ccn"
     @detachedRootPath = "#{@rootPath}/pen"
+
+    @connectAddresses = Set.new
+    @connectAddresses.extend(MonitorMixin)
+
+    ExceptionAwareThread.new {
+      loop do
+
+        # This:
+        #
+        #authString = authenticationData != nil ? "@#{authenticationData}" : ""
+        #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
+        #
+        # the authString is pretty good, but caused creating directory like this:
+        #    /clondike/pen/nodes/192.168.0.4:54321
+        #                                    ^^^^^
+        # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
+
+        # TODO: Hardcoded protocol and port
+        #$log.debug "echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect"
+        unless @connectAddresses.empty?
+          contactedAddress = nil
+          @connectAddresses.synchronize {
+            @connectAddresses.each { |networkAddress|
+              contactedAddress = networkAddress
+              break
+            }
+          }
+          $log.debug "echo tcp:#{contactedAddress.ip}:54321 > #{@detachedRootPath}/connect"
+          timer = Time.now
+          `echo tcp:#{contactedAddress.ip}:54321 > #{@detachedRootPath}/connect` # This is time expensive (10+ seconds)
+          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}) took #{Time.now - timer}, result #{$? == 0}"
+          @connectAddresses.delete(contactedAddress)
+        end
+        sleep(1)
+        #if system("echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect")
+        #  true
+        #else
+        #  false
+        #end
+
+      end
+    }
   end
 
   # Returns true, if core manager is registered on this computer
@@ -82,25 +127,10 @@ class FilesystemConnector
   #Tries to connect to a remote core node. Returns boolean informing about
   #the connection attempt result
   def connect(networkAddress, authenticationData)
-
-    # This:
-    #
-    #authString = authenticationData != nil ? "@#{authenticationData}" : ""
-    #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
-    #
-    # the authString is pretty good, but caused creating directory like this:
-    #    /clondike/pen/nodes/192.168.0.4:54321
-    #                                    ^^^^^
-    # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
-
-    # TODO: Hardcoded protocol and port
-    $log.debug "echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect"
-    #$? == 0 ? true : false
-    if system("echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect")
-      true
-    else
-      false
-    end
+    @connectAddresses.synchronize {
+      @connectAddresses.add(networkAddress)
+    }
+    return true
   end
 
   # Attempt to gracefully disconnect node
@@ -120,8 +150,21 @@ class FilesystemConnector
   end
 
   def getBootstrapNodes
-    # TODO: Read file with nodes
-    return [NetworkAddress.new("192.168.1.1")]
+    bootstrapListFile = "#{Dir.pwd}/BootstrapList.txt"
+    bootstrapList = []
+    File.open(bootstrapListFile, "r") do |file|
+      file.each_line do |line|
+        address = line.match(/([\d\.]+):?(\d+)/)
+        unless address
+          $log.warn "In reading #{bootstrapListFile} skip the line: '#{line.strip}'"
+          next
+        end
+        ip = address[1].gsub(/\s+/, "")
+        port = address[2].gsub(/\s+/, "")
+        bootstrapList.push(NetworkAddress.new(ip, port))
+      end
+    end
+    return bootstrapList
   end
 
   private

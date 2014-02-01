@@ -102,7 +102,9 @@ class Identity
   def decrypt(encryptedData)
     @privateKey.private_decrypt(encryptedData)
   end
+
   protected
+
   def initialize(directory, distributionStrategy, privateKey, publicKey, certificate)
     @directory = directory
     @privateKey = privateKey
@@ -136,8 +138,35 @@ class Identity
   end
 end
 
-module Base64Tools
-  def splitBase64(string)
+class RSAKeyTools
+  def self.generate(number)
+    rsaKey = RSAPublicKey.new(nil)
+    rsaKey.__setobj__(OpenSSL::PKey::RSA.generate(number))
+    return rsaKey
+  end
+  def self.undecoratedLoad(undecoratedPemKey)
+    res = undecoratedPemKey
+    res = res.sub("-----BEGIN PUBLIC KEY-----","")      # Ruby <= 1.8.7
+    res = res.sub("-----BEGIN RSA PUBLIC KEY-----","")  # Ruby >= 1.9.3
+    res = res.sub("-----END PUBLIC KEY-----","")        # Ruby <= 1.8.7
+    res = res.sub("-----END RSA PUBLIC KEY-----","")    # Ruby >= 1.9.3
+    unundecoratedText = RSAKeyTools.unsplitBase64(res)
+    decoratedText = RSAKeyTools.decoratedKey(unundecoratedText)
+    RSAPublicKey.new(decoratedText)
+  end
+  def self.decoratedKey(undecoratedPemKey)
+    beginString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
+    endString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
+    res = undecoratedPemKey.to_s
+    res = res.sub("-----BEGIN PUBLIC KEY-----","")      # Ruby <= 1.8.7
+    res = res.sub("-----BEGIN RSA PUBLIC KEY-----","")  # Ruby >= 1.9.3
+    res = res.sub("-----END PUBLIC KEY-----","")        # Ruby <= 1.8.7
+    res = res.sub("-----END RSA PUBLIC KEY-----","")    # Ruby >= 1.9.3
+    unundecoratedText = RSAKeyTools.unsplitBase64(res)
+
+    "#{beginString}\n#{RSAKeyTools.splitBase64(unundecoratedText)}\n#{endString}\n"
+  end
+  def self.splitBase64(string)
     r = []
     len = 64
     start = 0
@@ -147,34 +176,8 @@ module Base64Tools
     end
     return r.join("\n")
   end
-
-  def unsplitBase64(string)
+  def self.unsplitBase64(string)
     string.gsub(/\n/,"")
-  end
-end
-
-module RSAKeyDecorating
-  def undecoratedLoad(undecoratedPemKey)
-    res = undecoratedPemKey
-    res = res.sub("-----BEGIN PUBLIC KEY-----","")
-    res = res.sub("-----END PUBLIC KEY-----","")
-    unundecoratedText = RSAKeyTools.unsplitBase64(res)
-    decoratedText = RSAKeyTools.decoratedKey(unundecoratedText)
-    RSAPublicKey.new(decoratedText)
-  end
-  def decoratedKey(undecoratedPemKey)
-    "-----BEGIN PUBLIC KEY-----\n#{RSAKeyTools.splitBase64(undecoratedPemKey)}\n-----END PUBLIC KEY-----\n"
-  end
-end
-
-class RSAKeyTools
-  extend Base64Tools
-  extend RSAKeyDecorating
-
-  def self.generate(number)
-    rsaKey = RSAPublicKey.new(nil)
-    rsaKey.__setobj__(OpenSSL::PKey::RSA.generate(number))
-    return rsaKey
   end
 end
 
@@ -185,8 +188,10 @@ class RSAPublicKey < SimpleDelegator
 
   def undecorated_to_s
     res = __getobj__.to_s
-    res = res.sub("-----BEGIN PUBLIC KEY-----","")
-    res = res.sub("-----END PUBLIC KEY-----","")
+    res = res.sub("-----BEGIN PUBLIC KEY-----","")      # Ruby <= 1.8.7
+    res = res.sub("-----BEGIN RSA PUBLIC KEY-----","")  # Ruby >= 1.9.3
+    res = res.sub("-----END PUBLIC KEY-----","")        # Ruby <= 1.8.7
+    res = res.sub("-----END RSA PUBLIC KEY-----","")    # Ruby >= 1.9.3
     RSAKeyTools.unsplitBase64(res)
   end
 
@@ -200,6 +205,8 @@ class RSAPublicKey < SimpleDelegator
 
   def marshal_load(var)
     #puts "UNMARSHALING: #{var} #{var.class}"
+    $log.debug "Identity: var = #{var}"
+    $log.debug "Identity: decoratedKey(var) = #{RSAKeyTools.decoratedKey(var)}"
     rsaKey = OpenSSL::PKey::RSA.new(RSAKeyTools.decoratedKey(var))
     __setobj__(rsaKey)
   end

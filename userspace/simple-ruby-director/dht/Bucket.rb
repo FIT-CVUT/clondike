@@ -17,9 +17,10 @@ class Bucket
     @nodes.each_index { |nodeIndex|
       if @nodes[nodeIndex] == node
         updatedNodeIndex = nodeIndex
+        @nodes[nodeIndex] = node.dup
       end
     }
-    moveNodeAtTheEnd(updatedNodeIndex) if updatedNodeIndex.nil? == false
+    moveNodeAtTheEnd(updatedNodeIndex) if updatedNodeIndex.nil? != true
     if updatedNodeIndex.nil? && filled? == false
       @nodes.push(node)
     end

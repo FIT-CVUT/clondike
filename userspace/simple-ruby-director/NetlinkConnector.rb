@@ -97,15 +97,15 @@ class NetlinkConnector
 
   def connectorNodeConnectedCallbackFunction (address, slotIndex, authenticationData)
     $log.info("New node tries to connect: #{address} - #{slotIndex} - #{authenticationData}")
-    address = address.split(":").first  # Remove port section of address
-    if ( @membershipManager.coreManager and @membershipManager.canConnect(authenticationData)) then
-      puts "Accept"
-      @membershipManager.nodeConnected(address, slotIndex)
-      return true
-    else
-      puts "Reject"
-      return false
-    end
+    #address = address.split(":").first  # Remove port section of address
+    #if ( @membershipManager.coreManager and @membershipManager.canConnect(authenticationData)) then
+    puts "Accept"
+    @membershipManager.nodeConnected(address, slotIndex)
+    return true
+    #else
+    #  puts "Reject"
+    #  return false
+    #end
   end
 
   def connectorNodeDisconnectedCallbackFunction (slotIndex, slotType, reason)

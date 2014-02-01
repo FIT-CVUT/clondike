@@ -33,8 +33,9 @@ class ManagerMonitor
   private
   def heartBeatingThread()
     while true do
+      startTime = Time.now()
       emitHeartBeats()
-      sleep @heartBeatPeriod # This is not correct, we should actually sleep just the remaining portion of time..
+      sleep(@heartBeatPeriod - (Time.now() - startTime))
     end
   end
 

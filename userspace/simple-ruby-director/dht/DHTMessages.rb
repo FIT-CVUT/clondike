@@ -14,11 +14,15 @@ class LookUpNodeIdRequestMessageHandler
   end
   def handleFrom(message, from)
     closestNodes = @nodeRepository.getClosestNodesTo(message.lookUpNodeId, message.countClosestNodes)
-    responseMessage = LookUpNodeIdResponseMessage.new(closestNodes)
+    closestNodesWithoutSelfNodeClass = []
+    closestNodes.each { |node|
+      closestNodesWithoutSelfNodeClass.push(Node.new(node.nodeId, node.networkAddress)) if node == @nodeRepository.selfNode
+      closestNodesWithoutSelfNodeClass.push(node)
+    }
+    responseMessage = LookUpNodeIdResponseMessage.new(closestNodesWithoutSelfNodeClass)
     @interconnection.dispatch(from, responseMessage)
   end
 end
-
 
 class LookUpNodeIdResponseMessage
   attr_reader :listOfClosestNodes
