@@ -19,8 +19,6 @@ class TrustManagement
 
     @authenticationDispatcher = AuthenticationDispatcher.new(localIdentity, interconnection)
 
-    $log.debug "public Key: #{@localIdentity.publicKey}"
-
     # Maps nodeId -> public key of that node as known from periodic broadcast
     @keyMap = {}
 

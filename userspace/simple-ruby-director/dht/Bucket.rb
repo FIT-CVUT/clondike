@@ -1,3 +1,9 @@
+#
+# Please, care about unit tests if you modify this file
+# From simple-ruby-director run:
+#   $ ruby -I . test/dht/BucketManagerTest.rb
+#
+
 require 'dht/Config'
 
 class Bucket

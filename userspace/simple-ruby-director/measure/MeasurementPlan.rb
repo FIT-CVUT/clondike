@@ -304,17 +304,17 @@ class Measurement
     nodeCount = nodeCount + 1
 
     # TODO: We are not checking for limits when processing preferred nodes!
-    candidateNodes = nodeRepository.getNodesCopy()
+    candidateNodes = nodeRepository.getAllNodes()
     preferredBinding.each { |nodeIp, nodeName|
       node = nodeRepository.getNodeWithIp(nodeIp)
       if ( node ) then
-        candidateNodes.delete(node.nodeId)
+        candidateNodes.delete(node)
         @nodeMapping[nodeName] = node
         nodeCount = nodeCount + 1
       end
     }
 
-    candidateNodes.each { |nodeId, node|
+    candidateNodes.each { |node|
       next if !node
       if requiredNodeCount > nodeCount
         name = "RemoteNode#{nodeCount}"

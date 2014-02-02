@@ -47,28 +47,27 @@ class MembershipManager
     @bootstrap = Bootstrap.new(@filesystemConnector, @nodeRepository, @trustManagement, @interconnection)
     @bootstrap.start
 
+    startAutoConnectingThread()
+  end
+
+  def startAutoConnectingThread
     ExceptionAwareThread.new {
-      $log.debug "Membership Auto-mounting thread starting!"
       loop do
         sleep(10)
-        $log.debug "Auto-mounting thread cycle:"
         @nodeRepository.getAllNodes.each { |node|
           next if node == @nodeRepository.selfNode
           if @trustManagement.isVerified?(node.nodeId)
             unless containsDetachedNode(node)
-              $log.debug "Try via echo to FS add #{node}"
               if node.networkAddress.class == NetworkAddress
-                timer = Time.now
-                networkAddressHooked = NetworkAddress.new(node.networkAddress.ip, 54321)
-                res = @filesystemConnector.connect(networkAddressHooked, "") # This is time cost
-                $log.debug "FS connect result: #{res}, and trvalo to #{Time.now - timer} sekund"
+                networkAddressHooked = NetworkAddress.new(node.networkAddress.ip, 54321) # TODO: hard coded port
+                $log.debug "MembershipManager: AutoConnectingThread tries connect address #{networkAddressHooked}"
+                res = @filesystemConnector.connect(networkAddressHooked, "")
               elsif
-                $log.debug "Network address is invalid! #{node.networkAddress}"
+                $log.warn "Network address is invalid! #{node.networkAddress}"
               end
-              sleep(1)
             end
           elsif
-            $log.debug "Auto-mounting thread: #{node} is not verified"
+            # Not verified yet
             connectToNode(node)
           end
         }
@@ -88,7 +87,7 @@ class MembershipManager
     #node, isNew = @nodeRepository.getOrCreateNode(nodeId, address)
     chunks = address.split(":")
     if chunks.length != 2
-      $log.debug "MembershipManager: nodeConnected: invalid newtork address #{address}"
+      $log.error "MembershipManager: nodeConnected: invalid newtork address #{address}"
       require 'Util'
       showBacktrace()
       return nil
@@ -176,9 +175,7 @@ class MembershipManager
   private
 
   def containsDetachedNode(node)
-    startTime = Time.now
     @detachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
-    $log.debug "ParseDetachedManagers time: #{Time.now-startTime}"
 
     @detachedManagers.each { |manager|
       if ( manager != nil && node != nil && manager.coreNode.nodeId == node.nodeId )

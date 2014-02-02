@@ -37,7 +37,7 @@ class Certificate
   end
 
   def toStringWithSignature
-    @signature != nil ? "#{toStringWithoutSignature()}\nSignature: #{unsplitBase64(Base64.encode64(@signature))}" : toStringWithoutSignature()
+    @signature != nil ? "#{toStringWithoutSignature()}\nSignature: #{RSAKeyTools.unsplitBase64(Base64.encode64(@signature))}" : toStringWithoutSignature()
   end
 end
 
@@ -186,13 +186,13 @@ def loadCertificate(fileName)
 
   certificate = nil
   certificateId = valuePairs['Id']
-  issuerKey = RSAKeyTools.undecoratedLoad(valuePairs['Issuer'])
+  issuerKey = RSAKeyTools.load(valuePairs['Issuer'])
 
   if ( !permissions.empty? )
     # Authorization cert
-    authorizee = RSAKeyTools.undecoratedLoad(valuePairs['Authorizee'])
+    authorizee = RSAKeyTools.load(valuePairs['Authorizee'])
     authorizedGroup = valuePairs['Authorized group']
-    target = RSAKeyTools.undecoratedLoad(valuePairs['Target'])
+    target = RSAKeyTools.load(valuePairs['Target'])
     targetGroup = valuePairs['Target group']
     canDelegate = valuePairs['Can delegate'] == 'true'
     backPropagate = valuePairs['Back propagate'] == 'true'
@@ -205,22 +205,22 @@ def loadCertificate(fileName)
   elsif ( valuePairs.has_key?("Member") )
     # Group cert
     groupName = valuePairs['Group name']
-    member = RSAKeyTools.undecoratedLoad(valuePairs['Member'])
+    member = RSAKeyTools.load(valuePairs['Member'])
     certificate = GroupMembershipCertificate.new(certificateId, issuerKey, groupName, member)
   elsif ( valuePairs.has_key?("Master") )
     # Group interested certificate
     groupName = valuePairs['Group name']
-    master = RSAKeyTools.undecoratedLoad(valuePairs['Master'])
+    master = RSAKeyTools.load(valuePairs['Master'])
     certificate = GroupInterestCertificate.new(certificateId, issuerKey, groupName, master)
   elsif ( valuePairs.has_key?("Alias name"))
     # Name alias cert
     aliasName = valuePairs['Alias name']
-    aliasKey = RSAKeyTools.undecoratedLoad(valuePairs['Alias key'])
+    aliasKey = RSAKeyTools.load(valuePairs['Alias key'])
     certificate = AliasCertificate.new(certificateId, issuerKey, aliasName, aliasKey)
   elsif ( valuePairs.has_key?("Revoke id"))
     # Revocation certificate
     revokeId = valuePairs['Revoke id']
-    scope = RSAKeyTools.undecoratedLoad(valuePairs['Scope'])
+    scope = RSAKeyTools.load(valuePairs['Scope'])
     certificate = RevocationCertificate.new(certificateId, issuerKey, scope, revokeId)
   else
     # Node certificate
@@ -230,7 +230,7 @@ def loadCertificate(fileName)
   raise "Cannot parse certificate" if !certificate
 
   if ( valuePairs.has_key?('Signature'))
-    signature = Base64.decode64(unsplitBase64(valuePairs['Signature']))
+    signature = Base64.decode64(RSAKeyTools.unsplitBase64(valuePairs['Signature']))
     certificate.signature = signature
   end
 

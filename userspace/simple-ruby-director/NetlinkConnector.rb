@@ -97,7 +97,6 @@ class NetlinkConnector
 
   def connectorNodeConnectedCallbackFunction (address, slotIndex, authenticationData)
     $log.info("New node tries to connect: #{address} - #{slotIndex} - #{authenticationData}")
-    #address = address.split(":").first  # Remove port section of address
     #if ( @membershipManager.coreManager and @membershipManager.canConnect(authenticationData)) then
     puts "Accept"
     @membershipManager.nodeConnected(address, slotIndex)
@@ -110,7 +109,7 @@ class NetlinkConnector
 
   def connectorNodeDisconnectedCallbackFunction (slotIndex, slotType, reason)
     # Reason: 0 locally requested, 1 remotely requested... not imporant right now..
-    $log.info("Node disconnected: #{slotType}/#{slotIndex} Reason: #{reason}")
+    $log.info("Node disconnected: #{slotType}/#{slotIndex} Reason: #{reason == 0 ? 'locally requested' : 'remotely requested'}")
 
     @membershipManager.nodeDisconnected(ManagerSlot.new(slotType, slotIndex))
   end

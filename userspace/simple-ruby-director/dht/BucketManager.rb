@@ -1,4 +1,8 @@
 #
+# Please, care about unit tests if you modify this file
+# From simple-ruby-director run:
+#   $ ruby -I . test/dht/BucketManagerTest.rb
+#
 # Implements Kademlia DHT Routing Table
 # Based on a paper:
 #   Kademlia: A Peer-to-Peer Information System Based on the XOR Metric, Petar Maymounkov and David Mazieresi, 2002
