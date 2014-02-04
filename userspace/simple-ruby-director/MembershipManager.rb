@@ -59,9 +59,8 @@ class MembershipManager
           if @trustManagement.isVerified?(node.nodeId)
             unless containsDetachedNode(node)
               if node.networkAddress.class == NetworkAddress
-                networkAddressHooked = NetworkAddress.new(node.networkAddress.ip, 54321) # TODO: hard coded port
-                $log.debug "MembershipManager: AutoConnectingThread tries connect address #{networkAddressHooked}"
-                res = @filesystemConnector.connect(networkAddressHooked, "")
+                $log.debug "MembershipManager: AutoConnectingThread tries connect address #{node.networkAddress}"
+                res = @filesystemConnector.connect(node.networkAddress, "")
               elsif
                 $log.warn "Network address is invalid! #{node.networkAddress}"
               end
@@ -77,14 +76,11 @@ class MembershipManager
 
   def canConnect(authenticationData)
     verifyResult = @trustManagement.verifyAuthentication(authenticationData)
-    #puts "A #{verifyResult} B #{verifyResult != nil}"
     return verifyResult != nil
   end
 
   # This callback is invoked, when a new remote node has connected to our core node
   def nodeConnected(address, slotIndex)
-    #nodeId = @filesystemConnector.findNodeIdByAddress(address)
-    #node, isNew = @nodeRepository.getOrCreateNode(nodeId, address)
     chunks = address.split(":")
     if chunks.length != 2
       $log.error "MembershipManager: nodeConnected: invalid newtork address #{address}"

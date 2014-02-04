@@ -15,20 +15,18 @@ class FilesystemConnector
     @connectAddresses.extend(MonitorMixin)
 
     ExceptionAwareThread.new {
-      loop do
 
-        # This:
-        #
-        #authString = authenticationData != nil ? "@#{authenticationData}" : ""
-        #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
-        #
-        # the authString is pretty good, but caused creating directory like this:
-        #    /clondike/pen/nodes/192.168.0.4:54321
-        #                                    ^^^^^
-        # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
+      # The authString is pretty good idea, but this:
+      #
+      #    authString = authenticationData != nil ? "@#{authenticationData}" : ""
+      #    `echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
+      #
+      # caused creating directory structure like this:
+      #    /clondike/pen/nodes/192.168.0.4:54321
+      #                                    ^^^^^
+      # TODO: Fix the one that serving about /clondike/pen/connect and learn it about a authString
 
-        # TODO: Hardcoded protocol and port
-        #$log.debug "echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect"
+      loop {
         unless @connectAddresses.empty?
           contactedAddress = nil
           @connectAddresses.synchronize {
@@ -37,20 +35,14 @@ class FilesystemConnector
               break
             }
           }
-          $log.debug "echo tcp:#{contactedAddress.ip}:54321 > #{@detachedRootPath}/connect"
+          $log.debug "echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect"
           timer = Time.now
-          `echo tcp:#{contactedAddress.ip}:54321 > #{@detachedRootPath}/connect` # This is time expensive (10+ seconds)
-          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}) took #{Time.now - timer}, result #{$? == 0}"
+          `echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect` # This is time expensive, units of seconds
+          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer}, result #{$? == 0}"
           @connectAddresses.delete(contactedAddress)
         end
-        sleep(1)
-        #if system("echo #{networkAddress.protocol}:#{networkAddress.ip}:#{getLocalNetworkAddress.port} > #{@detachedRootPath}/connect")
-        #  true
-        #else
-        #  false
-        #end
-
-      end
+        sleep(1) # Active waiting TODO: make here waiting for signal from connect()
+      }
     }
   end
 
