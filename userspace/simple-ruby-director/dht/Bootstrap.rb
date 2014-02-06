@@ -31,7 +31,7 @@ class Bootstrap
       $log.debug "Bootstrap: Successful joined at least to one node!"
 
       until kClosestNodesWereRequested do
-        alphaClosestNodes = getClosestNodes(DHTConfig::ALPHA)
+        alphaClosestNodes = getClosestNodes(DHTConfig::K) # TODO: brat v potaz DHTConfig::Alpha
         alphaClosestNodes.each { |node|
           @requestedNodes.synchronize {
             initLookUpNodeIdRequest(node) unless @requestedNodes.include?(node.nodeId)
