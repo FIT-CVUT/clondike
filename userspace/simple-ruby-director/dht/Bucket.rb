@@ -27,7 +27,7 @@ class Bucket
       end
     }
     moveNodeAtTheEnd(updatedNodeIndex) if updatedNodeIndex.nil? != true
-    if updatedNodeIndex.nil? && filled? == false
+    if updatedNodeIndex.nil? # && filled? == false # The commented fill check enable a vurneability to DOS attack with enormous new nodes
       @nodes.push(node)
     end
   end

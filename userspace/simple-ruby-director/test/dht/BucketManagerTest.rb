@@ -4,6 +4,7 @@ require 'dht/Config'
 require 'dht/BucketManager'
 require 'Node'
 require 'NetworkAddress'
+require 'set'
 
 class BucketManagerTest < Test::Unit::TestCase
   def setup
@@ -11,6 +12,26 @@ class BucketManagerTest < Test::Unit::TestCase
     @biggestNodeId = DHTConfig::SIZE_NODE_ID_SPACE-1
     @nodeWithBiggestNodeId = Node.new(@biggestNodeId.to_s(16),@networkAddress)
     @nodeWithSmallestNodeId = Node.new("0",@networkAddress)
+  end
+
+  def getRandomNode
+    Node.new(rand(@biggestNodeId).to_s(16), @networkAddress)
+  end
+
+  def test_extensiveTestRandomData
+    @selfNode = getRandomNode
+    @nodes = Set.new
+    @nodes.add(@selfNode)
+    @bucketManager = BucketManager.new(@selfNode)
+    for i in 0..1000
+      newNode = getRandomNode
+      @nodes.add(newNode)
+      @bucketManager.insertOrReplaceNode(newNode)
+    end
+
+    @nodes.each { |node|
+      assert_equal(node, @bucketManager.getNode(node.nodeId))
+    }
   end
 
   def test_getNode
