@@ -11,4 +11,4 @@ done
 $CLONDIKE_SCRIPTS/clear-current-config.sh
 $CLONDIKE_SCRIPTS/listen.sh "$MY_IP"
 
-(cd $CLONDIKE_HOME/userspace/simple-ruby-director; ruby2.0 -w -I $CLONDIKE_SIMPLE_RUBY_DIRECTOR Director.rb > /tmp/director.log 2>&1)
+(cd $CLONDIKE_HOME/userspace/simple-ruby-director; EMIG=1 ruby1.8 -w -I $CLONDIKE_SIMPLE_RUBY_DIRECTOR Director.rb > /tmp/director.log 2>&1)

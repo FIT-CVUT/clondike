@@ -40,7 +40,7 @@ class CacheFSController
   def mountCacheFS(ipAddress)
     $log.debug "Mounting ccfs for ip #{ipAddress}"
     pathsToMount = ["/usr/local", "/usr/lib", "/usr/lib32", "/usr/share", "/usr/bin", "/usr/sbin", "/lib", "/etc/", "/bin", "/sbin"]
-    prefix = "/mnt/clondike/#{ipAddress}-0-0"
+    #prefix = "/mnt/clondike/#{ipAddress}-0-0"
 
     pathsToMount.each { |path|
       # first we try to unmout cached fs at the same location in order to prevent multiple overlapping mounts

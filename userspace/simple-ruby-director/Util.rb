@@ -30,6 +30,18 @@ class ExceptionAwareThread < Thread
   end
 end
 
+class TimeoutException<RuntimeError
+  attr_reader :text
+
+  def initialize(text)
+    @text = text
+  end
+
+  def to_s
+    "#{text}"
+  end
+end
+
 def formattedDuration(startTime, endTime)
   millisDiff = 1000*(endTime.to_f - startTime.to_f)
   millis = millisDiff%1000
@@ -60,5 +72,16 @@ class TimingProxy
     timedExecution(name) {
       @object.send(name, *args, &block)
     }
+  end
+end
+
+def showBacktrace
+  begin
+    5/0
+  rescue => exception
+    e = exception.backtrace
+    e.shift # => Util.rb:80:in `/'
+    e.shift # => Util.rb:80:in `showBacktrace'
+    puts e
   end
 end

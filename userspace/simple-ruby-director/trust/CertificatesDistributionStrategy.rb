@@ -157,7 +157,7 @@ def OptimizedStrategyTargetResolver
     message = CertificateMessage.new(certificate)
     #$log.debug("Sending message #{certificate.class} to #{publicKey}")
     #@interconnect.dispatch(nil, message) if @interconnect != nil
-    @targetSet.add(publicey)
+    @targetSet.add(publicKey)
   end
 
   def isLocalGroup(groupEntity)

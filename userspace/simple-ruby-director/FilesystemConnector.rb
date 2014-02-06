@@ -1,3 +1,8 @@
+require 'set'
+require 'Util'
+require 'NetworkAddress'
+require 'monitor'
+
 # This class interacts with the kernel module via its exported pseudo-fs
 class FilesystemConnector
 
@@ -5,6 +10,40 @@ class FilesystemConnector
     @rootPath = "/clondike"
     @coreRootPath = "#{@rootPath}/ccn"
     @detachedRootPath = "#{@rootPath}/pen"
+
+    @connectAddresses = Set.new
+    @connectAddresses.extend(MonitorMixin)
+
+    ExceptionAwareThread.new {
+
+      # The authString is pretty good idea, but this:
+      #
+      #    authString = authenticationData != nil ? "@#{authenticationData}" : ""
+      #    `echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
+      #
+      # caused creating directory structure like this:
+      #    /clondike/pen/nodes/192.168.0.4:54321
+      #                                    ^^^^^
+      # TODO: Fix the one that serving about /clondike/pen/connect and learn it about a authString
+
+      loop {
+        unless @connectAddresses.empty?
+          contactedAddress = nil
+          @connectAddresses.synchronize {
+            @connectAddresses.each { |networkAddress|
+              contactedAddress = networkAddress
+              break
+            }
+          }
+          $log.debug "echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect"
+          timer = Time.now
+          `echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect` # This is time expensive, units of seconds
+          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer}, result #{$? == 0}"
+          @connectAddresses.delete(contactedAddress)
+        end
+        sleep(1) # Active waiting TODO: make here waiting for signal from connect()
+      }
+    }
   end
 
   # Returns true, if core manager is registered on this computer
@@ -79,26 +118,11 @@ class FilesystemConnector
 
   #Tries to connect to a remote core node. Returns boolean informing about
   #the connection attempt result
-  def connect(ipAddress, authenticationData)
-    authString = authenticationData != nil ? "@#{authenticationData}" : ""
-
-    # This:
-    #
-    #`echo tcp:#{ipAddress}:54321#{authString} > #{@detachedRootPath}/connect`
-    #
-    # the authString is pretty good, but caused creating directory like this:
-    #    /clondike/pen/nodes/192.168.0.4:54321
-    #                                    ^^^^^
-    # TODO: Fix the one that serving about /clondike/pen/connect and learn it about authString
-
-    # TODO: Hardcoded protocol and port
-    $log.debug "echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect"
-    #$? == 0 ? true : false
-    if system("echo tcp:#{ipAddress}:54321 > #{@detachedRootPath}/connect")
-      true
-    else
-      false
-    end
+  def connect(networkAddress, authenticationData)
+    @connectAddresses.synchronize {
+      @connectAddresses.add(networkAddress)
+    }
+    return true
   end
 
   # Attempt to gracefully disconnect node
@@ -113,12 +137,12 @@ class FilesystemConnector
     `echo 1 > #{root}/nodes/#{index}/kill`
   end
 
-  # TODO: This should be maybe alone outside the FilesystemConnector too
-  def getLocalIP
-    getListenData["ipAddress"]
+  def getLocalNetworkAddress
+    NetworkAddress.new(getListenData["ip"], getListenData["port"], getListenData["protocol"])
   end
 
   private
+
   def getRoot(slotType)
     root = @detachedRootPath
     if ( slotType == CORE_MANAGER_SLOT )
@@ -128,21 +152,21 @@ class FilesystemConnector
   end
 
   # Read listen data from filesystem and return hash for example:
-  #   {"protocol" => "tcp", "ipAddress" => "192.168.1.1", "port" => "54321"}
+  #   {"protocol" => "tcp", "ip" => "192.168.1.1", "port" => "54321"}
   def getListenData
     protocol = ""
-    ipAddress = ""
+    ip = ""
     port = ""
     File.open("#{@coreRootPath}/listen", "r") { |listenFile|
       readData = listenFile.readline("\0")
       data = readData.split(":")
-      protocol  = data[0]
-      ipAddress = data[1]
-      port      = data[2]
+      protocol  = data[0].gsub(/\s+/, "")
+      ip        = data[1].gsub(/\s+/, "")
+      port      = data[2].gsub(/\s+/, "")
     }
     {
       "protocol"  => protocol,
-      "ipAddress" => ipAddress,
+      "ip"        => ip,
       "port"      => port,
     }
   end

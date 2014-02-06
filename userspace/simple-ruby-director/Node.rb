@@ -1,6 +1,8 @@
 require 'NodeInfo'
+require 'NetworkAddress'
 
 # Enum of states of the node
+# Improving: http://gistflow.com/posts/682-ruby-enums-approaches
 class NodeState
   # Standard state
   ALIVE=0
@@ -14,9 +16,9 @@ end
 # Class, containing information about one cluster node
 class Node
   # Unidue id of the node
-  attr_reader :nodeId # only :id caused in ruby 1.8.7 warning: Object#id will be deprecated; use Object#object_id
-  # IP address, where is the node located # TODO: ipAddress replace with NetworkAddress (ipAddesss & port)
-  attr_reader :ipAddress
+  attr_reader :nodeId
+  # IP address and port, where is the node located
+  attr_reader :networkAddress
   # Globally distributed information about node (like load, etc..)
   attr_reader :nodeInfo
   # Node state
@@ -27,9 +29,14 @@ class Node
   # Globally distributed information about node that does not change in time
   attr_accessor :staticNodeInfo
 
-  def initialize(nodeId, ipAddress)
-    @nodeId = nodeId
-    @ipAddress = ipAddress
+  def initialize(nodeId, networkAddress)
+    @nodeId = nodeId.to_s
+    @networkAddress = networkAddress
+    if @networkAddress.class != NetworkAddress
+      $log.warn "Node.new: Appeared non-valid network address: #{@networkAddress}"
+      require 'Util'
+      showBacktrace()
+    end
     @nodeInfo = nil # We have no info in the beginning
     @staticNodeInfo = nil
     @lastHeartBeatTime = Time.now()
@@ -46,26 +53,33 @@ class Node
     @lastHeartBeatTime = Time.now()
   end
 
-  def markDead()
-    $log.info "Marking node #{ipAddress} dead"
+  def updateState(nodeState)
+    $log.info "Marking node #{networkAddress} as #{nodeState}"
+    @state = nodeState
+  end
+
+  def markDead
     @state = NodeState::DEAD
   end
 
   def ==(other)
-    other.class == Node && @nodeId == other.nodeId
+    (other.class == Node || other.class == SelfNode) && @nodeId == other.nodeId
+  end
+
+  def getDistanceTo(nodeId)
+    @nodeId.hex ^ nodeId.hex
   end
 
   def to_s
-    "Node - #{@ipAddress}"
+    "#{nodeId} [#{networkAddress}]"
   end
 end
 
-# Special case of node... current node ;)
 # The difference is, it does not get nodeInfo from outside, but it is provided
 # directly by the NodeInfoProvider
-class CurrentNode<Node
-  def initialize(nodeId, ipAddress, staticInfo)
-    super(nodeId, ipAddress)
+class SelfNode<Node
+  def initialize(nodeId, networkAddress, staticInfo)
+    super(nodeId, networkAddress)
     @staticNodeInfo = staticInfo
   end
 
@@ -75,7 +89,7 @@ class CurrentNode<Node
     updateInfo(nodeInfoWithId.nodeInfo)
   end
 
-  def self.createCurrentNode(nodeInfoProvider, localIP)
-    CurrentNode.new(nodeInfoProvider.getCurrentId, localIP, nodeInfoProvider.getCurrentStaticInfo)
+  def self.createSelfNode(nodeInfoProvider, networkAddress)
+    SelfNode.new(nodeInfoProvider.getCurrentId, networkAddress, nodeInfoProvider.getCurrentStaticInfo)
   end
 end

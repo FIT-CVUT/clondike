@@ -10,7 +10,6 @@ class TargetMatcher
   def TargetMatcher.performMatch(pid, uid, name, candidateNodes)
     target = nil
     targetQuality = nil
-    userConfig = UserConfiguration.getConfig(uid)
     candidateNodes.each_index do |index|
       node = candidateNodes[index]
       # $log.debug "Index: #{index} node #{node} #{node ? node.nodeInfo : "No Node"} #{node && node.nodeInfo ? node.nodeInfo.maximumAccept : "No Node-Info"}... #{node ? node.nodeId : "No nodeId"}"

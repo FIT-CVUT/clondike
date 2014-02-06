@@ -39,6 +39,8 @@ require 'measure/MeasureCliHandlers.rb'
 require 'Interconnection.rb'
 require 'ProcTrace.rb'
 
+require 'BroadcastMessageDispatcher'
+
 require 'TestMakeAcceptLimiter'
 require 'TaskNameBasedAcceptLimiter'
 require 'MeasurementAcceptLimiter'
@@ -66,19 +68,21 @@ class Director
     @measurementLimiter = MeasurementAcceptLimiter.new()
     @immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
-    @interconnection = Interconnection.new(InterconnectionUDPMessageBroadcastDispatcher.new(@filesystemConnector), CONF_DIR)
+    @broadcastMessageDispatcher = BroadcastMessageDispatcher.new(@filesystemConnector.getLocalNetworkAddress)
+    @interconnection = Interconnection.new(@broadcastMessageDispatcher, CONF_DIR)
     initializeTrust()
 
     @idResolver = PublicKeyNodeIdResolver.new(@trustManagement)
     @nodeInfoProvider = NodeInfoProvider.new(@idResolver, @immigratedTasksController)
     @trustManagement.registerIdProvider(@idResolver)
-    currentNode = CurrentNode.createCurrentNode(@nodeInfoProvider,@filesystemConnector.getLocalIP)
+    selfNode = SelfNode.createSelfNode(@nodeInfoProvider,@filesystemConnector.getLocalNetworkAddress)
 
-    $log.info("Starting director on node with id #{currentNode.nodeId}")
+    $log.info("Starting director on node with id #{selfNode.nodeId}")
 
-    @nodeRepository = NodeRepository.new(currentNode)
+    @nodeRepository = NodeRepository.new(selfNode)
+    @broadcastMessageDispatcher.registerNodeRepository(@nodeRepository)
     @membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement,@interconnection)
-    @managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
+    #@managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
     @taskRepository = TaskRepository.new(@nodeRepository, @membershipManager)
     @taskRepository.addExecClassificator(CompileNameClassificator.new())
     # Classify all "mandel" (mandelbrot calc) tasks as long term migrateable tasks
@@ -93,11 +97,10 @@ class Director
     balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
     balancingStrategy.startDebuggingToFile("LoadBalancer.log")
     @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
-    @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository, @idResolver.getCurrentId)
-    @nodeInfoConsumer.registerNewNodeListener(@membershipManager)
+    @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository)
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
-    @nodeInfoProvider.addListener(currentNode)
+    @nodeInfoProvider.addListener(selfNode)
     @nodeInfoProvider.addLimiter(acceptLimiter)
     @nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
@@ -161,7 +164,7 @@ class Director
 
     @informationDistributionStrategy.start
     @interconnection.start(@trustManagement, @netlinkConnector, @idResolver)
-    @managerMonitor.start()
+    #@managerMonitor.start()
   end
 
   # Waits, till director and all its threads terminates
@@ -202,12 +205,16 @@ class Director
   end
 end
 
-$log = Logger.new(STDOUT)
-$log.level = Logger::DEBUG;
-#$log.datetime_format = "%Y-%m-%d %H:%M:%S"
+begin
+  $log = Logger.new(STDOUT)
+  $log.level = Logger::DEBUG;
+  #$log.datetime_format = "%Y-%m-%d %H:%M:%S"
 
-$useProcTrace = false
+  $useProcTrace = false
 
-director = Director.new
-director.start
-director.waitForFinished
+  director = Director.new
+  director.start
+  director.waitForFinished
+rescue => err
+  $log.error "Error in main Director thread: #{err.message} \n#{err.backtrace.join("\n")}"
+end

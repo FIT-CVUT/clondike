@@ -6,6 +6,10 @@ require 'PersistentIdSequence.rb'
 require 'delegate.rb'
 require "set"
 
+class RSAConfig
+  BITS=1024
+end
+
 # Class representing all identity related aspects of node
 class Identity
   # Private key of the node
@@ -46,7 +50,7 @@ class Identity
 
   # Creates and returns a new identity data
   def self.create(directory, distributionStrategy)
-    newKey = RSAKeyTools.generate(1024)
+    newKey = RSAKeyTools.generate(RSAConfig::BITS)
 
     Identity.new(directory, distributionStrategy, newKey, newKey.public_key, NodeCertificate.new(0, newKey.public_key))
   end
@@ -102,7 +106,9 @@ class Identity
   def decrypt(encryptedData)
     @privateKey.private_decrypt(encryptedData)
   end
+
   protected
+
   def initialize(directory, distributionStrategy, privateKey, publicKey, certificate)
     @directory = directory
     @privateKey = privateKey
@@ -136,8 +142,34 @@ class Identity
   end
 end
 
-module Base64Tools
-  def splitBase64(string)
+class RSAKeyTools
+  def self.generate(number)
+    rsaKey = RSAPublicKey.new(nil)
+    rsaKey.__setobj__(OpenSSL::PKey::RSA.new(number))
+    return rsaKey
+  end
+  def self.load(stringKey)
+    RSAPublicKey.new(RSAKeyTools.decorateKey(stringKey))
+  end
+  def self.undecorateKey(key)
+    key.to_s.gsub(/-----[ A-Z]*-----/,"").gsub(/\n/,"")
+  end
+  # Key could be decorated yet or non-decorated
+  def self.decorateKey(key)
+    res = RSAKeyTools.undecorateKey(key)
+
+    # Fragile assumption: undecorated string of *public* RSAConfig::BITS key has fix length
+    if res.length == RSAKeyTools.undecorateKey(OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key).length
+      beginString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
+      endString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
+    else
+      beginString = OpenSSL::PKey::RSA.new(32).to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> "-----BEGIN RSA PRIVATE KEY-----"
+      endString = OpenSSL::PKey::RSA.new(32).to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> "-----END RSA PRIVATE KEY-----"
+    end
+
+    "#{beginString}\n#{RSAKeyTools.splitBase64(res)}\n#{endString}"
+  end
+  def self.splitBase64(string)
     r = []
     len = 64
     start = 0
@@ -147,47 +179,19 @@ module Base64Tools
     end
     return r.join("\n")
   end
-
-  def unsplitBase64(string)
+  def self.unsplitBase64(string)
     string.gsub(/\n/,"")
-  end
-end
-
-module RSAKeyDecorating
-  def undecoratedLoad(undecoratedPemKey)
-    res = undecoratedPemKey
-    res = res.sub("-----BEGIN PUBLIC KEY-----","")
-    res = res.sub("-----END PUBLIC KEY-----","")
-    unundecoratedText = RSAKeyTools.unsplitBase64(res)
-    decoratedText = RSAKeyTools.decoratedKey(unundecoratedText)
-    RSAPublicKey.new(decoratedText)
-  end
-  def decoratedKey(undecoratedPemKey)
-    "-----BEGIN PUBLIC KEY-----\n#{RSAKeyTools.splitBase64(undecoratedPemKey)}\n-----END PUBLIC KEY-----\n"
-  end
-end
-
-class RSAKeyTools
-  extend Base64Tools
-  extend RSAKeyDecorating
-
-  def self.generate(number)
-    rsaKey = RSAPublicKey.new(nil)
-    rsaKey.__setobj__(OpenSSL::PKey::RSA.generate(number))
-    return rsaKey
   end
 end
 
 class RSAPublicKey < SimpleDelegator
   def initialize(decoratedKeyText)
-    super(decoratedKeyText != nil ? OpenSSL::PKey::RSA.new(decoratedKeyText) : nil)
+    super(decoratedKeyText != nil ? OpenSSL::PKey::RSA.new(RSAKeyTools.decorateKey(decoratedKeyText)) : nil)
   end
 
   def undecorated_to_s
     res = __getobj__.to_s
-    res = res.sub("-----BEGIN PUBLIC KEY-----","")
-    res = res.sub("-----END PUBLIC KEY-----","")
-    RSAKeyTools.unsplitBase64(res)
+    RSAKeyTools.undecorateKey(res)
   end
 
   def public_key
@@ -199,8 +203,7 @@ class RSAPublicKey < SimpleDelegator
   end
 
   def marshal_load(var)
-    #puts "UNMARSHALING: #{var} #{var.class}"
-    rsaKey = OpenSSL::PKey::RSA.new(RSAPublicKey.decoratedKey(var))
+    rsaKey = OpenSSL::PKey::RSA.new(RSAKeyTools.decorateKey(var))
     __setobj__(rsaKey)
   end
 
@@ -210,18 +213,11 @@ class RSAPublicKey < SimpleDelegator
 
   # Short-cut method with hardcoded digest algorithm
   def verifySignature(signature, data)
-    verify( OpenSSL::Digest::SHA1.new, signature, data)
+    verify(OpenSSL::Digest::SHA1.new, signature, data)
   end
 
   def ==(other)
-    #puts "AAA: #{self.class} other #{other.class} ... ??? #{other.kind_of?(OpenSSL::PKey::RSA)}"
-    #puts "COOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
     return false if !other.kind_of?(RSAPublicKey)
-    #puts "MPPAAA"
-    #puts "#{self}"
-    #puts "#{other}"
-    #sputs "EQ? #{undecorated_to_s == other.undecorated_to_s}"
-
     return undecorated_to_s == other.undecorated_to_s
   end
 

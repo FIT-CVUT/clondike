@@ -1,4 +1,7 @@
 measure resultFilename /tmp/log planFilename /root/clondike/userspace/simple-ruby-director/plans/single-kernel
+quit
+exit
+measure resultFilename /tmp/log planFilename /root/clondike/userspace/simple-ruby-director/plans/single-kernel
 exit
 measure resultFilename /tmp/log planFilename /root/clondike/userspace/simple-ruby-director/plans/single-kernel
 measure resultFilename /tmp/log planFilename /root/clondike/userspace/simple-ruby-director/plans/sample-lsplan

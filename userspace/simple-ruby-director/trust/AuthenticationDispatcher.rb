@@ -1,16 +1,7 @@
-class TimeoutException<RuntimeError
-  attr_reader :text
-
-  def initialize(text)
-    @text = text
-  end
-
-  def to_s
-    "#{text}"
-  end
-end
+require 'Util'
 
 class NegotiatedSession
+  TIMEOUT_FOR_CONFIRMATION_IDENTITY = 30
   # Public key of the node requesting the session
   attr_reader :client
   # Public key of the node being requested
@@ -27,7 +18,7 @@ class NegotiatedSession
   # Initially, the attribute is nil. If set to false, it means the identity verification has failed
   attr_reader :confirmed
   # Initially it is a time when the request was send, in the end it is a time when the confirmation was set
-  # Timestamp is used for timouting and deletion of idle negotiations (or expiration of confirmed negotiations)
+  # Timestamp is used for expiration of confirmed negotiations
   # TODO: Implement this auto-deletetion
   attr_accessor :timestamp
 
@@ -52,25 +43,31 @@ class NegotiatedSession
   end
 
   # Waits till confirmation is either false or true
-  def waitForConfirmationState(timeoutSeconds)
+  def waitForConfirmationState
     # TODO: There is a chance we'll wait for full timeout without getting signal. Better locking would be nice
     @monitor.synchronize {
-      @condition.wait(timeoutSeconds) if @confirmed == nil
+      @condition.wait(TIMEOUT_FOR_CONFIRMATION_IDENTITY) if @confirmed == nil
     }
+  end
+
+  def to_s
+    "Session with #{@peerNodeId}, timestamp: #{@timestamp}, result: #{@confirmed}"
   end
 end
 
 module PseudoRandomNumberGenerator
-  def generatePseudoRandomNumber(bits = 64) # The longer is the better, but much long caused some troubles
-    rand(2**bits-1)
-    #rand(99999999999999999) # Deprecated, however well runable
+  def generatePseudoRandomNumber(bits = 64) # The longer is the better, but much long unfortunately caused some troubles
+    rand(2**bits)
   end
 end
 
 class AuthenticationDispatcher
   include PseudoRandomNumberGenerator
+
   attr_reader :localIdentity
   attr_reader :interconnection
+  attr_reader :clientNegotiations
+  attr_reader :serverNegotiations
 
   def initialize(localIdentity, interconnection)
     @localIdentity = localIdentity
@@ -106,7 +103,7 @@ class AuthenticationDispatcher
     remoteKey = @authenticatedNegotiations[proof].client
     @authenticatedNegotiations[proof] = nil # Remote the record
     # There is a chance we got here before getting the client confirmation message => give it a chance to arrive
-    @serverNegotiations[remoteKey].waitForConfirmationState(30)
+    @serverNegotiations[remoteKey].waitForConfirmationState()
     # Fail if the identity was not verified
     return false if !@serverNegotiations[remoteKey].confirmed
     # We know the proof is matching as we got neg session by the proof
@@ -124,7 +121,7 @@ class AuthenticationDispatcher
     @clientNegotiations[remoteKey].clientChallenge = xValue
     @interconnection.dispatch(remoteNodeId, initialMessage)
     # Blocking wait for confirmation state (TODO: Better would be to make some callback action to handle this asynchronously so that we do not need to block here!)
-    @clientNegotiations[remoteKey].waitForConfirmationState(30)
+    @clientNegotiations[remoteKey].waitForConfirmationState()
     $log.debug("Negotiation finished. Confirmed = #{@clientNegotiations[remoteKey].confirmed}")
 
     return nil if ( @clientNegotiations[remoteKey].confirmed == false )

@@ -52,9 +52,9 @@ class CoreNodeManager
     # TODO: We log is as error instead of raising error, because this is actually happening ;( The most likely reason seems to be broken NetLink
     # communicaton, when some messages get lost (namely preceding node disconnected message in this case)
     if @detachedNodes[slotIndex] != nil
+      #raise(ArgumentError,"Node already registered at index #{slotIndex}: Node id: #{@detachedNodes[slotIndex].nodeId}") if @detachedNodes[slotIndex] != nil
       $log.error "Core Node already registered at index #{slotIndex}: Node id: #{@detachedNodes[slotIndex].nodeId}"
     end
-    #raise(ArgumentError,"Node already registered at index #{slotIndex}: Node id: #{@detachedNodes[slotIndex].nodeId}") if @detachedNodes[slotIndex] != nil
     @detachedNodes[slotIndex] = node
     @connectedNodesCount = @connectedNodesCount + 1
   end

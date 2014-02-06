@@ -1,5 +1,6 @@
 require 'NodeInfo'
 require 'CpuUsageParser'
+require 'Util'
 
 #Helper class that wraps node info and the node id (to identify source of the node info)
 class NodeInfoWithId
@@ -14,7 +15,7 @@ class NodeInfoWithId
   end
 
   def to_s
-    "Id: #{nodeId} Content: #{nodeInfo}"
+    "NodeId: #{nodeId} NodeInfo: #{nodeInfo}"
   end
 end
 
@@ -65,7 +66,7 @@ class NodeInfoProvider
   end
 
   def startNotifyThread
-    @thread = Thread.new {
+    @thread = ExceptionAwareThread.new {
       changeTracingThread() if !@listeners.empty?
     }
   end

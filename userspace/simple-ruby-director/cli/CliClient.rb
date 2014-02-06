@@ -58,8 +58,13 @@ rescue => err
   exit 1
 end
 
-if ( ARGV.length == 0 )
-  client.run
-else
-  client.runSingleCommand(ARGV[0])
+begin
+  if ( ARGV.length == 0 )
+    client.run
+  else
+    client.runSingleCommand(ARGV[0])
+  end
+rescue => err
+  puts "#{err}\n#{err.backtrace.join("\n")}"
 end
+

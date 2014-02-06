@@ -196,7 +196,7 @@ class QuantityLoadBalancingStrategy
 
     debugDumpState()
     if ( targetNode && targetNode.nodeId != @nodeRepository.selfNode.nodeId )
-      @log.write("Migrating #{pid} to #{targetNode.ipAddress}\n");
+      @log.write("Migrating #{pid} to #{targetNode.networkAddress.ip}\n");
     else
       @log.write("#{pid} kept locally\n");
     end
@@ -206,8 +206,8 @@ class QuantityLoadBalancingStrategy
     return if !@log
 
     @log.write("Local Node: #{@counter.getCount(@nodeRepository.selfNode)}\n|");
-    @nodeRepository.eachNode { |node|
-      @log.write(" Node #{node.ipAddress}: #{@counter.getCount(node)} |");
+    @nodeRepository.getAllNodes() { |node|
+      @log.write(" Node #{node.ip.address}: #{@counter.getCount(node)} |");
     }
     @log.write("\n");
   end
