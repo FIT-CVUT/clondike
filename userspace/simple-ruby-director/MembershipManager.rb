@@ -50,6 +50,10 @@ class MembershipManager
     startAutoConnectingThread()
   end
 
+  def connectMorePeers(targetNumberOfNodes)
+
+  end
+
   def startAutoConnectingThread
     ExceptionAwareThread.new {
       loop do

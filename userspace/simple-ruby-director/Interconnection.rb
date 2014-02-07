@@ -6,6 +6,7 @@ require 'pp' # PrettyPrint
 
 # Class for handling inter node message exchanges
 class Interconnection
+  attr_reader :messageDispatcher
   def initialize(messageDispatcher, configDirectory)
     # Handlers of message receiving
     @handlers = {}

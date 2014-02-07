@@ -21,8 +21,8 @@ class Bootstrap
     @requestedNodes = Set.new
     @requestedNodes.extend(MonitorMixin)
 
-   @interconnection.addReceiveHandler(LookUpNodeIdRequestMessage, LookUpNodeIdRequestMessageHandler.new(@interconnection, @nodeRepository))
-   @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes))
+    @interconnection.addReceiveHandler(LookUpNodeIdRequestMessage, LookUpNodeIdRequestMessageHandler.new(@interconnection, @nodeRepository))
+    @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes))
   end
 
   def start
@@ -31,7 +31,7 @@ class Bootstrap
       $log.debug "Bootstrap: Successful joined at least to one node!"
 
       until kClosestNodesWereRequested do
-        alphaClosestNodes = getClosestNodes(DHTConfig::K) # TODO: brat v potaz DHTConfig::Alpha
+        alphaClosestNodes = getClosestNodes(DHTConfig::K) # TODO: take into account DHTConfig::ALPHA
         alphaClosestNodes.each { |node|
           @requestedNodes.synchronize {
             initLookUpNodeIdRequest(node) unless @requestedNodes.include?(node.nodeId)
@@ -39,7 +39,7 @@ class Bootstrap
         }
         sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)
       end
-      $log.debug "Bootstrap: Successful Completed!"
+      $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
       @nodeRepository.getAllNodes.each { |node|
         $log.debug "  #{node}"
       }
