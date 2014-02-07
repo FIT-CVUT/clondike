@@ -79,7 +79,7 @@ class Director
 
     $log.info("Starting director on node with id #{selfNode.nodeId}")
 
-    @nodeRepository = NodeRepository.new(selfNode)
+    @nodeRepository = NodeRepository.new(selfNode, @broadcastMessageDispatcher)
     @broadcastMessageDispatcher.registerNodeRepository(@nodeRepository)
     @membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement,@interconnection)
     #@managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)

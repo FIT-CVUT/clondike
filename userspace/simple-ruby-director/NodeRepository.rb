@@ -6,11 +6,13 @@ class NodeRepository
   # Information about "this" node
   attr_reader :selfNode
 
-  def initialize(selfNode)
+  def initialize(selfNode, messageDispatcher)
     @selfNode = selfNode
     @bucketManager = BucketManager.new(@selfNode)
     @bucketManager.extend(MonitorMixin)
+
     @weKnowAll = false # For measure
+    @messageDispatcher = messageDispatcher # For measure
 
     ExceptionAwareThread.new {
       loop do
@@ -27,14 +29,6 @@ class NodeRepository
     @bucketManager.synchronize {
       return @bucketManager.getNode(nodeId)
     }
-  end
-
-  # For measure
-  def checkBroadcastDiscoverEnd 
-    if @weKnowAll == false && knownNodesCount() >= 3
-      $log.debug "Broadcast Discovery Ends: We know all nodes now!"
-      @weKnowAll = true
-    end
   end
 
   def insertOrReplaceNode(node)
@@ -121,5 +115,15 @@ class NodeRepository
       return node if node.networkAddress == networkAddress
     }
     return nil
+  end
+
+  private
+
+  # For measure
+  def checkBroadcastDiscoverEnd
+    if @weKnowAll == false && knownNodesCount() >= 3
+      $log.debug "Bootstrap: Successfully Completed! SendedMsgs #{@messageDispatcher.countSendedMsgs} RecvedMsgs #{@messageDispatcher.countRecvedMsgs}"
+      @weKnowAll = true
+    end
   end
 end
