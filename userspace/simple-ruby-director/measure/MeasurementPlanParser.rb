@@ -19,8 +19,9 @@ class MeasurementPlanParser
   # Delay how long to wait before starting to get remote nodes time to block accepting of events
   SAFETY_DELAY_FOR_BLOCKING = 5
 
-  def initialize(nodeRepository)
+  def initialize(nodeRepository, membershipManager)
     @nodeRepository = nodeRepository
+    @membershipManager = membershipManager
   end
 
   def initializeMeasurement(fileName, startTime, outputFileName)
@@ -53,10 +54,10 @@ class MeasurementPlanParser
       nodeCount = line.gsub(/\n/,'').to_i
 
       preferredBinding = parseStaticBinding(measurement, lines)
-      measurement.buildNodeMapping(@nodeRepository, preferredBinding, nodeCount)
+      measurement.buildNodeMapping(@nodeRepository, @membershipManager, preferredBinding, nodeCount)
     else
       preferredBinding = parseStaticBinding(measurement, lines)
-      measurement.buildNodeMappingForAllKnownNodes(@nodeRepository, preferredBinding)
+      measurement.buildNodeMappingForAllKnownNodes(@nodeRepository, @membershipManager, preferredBinding)
     end
   end
 

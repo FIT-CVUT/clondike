@@ -13,12 +13,16 @@ class NodeRepository
 
     ExceptionAwareThread.new {
       loop do
-        $log.debug "In NodeRepository are nodes:"
-        getAllNodes.each { |node|
-          $log.debug "  #{node}"
-        }
+        printListOfAllNodes()
         sleep(30)
       end
+    }
+  end
+
+  def printListOfAllNodes
+    $log.debug "In NodeRepository are #{knownNodesCount() + 1} nodes:"
+    getAllNodes.each { |node|
+      $log.debug "  #{node}"
     }
   end
 
@@ -47,6 +51,12 @@ class NodeRepository
       nodesClone = @bucketManager.getAllNodes.dup
     }
     return nodesClone
+  end
+
+  def getAllRemoteNodes
+    nodes = getAllNodes
+    nodes.delete(@selfNode)
+    return nodes
   end
 
   def getContactToNode(nodeId)

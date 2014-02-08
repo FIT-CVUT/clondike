@@ -290,12 +290,13 @@ class Measurement
     @nodesToBlock = Set.new
   end
 
-  def buildNodeMappingForAllKnownNodes(nodeRepository, preferredBinding)
+  def buildNodeMappingForAllKnownNodes(nodeRepository, membershipManager, preferredBinding)
     buildNodeMapping(nodeRepository, preferredBinding, -1)
   end
 
-  def buildNodeMapping(nodeRepository, preferredBinding, requiredNodeCount)
+  def buildNodeMapping(nodeRepository, membershipManager, preferredBinding, requiredNodeCount)
     nodeCount = 0
+    membershipManager.prepareClusterForMeasurement(requiredNodeCount)
     availableNodes = nodeRepository.knownNodesCount + 1 # +1 for "self"
     raise "Not enough nodes. Available #{availableNodes}, but required #{requiredNodeCount}" if availableNodes < requiredNodeCount
 

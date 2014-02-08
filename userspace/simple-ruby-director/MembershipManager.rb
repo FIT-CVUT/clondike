@@ -3,6 +3,7 @@ require 'trust/TrustMessages.rb'
 require 'Node'
 require 'dht/Config'
 require 'dht/Bootstrap'
+require 'dht/DHTMessages'
 
 require 'pp'
 
@@ -50,8 +51,10 @@ class MembershipManager
     startAutoConnectingThread()
   end
 
-  def connectMorePeers(targetNumberOfNodes)
-
+  def prepareClusterForMeasurement(targetNumberOfNodes)
+    getMorePeersToNodeRepository(targetNumberOfNodes)
+    waitForVerificationNodes(targetNumberOfNodes)
+    waitForAllFsConnection(targetNumberOfNodes)
   end
 
   def startAutoConnectingThread
@@ -183,5 +186,46 @@ class MembershipManager
       end
     }
     return false
+  end
+
+  def getMorePeersToNodeRepository(targetNumberOfNodes)
+    $log.debug "getMorePeersToNodeRepository: start"
+    @nodeRepository.printListOfAllNodes()
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@nodeRepository.selfNode.nodeId, targetNumberOfNodes)
+    while targetNumberOfNodes > (@nodeRepository.knownNodesCount() + 1)
+      $log.debug "getMorePeersToNodeRepository: send requests to all known nodes"
+      @interconnection.dispatch(nil, lookUpNodeIdRequestMessage)
+      sleep(1)
+    end
+    $log.debug "getMorePeersToNodeRepository: end"
+    @nodeRepository.printListOfAllNodes()
+  end
+
+  def waitForVerificationNodes(targetNumberOfNodes)
+    $log.debug "waitForVerificationNodes: start"
+    nodes = @nodeRepository.getAllRemoteNodes()
+    loop {
+      verifiedNodes = 1
+      nodes.each { |node|
+        verifiedNodes += 1 if @trustManagement.isVerified?(node.nodeId)
+      }
+      break if verifiedNodes >= targetNumberOfNodes
+      sleep(1)
+    }
+    $log.debug "waitForVerificationNodes: end"
+  end
+
+  def waitForAllFsConnection(targetNumberOfNodes)
+    $log.debug "waitForAllFsConnection: start"
+    nodes = @nodeRepository.getAllRemoteNodes()
+    loop {
+      verifiedNodes = 1
+      nodes.each { |node|
+        verifiedNodes += 1 if containsDetachedNode(node)
+      }
+      break if verifiedNodes >= targetNumberOfNodes
+      sleep(1)
+    }
+    $log.debug "waitForAllFsConnection: end"
   end
 end

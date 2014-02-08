@@ -198,7 +198,7 @@ class Director
     registerAllCcfsParsers(parser);
     interpreter = CliInterpreter.new(parser)
     registerAllTrustHandler(@trustManagement, interpreter)
-    registerAllMeasureHandlers(MeasurementPlanParser.new(@nodeRepository), @measurementDirector, interpreter)
+    registerAllMeasureHandlers(MeasurementPlanParser.new(@nodeRepository, @membershipManager), @measurementDirector, interpreter)
     registerAllCcfsHandlers(@cacheFSController, @interconnection, interpreter)
     server = CliServer.new(interpreter, 4223)
     server.start
