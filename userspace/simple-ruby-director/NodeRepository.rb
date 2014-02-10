@@ -1,5 +1,6 @@
 require 'monitor'
 require 'dht/BucketManager'
+require 'BroadcastEnds'
 
 #This class keeps track of all nodes we've ever heard about
 class NodeRepository
@@ -121,7 +122,7 @@ class NodeRepository
 
   # For measure
   def checkBroadcastDiscoverEnd
-    if @weKnowAll == false && knownNodesCount() >= 3
+    if @weKnowAll == false && (knownNodesCount()+1) >= BroadcastEnds::NODES
       $log.debug "Bootstrap: Successfully Completed! SendedMsgs #{@messageDispatcher.countSendedMsgs} RecvedMsgs #{@messageDispatcher.countRecvedMsgs}"
       @weKnowAll = true
     end
