@@ -40,7 +40,6 @@ struct Fdtrans {
 	Nptrans*	trans;
 	int 		fdin;
 	int		fdout;
-
 	int		is_tcp;
 };
 
@@ -50,7 +49,7 @@ static void np_fdtrans_destroy(void *);
 
 Nptrans *np_fdtrans_create_tcp(int fdin, int fdout) {
 	Nptrans * result = np_fdtrans_create(fdin, fdout);
-	((Fdtrans*)result->aux)->is_tcp = 1;
+	((Fdtrans*)(result->aux))->is_tcp = 1;
 	return result;
 }
 
@@ -64,8 +63,7 @@ np_fdtrans_create(int fdin, int fdout)
 	if (!fdt)
 		return NULL;
 
-	//fprintf(stderr, "np_fdtrans_create trans %p fdtrans %p\n", npt, fdt);
-	fdt->trans = npt;
+	fdt->trans = 0;
 	fdt->fdin = fdin;
 	fdt->fdout = fdout;
 	fdt->is_tcp = 0;
@@ -76,6 +74,7 @@ np_fdtrans_create(int fdin, int fdout)
 		return NULL;
 	}
 
+	fdt->trans = npt;
 	return npt;
 }
 
@@ -140,4 +139,4 @@ np_fdtrans_write(u8 *data, u32 count, void *a)
 	}
 //	fprintf(stderr, "np_fdtrans_write fd %d datalen %d count %d\n", fdt->fdout, count, ret);
 	return ret;
-}	
+}
