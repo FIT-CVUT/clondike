@@ -46,7 +46,7 @@ class MembershipManager
     @detachedManagers = FilesystemNodeBuilder.new().parseDetachedManagers(@filesystemConnector, @nodeRepository);
 
     @bootstrap = Bootstrap.new(@filesystemConnector, @nodeRepository, @trustManagement, @interconnection)
-    @bootstrap.start
+    @bootstrap.start()
 
     startAutoConnectingThread()
   end
@@ -121,6 +121,7 @@ class MembershipManager
   end
 
   def connectToNode(node)
+    return # TODO: REMOVE THIS STOP, It is only for measuring bootstrapping purpose
     ExceptionAwareThread.new() {
       nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);

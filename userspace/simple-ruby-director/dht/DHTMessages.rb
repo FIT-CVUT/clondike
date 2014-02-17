@@ -32,10 +32,11 @@ class LookUpNodeIdResponseMessage
 end
 
 class LookUpNodeIdResponseMessageHandler
-  def initialize(interconnection, nodeRepository, requestedNodes)
+  def initialize(interconnection, nodeRepository, requestedNodes, bootstrap)
     @interconnection = interconnection
     @nodeRepository = nodeRepository
     @requestedNodes = requestedNodes
+    @bootstrap = bootstrap
   end
   # handle LookUpNodeIdResponseMessage
   def handleFrom(message, from)
@@ -47,5 +48,11 @@ class LookUpNodeIdResponseMessageHandler
     @requestedNodes.synchronize {
       @requestedNodes.add(fromNode.nodeId)
     }
+    if @bootstrap.kClosestNodesWereRequested
+      $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
+      @nodeRepository.getAllNodes.each { |node|
+        $log.debug "  #{node}"
+      }
+    end
   end
 end

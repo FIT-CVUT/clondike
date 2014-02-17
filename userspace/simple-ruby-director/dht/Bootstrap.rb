@@ -7,7 +7,7 @@ require 'dht/DHTMessages'
 # This class is responsible for initial bootstraping, initial discovery nodes
 # Implements Kademlia based discovery
 class Bootstrap
-  TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC = 8
+  TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC = 1
 
   def initialize(filesystemConnector, nodeRepository, trustManagement, interconnection)
     @filesystemConnector = filesystemConnector
@@ -22,7 +22,7 @@ class Bootstrap
     @requestedNodes.extend(MonitorMixin)
 
     @interconnection.addReceiveHandler(LookUpNodeIdRequestMessage, LookUpNodeIdRequestMessageHandler.new(@interconnection, @nodeRepository))
-    @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes))
+    @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes, self))
   end
 
   def start
@@ -39,20 +39,7 @@ class Bootstrap
         }
         sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)
       end
-      $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
-      @nodeRepository.getAllNodes.each { |node|
-        $log.debug "  #{node}"
-      }
     }
-  end
-
-  private
-
-  def initLookUpNodeIdRequest(node)
-    $log.debug "Sending LookUpNodeIdRequest to #{node}"
-    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K)
-    #@interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage, DeliveryOptions::ACK_8_SEC)
-    @interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage)
   end
 
   def kClosestNodesWereRequested
@@ -65,6 +52,15 @@ class Bootstrap
     }
     $log.debug "Bootsrap: kClosestNodesWereRequested: TRUE!"
     return true
+  end
+
+  private
+
+  def initLookUpNodeIdRequest(node)
+    $log.debug "Sending LookUpNodeIdRequest to #{node}"
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K)
+    #@interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage, DeliveryOptions::ACK_8_SEC)
+    @interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage)
   end
 
   def getClosestNodes(count)
