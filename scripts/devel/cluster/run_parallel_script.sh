@@ -31,19 +31,19 @@ else
     IP_END_NODE=$2
     LOCAL_SCRIPT=$3
 
-    echo "Local script that will run remotely: ${LOCAL_SCRIPT}"
-    echo "Nodes: ${NETWORK}.${IP_START_NODE} ... ${NETWORK}.${IP_END_NODE}"
-    echo
+#    echo "Local script that will run remotely: ${LOCAL_SCRIPT}"
+#    echo "Nodes: ${NETWORK}.${IP_START_NODE} ... ${NETWORK}.${IP_END_NODE}"
+#    echo
 
-    printf "Please type the password to ssh access to nodes: "
+#    printf "Please type the password to ssh access to nodes: "
     read pass
-    echo
+#    echo
     export PASSWORD="$pass"
 
     # The argument $1 is node's IP
     function call_script_at_remote_node
     {
-        echo "sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < \"${LOCAL_SCRIPT}\""
+#        echo "sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < \"${LOCAL_SCRIPT}\""
         sshpass -p${PASSWORD} ssh -o StrictHostKeyChecking=no root@${NETWORK}.$1 'bash -s' < "${LOCAL_SCRIPT}"
     }
 

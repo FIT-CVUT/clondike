@@ -1,3 +1,5 @@
+require 'thread'
+
 class LookUpNodeIdRequestMessage
   attr_reader :lookUpNodeId
   attr_reader :countClosestNodes
@@ -37,6 +39,8 @@ class LookUpNodeIdResponseMessageHandler
     @nodeRepository = nodeRepository
     @requestedNodes = requestedNodes
     @bootstrap = bootstrap
+    @bootstrapMessageWasMet = false
+    @bootstrapMessageWasMetSemaphore = Mutex.new
   end
   # handle LookUpNodeIdResponseMessage
   def handleFrom(message, from)
@@ -48,11 +52,14 @@ class LookUpNodeIdResponseMessageHandler
     @requestedNodes.synchronize {
       @requestedNodes.add(fromNode.nodeId)
     }
-    if @bootstrap.kClosestNodesWereRequested
-      $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
-      @nodeRepository.getAllNodes.each { |node|
-        $log.debug "  #{node}"
-      }
-    end
+    @bootstrapMessageWasMetSemaphore.synchronize {
+      if @bootstrapMessageWasMet == false && @bootstrap.kClosestNodesWereRequested
+        @bootstrapMessageWasMet = true
+        $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
+        @nodeRepository.getAllNodes.each { |node|
+          $log.debug "  #{node}"
+        }
+      end
+    }
   end
 end
