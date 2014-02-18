@@ -1,5 +1,16 @@
 #!/bin/bash
 
+function clear_all_nodes {
+  echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM $PATH_PREFIX/scripts/clear.sh &
+  director_cat="I am messy"
+  while [ "$director_cat" != "" ]; do
+    sleep 1
+    printf "c "
+    director_cat="`echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM $PATH_PREFIX/scripts/cat_director.log.sh`"
+    echo "director_cat='$director_cat'"
+  done
+}
+
 function stop_all_nodes {
   printf "stopping all nodes..."
   echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM $PATH_PREFIX/scripts/ruby_stop.sh &
@@ -33,14 +44,7 @@ function make_measure_with {
   echo
 
   stop_all_nodes
-  echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $node $PATH_PREFIX/scripts/clear.sh &
-  director_cat="I am messy"
-  while [ "$director_cat" != "" ]; do
-    sleep 1
-    printf "c "
-    director_cat="`echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $node $PATH_PREFIX/scripts/cat_director.log.sh`"
-    echo "director_cat='$director_cat'"
-  done
+  clear_all_nodes
 }
 
 if [ $# -ne 1  ]; then
@@ -54,7 +58,7 @@ else
 
   mkdir -p $MEASURMENT_DIR
   stop_all_nodes
-  echo $PASSWORD | $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM $PATH_PREFIX/scripts/clear.sh &
+  clear_all_nodes
 
   for((node=2; node<=$NODES_NUM; node++)); do
     make_measure_with $node
