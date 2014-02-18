@@ -8,9 +8,9 @@
 #     ssh
 #
 
-if [ $# -ne 3  ]; then
+if [ $# -ne 4  ]; then
     echo "Usage:"
-    echo "  $ bash $0 <end_of_ip_start_node> <end_of_ip_end_node> <local_script>"
+    echo "  $ bash $0 <end_of_ip_start_node> <end_of_ip_end_node> <ssh_password> <local_script>"
     echo
     echo "For example:"
     echo "  We have local script scripts/update_git_and_restart_clondike.sh and we have nodes with IP:"
@@ -21,24 +21,25 @@ if [ $# -ne 3  ]; then
     echo "    ..."
     echo "    192.168.1.24"
     echo "  We should run:"
-    echo "    $ bash $0 1 24 scripts/update_git_and_restart_clondike.sh"
-    echo 
+    echo "    $ bash $0 1 24 password scripts/update_git_and_restart_clondike.sh"
+    echo
     echo "The network address 192.168.1.x is hardcoded"
     echo
 else
-    NETWORK="192.168.1"
-    IP_START_NODE=$1
-    IP_END_NODE=$2
-    LOCAL_SCRIPT=$3
+    export NETWORK="192.168.1"
+    export IP_START_NODE=$1
+    export IP_END_NODE=$2
+    export PASSWORD=$3
+    export LOCAL_SCRIPT=$4
 
 #    echo "Local script that will run remotely: ${LOCAL_SCRIPT}"
 #    echo "Nodes: ${NETWORK}.${IP_START_NODE} ... ${NETWORK}.${IP_END_NODE}"
 #    echo
 
 #    printf "Please type the password to ssh access to nodes: "
-    read pass
+#    read pass
 #    echo
-    export PASSWORD="$pass"
+#    export PASSWORD="$pass"
 
     # The argument $1 is node's IP
     function call_script_at_remote_node
