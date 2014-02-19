@@ -18,8 +18,11 @@ class LookUpNodeIdRequestMessageHandler
     closestNodes = @nodeRepository.getClosestNodesTo(message.lookUpNodeId, message.countClosestNodes)
     closestNodesWithoutSelfNodeClass = []
     closestNodes.each { |node|
-      closestNodesWithoutSelfNodeClass.push(Node.new(node.nodeId, node.networkAddress)) if node == @nodeRepository.selfNode
-      closestNodesWithoutSelfNodeClass.push(node)
+      if node == @nodeRepository.selfNode
+        closestNodesWithoutSelfNodeClass.push(Node.new(node.nodeId, node.networkAddress))
+      else
+        closestNodesWithoutSelfNodeClass.push(node)
+      end
     }
     responseMessage = LookUpNodeIdResponseMessage.new(closestNodesWithoutSelfNodeClass)
     @interconnection.dispatch(from, responseMessage)
