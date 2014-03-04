@@ -30,7 +30,7 @@ class InformationDistributionStrategy
   def nodeInfoExtractThread
     while true
       sleep(DISTRIBUTION_PERIOD)
-      @interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId)
+      # @interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId) # FIXME: UNCOMMENT!
     end
   end
 end

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-grep 'Bootstrap.*Completed' /tmp/director.log 
+grep 'Bootstrap.*Completed' /tmp/director.log

@@ -75,21 +75,12 @@ class Bootstrap
 
     dispatchAsyncPKDMessages(bootstrapNodes)
 
-    sendingMessagesToBootstrapNodesThread = ExceptionAwareThread.new {
-      loop {
-        sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)
-        break if bootstrapNodes.empty?
-        dispatchAsyncPKDMessages(bootstrapNodes)
-      }
-    }
-
-    # Wait for appear some 'remote' nodes in NodeRepository
-    # TODO: Nicer will be non-active waiting via Monitor, VariableCondition, Wait and Signal/Broadcast
-    loop do
+    loop {
+      sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)
+      break if bootstrapNodes.empty?
       break if areWeJoinedAtLeastOneNode?
-      sleep(1)
-    end
-    sendingMessagesToBootstrapNodesThread.kill
+      dispatchAsyncPKDMessages(bootstrapNodes)
+    }
   end
 
   def dispatchAsyncPKDMessages(bootstrapNodes)
