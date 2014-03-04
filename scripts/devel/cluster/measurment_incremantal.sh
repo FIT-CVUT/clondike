@@ -1,10 +1,6 @@
 #!/bin/bash
 
-function stop_all_nodes {
-  echo "stopping all nodes..."
-  $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM tvrdik $PATH_PREFIX/scripts/stop.sh &
-  sleep 10
-}
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/measurment_lib.sh
 
 # $1 is number of used nodes
 function make_measure_with {
@@ -22,7 +18,6 @@ function make_measure_with {
   echo "bootstrapline=$bootstrap_line"
   echo "$bootstrap_line" >> $MEASURMENT_DIR/$node
   echo
-  #$PATH_PREFIX/run_parallel_script.sh $node $node tvrdik $PATH_PREFIX/scripts/clear.sh &
 }
 
 if [ $# -ne 1  ]; then
@@ -36,8 +31,7 @@ else
 
   mkdir -p $MEASURMENT_DIR
   stop_all_nodes
-  $PATH_PREFIX/run_parallel_script.sh 1 $NODES_NUM tvrdik $PATH_PREFIX/scripts/clear.sh &
-  sleep 10
+  clear_all_nodes
 
   # start local node
   /root/clondike/scripts/clondike-init &
