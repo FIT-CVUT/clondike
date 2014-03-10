@@ -160,11 +160,11 @@ class RSAKeyTools
 
     # Fragile assumption: undecorated string of *public* RSAConfig::BITS key has fix length
     if res.length == RSAKeyTools.undecorateKey(OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key).length
-      beginString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
-      endString = OpenSSL::PKey::RSA.new(32).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
+      beginString = OpenSSL::PKey::RSA.new(128).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
+      endString = OpenSSL::PKey::RSA.new(128).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
     else
-      beginString = OpenSSL::PKey::RSA.new(32).to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> "-----BEGIN RSA PRIVATE KEY-----"
-      endString = OpenSSL::PKey::RSA.new(32).to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> "-----END RSA PRIVATE KEY-----"
+      beginString = OpenSSL::PKey::RSA.new(128).to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> "-----BEGIN RSA PRIVATE KEY-----"
+      endString = OpenSSL::PKey::RSA.new(128).to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> "-----END RSA PRIVATE KEY-----"
     end
 
     "#{beginString}\n#{RSAKeyTools.splitBase64(res)}\n#{endString}"

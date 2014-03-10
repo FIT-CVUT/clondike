@@ -13,7 +13,7 @@ else
   sleep 10
 
   for((i=0;i<100;i++)); do
-    timeout -k 370 360 /root/clondike/scripts/devel/cluster/measurment.sh $SSH_PASSWORD
+    timeout -k 130 120 /root/clondike/scripts/devel/cluster/measurment_incremental.sh $SSH_PASSWORD
     cd /root/clondike/scripts/devel/cluster/
     tar -cf archive-$i.tar measurment_results/
     sshpass -p$FRAY1_PASSWORD scp archive-$i.tar tvrdipa1@fray1.fit.cvut.cz:/home/stud/tvrdipa1/archive-$i.tar
