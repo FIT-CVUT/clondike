@@ -1,3 +1,4 @@
+require 'monitor'
 require 'trust/Session.rb'
 require 'trust/TrustInMemoryDataStore.rb'
 require 'trust/TrustMessages.rb'
@@ -21,6 +22,7 @@ class TrustManagement
 
     # Maps nodeId -> public key of that node as known from periodic broadcast
     @keyMap = {}
+    @keyMap.extend(MonitorMixin)
 
     #@localIdentity.certificateStore.changeListener.addListener(BroadcastCertificateChangeListener.new(@interconnection))
   end
@@ -59,11 +61,15 @@ class TrustManagement
   end
 
   def registerKey(nodeId, publicKey)
-    @keyMap[nodeId] = publicKey
+    @keyMap.synchronize {
+      @keyMap[nodeId] = publicKey
+    }
   end
 
   def getKey(nodeId)
-    return @keyMap[nodeId] if @keyMap.has_key?(nodeId)
+    @keyMap.synchronize {
+      return @keyMap[nodeId] if @keyMap.has_key?(nodeId)
+    }
     return nil
   end
 

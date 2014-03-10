@@ -21,8 +21,8 @@ class Bootstrap
     @requestedNodes = Set.new
     @requestedNodes.extend(MonitorMixin)
 
-    @interconnection.addReceiveHandler(LookUpNodeIdRequestMessage, LookUpNodeIdRequestMessageHandler.new(@interconnection, @nodeRepository))
-    @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes, self))
+    @interconnection.addReceiveHandler(LookUpNodeIdRequestMessage, LookUpNodeIdRequestMessageHandler.new(@interconnection, @nodeRepository, @trustManagement))
+    @interconnection.addReceiveHandler(LookUpNodeIdResponseMessage, LookUpNodeIdResponseMessageHandler.new(@interconnection, @nodeRepository, @requestedNodes, self, @trustManagement))
   end
 
   def start
@@ -57,8 +57,7 @@ class Bootstrap
   private
 
   def initLookUpNodeIdRequest(node)
-    $log.debug "Sending LookUpNodeIdRequest to #{node}"
-    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K)
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K, @nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
     #@interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage, DeliveryOptions::ACK_8_SEC)
     @interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage)
   end
