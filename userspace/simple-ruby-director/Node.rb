@@ -71,7 +71,8 @@ class Node
   end
 
   def to_s
-    "#{nodeId} [#{networkAddress}]"
+    #"#{nodeId} [#{networkAddress}]"
+    "#{networkAddress}"
   end
 end
 

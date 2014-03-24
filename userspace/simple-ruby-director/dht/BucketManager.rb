@@ -47,22 +47,26 @@ class BucketManager
   end
 
   # the node with the exact nodeId is NOT include in the returned array of nodes
+  # def getClosestNodesTo(nodeId, count = DHTConfig::K)
+  #   closestNodes = []
+  #   startIndexBucket = getBucketIndexFor(nodeId)
+  #   minimalDistance = 0
+  #   while closestNodes.length < count do
+  #     index = getClosestBucketIndexFor(nodeId, minimalDistance)
+  #     break if index.nil?
+  #     sortedBucketNodesList = @buckets[index].nodes.sort { |x,y|
+  #       x.getDistanceTo(nodeId) <=> y.getDistanceTo(nodeId)
+  #     }
+  #     sortedBucketNodesList.each { |bucketNode|
+  #       closestNodes.push(bucketNode) if (closestNodes.length < count) && (bucketNode.nodeId != nodeId)
+  #     }
+  #     minimalDistance = getDifferenceDistancesWithIndexes(startIndexBucket, index)+1
+  #   end
+  #   closestNodes
+  # end
+
   def getClosestNodesTo(nodeId, count = DHTConfig::K)
-    closestNodes = []
-    startIndexBucket = getBucketIndexFor(nodeId)
-    minimalDistance = 0
-    while closestNodes.length < count do
-      index = getClosestBucketIndexFor(nodeId, minimalDistance)
-      break if index.nil?
-      sortedBucketNodesList = @buckets[index].nodes.sort { |x,y|
-        x.getDistanceTo(nodeId) <=> y.getDistanceTo(nodeId)
-      }
-      sortedBucketNodesList.each { |bucketNode|
-        closestNodes.push(bucketNode) if (closestNodes.length < count) && (bucketNode.nodeId != nodeId)
-      }
-      minimalDistance = getDifferenceDistancesWithIndexes(startIndexBucket, index)+1
-    end
-    closestNodes
+    get_k_closest_known_nodes(nodeId, getAllNodes, count)
   end
 
   def updateLastHeartBeatTime(nodeId)
@@ -160,4 +164,32 @@ class BucketManager
     @buckets.insert(bucketIndex, bucketHigher)
     @buckets.insert(bucketIndex, bucketLower)
   end
+
+
+
+  def get_k_closest_known_nodes(to_node_id, known_nodes, count)
+    k_closest_known_nodes = []
+    for i in 1..count
+      closest = get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+      k_closest_known_nodes.push closest unless closest.nil?
+    end
+    return k_closest_known_nodes
+  end
+
+  def get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+    closest = nil
+    known_nodes.each { |node|
+      if k_closest_known_nodes.include? node
+        # skip this node
+      elsif to_node_id == node.nodeId
+        # skip this node
+      elsif closest.nil?
+        closest = node
+      elsif ((to_node_id.hex)^(node.nodeId.hex) < (to_node_id.hex)^(closest.nodeId.hex))
+        closest = node
+      end
+    }
+    return closest
+  end
+
 end

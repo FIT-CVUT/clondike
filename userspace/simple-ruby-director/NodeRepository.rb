@@ -22,7 +22,7 @@ class NodeRepository
   def printListOfAllNodes
     $log.debug "In NodeRepository are #{knownNodesCount() + 1} nodes:"
     getAllNodes.each { |node|
-      $log.debug "  #{node}"
+      $log.debug "  #{node}\tdistance: #{node.nodeId.hex ^ @selfNode.nodeId.hex}"
     }
   end
 

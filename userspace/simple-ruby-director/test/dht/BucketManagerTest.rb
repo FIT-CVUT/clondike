@@ -18,7 +18,7 @@ class BucketManagerTest < Test::Unit::TestCase
     Node.new(rand(@biggestNodeId).to_s(16), @networkAddress)
   end
 
-  def test_extensiveTestRandomData
+  def test_extensiveTestWithRandomData
     @selfNode = getRandomNode
     @nodes = Set.new
     @nodes.add(@selfNode)
@@ -31,6 +31,7 @@ class BucketManagerTest < Test::Unit::TestCase
 
     @nodes.each { |node|
       assert_equal(node, @bucketManager.getNode(node.nodeId))
+      assert_equal(get_k_closest_known_nodes(node.nodeId, @nodes), @bucketManager.getClosestNodesTo(node.nodeId))
     }
   end
 
@@ -113,5 +114,32 @@ class BucketManagerTest < Test::Unit::TestCase
     assert_raise RuntimeError do
       @bucketManager = BucketManager.new(@nonValidNode2)
     end
+  end
+
+  private
+
+  def get_k_closest_known_nodes(to_node_id, known_nodes)
+    k_closest_known_nodes = []
+    for i in 1..DHTConfig::K
+      closest = get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+      k_closest_known_nodes.push closest unless closest.nil?
+    end
+    return k_closest_known_nodes
+  end
+
+  def get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+    closest = nil
+    known_nodes.each { |node|
+      if k_closest_known_nodes.include? node
+        # skip this node
+      elsif to_node_id == node.nodeId
+        # skip this node
+      elsif closest.nil?
+        closest = node
+      elsif ((to_node_id.hex)^(node.nodeId.hex) < (to_node_id.hex)^(closest.nodeId.hex))
+        closest = node
+      end
+    }
+    return closest
   end
 end

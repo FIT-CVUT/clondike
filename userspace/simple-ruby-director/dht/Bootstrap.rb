@@ -46,7 +46,7 @@ class Bootstrap
     kClosestNodes = getClosestNodes(DHTConfig::K)
     kClosestNodes.each { |node|
       unless @requestedNodes.include?(node.nodeId)
-        $log.debug "Bootsrap: kClosestNodesWereRequested fail due node #{node.inspect}, #{@requestedNodes.inspect}"
+        # $log.debug "Bootsrap: kClosestNodesWereRequested fail due node #{node.inspect}, #{@requestedNodes.inspect}"
         return false
       end
     }
@@ -88,6 +88,7 @@ class Bootstrap
       bootstrapNodes.push(choosedAddress)
       #@interconnection.dispatch(choosedAddress, @publicKeyDisseminationMessage, DeliveryOptions::ACK_8_SEC)
       @interconnection.dispatch(choosedAddress, @publicKeyDisseminationMessage)
+      $log.debug "#{@nodeRepository.selfNode} --> #{choosedAddress}"
     end
   end
 

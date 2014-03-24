@@ -36,7 +36,7 @@ class LookUpNodeIdRequestMessageHandler
     # We try add the requesting node to our routing table
     requestingNode = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(requestingNode)
-    @trustManagement.registerKey(message.nodeId, message.publicKey)
+    @trustManagement.registerKey(message.nodeId, message.publicKey) if @trustManagement.getKey(message.nodeId).nil?
   end
 end
 
@@ -64,10 +64,18 @@ class LookUpNodeIdResponseMessageHandler
   # handle LookUpNodeIdResponseMessage
   def handleFrom(message, from)
     fromNode = @nodeRepository.getNodeWithNetworkAddress(from)
-    return if fromNode.nil?
+    if fromNode.nil?
+      $log.warn "LookUpNodeIdResponseMessageHandler: We received a lookup nodeId message response from unknown node!"
+      return 
+    end
+
+    str = ""
     message.listOfClosestNodes.each { |node|
       @nodeRepository.insertIfNotExists(node)
+      str << "#{node}  "
     }
+    $log.debug "#{@nodeRepository.selfNode} --> #{from}  closest nodes: #{str}"
+
     @requestedNodes.synchronize {
       @requestedNodes.add(fromNode.nodeId)
     }
@@ -75,14 +83,12 @@ class LookUpNodeIdResponseMessageHandler
       if @bootstrapMessageWasMet == false && @bootstrap.kClosestNodesWereRequested
         @bootstrapMessageWasMet = true
         $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
-        @nodeRepository.getAllNodes.each { |node|
-          $log.debug "  #{node}"
-        }
+        @nodeRepository.printListOfAllNodes
       end
     }
 
     respondingNode = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(respondingNode)
-    @trustManagement.registerKey(message.nodeId, message.publicKey)
+    @trustManagement.registerKey(message.nodeId, message.publicKey) if @trustManagement.getKey(message.nodeId).nil?
   end
 end

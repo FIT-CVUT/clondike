@@ -26,7 +26,7 @@ if [ $# -ne 1  ]; then
 else
   export PATH_PREFIX="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   export PASSWORD="$1"
-  export NODES_NUM=23
+  export NODES_NUM=24
   export MEASURMENT_DIR="$PATH_PREFIX/measurment_results"
 
   mkdir -p $MEASURMENT_DIR
