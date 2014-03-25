@@ -152,10 +152,15 @@ class FilesystemConnector
           next
         end
         ip = address[1].gsub(/\s+/, "")
+        random_ip = "192.168.1.#{rand(ip.split(".")[3].to_i) + 1}"  # THIS CODE IS FOR MEASURMENT PURPOSE, REMOVE THEM AFTER
         port = address[2].gsub(/\s+/, "")
-        bootstrapList.push(NetworkAddress.new(ip, port))
+        bootstrapList.push(NetworkAddress.new(random_ip, port))     # TODO: REMOVE
+        # bootstrapList.push(NetworkAddress.new(ip, port))          # TODO: UNCOMMENT
       end
     end
+    bootstrapList.each { |addr|
+      $log.debug("getBootstrapList: #{addr}")
+    }
     return bootstrapList
   end
 
