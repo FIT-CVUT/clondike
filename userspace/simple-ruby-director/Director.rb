@@ -82,7 +82,7 @@ class Director
     @nodeRepository = NodeRepository.new(selfNode)
     @dhtMessageDispatcher.registerNodeRepository(@nodeRepository)
     @membershipManager = MembershipManager.new(@filesystemConnector, @nodeRepository, @trustManagement,@interconnection)
-    #@managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
+    @managerMonitor = ManagerMonitor.new(@interconnection, @membershipManager, @nodeRepository, @filesystemConnector)
     @taskRepository = TaskRepository.new(@nodeRepository, @membershipManager)
     @taskRepository.addExecClassificator(CompileNameClassificator.new())
     # Classify all "mandel" (mandelbrot calc) tasks as long term migrateable tasks
@@ -164,7 +164,7 @@ class Director
 
     @informationDistributionStrategy.start
     @interconnection.start(@trustManagement, @netlinkConnector, @idResolver)
-    #@managerMonitor.start()
+    @managerMonitor.start()
   end
 
   # Waits, till director and all its threads terminates

@@ -46,27 +46,13 @@ class BucketManager
     return allNodes.flatten
   end
 
-  # the node with the exact nodeId is NOT include in the returned array of nodes
-  # def getClosestNodesTo(nodeId, count = DHTConfig::K)
-  #   closestNodes = []
-  #   startIndexBucket = getBucketIndexFor(nodeId)
-  #   minimalDistance = 0
-  #   while closestNodes.length < count do
-  #     index = getClosestBucketIndexFor(nodeId, minimalDistance)
-  #     break if index.nil?
-  #     sortedBucketNodesList = @buckets[index].nodes.sort { |x,y|
-  #       x.getDistanceTo(nodeId) <=> y.getDistanceTo(nodeId)
-  #     }
-  #     sortedBucketNodesList.each { |bucketNode|
-  #       closestNodes.push(bucketNode) if (closestNodes.length < count) && (bucketNode.nodeId != nodeId)
-  #     }
-  #     minimalDistance = getDifferenceDistancesWithIndexes(startIndexBucket, index)+1
-  #   end
-  #   closestNodes
-  # end
-
   def getClosestNodesTo(nodeId, count = DHTConfig::K)
-    get_k_closest_known_nodes(nodeId, getAllNodes, count)
+    getKClosestKnownNodes(nodeId, getAllNodes, count)
+  end
+
+  def purgeNode(nodeId)
+    bucketIndex = getBucketIndexFor(nodeId)
+    @buckets[bucketIndex].purgeNode(nodeId)
   end
 
   def updateLastHeartBeatTime(nodeId)
@@ -109,45 +95,9 @@ class BucketManager
     return(diffDistFrom+diffDistTo)
   end
 
-  # TODO: Too long
-  def getClosestBucketIndexFor(nodeId, minimalDistance = 0)
-    startIndex = getBucketIndexFor(nodeId)
-    if minimalDistance == 0
-      return startIndex
-    end
-
-    toLower = {:index => startIndex, :distance => 0}
-    toHigher = {:index => startIndex, :distance => 0}
-
-    while toLower[:distance] < minimalDistance && toHigher[:distance] < minimalDistance
-      if toLower[:index] > 0 && toHigher[:index] < (@buckets.length-1)
-        if getDifferenceDistancesWithIndexes(startIndex, toLower[:index]-1) < getDifferenceDistancesWithIndexes(startIndex, toHigher[:index]+1)
-          toLower[:index] -= 1
-          toLower[:distance] = getDifferenceDistancesWithIndexes(startIndex, toLower[:index])
-        else
-          toHigher[:index] += 1
-          toHigher[:distance] = getDifferenceDistancesWithIndexes(startIndex, toHigher[:index])
-        end
-      elsif toLower[:index] > 0
-        toLower[:index] -= 1
-        toLower[:distance] = getDifferenceDistancesWithIndexes(startIndex, toLower[:index])
-      elsif toHigher[:index] < (@buckets.length-1)
-        toHigher[:index] += 1
-        toHigher[:distance] = getDifferenceDistancesWithIndexes(startIndex, toHigher[:index])
-      else
-        # We searched all buckets
-        return nil
-      end
-    end
-    if toLower[:distance] > minimalDistance
-      return toLower[:index]
-    end
-    return toHigher[:index]
-  end
-
   def getBucketIndexFor(nodeId)
     checkValiditiyNodeId(nodeId)
-    # TODO: instead this should be smart map function
+    # TODO: instead the below should be a smart map function
     @buckets.each_index { |bucketIndex|
       if @buckets[bucketIndex].hasKeySpaceOverlapWith(nodeId)
         return bucketIndex
@@ -165,18 +115,16 @@ class BucketManager
     @buckets.insert(bucketIndex, bucketLower)
   end
 
-
-
-  def get_k_closest_known_nodes(to_node_id, known_nodes, count)
+  def getKClosestKnownNodes(to_node_id, known_nodes, count)
     k_closest_known_nodes = []
     for i in 1..count
-      closest = get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+      closest = getClosestKnownNode(to_node_id, k_closest_known_nodes, known_nodes)
       k_closest_known_nodes.push closest unless closest.nil?
     end
     return k_closest_known_nodes
   end
 
-  def get_closest_known_node(to_node_id, k_closest_known_nodes, known_nodes)
+  def getClosestKnownNode(to_node_id, k_closest_known_nodes, known_nodes)
     closest = nil
     known_nodes.each { |node|
       if k_closest_known_nodes.include? node

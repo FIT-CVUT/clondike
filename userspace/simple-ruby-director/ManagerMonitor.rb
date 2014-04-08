@@ -1,25 +1,31 @@
 require 'MonitoringMessages'
 
 # This class is responsible for monitoring node connectivity
+#
+# Monitoring nodes via 2 channels:
+#   1) Ruby socket
+#   2) Kernel link
+#
 class ManagerMonitor
   # Time withouth heartbeat in second when node is considered dead
   DEAD_TIMEOUT = 60
+  HEART_BEAT_PERIOD = 10  # In seconds
 
   def initialize(interconnection, membershipManager, nodeRepository, filesystemConnector)
     @interconnection = interconnection
     @membershipManager = membershipManager
+    @nodeRepository = nodeRepository
     @currentNodeId = nodeRepository.selfNode.nodeId
     @filesystemConnector = filesystemConnector
-    # In seconds
-    @heartBeatPeriod = 10
 
-    @interconnection.addReceiveHandler(HeartBeatMessage, HeartBeatHandler.new(membershipManager, nodeRepository, filesystemConnector)) if ( interconnection )
+    @interconnection.addReceiveHandler(HeartBeatKernelLinkMessage, HeartBeatKernelLinkHandler.new(membershipManager, @nodeRepository)) if ( interconnection )
+    @interconnection.addReceiveHandler(HeartBeatRubySocketMessage, HeartBeatRubySocketHandler.new(@nodeRepository)) if ( interconnection )
   end
 
   # Starts background threads
   def start
     ExceptionAwareThread.new() {
-      heartBeatingThread();
+      heartBeatingThread()
     }
 
     ExceptionAwareThread.new() {
@@ -27,7 +33,7 @@ class ManagerMonitor
     }
 
     ExceptionAwareThread.new() {
-      purgeDeadNodesThread();
+      purgeDeadNodesThread()
     }
   end
   private
@@ -35,14 +41,18 @@ class ManagerMonitor
     while true do
       startTime = Time.now()
       emitHeartBeats()
-      sleep(@heartBeatPeriod - (Time.now() - startTime))
+      sleep(HEART_BEAT_PERIOD - (Time.now() - startTime))
     end
   end
 
-  # Thread updating status of nodes based on last hearthbeat seen
+  # Thread updating status of nodes based on last heartbeat message seen
   def updateAllNodesStatusThread()
     while true do
       now = Time.now()
+      @nodeRepository.getAllRemoteNodes.each { |node|
+        @nodeRepository.updateState(node.nodeId, NodeState::DEAD) if (now - node.lastHeartBeatTime) > DEAD_TIMEOUT
+      }
+
       @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
         next if !element
         next if element.state == NodeState::DEAD
@@ -63,6 +73,13 @@ class ManagerMonitor
   # TODO: Attemp kill only if disconnect fails.. and maybe add separate asynchronicity for it?
   def purgeDeadNodesThread()
     while true do
+      @nodeRepository.getAllRemoteNodes.each { |node|
+        next if node.state != NodeState::DEAD
+
+        $log.info("Disconnecting #{node} due to too many missed heartbeats")
+        @nodeRepository.purgeNode node.nodeId
+      }
+
       @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
         next if !element
         next if element.state != NodeState::DEAD
@@ -92,11 +109,16 @@ class ManagerMonitor
   end
 
   def emitHeartBeats
+    # Ruby Socket
+    @nodeRepository.getAllRemoteNodes.each { |node|
+      @interconnection.dispatch(node.nodeId, HeartBeatRubySocketMessage.new(@nodeRepository.selfNode.nodeId))
+    }
+
+    # Kernel link channel
     @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
       next if !element
       emitHeartBeat(CORE_MANAGER_SLOT, slotIndex, element);
     }
-
     @membershipManager.detachedManagers.each_with_index { |element, slotIndex|
       next if !element
       emitHeartBeat(DETACHED_MANAGER_SLOT, slotIndex, element.coreNode);
@@ -114,11 +136,10 @@ class ManagerMonitor
   end
 end
 
-class HeartBeatHandler
-  def initialize(membershipManager, nodeRepository, filesystemConnector)
+class HeartBeatKernelLinkHandler
+  def initialize(membershipManager, nodeRepository)
     @membershipManager = membershipManager
     @nodeRepository = nodeRepository
-    @filesystemConnector = filesystemConnector
   end
 
   # TODO: Proper sync of this method?
@@ -145,5 +166,17 @@ class HeartBeatHandler
         node.updateLastHeartBeatTime()
       end
     end
+  end
+end
+
+class HeartBeatRubySocketHandler
+  def initialize(nodeRepository)
+    @nodeRepository = nodeRepository
+  end
+
+  # TODO: Proper sync of this method?
+  def handleFrom(heartBeatMessage, fromNetworkAddress)
+    @nodeRepository.updateLastHeartBeatTime fromNetworkAddress
+    $log.debug "HeartBeatRubySocketHandler: #{heartBeatMessage};; #{fromNetworkAddress}"
   end
 end

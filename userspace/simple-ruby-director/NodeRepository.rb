@@ -78,7 +78,7 @@ class NodeRepository
   end
 
   def updateLastHeartBeatTime(networkAddress)
-    getNodesCopy.each { |node|
+    getAllNodes.each { |node|
       if node.networkAddress == networkAddress
         @bucketManager.synchronize {
           @bucketManager.updateLastHeartBeatTime(node.nodeId)
@@ -120,5 +120,11 @@ class NodeRepository
       return node if node.networkAddress == networkAddress
     }
     return nil
+  end
+
+  def purgeNode(nodeId)
+    @bucketManager.synchronize {
+      @bucketManager.purgeNode nodeId
+    }
   end
 end

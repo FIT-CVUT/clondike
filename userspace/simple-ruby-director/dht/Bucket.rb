@@ -70,6 +70,12 @@ class Bucket
     return bucketLower, bucketHigher
   end
 
+  def purgeNode(nodeId)
+    @nodes.delete_if { |node|
+      node.nodeId == nodeId
+    }
+  end
+
   def updateLastHeartBeatTime(nodeId)
     updatedNodeIndex = nil
     @nodes.each_index { |nodeIndex|
