@@ -27,6 +27,22 @@ class TargetMatcher
 
   def TargetMatcher.canMigrateTo(pid, uid, name, node)
     userConfig = UserConfiguration.getConfig(uid)
+	if node
+		if node.nodeInfo
+			if node.nodeInfo.maximumAccept < 1
+				$log.debug("canMigrateTo failed - maximumAccept = #{node.nodeInfo.maximumAccept}")
+			end
+			
+			if !userConfig.canMigrateTo(name, node.nodeId)
+				$log.debug("canMigrateTo failed - userConfig.canMigrateTo failed with name = #{name}")
+			end
+		else
+			$log.debug("canMigrateTo failed - nodeinfo is nil")
+		end
+	else
+		$log.debug("canMigrateTo failed - node nil")
+	end
+	
     return node && node.nodeInfo && node.nodeInfo.maximumAccept >= 1 && userConfig.canMigrateTo(name, node.nodeId)
   end
 end

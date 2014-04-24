@@ -6,7 +6,7 @@ class RoundRobinBalancingStrategy
   def initialize(nodeRepository, membershipManager, includeLocal = false)
     @nodeRepository = nodeRepository
     @membershipManager = membershipManager
-
+    @detachedNodesCandidates = []
     @includeLocal = includeLocal
   end
 
@@ -20,6 +20,16 @@ class RoundRobinBalancingStrategy
     if ( @detachedNodesCandidates == nil || @detachedNodesCandidates.empty? ) then
       @detachedNodesCandidates = extractIndexes(@membershipManager.coreManager.detachedNodes)
     end
+
+    $log.debug("RR candidates:")
+    @detachedNodesCandidates.each { |nodeidx|
+    if !nodeidx
+      $log.debug("local")
+    else
+      $log.debug("#{nodeidx}")
+    end
+    }
+    $log.debug("RR candidates end.")
 
     return nil if @detachedNodesCandidates.empty?
 
@@ -68,6 +78,9 @@ class RoundRobinBalancingStrategy
 
   def findBestTarget(pid, uid, name, args, envp, emigPreferred, nodes)
     candidate = @detachedNodesCandidates.pop
+    $log.debug("RR Current Candidate #{candidate}")
+    $log.debug("RR Candidate condiiton if !candidate is true") if !candidate 
+    $log.debug("RR Candidate condition !canMigrate is true") if candidate && !TargetMatcher.canMigrateTo(pid, uid, name, nodes[candidate])
     return nil if !candidate || !TargetMatcher.canMigrateTo(pid, uid, name, nodes[candidate])
     return candidate
   end

@@ -6,7 +6,8 @@ AR		= ar
 all: director-api.a
 
 director-api: $(OBJECTS)
-	$(CC) $(OBJECTS) -L$(OPENSSL_FUNC) -I/home/user/dev/c/libn-1.0-pre6/include -L/home/user/dev/c/libnl-1.0-pre6/lib -L/usr/lib -lnl -lssl -lopensslfunc  -o ossld
+	$(CC) $(OBJECTS) -L$(OPENSSL_FUNC) -I
+	../../sources/libnl-3/include -L../../sources/libnl-3/lib/.libs/ -L/usr/lib -lnl-3 -lssl -lopensslfunc  -o ossld
 
 director-api.a: $(OBJECTS)
 	$(AR) rcs libdirector-api.a $(OBJECTS)

@@ -37,7 +37,7 @@ class InformationDistributionStrategyMessageHandler
     @informationConsumer = informationConsumer
   end
   def handleFrom(message, from)
-    @informationConsumer.infoReceived(from, message)
+    @informationConsumer.infoReceived(from.ipAddress, message)
   end
 end
 

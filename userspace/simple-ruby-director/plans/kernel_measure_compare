@@ -1,0 +1,9 @@
+# This plan just resets state of calculation on all nodes
+Nodes count: 
+  2
+
+Tasks:
+  ls: exec "make -j 4 vmlinux" /usr/src/linux-2.6.32.5
+
+Nodes: 
+  LocalNode: ls

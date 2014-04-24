@@ -153,8 +153,11 @@ class MembershipManager
     end
 
     def handleFrom(message, from)
-      node = Node.new message.nodeId, from.ipAddress
-      @nodeRepository.addOrReplaceNode node
+      #node = Node.new message.nodeId, from.ipAddress
+      #@nodeRepository.addOrReplaceNode node
+      $log.debug("type :#{from.instance_of? NetworkAddress}")
+      res = @nodeRepository.getOrCreateNode message.nodeId, from.ipAddress
+      $log.debug("node id: #{message.nodeId} ip address:#{from.ipAddress} res: #{res[0].ipAddress} new: #{res[1]}")
     end
   end
 end

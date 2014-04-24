@@ -4,12 +4,12 @@ SHELL = /bin/sh
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/lib64/ruby/1.8/x86_64-linux
+topdir = /usr/lib/ruby/1.8/x86_64-linux
 hdrdir = $(topdir)
 VPATH = $(srcdir):$(topdir):$(hdrdir)
 prefix = $(DESTDIR)/usr
 exec_prefix = $(prefix)
-sitedir = $(DESTDIR)/usr/lib64/ruby
+sitedir = $(DESTDIR)/usr/lib/ruby
 rubylibdir = $(libdir)/ruby/$(ruby_version)
 docdir = $(datarootdir)/doc/$(PACKAGE)
 dvidir = $(docdir)
@@ -24,7 +24,7 @@ includedir = $(prefix)/include
 infodir = $(DESTDIR)/usr/share/info
 sysconfdir = $(DESTDIR)/etc
 mandir = $(DESTDIR)/usr/share/man
-libdir = $(DESTDIR)/usr/lib64
+libdir = $(DESTDIR)/usr/lib
 sharedstatedir = $(prefix)/com
 oldincludedir = $(DESTDIR)/usr/include
 pdfdir = $(docdir)
@@ -42,11 +42,11 @@ LIBRUBYARG_SHARED = -Wl,-R -Wl,$(libdir) -L$(libdir) -L. -l$(RUBY_SO_NAME)
 LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)-static
 
 RUBY_EXTCONF_H = 
-CFLAGS   =  -fPIC -O2 -pipe -funroll-loops -march=nocona -msse3  -fPIC 
+CFLAGS   =  -fPIC -O2 -pipe -funroll-loops -march=nocona -msse3  -fPIC
 INCFLAGS = -I. -I$(topdir) -I$(hdrdir) -I$(srcdir) -I../director-api/
-CPPFLAGS =  
+CPPFLAGS =
 CXXFLAGS = $(CFLAGS) 
-DLDFLAGS =  -L../director-api/  
+DLDFLAGS =  -L../../sources/libnl-3/lib/.libs/ -L../director-api/
 LDSHARED = $(CC) -shared
 AR = x86_64-pc-linux-gnu-ar
 EXEEXT = 
@@ -70,7 +70,7 @@ COPY = cp
 preload = 
 
 libpath = $(libdir)
-LIBPATH =  -L'$(libdir)' -Wl,-R'$(libdir)'
+LIBPATH =  -L../../sources/libnl-3/lib/ -L'$(libdir)' -Wl,-R'$(libdir)'
 DEFFILE = 
 
 CLEANFILES = 
@@ -80,7 +80,7 @@ extout =
 extout_prefix = 
 target_prefix = 
 LOCAL_LIBS = 
-LIBS = $(LIBRUBYARG_SHARED) -lnl -ldirector-api  -ldl -lcrypt -lm   -lc
+LIBS = $(LIBRUBYARG_SHARED) -lnl-3 -ldirector-api  -ldl -lcrypt -lm   -lc
 SRCS = directorApiExt.c
 OBJS = directorApiExt.o
 TARGET = directorApi
