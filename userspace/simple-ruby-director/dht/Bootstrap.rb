@@ -31,10 +31,14 @@ class Bootstrap
       $log.debug "Bootstrap: Successful joined at least to one node!"
 
       until kClosestNodesWereRequested do
-        alphaClosestNodes = getClosestNodes(DHTConfig::K) # TODO: take into account DHTConfig::ALPHA
-        alphaClosestNodes.each { |node|
+        kClosestNodes = getClosestNodes(DHTConfig::K)
+        parallelConnection = 0
+        kClosestNodes.each { |node|
           @requestedNodes.synchronize {
-            initLookUpNodeIdRequest(node) unless @requestedNodes.include?(node.nodeId)
+            unless @requestedNodes.include?(node.nodeId)
+              initLookUpNodeIdRequest(node) if parallelConnection < DHTConfig::ALPHA
+              parallelConnection += 1
+            end
           }
         }
         sleep(TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC)

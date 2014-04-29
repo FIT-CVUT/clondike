@@ -117,7 +117,7 @@ class NodeInfoProvider
       sleep(0.5)
       newInfo = getCurrentInfo
       @listeners.each do |listener|
-        #listener.notifyChange(NodeInfoWithId.new(getCurrentId(),newInfo)) # FIXME: UNCOMMENT THIS!
+        listener.notifyChange(NodeInfoWithId.new(getCurrentId(),newInfo))
       end
     end
   end

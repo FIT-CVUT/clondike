@@ -148,27 +148,31 @@ class RSAKeyTools
     rsaKey.__setobj__(OpenSSL::PKey::RSA.new(number))
     return rsaKey
   end
+
   def self.load(stringKey)
     RSAPublicKey.new(RSAKeyTools.decorateKey(stringKey))
   end
+
   def self.undecorateKey(key)
     key.to_s.gsub(/-----[ A-Z]*-----/,"").gsub(/\n/,"")
   end
+
   # Key could be decorated yet or non-decorated
   def self.decorateKey(key)
     res = RSAKeyTools.undecorateKey(key)
 
     # Fragile assumption: undecorated string of *public* RSAConfig::BITS key has fix length
-    if res.length == RSAKeyTools.undecorateKey(OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key).length
-      beginString = OpenSSL::PKey::RSA.new(128).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
-      endString = OpenSSL::PKey::RSA.new(128).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
+    if res.length == RSAKeyTools.getPublicKeyLength()
+      beginString = RSAKeyTools.getPublicKeyHeader()
+      endString = RSAKeyTools.getPublicKeyFooter()
     else
-      beginString = OpenSSL::PKey::RSA.new(128).to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') #=> "-----BEGIN RSA PRIVATE KEY-----"
-      endString = OpenSSL::PKey::RSA.new(128).to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') #=> "-----END RSA PRIVATE KEY-----"
+      beginString = RSAKeyTools.getPrivateKeyHeader()
+      endString = RSAKeyTools.getPrivateKeyFooter()
     end
 
     "#{beginString}\n#{RSAKeyTools.splitBase64(res)}\n#{endString}"
   end
+
   def self.splitBase64(string)
     r = []
     len = 64
@@ -179,8 +183,30 @@ class RSAKeyTools
     end
     return r.join("\n")
   end
+
   def self.unsplitBase64(string)
     string.gsub(/\n/,"")
+  end
+
+  def self.getPublicKeyLength
+    @@publicKeyLength = RSAKeyTools.undecorateKey(OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key).length unless defined? @@publicKeyLength
+    return @@publicKeyLength
+  end
+  def self.getPublicKeyHeader
+    @@publicKeyHeader = OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key.to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') unless defined? @@publicKeyHeader
+    return @@publicKeyHeader #=> Ruby1.8.7 "-----BEGIN PUBLIC KEY-----", Ruby2.0 "-----BEGIN RSA PUBLIC KEY-----"
+  end
+  def self.getPublicKeyFooter
+    @@publicKeyFooter = OpenSSL::PKey::RSA.new(RSAConfig::BITS).public_key.to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') unless defined? @@publicKeyFooter
+    return @@publicKeyFooter #=> Ruby1.8.7 "-----END PUBLIC KEY-----", Ruby2.0 "-----END RSA PUBLIC KEY-----"
+  end
+  def self.getPrivateKeyHeader
+    @@privateKeyHeader = OpenSSL::PKey::RSA.new(RSAConfig::BITS).to_s.gsub(/^([- A-Z]*)\n.*/m,'\1') unless defined? @@privateKeyHeader
+    return @@privateKeyHeader #=> "-----BEGIN RSA PRIVATE KEY-----"
+  end
+  def self.getPrivateKeyFooter
+    @@privateKeyFooter = OpenSSL::PKey::RSA.new(RSAConfig::BITS).to_s.gsub(/.*\n([- A-Z]*)\n/m,'\1') unless defined? @@privateKeyFooter
+    return @@privateKeyFooter #=> "-----END RSA PRIVATE KEY-----"
   end
 end
 

@@ -1,9 +1,6 @@
 require 'NetworkAddress'
 
 class DHTMessageDispatcher
-  attr_reader :countSendedMsgs
-  attr_reader :countRecvedMsgs
-
   MAXLEN_RECEIVE_MESSAGE = 60000
 
   def initialize(localNetworkAddress)
@@ -14,9 +11,6 @@ class DHTMessageDispatcher
     @socket.bind(@ipAddress, @port)
 
     @nodeRepository = nil
-
-    @countSendedMsgs = 0
-    @countRecvedMsgs = 0
   end
 
   def registerNodeRepository(nodeRepository)
@@ -39,7 +33,6 @@ class DHTMessageDispatcher
       @nodeRepository.getAllNodes.each { |node|
         next if node.nodeId == @nodeRepository.selfNode.nodeId
         $log.debug "SEND TO #{node}\n#{message}"
-        checkAndProcessDiscoverMessageSend(message)
         @socket.send(Marshal.dump(message), 0, node.networkAddress.ip, node.networkAddress.port)
       }
     elsif
@@ -63,7 +56,6 @@ class DHTMessageDispatcher
       end
 
       $log.debug "SEND TO #{contact}\n#{message}"
-      checkAndProcessDiscoverMessageSend(message)
       @socket.send(Marshal.dump(message), 0, contact.ip, contact.port)
     end
   end
@@ -73,26 +65,7 @@ class DHTMessageDispatcher
     message = Marshal.load(recvData)
     from = NetworkAddress.new(addr.last, addr[1])
     $log.debug("RECEIVE FROM #{from}\n#{message}")
-    checkAndProcessDiscoverMessageRecv(message)
 
     [message, from]
-  end
-
-  private
-
-  def checkAndProcessDiscoverMessageSend(message)
-    @countSendedMsgs += 1 if isDiscoverMessage?(message)
-  end
-
-  def checkAndProcessDiscoverMessageRecv(message)
-    @countRecvedMsgs += 1 if isDiscoverMessage?(message)
-  end
-
-  def isDiscoverMessage?(message)
-    discoverMessageClasses = [PublicKeyDisseminationMessage, LookUpNodeIdRequestMessage, LookUpNodeIdResponseMessage]
-    if message.class == MessageWrapper
-      return true if discoverMessageClasses.include?(message.message.class)
-    end
-    return false
   end
 end

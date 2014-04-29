@@ -14,6 +14,11 @@ class FilesystemConnector
     @connectAddresses = Set.new
     @connectAddresses.extend(MonitorMixin)
 
+    startWritingThread()
+
+  end
+
+  def startWritingThread
     ExceptionAwareThread.new {
 
       # The authString is pretty good idea, but this:
@@ -38,7 +43,7 @@ class FilesystemConnector
           $log.debug "echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect"
           timer = Time.now
           `echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect` # This is time expensive, units of seconds
-          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer}, result #{$? == 0}"
+          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer} sec, Result: #{($? == 0?"SUCCESS":"FAILED")}"
           @connectAddresses.delete(contactedAddress)
         end
         sleep(1) # Active waiting TODO: make here waiting for signal from connect()
@@ -152,10 +157,8 @@ class FilesystemConnector
           next
         end
         ip = address[1].gsub(/\s+/, "")
-        random_ip = "192.168.1.#{rand(ip.split(".")[3].to_i) + 1}"  # THIS CODE IS FOR MEASURMENT PURPOSE, REMOVE THEM AFTER
         port = address[2].gsub(/\s+/, "")
-        bootstrapList.push(NetworkAddress.new(random_ip, port))     # TODO: REMOVE
-        # bootstrapList.push(NetworkAddress.new(ip, port))          # TODO: UNCOMMENT
+        bootstrapList.push(NetworkAddress.new(ip, port))
       end
     end
     bootstrapList.each { |addr|

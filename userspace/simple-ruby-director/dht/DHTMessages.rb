@@ -69,23 +69,19 @@ class LookUpNodeIdResponseMessageHandler
       return 
     end
 
-    str = ""
-    message.listOfClosestNodes.each { |node|
-      @nodeRepository.insertIfNotExists(node)
-      str << "#{node}  "
-    }
-    $log.debug "#{@nodeRepository.selfNode} --> #{from}  closest nodes: #{str}"
-
     @requestedNodes.synchronize {
       @requestedNodes.add(fromNode.nodeId)
     }
+
+    # The block of code bootstrapMessageWasMetSemaphore.. could be removed
     @bootstrapMessageWasMetSemaphore.synchronize {
       if @bootstrapMessageWasMet == false && @bootstrap.kClosestNodesWereRequested
         @bootstrapMessageWasMet = true
-        $log.debug "Bootstrap: Successful Completed! SendedMsgs #{@interconnection.messageDispatcher.countSendedMsgs} RecvedMsgs #{@interconnection.messageDispatcher.countRecvedMsgs}"
+        $log.debug "Bootstrap process successful completed!"
         @nodeRepository.printListOfAllNodes
       end
     }
+    # The end of block of code bootstrapMessageWasMetSemaphore
 
     respondingNode = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(respondingNode)

@@ -10,10 +10,10 @@
 
 if [ $# -ne 4  ]; then
     echo "Usage:"
-    echo "  $ bash $0 <end_of_ip_start_node> <end_of_ip_end_node> <ssh_password> <local_script>"
+    echo "  $ bash $0 <END_OF_IP_START_NODE> <END_OF_IP_END_NODE> <SSH_PASSWORD> <LOCAL_SCRIPT>"
     echo
     echo "For example:"
-    echo "  We have local script scripts/update_git_and_restart_clondike.sh and we have nodes with IP:"
+    echo "  We have local script at path 'scripts/update_git_and_restart_clondike.sh' and we have nodes with IP:"
     echo "    192.168.1.1"
     echo "    192.168.1.2"
     echo "    192.168.1.3"
@@ -21,7 +21,7 @@ if [ $# -ne 4  ]; then
     echo "    ..."
     echo "    192.168.1.24"
     echo "  We should run:"
-    echo "    $ bash $0 1 24 password scripts/update_git_and_restart_clondike.sh"
+    echo "    $ bash $0 1 24 <SSH_PASSWORD> scripts/update_git_and_restart_clondike.sh"
     echo
     echo "The network address 192.168.1.x is hardcoded"
     echo

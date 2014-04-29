@@ -2,7 +2,7 @@ require 'BlockingQueue'
 
 #This class handles propagation and receiving of NodeInfos
 class InformationDistributionStrategy
-  DISTRIBUTION_PERIOD = 16 # in seconds
+  DISTRIBUTION_PERIOD = 1 # in seconds
 
   def initialize(nodeInfoProvider, informationConsumer, interconnection)
     @nodeInfoProvider = nodeInfoProvider
@@ -30,7 +30,7 @@ class InformationDistributionStrategy
   def nodeInfoExtractThread
     while true
       sleep(DISTRIBUTION_PERIOD)
-      # @interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId) # FIXME: UNCOMMENT!
+      @interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId)
     end
   end
 end

@@ -67,7 +67,7 @@ class MembershipManager
             unless containsDetachedNode(node)
               if node.networkAddress.class == NetworkAddress
                 $log.debug "MembershipManager: AutoConnectingThread tries connect address #{node.networkAddress}"
-                res = @filesystemConnector.connect(node.networkAddress, "")
+                res = @filesystemConnector.connect(node.networkAddress, "") # TODO: fix missing authentication data!
               elsif
                 $log.warn "Network address is invalid! #{node.networkAddress}"
               end
@@ -121,7 +121,6 @@ class MembershipManager
   end
 
   def connectToNode(node)
-    return # TODO: REMOVE THIS STOP, It is only for measuring bootstrapping purpose
     ExceptionAwareThread.new() {
       nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);
