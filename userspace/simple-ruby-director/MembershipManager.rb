@@ -191,7 +191,7 @@ class MembershipManager
   def getMorePeersToNodeRepository(targetNumberOfNodes)
     $log.debug "getMorePeersToNodeRepository: start"
     @nodeRepository.printListOfAllNodes()
-    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@nodeRepository.selfNode.nodeId, targetNumberOfNodes)
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@nodeRepository.selfNode.nodeId, targetNumberOfNodes, @nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
     while targetNumberOfNodes > (@nodeRepository.knownNodesCount() + 1)
       $log.debug "getMorePeersToNodeRepository: send requests to all known nodes"
       @interconnection.dispatch(nil, lookUpNodeIdRequestMessage)

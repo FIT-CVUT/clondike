@@ -35,7 +35,7 @@ class CpuLoadBalancingStrategy
   private
   def findBestTarget(pid, uid, name, detachedNodes, emigrateThreshold)
     TargetMatcher.performMatch(pid, uid, name, detachedNodes) { |node|
-      node.nodeInfo.cpuUsage
+      -node.nodeInfo.cpuUsage
     }
   end
 end

@@ -30,6 +30,7 @@
 #include <errno.h>
 #include "npfs.h"
 #include "npfsimpl.h"
+#include "fdtrans.h"
 
 typedef struct Socksrv Socksrv;
 
@@ -39,7 +40,7 @@ struct Socksrv {
 	int			proto;
 	struct sockaddr*	saddr;
 	int			saddrlen;
-	
+
 	int			sock;
 	int			shutdown;
 //	struct sockaddr*	addr;
@@ -182,7 +183,7 @@ np_socksrv_listenproc(void *a)
 	socklen_t caddrlen;
 	Npconn *conn;
 	Nptrans *trans;
-	
+
 	char buf[64];
 	unsigned char *ip;
 

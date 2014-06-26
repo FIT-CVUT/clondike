@@ -39,8 +39,13 @@ class CliClient
       @sock.puts(line)
       @sock.flush
       reply = ""
-      while ( !reply.endsWith("\n") )  do
-        reply = reply + @sock.readpartial(4096)
+
+      begin
+        while ( !reply.endsWith("\n") )  do
+          reply = reply + @sock.readpartial(4096)
+        end
+      rescue EOFError
+        # end of readpartial
       end
       reply = reply.chop!
 

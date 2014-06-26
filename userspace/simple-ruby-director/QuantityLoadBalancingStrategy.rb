@@ -1,5 +1,6 @@
 # Helper class, counting tasks assigned per node
 class PerNodeTaskCounter
+
   def initialize
     @counters = {}
     @lock = Monitor.new
@@ -103,10 +104,10 @@ class QuantityLoadBalancingStrategy
     @taskRepository = taskRepository
     @predictor = predictor
     # Minimum tasks running locally we want .. currently equals to core counts, could consider core count + 1?
-    @defaultMinimumTasksLocal = @nodeRepository.selfNode.staticNodeInfo.coresCount
+    @defaultMinimumTasksLocal = @nodeRepository.selfNode.staticNodeInfo.coresCount + 1
     #        @minimumTasksLocal = 0 # Comment this out, testing only.. prefered way for testing is to use EMIG=1 env prop
     # Minimum tasks runnign on a remote node we want
-    @minimumTasksRemote = 200
+    @maximumTasksRemote = @defaultMinimumTasksLocal + 1
     # Fallback load balancing strategy, in case minimum task guarantees are satisfied
     @nestedLoadBalancer = RoundRobinBalancingStrategy.new(nodeRepository, membershipManager)
 
@@ -180,8 +181,21 @@ class QuantityLoadBalancingStrategy
   end
   private
   def getCurrentLocalMinimum()
-    remoteCount = @counter.getRemoteCount(@nodeRepository.selfNode)
-    return 0 if ( remoteCount > 3 && @membershipManager.coreManager.detachedNodes.size > 2 )
+	# if nodes become overloaded more tasks than minimum
+	over_cnt = 0
+	@membershipManager.coreManager.detachedNodes.each { |node|
+		next if !node
+		over_cnt += 1 if @counter.getCount(node) > @maximumTasksRemote
+	}
+
+	#when all nodes are overloaded
+	if ( @membershipManager.coreManager.detachedNodes.size == over_cnt )
+		#compute average number of tasks per node
+		total = @counter.getRemoteCount(@nodeRepository.selfNode) + @counter.getCount(@nodeRepository.selfNode)
+		average = total / ( 1 + over_cnt)
+		return average + 1
+	end
+    
     return @defaultMinimumTasksLocal
   end
 
@@ -225,6 +239,8 @@ class QuantityLoadBalancingStrategy
   end
 
   def keepLocal()
+	localcnt = @counter.getCount(@nodeRepository.selfNode)
+    @log.write("--->>>KEEP LOCAL? #{localcnt} < #{getCurrentLocalMinimum()}\n")
     @counter.getCount(@nodeRepository.selfNode) < getCurrentLocalMinimum()
   end
 
@@ -246,10 +262,11 @@ class QuantityLoadBalancingStrategy
 
   # Return the array index to the best node to detachedNodes
   def findBestTargetRemoteOnly(pid, uid, name, detachedNodes)
-    best = TargetMatcher.performMatch(pid, uid, name, detachedNodes) { |node|
-      taskCount = @counter.getCount(node)
+    best = TargetMatcher.performMatch(pid, uid, name, detachedNodes) { |node|     
+      taskCount = @counter.getCount(node)	
+      $log.debug("Node #{node} has #{taskCount} tasks and max is #{@maximumTasksRemote}")
       # Note that taskCount has to be returned negative, so that less tasks is better candidate!
-      taskCount < @minimumTasksRemote ? -taskCount : nil
+      taskCount < @maximumTasksRemote ? -taskCount : nil
     }
     # $log.debug "The best target node to emigrate the task is at index #{best} and it is the node #{detachedNodes[best]}"
     return best

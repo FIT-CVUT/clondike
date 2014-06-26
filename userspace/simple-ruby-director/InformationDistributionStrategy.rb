@@ -2,7 +2,7 @@ require 'BlockingQueue'
 
 #This class handles propagation and receiving of NodeInfos
 class InformationDistributionStrategy
-  DISTRIBUTION_PERIOD = 1 # in seconds
+  DISTRIBUTION_PERIOD = 4 # in seconds
 
   def initialize(nodeInfoProvider, informationConsumer, interconnection)
     @nodeInfoProvider = nodeInfoProvider
@@ -21,6 +21,7 @@ class InformationDistributionStrategy
 
   #Callback method, informing about significant change in a dynamic node info
   def notifyChange(nodeInfo)
+    $log.debug "Significant change in a dynamic nodeinfo #{nodeInfo}"
     @interconnection.dispatch(nil, nodeInfo)
   end
 
@@ -30,6 +31,7 @@ class InformationDistributionStrategy
   def nodeInfoExtractThread
     while true
       sleep(DISTRIBUTION_PERIOD)
+      $log.debug "Regular sending nodeinfo"
       @interconnection.dispatch(nil, @nodeInfoProvider.getCurrentInfoWithId)
     end
   end

@@ -91,7 +91,7 @@ np_conn_decref(Npconn *conn)
 		np_fidpool_destroy(conn->fidpool);
 		conn->fidpool = NULL;
 	}
-	
+
 	fc = conn->freerclist;
 	conn->freerclist = NULL;
 	while (fc != NULL) {
@@ -121,9 +121,10 @@ np_conn_read_proc(void *a)
 	Nptrans *trans;
 	Npreq *req;
 	Npfcall *fc, *fc1;
+	void *check;
 
 	pthread_detach(pthread_self());
-	conn = a;
+	conn = (Npconn*)a;
 	np_conn_incref(conn);
 	srv = conn->srv;
 	msize = conn->msize;
@@ -169,7 +170,7 @@ again:
 		pthread_mutex_lock(&srv->lock);
 		if (!conn->resetting)
 			np_srv_add_req(srv, req);
-		else 
+		else
 			np_req_unref(req);
 		pthread_mutex_unlock(&srv->lock);
 		fc = fc1;
@@ -205,7 +206,7 @@ np_conn_reset(Npconn *conn, u32 msize, int dotu)
 	pthread_mutex_lock(&conn->lock);
 	conn->resetting = 1;
 	pthread_mutex_unlock(&conn->lock);
-	
+
 	pthread_mutex_lock(&conn->srv->lock);
 	srv = conn->srv;
 	// first flush all outstanding requests

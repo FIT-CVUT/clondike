@@ -25,6 +25,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <errno.h>
+#include <sys/time.h>
 #include "npfs.h"
 #include "npfsimpl.h"
 
