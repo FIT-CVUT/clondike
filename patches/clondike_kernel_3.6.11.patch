@@ -219,7 +219,7 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/Kconfig linux-3.6.11/clon
 +	select TCMI_HOOKS
 +	help
 +	  Clondike is a clustering project started at FEE CTU Prague.
-+    To read more see project website at http://clondike.felk.cvut.cz
++	  To read more see project website at http://clondike.felk.cvut.cz
 +	  Since 2012 is being developed at FIT CTU Prague, project website at https://github.com/FIT-CVUT/Clondike
 +	  This option enables Task Checkpointing and Migration Infrastructure(TCMI) 
 +	  support in the kernel. 
