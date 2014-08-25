@@ -474,10 +474,8 @@ static int tcmi_migcom_migrated_task(void *data)
 	sys_close(2);
 
 	mdbg(INFO2, "Creating mounter: %s", startup_params->mount_params->mount_type);
-	minfo(ERR1, "Creating mounter: %s", startup_params->mount_params->mount_type);
 	mounter = get_new_mounter(startup_params->mount_params);	
 	mdbg(INFO2, "Created mounter: %p", mounter);
-	minfo(ERR1, "Created mounter: %p", mounter);
 	
 	if ( mounter ) {
 		/* Some file system mounter is registered => perform the mount */
@@ -486,8 +484,7 @@ static int tcmi_migcom_migrated_task(void *data)
 			mdbg(INFO2, "Private Mount succeeded");
 		free_mounter(mounter);
 		mdbg(INFO2, "Freed mounter");
-		minfo(ERR1, "Freed mounter");
-	
+		
 		if ( err ) {
 			/* We must notify anyway to prevent blocking */
 			complete(fs_ready);	
@@ -507,7 +504,6 @@ static int tcmi_migcom_migrated_task(void *data)
 
 	/* Notify about file system mount finished */
 	complete(fs_ready);
-	minfo(ERR1, "BEFORE Starting new thread for migrating task..");
 	mdbg(INFO2, "Starting new thread for migrating task..");
 	if ((err = wait_for_completion_interruptible(guest_ready))) {
 		minfo(INFO1, "Received signal guest not ready");
