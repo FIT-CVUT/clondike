@@ -491,7 +491,7 @@ static int tcmi_migcom_migrated_task(void *data)
 			goto exit0;
 		}		
 	}
-	minfo(ERR1, "BEFORE mount_proxyfs");
+	minfo(INFO1, "BEFORE mount_proxyfs");
 	err = mount_proxyfs(startup_params->sock);
 	if ( !err )
 		err = mount_local_procfs(startup_params->sock);
