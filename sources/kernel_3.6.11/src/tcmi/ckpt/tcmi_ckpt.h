@@ -202,7 +202,7 @@ static inline int tcmi_ckpt_read_write(struct tcmi_ckpt *self,
 	set_fs(get_ds());
 	/* The cast to a user pointer is valid due to the set_fs() */
 	result = vfs_method(self->file, (void __user *)data, count, &self->file->f_pos);
-	mdbg(ERR3, "DEBUG read vfs method return = %d", result);
+	mdbg(INFO3, "DEBUG read vfs method return = %d", result);
 	set_fs(old_fs);
 
 	return (result == count ? 0 : -EINVAL);
