@@ -111,7 +111,7 @@ class Director
     @taskRepository.registerListener(predictor)
     @loadBalancer.registerMigrationListener(@taskRepository)
 
-    @cacheFSController = CacheFSController.new(@interconnection)
+    #@cacheFSController = CacheFSController.new(@interconnection)
 
     initializeMeasurements()
     initializeCliServer()
@@ -148,7 +148,7 @@ class Director
 
     @netlinkConnector.pushUserMessageHandler(@interconnection)
 
-    @netlinkConnector.pushImmigrationHandler(@cacheFSController)
+    #@netlinkConnector.pushImmigrationHandler(@cacheFSController)
     @netlinkConnector.pushImmigrationHandler(@immigrationController)
 
     @netlinkConnector.pushImmigrationConfirmedHandler(@immigratedTasksController)
@@ -199,7 +199,7 @@ class Director
     interpreter = CliInterpreter.new(parser)
     registerAllTrustHandler(@trustManagement, interpreter)
     registerAllMeasureHandlers(MeasurementPlanParser.new(@nodeRepository, @membershipManager), @measurementDirector, interpreter)
-    registerAllCcfsHandlers(@cacheFSController, @interconnection, interpreter)
+    #registerAllCcfsHandlers(@cacheFSController, @interconnection, interpreter)
     server = CliServer.new(interpreter, 4223)
     server.start
   end
