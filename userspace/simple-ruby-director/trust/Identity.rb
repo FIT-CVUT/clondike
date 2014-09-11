@@ -1,4 +1,5 @@
 require "openssl"
+require "base64"
 require "trust/Certificates.rb"
 require "trust/CertificateStore.rb"
 require 'trust/Permission.rb'
@@ -27,7 +28,6 @@ class Identity
   # Returns nil in case identity data cannot be loaded at that path
   def self.loadIfExists(directory, distributionStrategy)
     return nil if ( !identityExists(directory) )
-
     identity = Identity.new(directory, distributionStrategy, nil, nil, nil)
     identity.load()
     return identity
@@ -138,7 +138,7 @@ class Identity
   end
 
   def loadKey(file)
-    RSAPublicKey.new(File.read(file))
+    OpenSSL::PKey::RSA.new(File.read(file))
   end
 end
 
@@ -150,7 +150,7 @@ class RSAKeyTools
   end
 
   def self.load(stringKey)
-    RSAPublicKey.new(RSAKeyTools.decorateKey(stringKey))
+    OpenSSL::PKey::RSA.new(RSAKeyTools.decorateKey(stringKey))
   end
 
   def self.undecorateKey(key)
@@ -169,7 +169,6 @@ class RSAKeyTools
       beginString = RSAKeyTools.getPrivateKeyHeader()
       endString = RSAKeyTools.getPrivateKeyFooter()
     end
-
     "#{beginString}\n#{RSAKeyTools.splitBase64(res)}\n#{endString}"
   end
 
