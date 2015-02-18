@@ -69,6 +69,14 @@ class LookUpNodeIdResponseMessageHandler
       return 
     end
 
+    closestNodes = ""
+    message.listOfClosestNodes.each { |node|
+      @nodeRepository.insertIfNotExists(node)
+      closestNodes << ", " unless closestNodes.empty?
+      closestNodes << "#{node}"
+    }
+    $log.debug "DHT: From the node #{from} I have learned about nodes: #{closestNodes}"
+
     @requestedNodes.synchronize {
       @requestedNodes.add(fromNode.nodeId)
     }
