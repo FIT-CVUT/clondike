@@ -45,6 +45,7 @@ int errno = 0;
 
 #include "tcmi_taskhelper.h"
 #include "linux/sched.h"
+#include <linux/jiffies.h>
 
 /** TODO: Move this somewhere to arch */
 #if defined(__x86_64__)
@@ -128,6 +129,8 @@ int tcmi_task_init(struct tcmi_task *self, pid_t local_pid, struct tcmi_migman* 
 
 	self->d_migman_root = d_migman;
 	self->f_remote_pid_rev = NULL;
+	current->jiffies = jiffies; 	/*Added jeffies as identifier of the task for Cassandra*/
+
 	tcmi_queue_init(&self->method_queue);
 	tcmi_queue_init(&self->msg_queue);
 

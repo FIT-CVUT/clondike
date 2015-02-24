@@ -187,7 +187,7 @@ static void tcmi_try_npm_on_exec(const char *filename, const char __user * const
 	set_fs(get_ds());
 	getrusage(current, RUSAGE_SELF, &rusage);
 	set_fs(old_fs);
-	if (director_npm_check(current->pid, current_euid(), is_guest, filename, argv, envp, &migman_to_use, &migrate_home, &rusage) != 1 )
+	if (director_npm_check(current->pid, current_euid(), is_guest, filename, argv, envp, &migman_to_use, &migrate_home, &rusage, current->jiffies) != 1 )
 		return;
 
 	migrate_home = is_guest ? migrate_home : 0;
@@ -248,7 +248,6 @@ static long tcmi_mighooks_execve(const char *filename, const char __user * const
 				goto exit0;
 			}
 
-		
 			tcmi_task_send_anonymous_msg(t_task, m);
 			tcmi_msg_put(m);
 			

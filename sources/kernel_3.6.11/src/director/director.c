@@ -19,18 +19,18 @@ MODULE_LICENSE("GPL");
 
 int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, 
 		const char* __user const * __user argv, const char* __user const * __user envp, 
-		int* migman_to_use, int* migrate_home, struct rusage *rusage) {
+		int* migman_to_use, int* migrate_home, struct rusage *rusage, unsigned long jif) {
 	int res, decision, decision_value;
 
 	// TODO: If full is not too expensive do full every time? Or perhaps some "learning" for which processes we should do full immediately and for which not?
 
-	res = npm_check(pid, uid, is_guest, name, &decision, &decision_value, rusage);
+	res = npm_check(pid, uid, is_guest, name, &decision, &decision_value, rusage, jif);
 	minfo(INFO4, "Npm check [%s]. Decision: %d, Res %d", name, decision, res);
 	if ( res )
 		return res;
 
 	if ( decision == REQUIRE_ARGS || decision == REQUIRE_ENVP || decision == REQUIRE_ARGS_AND_ENVP ) {
-		res = npm_check_full(pid, uid, is_guest, name, argv, envp, &decision, &decision_value);
+		res = npm_check_full(pid, uid, is_guest, name, argv, envp, &decision, &decision_value, jif);
 
 		minfo(INFO4, "Npm check full [%s]. Decision: %d, Res %d", name, decision, res);
 		

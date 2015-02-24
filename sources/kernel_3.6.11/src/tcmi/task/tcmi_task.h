@@ -213,6 +213,9 @@ struct tcmi_task {
 
 	/** Operations specific to shadow/guest tasks resp. */
 	struct tcmi_task_ops *ops;
+
+	/** Identifier task for Cassandra, number of ticks that have occurred since the system booted */
+	unsigned long jiffies;
 };
 
 /** TCMI task operations that support polymorphism */

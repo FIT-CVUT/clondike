@@ -22,12 +22,13 @@
  * @param migman_to_use Output parameter.. slot index of migration manager to be used
  * @param migrate_home Output param .. should we migrate home?
  * @param rusage Resource usage structure of process
+ * @param jif Jiffies is Identifier of the task for Cassandra
  *
  * @return 0 on success, if no migration should be performed
  *         1 on success, when a migration should be performed
  *         error code otherwise. In case of error, output params are not valid!
  */
-int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, const char* __user const * __user argv, const char* __user const * __user envp, int* migman_to_use, int* migrate_home, struct rusage *rusage);
+int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, const char* __user const * __user argv, const char* __user const * __user envp, int* migman_to_use, int* migrate_home, struct rusage *rusage, unsigned long jif);
 
 /**
  * Request to immigrate process from core node specified by slot_index to this node.
