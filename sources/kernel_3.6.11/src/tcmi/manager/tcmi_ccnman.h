@@ -155,7 +155,11 @@ struct tcmi_ccnman {
 	struct tcmi_ctlfs_entry *f_mount_device;
 	/** TCMI ctlfs - remote mount options. */
 	struct tcmi_ctlfs_entry *f_mount_options;
-	/** Remote moutn params */
+	
+  /** TCMI CTLFS - count of connected nodes */
+  struct tcmi_ctlfs_entry *f_nodes_count;
+
+  /** Remote moutn params */
 	struct fs_mount_params mount_params;
 
 	/** Listening thread reference */
@@ -165,6 +169,10 @@ struct tcmi_ccnman {
 	struct list_head sleepers;
 	/** protects the list from concurrent access */
 	spinlock_t sleepers_lock;
+
+  /* count of connected ccn nodes*/
+  unsigned int count_conneted_nodes;
+
 };
 /** Casts to the CCN manager. */
 #define TCMI_CCNMAN(man) ((struct tcmi_ccnman *)man)

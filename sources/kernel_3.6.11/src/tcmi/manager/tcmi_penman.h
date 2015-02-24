@@ -121,8 +121,15 @@ struct tcmi_penman {
 	/** parent class instance. */
 	struct tcmi_man super;
 
+  /* count of connected ccn nodes*/
+  unsigned int count_conneted_nodes;
+
 	/** TCMI ctlfs - connect control file */
 	struct tcmi_ctlfs_entry *f_connect;
+
+  /** TCMI CTLFS - count of connected nodes */
+  struct tcmi_ctlfs_entry *f_nodes_count;
+
 
 };
 /** Casts to the PEN manager. */

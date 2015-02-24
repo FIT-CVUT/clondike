@@ -64,8 +64,10 @@ int tcmi_penman_init(struct tcmi_ctlfs_entry *root)
 		mdbg(ERR3, "TCMI PEN manager - generic init failed");
 		goto exit0;
 	}
-	return 0;
-		
+	
+	self->count_conneted_nodes = 0;	//initialization count of connected nodes
+	
+	return 0;	
 	/* error handling */
  exit0:
 	return -EINVAL;
@@ -83,7 +85,6 @@ int tcmi_penman_init(struct tcmi_ctlfs_entry *root)
 void tcmi_penman_shutdown(void)
 {
 	minfo(INFO1, "Shutting down the TCMI PEN manager");
-
 	tcmi_man_shutdown(TCMI_MAN(&self));
 }
 
@@ -108,6 +109,16 @@ static int tcmi_penman_init_ctlfs_files(void)
 				     NULL, NULL, tcmi_penman_connect,
 				     KKC_MAX_WHERE_LENGTH, "connect")))
 		goto exit0;
+	
+
+	/* Create file for count of connected nodes by pen */
+	if (!(self.f_nodes_count = 
+	      tcmi_ctlfs_intfile_new(tcmi_man_nodes_dir(TCMI_MAN(&self)), TCMI_PERMS_FILE_R,
+				     NULL, NULL, NULL,
+				     sizeof(int), "count")))
+		goto exit0;
+	
+
 	return 0;
 
 	/* error handling */
@@ -126,6 +137,9 @@ static void tcmi_penman_stop_ctlfs_files(void)
 
 	tcmi_ctlfs_file_unregister(self.f_connect);
 	tcmi_ctlfs_entry_put(self.f_connect);
+
+	tcmi_ctlfs_file_unregister(self.f_nodes_count);
+	tcmi_ctlfs_entry_put(self.f_nodes_count);
 }
 
 /**
@@ -224,6 +238,9 @@ static int tcmi_penman_connect(void *obj, void *str)
 
 	kkc_sock_put(sock);
 
+	/* Increment file which contains of count connected nodes */
+	self.count_conneted_nodes++;
+
 	return 0;
 /* error handling */
  exit3:
@@ -234,6 +251,21 @@ static int tcmi_penman_connect(void *obj, void *str)
 	kkc_sock_put(sock);
  exit0:
 	return -EINVAL;
+}
+
+/**
+ * \<\<private\>\> Updates count of connected nodes
+ *
+ * @param *obj - pointer to an object - NULL is expected as
+ * TCMI PEN manager is a singleton class.
+ * @param *str - number connected nodes 
+ * @return 0 upon success
+ */
+static int tcmi_penman_count(void *obj, void *str)
+{
+	str = &self.count_conneted_nodes;
+
+	return 0;
 }
 
 
