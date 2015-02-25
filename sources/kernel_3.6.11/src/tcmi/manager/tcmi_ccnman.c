@@ -81,7 +81,7 @@ int tcmi_ccnman_init(struct tcmi_ctlfs_entry *root)
 		goto exit2;
 	}
 
-	self->count_conneted_nodes = 0;	//initialization count of connected nodes
+	self.count_conneted_nodes = 0;	//initialization count of connected nodes
 
 	return 0;
 		

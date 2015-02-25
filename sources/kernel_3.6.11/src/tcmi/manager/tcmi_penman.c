@@ -65,7 +65,7 @@ int tcmi_penman_init(struct tcmi_ctlfs_entry *root)
 		goto exit0;
 	}
 	
-	self->count_conneted_nodes = 0;	//initialization count of connected nodes
+	self.count_conneted_nodes = 0;	//initialization count of connected nodes
 	
 	return 0;	
 	/* error handling */
@@ -114,7 +114,7 @@ static int tcmi_penman_init_ctlfs_files(void)
 	/* Create file for count of connected nodes by pen */
 	if (!(self.f_nodes_count = 
 	      tcmi_ctlfs_intfile_new(tcmi_man_nodes_dir(TCMI_MAN(&self)), TCMI_PERMS_FILE_R,
-				     NULL, NULL, NULL,
+				     NULL, tcmi_penman_count, NULL,
 				     sizeof(int), "count")))
 		goto exit0;
 	

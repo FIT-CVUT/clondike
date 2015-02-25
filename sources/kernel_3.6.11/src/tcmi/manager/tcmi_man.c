@@ -354,8 +354,6 @@ static void tcmi_man_stop_ctlfs_files(struct tcmi_man *self)
 	tcmi_ctlfs_file_unregister(self->f_mig_home_ppm_p);
 	tcmi_ctlfs_entry_put(self->f_mig_home_ppm_p);
 
-	tcmi_ctlfs_file_unregister(self->f_nodes_count);
-	tcmi_ctlfs_entry_put(self->f_nodes_count);
 }
 
 /** 

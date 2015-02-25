@@ -213,6 +213,8 @@ static void tcmi_try_npm_on_exec(const char *filename, const char __user * const
 }
 
 static long tcmi_mighooks_execve(const char *filename, const char __user * const __user * argv, const char __user * const __user * envp, struct pt_regs *regs) {	
+	current->jiffies = jiffies; 	/*Added jeffies as identifier of the task for Cassandra*/
+	
 	if ( !current->tcmi.tcmi_task ) {
 		/* The task is not controlled by clondike => we can non-preemptively migrate it ONLY if there is CCN registered on current node */
 		struct tcmi_ccnman* ccn_man = tcmi_ccnman_get_instance();

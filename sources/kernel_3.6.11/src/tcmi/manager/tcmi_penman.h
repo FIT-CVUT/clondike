@@ -163,12 +163,16 @@ static void tcmi_penman_stop(void);
 /** Write method for the TCMI ctlfs - connects to a CCN. */
 static int tcmi_penman_connect(void *obj, void *data);
 
+static int tcmi_penman_count(void *obj, void *str);
+
 /** CCN manager operations that support polymorphism */
 static struct tcmi_man_ops penman_ops;
 
 struct tcmi_penman* tcmi_penman_get_instance(void) {
 	return &self;
 };
+
+
 
 #endif /* TCMI_PENMAN_PRIVATE */
 

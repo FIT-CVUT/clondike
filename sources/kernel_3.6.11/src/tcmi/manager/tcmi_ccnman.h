@@ -242,6 +242,7 @@ static inline void tcmi_ccnman_add_sleeper(struct kkc_sock_sleeper *);
 /** Removes sleepers that sleep on the socket. */ 
 static inline void tcmi_ccnman_remove_sleepers(struct tcmi_sock *);
 
+static int tcmi_ccnman_count(void *obj, void *str);
 
 /** CCN manager operations that support polymorphism */
 static struct tcmi_man_ops ccnman_ops;
