@@ -122,7 +122,7 @@ struct tcmi_penman {
 	struct tcmi_man super;
 
   /* count of connected ccn nodes*/
-  unsigned int count_conneted_nodes;
+  atomic_t count_connected_nodes;
 
 	/** TCMI ctlfs - connect control file */
 	struct tcmi_ctlfs_entry *f_connect;

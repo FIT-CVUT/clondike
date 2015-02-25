@@ -81,7 +81,7 @@ int tcmi_ccnman_init(struct tcmi_ctlfs_entry *root)
 		goto exit2;
 	}
 
-	self.count_conneted_nodes = 0;	//initialization count of connected nodes
+	atomic_set(&self.count_connected_nodes,0);	//initialization count of connected nodes
 
 	return 0;
 		
@@ -720,7 +720,9 @@ static struct tcmi_man_ops ccnman_ops = {
  */
 static int tcmi_ccnman_count(void *obj, void *str)
 {
-	str = &self.count_conneted_nodes;
+	int *count = (int*) str;
+  
+    *count = atomic_read(&self.count_connected_nodes);
 
 	return 0;
 }

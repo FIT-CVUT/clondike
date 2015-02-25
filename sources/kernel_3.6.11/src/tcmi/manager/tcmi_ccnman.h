@@ -171,7 +171,7 @@ struct tcmi_ccnman {
 	spinlock_t sleepers_lock;
 
   /* count of connected ccn nodes*/
-  unsigned int count_conneted_nodes;
+  atomic_t count_connected_nodes;
 
 };
 /** Casts to the CCN manager. */
