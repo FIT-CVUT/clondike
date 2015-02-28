@@ -920,14 +920,14 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/sched.h linux-3.6.11
  #ifdef CONFIG_CGROUPS
  	/*
  	 * group_rwsem prevents new tasks from entering the threadgroup and
-@@ -1499,6 +1501,11 @@
+@@ -1499,6 +1502,12 @@
  	int cpuset_mem_spread_rotor;
  	int cpuset_slab_spread_rotor;
  #endif
 +
 +#if defined CONFIG_TCMI || defined CONFIG_TCMI_MODULE
 +	struct tcmi_struct tcmi;
-+	unsigned long jiffies;	/*Identifier of the current task for Cassandra*/
++	unsigned long jiffies; /*Identifier of current task for Cassandra*/
 +#endif
 +
  #ifdef CONFIG_CGROUPS
