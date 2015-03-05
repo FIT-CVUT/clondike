@@ -151,7 +151,7 @@ class TaskRepository
   end
 
   # Callback from on exec notification
-  def onExec(pid, uid, name, isGuest, args=nil, envp=nil, rusage=nil)
+  def onExec(pid, uid, name, isGuest, jiffies, args=nil, envp=nil, rusage=nil)
     if ( !args ) then
       argsRequired = false
       @fullArgRequired.each { |pattern|

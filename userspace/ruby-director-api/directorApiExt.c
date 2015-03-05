@@ -3,8 +3,8 @@
 
 static VALUE module, processingLoopMethod;
 
-static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, struct rusage *rusage, int* decision, int* decision_value);
-static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, char** args, char** envp, int* decision, int* decision_value);
+static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value);
+static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 static void ruby_node_connected_callback(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept );
 static void ruby_node_disconnected_callback(int slot_index, int slot_type, int reason);
 static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const char* name, int* accept);
@@ -117,7 +117,7 @@ static void parse_npm_call_result(VALUE result, int* decision, int* decision_val
 }
 
 static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name,
-		struct rusage *rusage, int* decision, int* decision_value)
+		unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value)
 {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
@@ -129,7 +129,7 @@ static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const ch
 	callbackTarget = rb_iv_get(self,"@npmCallbackTarget");
 	if ( callbackMethod != Qnil ) {
 		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5, INT2FIX(pid),
-				INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ruby_rusage(rusage));
+				INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), ruby_rusage(rusage));
 	}
 
 //	*decision = DO_NOT_MIGRATE;
@@ -149,7 +149,7 @@ static VALUE make_array(char** arr) {
 	return res_array;
 }
 
-static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, char** args, char** envp, int* decision, int* decision_value) {
+static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
 
@@ -160,7 +160,7 @@ static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, con
 	callbackTarget = rb_iv_get(self,"@npmFullCallbackTarget");
 	if ( callbackMethod != Qnil ) {
 
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, make_array(args), make_array(envp));
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), make_array(args), make_array(envp));
 	}
 
 	parse_npm_call_result(callResult, decision, decision_value);

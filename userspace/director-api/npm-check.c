@@ -31,6 +31,7 @@ int handle_npm_check(struct nl_msg *req_msg) {
 	pid_t pid;
 	uid_t uid;
 	struct rusage *rusage;
+	unsigned long jiffies;
 	// Out params
 	int decision = DO_NOT_MIGRATE;
 	int decision_value = -1;
@@ -62,6 +63,12 @@ int handle_npm_check(struct nl_msg *req_msg) {
 	//name = nl_data_get(nla_get_data(nla));
 	name = nla_data(nla);
 
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_JIFFIES);
+	if (nla == NULL)
+		return  -EBADMSG;
+	
+	jiffies = nla_get_u64(nla);
+
 	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_RUSAGE);
 	if (nla == NULL) {
 		rusage = NULL;
@@ -72,7 +79,7 @@ int handle_npm_check(struct nl_msg *req_msg) {
 
 	//printf("NPM CALLED FOR NAME: %s\n", name);
 	if ( npm_callback )
-        	npm_callback(pid, uid, is_guest, name, rusage, &decision, &decision_value);
+        	npm_callback(pid, uid, is_guest, name, jiffies, rusage, &decision, &decision_value);
 
 	
 	if ( (ret=prepare_response_message(state->handle, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
@@ -155,6 +162,7 @@ int handle_npm_check_full(struct nl_msg *req_msg) {
 	int is_guest;
 	pid_t pid;
 	uid_t uid;
+	unsigned long jiffies;
 	// Out params
 	int decision = DO_NOT_MIGRATE;
 	int decision_value = -1;
@@ -186,6 +194,12 @@ int handle_npm_check_full(struct nl_msg *req_msg) {
 	//name = nl_data_get(nla_get_data(nla));
 	name = nla_data(nla);
 
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_JIFFIES);
+	if (nla == NULL)
+		return  -EBADMSG;
+
+	jiffies = nla_get_u64(nla);
+
 	args = parse_chars(req_msg, DIRECTOR_A_ARGS, DIRECTOR_A_ARG);
 	if ( args == NULL ) {
 		ret = -EBADMSG;
@@ -200,7 +214,7 @@ int handle_npm_check_full(struct nl_msg *req_msg) {
 
 	//printf("NPM FULL CALLED FOR NAME: %s\n", name);
 	if ( npm_full_callback )
-        	npm_full_callback(pid, uid, is_guest, name, args, envp, &decision, &decision_value);
+        	npm_full_callback(pid, uid, is_guest, name, jiffies, args, envp, &decision, &decision_value);
 
 	
 	if ( (ret=prepare_response_message(state->handle, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {

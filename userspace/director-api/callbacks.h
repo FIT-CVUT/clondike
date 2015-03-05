@@ -16,9 +16,9 @@ enum npm_msg_response {
 };
 
 
-typedef void (*npm_check_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, struct rusage *rusage, int* decision, int* decision_value);
+typedef void (*npm_check_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value);
 
-typedef void (*npm_check_full_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, char** args, char** envp, int* decision, int* decision_value);
+typedef void (*npm_check_full_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 
 typedef void (*immigration_request_callback_t)(uid_t uid, int slot_index, const char* exec_name, int* accept);
 

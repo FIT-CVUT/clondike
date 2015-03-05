@@ -43,10 +43,10 @@ class NetlinkConnector
     @npmHandlers << handler;
   end
 
-  def connectorNpmCallbackFunction (pid, uid, name, is_guest, rusage)
+  def connectorNpmCallbackFunction (pid, uid, name, is_guest, jiffies, rusage)
     result = nil
     @npmHandlers.each do |handler|
-      result = handler.onExec(pid, uid, name, is_guest, nil, nil, rusage)
+      result = handler.onExec(pid, uid, name, is_guest, jiffies, nil, nil, rusage)
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
@@ -54,10 +54,10 @@ class NetlinkConnector
     result
   end
 
-  def connectorNpmFullCallbackFunction (pid, uid, name, is_guest, args, envp)
+  def connectorNpmFullCallbackFunction (pid, uid, name, is_guest, jiffies, args, envp)
     result = nil
     @npmHandlers.each do |handler|
-      result = handler.onExec(pid, uid, name, is_guest, args, envp)
+      result = handler.onExec(pid, uid, name, is_guest, jiffies, args, envp)
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
