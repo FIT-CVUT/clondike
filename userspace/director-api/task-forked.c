@@ -38,14 +38,14 @@ int handle_task_forked(struct nl_msg *req_msg) {
 	if ( task_forked_callback )
         	task_forked_callback(pid, ppid);
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
 	if (ret != 0)
 		goto error_del_resp;
 
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:

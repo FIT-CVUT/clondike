@@ -8,18 +8,18 @@ class ExecDumper
   end
 
   def onExec(pid, uid, name, is_guest, jiffies, args=nil, envp=nil, rusage=nil)
-    matching = matchesPattern(name)
-    return nil if !matching
-    return [DirectorNetlinkApi::REQUIRE_ARGS_AND_ENVP] if !args
+    #matching = matchesPattern(name)
+    #return nil if !matching
+    #return [DirectorNetlinkApi::REQUIRE_ARGS_AND_ENVP] if !args
 
-    dump(pid, uid, name, args, envp)
+    dump(pid, uid, name, jiffies, args, envp)
     nil
   end
   private
   include ConfigurablePatternMatcher
 
-  def dump(pid, uid, name, args, envp)
-    puts "========= Dump of #{name} [Pid: #{pid} - Uid: #{uid}] =============="
+  def dump(pid, uid, name, jiffies, args, envp)
+    puts "========= Dump of #{name} [Pid: #{pid} - Uid: #{uid} Jiffies: #{jiffies}]  =============="
     puts "Args:"
     args.each { |arg| puts arg }
     puts "Envs:"

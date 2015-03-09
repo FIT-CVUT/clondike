@@ -29,11 +29,11 @@ static inline struct genlmsghdr* nl_msg_genlhdr(struct nl_msg *msg) {
   return (struct genlmsghdr *)nlmsg_data(nlmsg_hdr(msg));
 }
 
-int prepare_request_message(struct nl_handle* hndl, uint8_t cmd, uint16_t type, struct nl_msg** result_message);
-int prepare_response_message(struct nl_handle* hndl, uint8_t cmd, uint16_t type, uint32_t seq, struct nl_msg** result_message);
-int send_request_message(struct nl_handle* hndl, struct nl_msg* msg, int requires_ack);
-int send_response_message(struct nl_handle* hndl, struct nl_msg* msg);
-int read_message(struct nl_handle* hndl, struct nl_msg** result_message);
+int prepare_request_message(struct nl_sock *sk, uint8_t cmd, uint16_t type, struct nl_msg** result_message);
+int prepare_response_message(struct nl_sock *sk, uint8_t cmd, uint16_t type, uint32_t seq, struct nl_msg** result_message);
+int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ack);
+int send_response_message(struct nl_sock *sk, struct nl_msg* msg);
+int read_message(struct nl_sock *sk, struct nl_msg** result_message);
 void send_error_message(int err, int seq, uint8_t cmd);
 int send_ack_message(struct nl_msg* req_msg);
 

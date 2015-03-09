@@ -128,7 +128,7 @@ static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const ch
 	callbackMethod = rb_iv_get(self,"@npmCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@npmCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5, INT2FIX(pid),
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid),
 				INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), ruby_rusage(rusage));
 	}
 
@@ -160,7 +160,7 @@ static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, con
 	callbackTarget = rb_iv_get(self,"@npmFullCallbackTarget");
 	if ( callbackMethod != Qnil ) {
 
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), make_array(args), make_array(envp));
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 7, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), make_array(args), make_array(envp));
 	}
 
 	parse_npm_call_result(callResult, decision, decision_value);

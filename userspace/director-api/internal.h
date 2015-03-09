@@ -5,8 +5,8 @@
 struct internal_state {
 	/* Family id of the generic netlink channel for director */
 	uint16_t gnl_fid;
-	/* Handle to the netlink connection */
-	struct nl_handle* handle;	
+	/* Socket for the netlink connection */
+	struct nl_sock *sk;	
 };
 
 /** Reads current state */

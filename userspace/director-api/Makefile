@@ -1,6 +1,6 @@
 CC=gcc
 OBJECTS = msg-common.o director-api.o npm-check.o node-connected.o node-disconnected.o immigration-request.o immigration-confirmed.o task-exitted.o task-forked.o generic_user_message.o migrated-home.o emigration-failed.o
-CFLAGS += -g -fPIC -I../../sources/libnl-3/include -lnl-3 -lssl
+CFLAGS += -g -fPIC -I ../../sources/libnl-3/include -lnl-3 -lssl
 AR = ar
 
 all: director-api.a

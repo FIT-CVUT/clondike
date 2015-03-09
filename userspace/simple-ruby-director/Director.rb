@@ -133,9 +133,9 @@ class Director
     end
     procTrace = ProcTrace.new(['/usr/bin/make','/usr/bin/gcc'])
     @netlinkConnector.pushNpmHandlers(@taskRepository)
-    @netlinkConnector.pushNpmHandlers(procTrace) if $useProcTrace
-    @netlinkConnector.pushNpmHandlers(ExecDumper.new())
-    @netlinkConnector.pushNpmHandlers(@loadBalancer)
+#    @netlinkConnector.pushNpmHandlers(procTrace) if $useProcTrace
+#    @netlinkConnector.pushNpmHandlers(ExecDumper.new())
+#    @netlinkConnector.pushNpmHandlers(@loadBalancer)
 
     @netlinkConnector.pushExitHandler(@taskRepository)
     @netlinkConnector.pushExitHandler(@immigratedTasksController)

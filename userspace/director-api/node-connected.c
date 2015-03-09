@@ -49,7 +49,7 @@ int handle_node_connected(struct nl_msg *req_msg) {
 		nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_AUTH_DATA);
 		if (nla == NULL)
 			return  -EBADMSG;
-		auth_data = nl_data_get(nla_get_data(nla));
+		auth_data = nla_data(nla); //Replaced function nla_get_data because is not supported in new version netlink 
 	} else {
 		auth_data = NULL;
 	}
@@ -58,7 +58,7 @@ int handle_node_connected(struct nl_msg *req_msg) {
 	if ( node_connected_callback )
         	node_connected_callback(address, slot_index, auth_data_size, auth_data, &accept);
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_NODE_CONNECT_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_NODE_CONNECT_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
@@ -69,7 +69,7 @@ int handle_node_connected(struct nl_msg *req_msg) {
 	if (ret != 0)
 		goto error_del_resp;
 
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:

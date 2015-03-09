@@ -18,7 +18,7 @@
 #define NL_SOCK_PASSCRED	(1<<1)
 
 /** Prepares netlink message for sending and fills the resut to the result_message parameter. Additional netlink message arguments can be added to that message */
-int prepare_request_message(struct nl_handle* hndl, uint8_t cmd, uint16_t type, struct nl_msg** result_message) {
+int prepare_request_message(struct nl_sock *sk, uint8_t cmd, uint16_t type, struct nl_msg** result_message) {
   struct nl_msg* msg = NULL;
   struct nlmsghdr *nl_hdr;
   struct genlmsghdr genl_hdr;
@@ -51,11 +51,11 @@ prepare_error:
 }
 
 /** Prepares netlink message for sending and fills the resut to the result_message parameter. Additional netlink message arguments can be added to that message */
-int prepare_response_message(struct nl_handle* hndl, uint8_t cmd, uint16_t type, uint32_t seq, struct nl_msg** result_message) {
+int prepare_response_message(struct nl_sock *sk, uint8_t cmd, uint16_t type, uint32_t seq, struct nl_msg** result_message) {
 	struct nlmsghdr *nl_hdr;
 	int res;	
 
-	res = prepare_request_message(hndl, cmd, type, result_message);
+	res = prepare_request_message(sk, cmd, type, result_message);
 	if ( res )
 		return res;
 
@@ -67,7 +67,7 @@ int prepare_response_message(struct nl_handle* hndl, uint8_t cmd, uint16_t type,
 
 
 /** Sends netlink message and destroys it. It is guaranteed that msg will be freed after this call!  */
-int send_request_message(struct nl_handle* hndl, struct nl_msg* msg, int requires_ack) {
+int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ack) {
   struct nlmsghdr *nl_hdr;
   int ret_val;
 
@@ -83,7 +83,7 @@ int send_request_message(struct nl_handle* hndl, struct nl_msg* msg, int require
   else 
   	nl_hdr->nlmsg_flags |= NLM_F_REQUEST;
 
-  ret_val = nl_send_auto_complete(hndl, msg);
+  ret_val = nl_send_auto_complete(sk, msg);
   if (ret_val <= 0) {
     if (ret_val == 0)
       ret_val = -ENODATA;
@@ -100,13 +100,13 @@ int send_request_message(struct nl_handle* hndl, struct nl_msg* msg, int require
 
 
 /** Sends netlink message and destroys it. It is guaranteed that msg will be freed after this call!  */
-int send_response_message(struct nl_handle* hndl, struct nl_msg* msg) {
-	return send_request_message(hndl, msg, 0);
+int send_response_message(struct nl_sock *sk, struct nl_msg* msg) {
+	return send_request_message(sk, msg, 0);
 }
 
 
 /** Duplicated from NL internal structs.. required for fixed function */
-struct nl_handle
+struct nl_sock
 {
 	struct sockaddr_nl	h_local;
 	struct sockaddr_nl	h_peer;
@@ -120,7 +120,7 @@ struct nl_handle
 
 
 /** Fixed netlink receive function that is capable of properly receiving messages larger than pagesize */
-int nl_recv_fixed(struct nl_handle *handle, struct sockaddr_nl *nla,
+int nl_recv_fixed(struct nl_sock *sk, struct sockaddr_nl *nla,
 	    unsigned char **buf, struct ucred **creds)
 {
 	int n;
@@ -138,7 +138,7 @@ int nl_recv_fixed(struct nl_handle *handle, struct sockaddr_nl *nla,
 	};
 	struct cmsghdr *cmsg;
 	
-	if (handle->h_flags & NL_MSG_PEEK)
+	if (sk->h_flags & NL_MSG_PEEK)
 		flags |= MSG_PEEK;	
 
 	if (page_size == 0)
@@ -149,7 +149,7 @@ int nl_recv_fixed(struct nl_handle *handle, struct sockaddr_nl *nla,
 
 retry:
 
-	n = recvmsg(handle->h_fd, &msg, flags);
+	n = recvmsg(sk->h_fd, &msg, flags);
 	if (!n)
 		goto abort;
 	else if (n < 0) {
@@ -204,7 +204,7 @@ abort:
 
 
 /** Reads a netlink message */
-int read_message(struct nl_handle* hndl, struct nl_msg** result_message) {
+int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
   struct sockaddr_nl peer;
   struct nlmsghdr *nl_hdr;
   struct nl_msg *ans_msg = NULL;
@@ -212,7 +212,7 @@ int read_message(struct nl_handle* hndl, struct nl_msg** result_message) {
   int ret_val;
   struct pollfd pollfds[1];
   
-  pollfds[0].fd = nl_socket_get_fd(hndl);
+  pollfds[0].fd = nl_socket_get_fd(sk);
   pollfds[0].events = POLLIN;
 
   ret_val = poll(pollfds, 1, -1);
@@ -223,7 +223,7 @@ int read_message(struct nl_handle* hndl, struct nl_msg** result_message) {
   
 
   /* read the response */
-  ret_val = nl_recv_fixed(hndl, &peer, &data, NULL);
+  ret_val = nl_recv_fixed(sk, &peer, &data, NULL);
   if (ret_val <= 0) {
     if (ret_val == 0)
       ret_val = -ENODATA;
@@ -284,7 +284,7 @@ void send_error_message(int err, int seq, uint8_t cmd) {
 	struct internal_state* state = get_current_state();
 
 	//printf("Preparing error message: Err %d  Seq %d Cmd %d\n", err, seq, cmd);	
-	if ( (ret=prepare_response_message(state->handle, cmd, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, cmd, state->gnl_fid, seq, &msg) ) != 0 ) {
 		return;
 	}
 	
@@ -297,7 +297,7 @@ void send_error_message(int err, int seq, uint8_t cmd) {
 		return;
 	}
 
-	ret = send_response_message(state->handle, msg);
+	ret = send_response_message(state->sk, msg);
 }
 
 /** Sends ack message to kernel */
@@ -311,9 +311,9 @@ int send_ack_message(struct nl_msg* req_msg) {
 	nl_hdr = nlmsg_hdr(req_msg);
 	seq = nl_hdr->nlmsg_seq;
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
 		return ret;
 	}
 	
-	return send_response_message(state->handle, msg);
+	return send_response_message(state->sk, msg);
 }

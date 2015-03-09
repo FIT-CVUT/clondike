@@ -82,7 +82,7 @@ int handle_npm_check(struct nl_msg *req_msg) {
         	npm_callback(pid, uid, is_guest, name, jiffies, rusage, &decision, &decision_value);
 
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
@@ -100,7 +100,7 @@ int handle_npm_check(struct nl_msg *req_msg) {
 	if (ret != 0)
 		goto error_del_resp;
 
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:
@@ -217,7 +217,7 @@ int handle_npm_check_full(struct nl_msg *req_msg) {
         	npm_full_callback(pid, uid, is_guest, name, jiffies, args, envp, &decision, &decision_value);
 
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_NPM_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
@@ -235,7 +235,7 @@ int handle_npm_check_full(struct nl_msg *req_msg) {
 	if (ret != 0)
 		goto error_del_resp;
 
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:
