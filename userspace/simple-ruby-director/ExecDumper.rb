@@ -20,11 +20,11 @@ class ExecDumper
 
   def dump(pid, uid, name, jiffies, args, envp)
     puts "========= Dump of #{name} [Pid: #{pid} - Uid: #{uid} Jiffies: #{jiffies}]  =============="
-    puts "Args:"
-    args.each { |arg| puts arg }
-    puts "Envs:"
-    envp.each { |env| puts env }
-    puts "========= End of #{name} [#{pid}] =============="
-    puts ""
+    #puts "Args:"
+    #args.each { |arg| puts arg }
+    #puts "Envs:"
+    #envp.each { |env| puts env }
+    #puts "========= End of #{name} [#{pid}] =============="
+    #puts ""
   end
 end
