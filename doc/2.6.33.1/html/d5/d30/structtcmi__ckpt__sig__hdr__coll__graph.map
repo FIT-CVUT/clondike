@@ -1,4 +1,0 @@
-<map id="tcmi_ckpt_sig_hdr" name="tcmi_ckpt_sig_hdr">
-<area shape="rect" id="node2" href="$d9/d57/group__tcmi__ckpt__mm__class.html#d9/df1/structtcmi__sigset" title="{tcmi_sigset\n|+ sigs\l|}" alt="" coords="57,5,145,83"/>
-<area shape="rect" id="node3" href="$d9/d57/group__tcmi__ckpt__mm__class.html#d2/db7/structtcmi__k__sigaction" title="{tcmi_k_sigaction\n|+ sa_handler\l+ sa_restorer\l+ sa_flags\l|}" alt="" coords="157,147,277,253"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="tcmi_ctlfs_file_read" name="tcmi_ctlfs_file_read">
-<area shape="rect" id="node2" href="$d4/d2b/tcmi__npm__params_8c.html#acc026454809c9e854f4ce3e7aec89377" title="count" alt="" coords="233,5,287,32"/>
-<area shape="rect" id="node3" href="$d1/de7/group__tcmi__ctlfs__file__class.html#gac6849f2eba3ed48a99a64189af02766d" title="&lt;&lt;public&gt;&gt; Locks this file instance, interruptible version, the process can be woken up by a signal..." alt="" coords="194,57,326,98"/>
-<area shape="rect" id="node4" href="$d1/de7/group__tcmi__ctlfs__file__class.html#gad49b6ab401eeac4dab0ecd314796d569" title="&lt;&lt;public&gt;&gt; Unlocks this file instance." alt="" coords="187,123,333,149"/>
-</map>

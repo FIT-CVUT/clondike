@@ -1,6 +1,0 @@
-<map id="tcmi_transaction_start" name="tcmi_transaction_start">
-<area shape="rect" id="node2" href="$d4/d8c/group__tcmi__transaction__class.html#ga176151d0f528ed8cda13e21da8551519" title="&lt;&lt;public&gt;&gt; Instance accessor." alt="" coords="215,5,358,32"/>
-<area shape="rect" id="node3" href="$d4/d8c/group__tcmi__transaction__class.html#gaba57811a17b10df187e7918d02e3679e" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="212,56,361,83"/>
-<area shape="rect" id="node4" href="$d4/d8c/group__tcmi__transaction__class.html#ga1dfece4fcea1c1b9ce676f560957077f" title="&lt;&lt;public&gt;&gt; Sets flags in the transaction that denote additional transaction attributes." alt="" coords="215,107,358,149"/>
-<area shape="rect" id="node5" href="$d4/d8c/group__tcmi__transaction__class.html#ga2c5c24c4b88dae68aa68c7b043d105b8" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="205,173,368,200"/>
-</map>

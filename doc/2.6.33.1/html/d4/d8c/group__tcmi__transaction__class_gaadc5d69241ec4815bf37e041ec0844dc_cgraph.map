@@ -1,5 +1,0 @@
-<map id="tcmi_transaction_wait_interruptible" name="tcmi_transaction_wait_interruptible">
-<area shape="rect" id="node2" href="$d4/d8c/group__tcmi__transaction__class.html#gafebfbc6a51c59cbdb2bd9470b82afc18" title="&lt;&lt;public&gt;&gt; Checks on aborted transaction." alt="" coords="213,5,347,46"/>
-<area shape="rect" id="node3" href="$d4/d8c/group__tcmi__transaction__class.html#ga755c57502b82f1c20a9adcdea11990a9" title="&lt;&lt;public&gt;&gt; Checks on a complete transaction." alt="" coords="213,70,347,111"/>
-<area shape="rect" id="node4" href="$d4/d8c/group__tcmi__transaction__class.html#ga01baf770d7a3fdaa6931024d50f9d039" title="&lt;&lt;public&gt;&gt; Transaction state accessor." alt="" coords="203,136,357,163"/>
-</map>

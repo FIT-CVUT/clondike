@@ -1,8 +1,0 @@
-<map id="proxyfs_peer_put" name="proxyfs_peer_put">
-<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="330,5,497,32"/>
-<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#ga9f980056fbf3436596c4cfdf3913e85c" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="177,56,279,83"/>
-<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="548,5,708,32"/>
-<area shape="rect" id="node5" href="$d5/ddf/group__kkc__arch__class.html#ga06049c969ae0324d0607f10db99af65c" title="&lt;&lt;public&gt;&gt; Decrements the reference counter on the module owning the architecture." alt="" coords="363,56,463,83"/>
-<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="328,107,499,133"/>
-<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="547,107,709,133"/>
-</map>

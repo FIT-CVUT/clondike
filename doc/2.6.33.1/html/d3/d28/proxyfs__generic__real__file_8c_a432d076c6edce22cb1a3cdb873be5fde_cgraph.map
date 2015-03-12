@@ -1,7 +1,0 @@
-<map id="proxyfs_generic_real_file_read" name="proxyfs_generic_real_file_read">
-<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#gaa8deefe1777efa66c134bd3833ad63bf" title="&lt;&lt;public&gt;&gt; Adjust write pointer" alt="" coords="195,5,360,32"/>
-<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga9ae1b52cee79db39b53854daa20ceb16" title="&lt;&lt;public&gt;&gt; Returns base address for writting &#45;" alt="" coords="198,56,357,83"/>
-<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="199,107,356,133"/>
-<area shape="rect" id="node6" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="210,158,345,199"/>
-<area shape="rect" id="node3" href="$d4/d2b/tcmi__npm__params_8c.html#acc026454809c9e854f4ce3e7aec89377" title="count" alt="" coords="409,5,463,32"/>
-</map>

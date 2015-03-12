@@ -1,8 +1,0 @@
-<map id="kill_all_tasks" name="kill_all_tasks">
-<area shape="rect" id="node2" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="180,5,305,32"/>
-<area shape="rect" id="node3" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="173,56,312,83"/>
-<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="601,107,738,133"/>
-<area shape="rect" id="node5" href="$de/d2f/group__tcmi__task__class.html#gad2d3dad02cf555da12cb2926cebb25f6" title="Notifies task that it peer is lost and sends a kill signal to that task." alt="" coords="153,157,333,184"/>
-<area shape="rect" id="node6" href="$de/d2f/group__tcmi__task__class.html#gac263213bf219960dea9c7d4b4e6f3b34" title="Returns a task_struct associated with the tcmi_task." alt="" coords="382,157,551,184"/>
-<area shape="rect" id="node7" href="$d8/d3c/util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="610,157,729,184"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="proxyfs_pipe_real_file_open" name="proxyfs_pipe_real_file_open">
-<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="249,5,383,46"/>
-<area shape="rect" id="node3" href="$dc/d71/group__proxyfs__msg__class.html#ga60323723423ceaadf6fe16da2243d9b8" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor" alt="" coords="253,71,379,97"/>
-<area shape="rect" id="node5" href="$d3/d52/group__proxyfs__peer__class.html#gadd03a0c5d82eb8400ef3e5b1babbef59" title="&lt;&lt;public&gt;&gt; Add message to sending queue" alt="" coords="235,121,397,148"/>
-<area shape="rect" id="node4" href="$db/dbe/proxyfs__msg_8c.html#a5235c4aa2ee920fc26ce339e7fd20a6f" title="Maximum message size." alt="" coords="446,71,621,97"/>
-</map>

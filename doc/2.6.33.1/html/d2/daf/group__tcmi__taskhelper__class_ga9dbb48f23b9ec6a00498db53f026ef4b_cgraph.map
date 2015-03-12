@@ -1,5 +1,0 @@
-<map id="tcmi_taskhelper_enter_mig_mode" name="tcmi_taskhelper_enter_mig_mode">
-<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="425,5,562,32"/>
-<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#gac263213bf219960dea9c7d4b4e6f3b34" title="Returns a task_struct associated with the tcmi_task." alt="" coords="206,56,375,83"/>
-<area shape="rect" id="node4" href="$d8/d3c/util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="434,56,553,83"/>
-</map>

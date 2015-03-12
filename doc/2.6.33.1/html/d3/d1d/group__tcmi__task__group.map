@@ -1,6 +1,0 @@
-<map id="task component" name="task component">
-<area shape="rect" id="node1" href="$de/d2f/group__tcmi__task__class.html" title="TCMI task is an abstraction for any process in the system that participates in migration." alt="" coords="287,71,401,97"/>
-<area shape="rect" id="node2" href="$d1/d5d/group__tcmi__method__wrapper__class.html" title="This artificial class is used for queueing methods to an arbitrary object." alt="" coords="269,5,419,46"/>
-<area shape="rect" id="node3" href="$d0/d20/group__tcmi__module__class.html" title="This &lt;&lt;singleton&gt;&gt; class is the base of the infrastructure and is responsible for initialization/shut..." alt="" coords="6,71,58,97"/>
-<area shape="rect" id="node5" href="$d2/daf/group__tcmi__taskhelper__class.html" title="This &lt;&lt;singleton&gt;&gt; class implements platform specific methods that make handling TCMI tasks easier..." alt="" coords="269,121,419,148"/>
-</map>

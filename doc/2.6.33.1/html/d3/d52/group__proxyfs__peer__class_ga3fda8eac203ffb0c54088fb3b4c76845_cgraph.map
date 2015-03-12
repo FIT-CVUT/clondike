@@ -1,7 +1,0 @@
-<map id="proxyfs_peer_real_recv" name="proxyfs_peer_real_recv">
-<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="209,5,375,32"/>
-<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gadafc7c835c7d6d94be66f61a050108b7" title="&lt;&lt;public&gt;&gt; Receives requested number of bytes of data." alt="" coords="238,56,346,83"/>
-<area shape="rect" id="node6" href="$dc/d71/group__proxyfs__msg__class.html#ga0b79d334f8e0b2441e178a38d38b1a29" title="&lt;&lt;public&gt;&gt; Returns size of message (header + data)" alt="" coords="216,107,368,133"/>
-<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="424,5,584,32"/>
-<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#gaff5e8804c93f0cb2a4b5e2e12f64e743" title="&lt;&lt;private&gt;&gt; Transfers a required number of bytes." alt="" coords="433,56,575,83"/>
-</map>

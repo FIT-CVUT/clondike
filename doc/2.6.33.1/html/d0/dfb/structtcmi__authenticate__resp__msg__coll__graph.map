@@ -1,8 +1,0 @@
-<map id="tcmi_authenticate_resp_msg" name="tcmi_authenticate_resp_msg">
-<area shape="rect" id="node2" href="$d3/dc2/fs__mount__params_8h.html#d8/dce/structfs__mount__params" title="Helper structure that keeps data about the mounting which should be performed on PEN." alt="" coords="5,739,131,845"/>
-<area shape="rect" id="node3" href="$d6/dc2/group__tcmi__msg__class.html#d0/d5b/structtcmi__msg" title="A coumpound structure that carries a generic TCMI message." alt="" coords="155,739,272,845"/>
-<area shape="rect" id="node4" href="$d6/dc2/group__tcmi__msg__class.html#d8/de4/structtcmi__msg__ops" title="Message operations that support polymorphism." alt="" coords="101,516,208,623"/>
-<area shape="rect" id="node5" href="$d4/d8c/group__tcmi__transaction__class.html#d7/d6e/structtcmi__transaction" title="Compound structure holding transaction attributes." alt="" coords="233,465,351,674"/>
-<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#da/ded/structtcmi__slotvec" title="A slot vector compound structure." alt="" coords="185,235,295,400"/>
-<area shape="rect" id="node7" href="$da/d0c/group__tcmi__slot__class.html#d9/dbb/structtcmi__slot" title="A slot compound structure." alt="" coords="247,5,357,171"/>
-</map>

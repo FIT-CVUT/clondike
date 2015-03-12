@@ -1,9 +1,0 @@
-<map id="tcmi_ccnmigman_stop_ctlfs_files" name="tcmi_ccnmigman_stop_ctlfs_files">
-<area shape="rect" id="node2" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga6d6cbcd957efaaa590b335ac3150bb30" title="&lt;&lt;public&gt;&gt; Calls the instance custom put method(if any) and Decrements the reference counter of the d..." alt="" coords="221,19,360,45"/>
-<area shape="rect" id="node4" href="$d1/de7/group__tcmi__ctlfs__file__class.html#ga665210941a04fda118949874767ced93" title="&lt;&lt;public&gt;&gt; This method unregisters the file uses the semaphore lock as protection from races..." alt="" coords="208,95,373,121"/>
-<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="434,5,587,32"/>
-<area shape="rect" id="node5" href="$d1/de7/group__tcmi__ctlfs__file__class.html#ga5323f5b0f103dd3c42defc6c4494e641" title="&lt;&lt;public&gt;&gt; Locks this file instance." alt="" coords="445,56,577,83"/>
-<area shape="rect" id="node6" href="$d1/de7/group__tcmi__ctlfs__file__class.html#gaddf76bb53a90657e6773b485e0a89248" title="This method is used when object associated with the file wants to unregister with the file..." alt="" coords="421,107,600,133"/>
-<area shape="rect" id="node8" href="$d1/de7/group__tcmi__ctlfs__file__class.html#gad49b6ab401eeac4dab0ecd314796d569" title="&lt;&lt;public&gt;&gt; Unlocks this file instance." alt="" coords="437,157,584,184"/>
-<area shape="rect" id="node7" href="$d1/de7/group__tcmi__ctlfs__file__class.html#ga8c97fc25ab3bd060017a3539edf7d6f0" title="&lt;&lt;public&gt;&gt; Sets the unregistered flag of the file." alt="" coords="648,99,813,141"/>
-</map>
