@@ -1,5 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/syscall/exported_symbols.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/syscall/exported_symbols.h">
-<area shape="rect" id="node2" href="$d7/d3f/tcmi__shadow__fork__rpc_8c.html" title="shadow part of fork syscall rpc" alt="" coords="5,126,160,197"/>
-<area shape="rect" id="node3" href="$d1/d23/tcmi__shadow__signal__rpc_8c.html" title="shadow part of rpc" alt="" coords="185,126,340,197"/>
-<area shape="rect" id="node4" href="$d2/dc2/tcmi__shadow__wait__rpc_8c.html" title="shadow part of wait syscall rpc" alt="" coords="365,126,520,197"/>
-</map>

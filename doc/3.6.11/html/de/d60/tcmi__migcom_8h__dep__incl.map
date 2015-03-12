@@ -1,8 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/migration/tcmi_migcom.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/migration/tcmi_migcom.h">
-<area shape="rect" id="node2" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="5,126,160,197"/>
-<area shape="rect" id="node3" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="185,126,340,197"/>
-<area shape="rect" id="node4" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="365,126,520,197"/>
-<area shape="rect" id="node5" href="$d9/ded/tcmi__penmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="545,126,700,197"/>
-<area shape="rect" id="node6" href="$dc/d44/tcmi__migcom_8c.html" title="TCMI migration component." alt="" coords="725,126,883,197"/>
-<area shape="rect" id="node7" href="$da/d61/tcmi__guesttask_8c.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="907,133,1113,189"/>
-</map>

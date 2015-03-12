@@ -1,8 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/arch/types.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/arch/types.h">
-<area shape="rect" id="node2" href="$dc/dc6/tcmi__ckpt__mm_8h.html" title="a helper class that provides functionality to store a single VM area (memory regions)" alt="" coords="5,117,208,173"/>
-<area shape="rect" id="node4" href="$de/d24/tcmi__guest__fork__rpc_8c.html" title="guest side part of fork syscall" alt="" coords="232,110,419,181"/>
-<area shape="rect" id="node5" href="$d1/d5b/tcmi__guest__wait__rpc_8c.html" title="guest side part of wait syscall" alt="" coords="443,110,629,181"/>
-<area shape="rect" id="node6" href="$d7/d3f/tcmi__shadow__fork__rpc_8c.html" title="shadow part of fork syscall rpc" alt="" coords="654,110,852,181"/>
-<area shape="rect" id="node7" href="$d2/dc2/tcmi__shadow__wait__rpc_8c.html" title="shadow part of wait syscall rpc" alt="" coords="877,110,1075,181"/>
-<area shape="rect" id="node3" href="$db/d70/tcmi__ckptcom_8c.html" title="Process checkpointing component." alt="" coords="7,229,205,285"/>
-</map>

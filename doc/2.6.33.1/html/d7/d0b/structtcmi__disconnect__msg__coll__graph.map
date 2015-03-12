@@ -1,7 +1,0 @@
-<map id="tcmi_disconnect_msg" name="tcmi_disconnect_msg">
-<area shape="rect" id="node2" href="$d6/dc2/group__tcmi__msg__class.html#d0/d5b/structtcmi__msg" title="A coumpound structure that carries a generic TCMI message." alt="" coords="57,739,175,845"/>
-<area shape="rect" id="node3" href="$d6/dc2/group__tcmi__msg__class.html#d8/de4/structtcmi__msg__ops" title="Message operations that support polymorphism." alt="" coords="5,516,112,623"/>
-<area shape="rect" id="node4" href="$d4/d8c/group__tcmi__transaction__class.html#d7/d6e/structtcmi__transaction" title="Compound structure holding transaction attributes." alt="" coords="137,465,255,674"/>
-<area shape="rect" id="node5" href="$d0/db7/group__tcmi__slotvec__class.html#da/ded/structtcmi__slotvec" title="A slot vector compound structure." alt="" coords="89,235,199,400"/>
-<area shape="rect" id="node6" href="$da/d0c/group__tcmi__slot__class.html#d9/dbb/structtcmi__slot" title="A slot compound structure." alt="" coords="151,5,261,171"/>
-</map>

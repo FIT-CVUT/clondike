@@ -1,8 +1,0 @@
-<map id="new_9p_global_fs_mounter" name="new_9p_global_fs_mounter">
-<area shape="rect" id="node2" href="$dd/d6d/9p__fs__global__mounter_8c.html#af148c9e5f1821f90735554e18818add4" title="chroot_to_mount" alt="" coords="233,56,351,83"/>
-<area shape="rect" id="node5" href="$dd/d6d/9p__fs__global__mounter_8c.html#abd6a8305a1232cdf75dff474b9300223" title="global_9p_mount" alt="" coords="232,107,352,133"/>
-<area shape="rect" id="node3" href="$d9/ddc/9p__fs__helper_8h.html#a22a7b0f3607131de0d61d6b148f9433d" title="Chroots process to a new root." alt="" coords="418,5,494,32"/>
-<area shape="rect" id="node4" href="$dd/d6d/9p__fs__global__mounter_8c.html#acd0f287b913fe2b20f2df8040fdd1a5b" title="get_mount_root" alt="" coords="400,56,512,83"/>
-<area shape="rect" id="node6" href="$d8/d3c/util_8h.html#a216dcc3733fd76ba8099e396fb7290bc" title="Creates a new directory." alt="" coords="425,107,487,133"/>
-<area shape="rect" id="node7" href="$d9/ddc/9p__fs__helper_8h.html#a65eb9ef55eee5945cf913111e79bef62" title="mount_9p_fs" alt="" coords="408,157,504,184"/>
-</map>

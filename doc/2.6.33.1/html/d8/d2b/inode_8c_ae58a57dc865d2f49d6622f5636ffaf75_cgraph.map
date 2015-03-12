@@ -1,5 +1,0 @@
-<map id="ccfs_getattr" name="ccfs_getattr">
-<area shape="rect" id="node2" href="$d0/d5e/ccfs_8h.html#af1e2659ced9de4a99f74b2e5899124b7" title="ccfs_dentry_to_nested_mnt" alt="" coords="145,5,327,32"/>
-<area shape="rect" id="node3" href="$d0/d5e/ccfs_8h.html#a5ac893d42a904852e78481eba289d9d7" title="ccfs_get_nested_dentry" alt="" coords="156,56,316,83"/>
-<area shape="rect" id="node4" href="$d0/d5e/ccfs_8h.html#ae68f2e665b7f140ecfcf6bce0d987e2c" title="ccfs_inode_to_private" alt="" coords="163,107,309,133"/>
-</map>

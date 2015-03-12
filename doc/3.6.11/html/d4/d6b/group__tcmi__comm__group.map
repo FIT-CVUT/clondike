@@ -1,9 +1,0 @@
-<map id="communication" name="communication">
-<area shape="rect" id="node5" href="$d9/dfc/group__tcmi__comm__class.html" title="This class provides functionality to receive and deliver messages via a specified connection..." alt="" coords="284,5,409,32"/>
-<area shape="rect" id="node7" href="$de/dbf/group__tcmi__messages__dsc.html" title="Message descriptors are internally used by tcmi_msg_factory_class when materializing messages that ar..." alt="" coords="275,56,418,83"/>
-<area shape="rect" id="node6" href="$d8/d9d/group__tcmi__messages__id.html" title="Message ID has 3 components:" alt="" coords="297,107,397,133"/>
-<area shape="rect" id="node2" href="$d6/dc2/group__tcmi__msg__class.html" title="This class represents a generic message in TCMI communication protocol." alt="" coords="289,157,404,184"/>
-<area shape="rect" id="node4" href="$de/dc6/group__tcmi__msg__factory__class.html" title="This &lt;&lt;singleton&gt;&gt; class is responsible for message materialization based on message ID..." alt="" coords="267,208,427,235"/>
-<area shape="rect" id="node8" href="$d4/d8c/group__tcmi__transaction__class.html" title="A transaction in communication is setup when a request message expects a certain response from the re..." alt="" coords="270,259,423,285"/>
-<area shape="rect" id="node3" href="$d0/d20/group__tcmi__module__class.html" title="This &lt;&lt;singleton&gt;&gt; class is the base of the infrastructure and is responsible for initialization/shut..." alt="" coords="6,132,58,159"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="proxyfs_proxy_file_write_from_peer" name="proxyfs_proxy_file_write_from_peer">
-<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#ga02fa552933482bedf22c9f75f80d57d9" title="&lt;&lt;public&gt;&gt; Write to buffer" alt="" coords="208,81,309,108"/>
-<area shape="rect" id="node7" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="191,133,326,174"/>
-<area shape="rect" id="node8" href="$d1/d14/group__proxyfs__file__class.html#ga09bf2c02a87032c44fd9872fa157bf8e" title="&lt;&lt;public&gt;&gt; Set file status" alt="" coords="181,199,336,225"/>
-<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="388,5,545,32"/>
-<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga9ae1b52cee79db39b53854daa20ceb16" title="&lt;&lt;public&gt;&gt; Returns base address for writting &#45;" alt="" coords="387,56,546,83"/>
-<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#gaa8deefe1777efa66c134bd3833ad63bf" title="&lt;&lt;public&gt;&gt; Adjust write pointer" alt="" coords="384,107,549,133"/>
-<area shape="rect" id="node6" href="$d4/d2b/tcmi__npm__params_8c.html#acc026454809c9e854f4ce3e7aec89377" title="count" alt="" coords="598,132,653,159"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="tcmi_transaction_lookup" name="tcmi_transaction_lookup">
-<area shape="rect" id="node2" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="241,5,353,32"/>
-<area shape="rect" id="node3" href="$d0/db7/group__tcmi__slotvec__class.html#ga463d8dd03bd30b24c3ebfed5a0239d8a" title="&lt;&lt;public&gt;&gt; Hashmask accessor." alt="" coords="217,56,378,83"/>
-<area shape="rect" id="node4" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="235,107,360,133"/>
-<area shape="rect" id="node5" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="228,157,367,184"/>
-<area shape="rect" id="node6" href="$d4/d8c/group__tcmi__transaction__class.html#ga176151d0f528ed8cda13e21da8551519" title="&lt;&lt;public&gt;&gt; Instance accessor." alt="" coords="226,208,369,235"/>
-<area shape="rect" id="node7" href="$d4/d8c/group__tcmi__transaction__class.html#gaac666feaaab1fe5c341237a3e0283501" title="&lt;&lt;public&gt;&gt; Transaction ID accessor." alt="" coords="230,259,365,285"/>
-</map>

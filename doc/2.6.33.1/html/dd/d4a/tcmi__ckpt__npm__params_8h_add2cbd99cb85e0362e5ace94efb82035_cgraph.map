@@ -1,6 +1,0 @@
-<map id="tcmi_ckpt_npm_params_read" name="tcmi_ckpt_npm_params_read">
-<area shape="rect" id="node2" href="$d9/d10/tcmi__npm__params_8h.html#a091259df2d963061baac4e12b9bf0e6d" title="Given a npm params structure, this method will fixup args and envp pointers to point to correct place..." alt="" coords="248,5,432,32"/>
-<area shape="rect" id="node4" href="$df/d54/group__tcmi__ckpt__class.html#ga5cd1d8b3a1dbbc588cf3fe538b39e385" title="&lt;&lt;public&gt;&gt; Reads a specified number of bytes from a checkpoint file." alt="" coords="285,56,395,83"/>
-<area shape="rect" id="node3" href="$d9/d10/tcmi__npm__params_8h.html#a666e66daab3a643c4271a70428b25390" title="UGLY UGLY! Following 2 funcs would ideally not be in a header." alt="" coords="483,5,624,32"/>
-<area shape="rect" id="node5" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="481,56,626,83"/>
-</map>

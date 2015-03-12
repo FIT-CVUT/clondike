@@ -1,7 +1,0 @@
-<map id="msg_transaction_response" name="msg_transaction_response">
-<area shape="rect" id="node2" href="$d9/df4/comm_8c.html#ae2479089f7107aec24a9c89a13101d0d" title="Checks, if the transaction returned an error." alt="" coords="258,5,369,32"/>
-<area shape="rect" id="node3" href="$d8/d7c/genl__ext_8c.html#a98fc505709c73b6933abbacd5a656cb9" title="Blocking read call that will read netlink response for the specified transaction." alt="" coords="232,56,395,83"/>
-<area shape="rect" id="node4" href="$d8/d7c/genl__ext_8c.html#ad7afbee4ce89bce50e383aa7b2cce80c" title="genl_ext_lock" alt="" coords="450,5,553,32"/>
-<area shape="rect" id="node5" href="$d8/d7c/genl__ext_8c.html#a96c79abdde8010527de40d4806b4942c" title="__find_itx" alt="" coords="463,56,540,83"/>
-<area shape="rect" id="node6" href="$d8/d7c/genl__ext_8c.html#a9ea9dfe0b2ad73e1306c736e66755b1d" title="genl_ext_unlock" alt="" coords="443,107,559,133"/>
-</map>

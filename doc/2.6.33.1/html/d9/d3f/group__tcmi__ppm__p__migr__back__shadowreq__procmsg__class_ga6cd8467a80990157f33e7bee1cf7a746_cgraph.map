@@ -1,5 +1,0 @@
-<map id="tcmi_ppm_p_migr_back_shadowreq_procmsg_new_rx" name="tcmi_ppm_p_migr_back_shadowreq_procmsg_new_rx">
-<area shape="rect" id="node2" href="$d7/dc8/group__tcmi__procmsg__class.html#ga899a1985b05901da29982088cdd86f2d" title="&lt;&lt;public&gt;&gt; Initializes the process message for receiving." alt="" coords="251,12,397,39"/>
-<area shape="rect" id="node3" href="$d6/dc2/group__tcmi__msg__class.html#ga0f81cf27b94206abc95c5b0002f66d2c" title="&lt;&lt;public&gt;&gt; Initializes the message for receiving." alt="" coords="446,12,567,39"/>
-<area shape="rect" id="node4" href="$db/dc8/tcmi__msg_8c.html#a5c394462e393c496f11d949b265b8a9e" title="Shared initialization fuction of both rx and tx messages." alt="" coords="616,12,765,39"/>
-</map>

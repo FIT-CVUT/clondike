@@ -1,5 +1,0 @@
-<map id="ccfs_rmdir" name="ccfs_rmdir">
-<area shape="rect" id="node2" href="$d0/d5e/ccfs_8h.html#a5ac893d42a904852e78481eba289d9d7" title="ccfs_get_nested_dentry" alt="" coords="136,5,296,32"/>
-<area shape="rect" id="node3" href="$d8/d2b/inode_8c.html#a6a36af9be383e7cbabb89162ff8af440" title="lock_parent" alt="" coords="171,56,261,83"/>
-<area shape="rect" id="node4" href="$d8/d2b/inode_8c.html#a479b2cdc67b7d9c807fafd0aafba3245" title="unlock_dir" alt="" coords="175,107,257,133"/>
-</map>

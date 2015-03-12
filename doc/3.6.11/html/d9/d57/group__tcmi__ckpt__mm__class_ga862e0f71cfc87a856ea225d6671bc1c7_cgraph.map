@@ -1,4 +1,0 @@
-<map id="tcmi_ckpt_mm_read" name="tcmi_ckpt_mm_read">
-<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#ga5cd1d8b3a1dbbc588cf3fe538b39e385" title="&lt;&lt;public&gt;&gt; Reads a specified number of bytes from a checkpoint file." alt="" coords="195,5,306,32"/>
-<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="355,5,501,32"/>
-</map>

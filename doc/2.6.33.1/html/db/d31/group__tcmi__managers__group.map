@@ -1,5 +1,0 @@
-<map id="managers" name="managers">
-<area shape="rect" id="node1" href="$d6/de0/group__tcmi__man__class.html" title="This template &lt;&lt;singleton&gt;&gt; class implements a generic cluster node manager &#45; TCMI manager..." alt="" coords="245,5,360,32"/>
-<area shape="rect" id="node2" href="$d0/d20/group__tcmi__module__class.html" title="This &lt;&lt;singleton&gt;&gt; class is the base of the infrastructure and is responsible for initialization/shut..." alt="" coords="6,31,58,57"/>
-<area shape="rect" id="node4" href="$d6/da2/group__tcmi__migman__class.html" title="TCMI migration manager controls migrating tasks for a particular CCN&#45;PEN pair." alt="" coords="235,56,370,83"/>
-</map>

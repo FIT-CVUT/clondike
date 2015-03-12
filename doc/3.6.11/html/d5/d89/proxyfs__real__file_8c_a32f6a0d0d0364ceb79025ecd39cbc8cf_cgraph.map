@@ -1,7 +1,0 @@
-<map id="proxyfs_real_file_write_from_peer" name="proxyfs_real_file_write_from_peer">
-<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#ga02fa552933482bedf22c9f75f80d57d9" title="&lt;&lt;public&gt;&gt; Write to buffer" alt="" coords="203,81,304,108"/>
-<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="356,5,513,32"/>
-<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga9ae1b52cee79db39b53854daa20ceb16" title="&lt;&lt;public&gt;&gt; Returns base address for writting &#45;" alt="" coords="355,56,514,83"/>
-<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#gaa8deefe1777efa66c134bd3833ad63bf" title="&lt;&lt;public&gt;&gt; Adjust write pointer" alt="" coords="352,107,517,133"/>
-<area shape="rect" id="node6" href="$d4/d2b/tcmi__npm__params_8c.html#af64f4ee0104b701e4f843c457b77e14c" title="count" alt="" coords="566,132,621,159"/>
-</map>

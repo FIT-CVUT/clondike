@@ -1,5 +1,0 @@
-<map id="tcmi_ckpt" name="tcmi_ckpt">
-<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#dd/d57/structtcmi__ckpt__hdr" title="Describes the checkpoint header." alt="" coords="5,163,152,328"/>
-<area shape="rect" id="node3" href="$dd/d41/group__tcmi__fdcache__class.html#dd/d9c/structtcmi__fdcache" title="Compound structure contains all fd cache entries." alt="" coords="177,192,276,299"/>
-<area shape="rect" id="node4" href="$dd/d41/group__tcmi__fdcache__class.html#dd/d68/structtcmi__fdcache__entry" title="Describes an fd cache entry." alt="" coords="159,6,293,98"/>
-</map>

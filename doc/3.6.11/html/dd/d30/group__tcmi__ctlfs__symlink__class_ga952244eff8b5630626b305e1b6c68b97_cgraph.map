@@ -1,8 +1,0 @@
-<map id="tcmi_ctlfs_symlink_new" name="tcmi_ctlfs_symlink_new">
-<area shape="rect" id="node2" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaab2e404bb2da373a66578541e2dc4ba9" title="&lt;&lt;public&gt;&gt; Instance accessor, Calls instance custom get method and increments the reference counter..." alt="" coords="213,5,352,32"/>
-<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga532181c3f7224fe5aa7651a69e6ad6b4" title="&lt;&lt;public&gt;&gt; This method is used when initializing a new entry." alt="" coords="213,56,352,83"/>
-<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="402,5,555,32"/>
-<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga4fbd3f1c3789bd79d4e2c684fc08d1a2" title="&lt;&lt;private&gt;&gt; Checks whether a directory entry contains entry of the specified name" alt="" coords="401,56,557,83"/>
-<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga256f5088d3434bfadcdb0cb59bf25cb7" title="&lt;&lt;private&gt;&gt; A method for inode allocation." alt="" coords="408,107,549,133"/>
-<area shape="rect" id="node7" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaeeb7fba5f385c90d93878a60a4dcf1dc" title="&lt;&lt;private&gt;&gt; The new dentry is allocated based on the parent&#39;s dentry and the current name of the ..." alt="" coords="405,158,553,199"/>
-</map>

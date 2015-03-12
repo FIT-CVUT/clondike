@@ -1,7 +1,0 @@
-<map id="tcmi_man" name="tcmi_man">
-<area shape="rect" id="node2" href="$d0/db7/group__tcmi__slotvec__class.html#da/ded/structtcmi__slotvec" title="A slot vector compound structure." alt="" coords="5,249,115,415"/>
-<area shape="rect" id="node3" href="$da/d0c/group__tcmi__slot__class.html#d9/dbb/structtcmi__slot" title="A slot compound structure." alt="" coords="5,5,115,171"/>
-<area shape="rect" id="node4" href="$d6/de0/group__tcmi__man__class.html#d7/d19/structtcmi__man__ops" title="Migration manager operations that support polymorphism." alt="" coords="140,235,303,429"/>
-<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#db/d2a/structtcmi__ctlfs__entry" title="An entry compound structure." alt="" coords="327,286,441,378"/>
-<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#df/d10/structtcmi__ctlfs__ops" title="entry operations that support polymorphism" alt="" coords="328,49,440,127"/>
-</map>

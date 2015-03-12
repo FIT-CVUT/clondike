@@ -1,4 +1,0 @@
-<map id="tcmi_ckpt_tls_write" name="tcmi_ckpt_tls_write">
-<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#gab3d478dd860126047413a05828c02360" title="&lt;&lt;public&gt;&gt; Writes a specified number of bytes into a checkpoint file." alt="" coords="190,5,303,32"/>
-<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="353,5,498,32"/>
-</map>

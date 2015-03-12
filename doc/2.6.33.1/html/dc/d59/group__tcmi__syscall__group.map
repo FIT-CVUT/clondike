@@ -1,5 +1,0 @@
-<map id="syscall forwarding" name="syscall forwarding">
-<area shape="rect" id="node1" href="$d2/d43/group__tcmi__rpc__class.html" title="A &lt;&lt;virtual&gt;&gt; RPC class, used as parent for both guest and shadow side." alt="" coords="309,5,416,32"/>
-<area shape="rect" id="node2" href="$d0/d20/group__tcmi__module__class.html" title="This &lt;&lt;singleton&gt;&gt; class is the base of the infrastructure and is responsible for initialization/shut..." alt="" coords="6,31,58,57"/>
-<area shape="rect" id="node4" href="$db/d6c/group__tcmi__syscallhooks__class.html" title="A &lt;&lt;singleton&gt;&gt; class that installs syscalls hooks into the kernel." alt="" coords="280,56,445,83"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="tcmi_ctlfs_entry class" name="tcmi_ctlfs_entry class">
-<area shape="rect" id="node1" href="$d1/de7/group__tcmi__ctlfs__file__class.html" title="A file in the TCMI control file system is used to export object interfaces." alt="" coords="376,56,512,83"/>
-<area shape="rect" id="node2" href="$dd/d30/group__tcmi__ctlfs__symlink__class.html" title="This class provides a robust solution for symbolic link creation." alt="" coords="379,107,509,149"/>
-<area shape="rect" id="node3" href="$d9/d0a/group__tcmi__ctlfs__class.html" title="This &lt;&lt;singleton&gt;&gt; class represents TCMI control filesystem." alt="" coords="6,56,130,83"/>
-<area shape="rect" id="node4" href="$dc/def/group__tcmi__ctlfs__dir__class.html" title="This class represents a directory in the tcmi control file system." alt="" coords="377,5,511,32"/>
-</map>

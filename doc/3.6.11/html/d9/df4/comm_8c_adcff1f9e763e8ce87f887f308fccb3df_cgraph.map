@@ -1,7 +1,0 @@
-<map id="init_director_comm" name="init_director_comm">
-<area shape="rect" id="node2" href="$d8/d7c/genl__ext_8c.html#af6cc949272d92e94b1831af38f630ee5" title="This method must be called to register response command for transaction handling." alt="" coords="187,56,354,83"/>
-<area shape="rect" id="node3" href="$d8/d7c/genl__ext_8c.html#a4a8c64b6f3d90ca1e6c12311d34d8fa1" title="generic_message_handler" alt="" coords="403,56,576,83"/>
-<area shape="rect" id="node4" href="$d8/d7c/genl__ext_8c.html#ad7afbee4ce89bce50e383aa7b2cce80c" title="genl_ext_lock" alt="" coords="631,5,734,32"/>
-<area shape="rect" id="node5" href="$d8/d7c/genl__ext_8c.html#a96c79abdde8010527de40d4806b4942c" title="__find_itx" alt="" coords="644,56,721,83"/>
-<area shape="rect" id="node6" href="$d8/d7c/genl__ext_8c.html#a9ea9dfe0b2ad73e1306c736e66755b1d" title="genl_ext_unlock" alt="" coords="625,107,741,133"/>
-</map>

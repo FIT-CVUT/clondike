@@ -1,6 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_transaction.c" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_transaction.c">
-<area shape="rect" id="node5" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="330,109,459,136"/>
-<area shape="rect" id="node15" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="543,333,597,360"/>
-<area shape="rect" id="node11" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="122,184,272,211"/>
-<area shape="rect" id="node14" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="163,259,249,285"/>
-</map>

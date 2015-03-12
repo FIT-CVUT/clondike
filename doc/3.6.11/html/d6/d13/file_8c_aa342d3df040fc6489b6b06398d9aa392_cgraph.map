@@ -1,6 +1,0 @@
-<map id="ccfs_open" name="ccfs_open">
-<area shape="rect" id="node2" href="$d0/d5e/ccfs_8h.html#ae68f2e665b7f140ecfcf6bce0d987e2c" title="ccfs_inode_to_private" alt="" coords="136,5,283,32"/>
-<area shape="rect" id="node3" href="$d0/d5e/ccfs_8h.html#aefc42cb649fb6b0c8c62bb676aada6c1" title="ccfs_set_file_private" alt="" coords="140,56,279,83"/>
-<area shape="rect" id="node4" href="$d0/d5e/ccfs_8h.html#abc4fb582551731826ee892c06f87c01e" title="ccfs_set_nested_file" alt="" coords="139,107,279,133"/>
-<area shape="rect" id="node5" href="$d0/d5e/ccfs_8h.html#aca33136de54371c6acd5e07d32e54fb7" title="ccfs_superblock_to\l_private" alt="" coords="142,158,277,199"/>
-</map>

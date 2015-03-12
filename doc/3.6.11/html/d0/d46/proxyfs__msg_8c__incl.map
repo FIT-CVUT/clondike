@@ -1,8 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_msg.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_msg.c">
-<area shape="rect" id="node3" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="254,184,332,211"/>
-<area shape="rect" id="node20" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="330,109,437,136"/>
-<area shape="rect" id="node7" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="316,333,405,360"/>
-<area shape="rect" id="node19" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="224,259,362,285"/>
-<area shape="rect" id="node12" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="674,408,760,435"/>
-<area shape="rect" id="node15" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="790,483,844,509"/>
-</map>

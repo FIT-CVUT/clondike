@@ -1,9 +1,0 @@
-<map id="proxyfs_proxy_file_wait_interruptible" name="proxyfs_proxy_file_wait_interruptible">
-<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#gaf339a236eacb30281cf28cd69e943722" title="&lt;&lt;public&gt;&gt; Get file status" alt="" coords="183,85,337,112"/>
-<area shape="rect" id="node8" href="$d3/d52/group__proxyfs__peer__class.html#ga8947b90fdcf4dc5fbc4857d0d060bf2b" title="&lt;&lt;public&gt;&gt; Getter of peer state" alt="" coords="181,136,339,163"/>
-<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="387,5,544,32"/>
-<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga3004ef37f6c2f6542b3f65e54151e620" title="&lt;&lt;public&gt;&gt; get count of total data contained in the buffer" alt="" coords="412,56,519,83"/>
-<area shape="rect" id="node6" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="398,107,533,149"/>
-<area shape="rect" id="node7" href="$d4/d27/group__circ__buf__clas.html#ga41d1f494f53a00e4654c8aedada9b046" title="&lt;&lt;public&gt;&gt; Returns maximum amount of data which are continuos &#45; can by copied with one memcpy call..." alt="" coords="388,173,543,200"/>
-<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="593,56,730,83"/>
-</map>

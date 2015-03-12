@@ -1,5 +1,0 @@
-<map id="proxyfs_real_file_init" name="proxyfs_real_file_init">
-<area shape="rect" id="node2" href="$d1/d14/group__proxyfs__file__class.html#ga104071e772f98e9a9151a6f9eaff5cfa" title="&lt;&lt;public&gt;&gt; Initialize proxyfs_file struct" alt="" coords="193,31,303,57"/>
-<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#ga340b6d6ae954ce66d15dace7f7c54e61" title="circ_buf_init" alt="" coords="365,5,456,32"/>
-<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#ga36c9967179adece95b711ac84023b2a4" title="&lt;&lt;public&gt;&gt; Opossite function to circ_buf_init" alt="" coords="352,56,469,83"/>
-</map>

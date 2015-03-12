@@ -1,5 +1,0 @@
-<map id="ccfs_readpage" name="ccfs_readpage">
-<area shape="rect" id="node2" href="$d0/d5e/ccfs_8h.html#a4cf2082d8dece322af07a68b89a70623" title="ccfs_read_lower_page\l_segment" alt="" coords="161,5,311,46"/>
-<area shape="rect" id="node3" href="$d0/d5e/ccfs_8h.html#ae68f2e665b7f140ecfcf6bce0d987e2c" title="ccfs_inode_to_private" alt="" coords="523,12,669,39"/>
-<area shape="rect" id="node4" href="$dd/de9/read__write_8c.html#a95ff16a3f96ab140228e6ba515aa498f" title="ccfs_read_lower" alt="" coords="360,37,475,64"/>
-</map>

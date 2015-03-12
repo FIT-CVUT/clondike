@@ -1,7 +1,0 @@
-<map id="tcmi_ckpt class" name="tcmi_ckpt class">
-<area shape="rect" id="node1" href="$d9/d57/group__tcmi__ckpt__mm__class.html" title="This is a &lt;&lt;singleton&gt;&gt; that takes care of (re)storing a process memory descriptor." alt="" coords="401,5,543,32"/>
-<area shape="rect" id="node2" href="$d6/d9c/group__tcmi__ckpt__openfile__class.html" title="This is a helper &lt;&lt;singleton&gt;&gt; class used by the checkpoint &#160;and provides functionality to:..." alt="" coords="407,57,537,98"/>
-<area shape="rect" id="node3" href="$d4/dcf/group__tcmi__ckptcom__class.html" title="&lt;&lt;Singleton&gt;&gt; class that creates a checkpoint of a process." alt="" coords="5,93,176,120"/>
-<area shape="rect" id="node4" href="$dd/d41/group__tcmi__fdcache__class.html" title="This is a helper class used by the checkpoint to keep track of already open file descriptors." alt="" coords="405,173,539,200"/>
-<area shape="rect" id="node6" href="$d3/dad/group__tcmi__ckpt__vm__area__class.html" title="This is a &lt;&lt;singleton&gt;&gt; that takes care of (re)storing a particular memory segment (VM area) into the..." alt="" coords="387,123,557,149"/>
-</map>

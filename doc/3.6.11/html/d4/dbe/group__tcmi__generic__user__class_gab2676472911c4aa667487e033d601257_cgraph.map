@@ -1,4 +1,0 @@
-<map id="tcmi_generic_user_procmsg_new_rx" name="tcmi_generic_user_procmsg_new_rx">
-<area shape="rect" id="node2" href="$d6/dc2/group__tcmi__msg__class.html#ga0f81cf27b94206abc95c5b0002f66d2c" title="&lt;&lt;public&gt;&gt; Initializes the message for receiving." alt="" coords="241,12,362,39"/>
-<area shape="rect" id="node3" href="$db/dc8/tcmi__msg_8c.html#a5c394462e393c496f11d949b265b8a9e" title="Shared initialization fuction of both rx and tx messages." alt="" coords="411,12,560,39"/>
-</map>

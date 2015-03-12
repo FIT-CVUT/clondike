@@ -1,4 +1,0 @@
-<map id="tcmi_taskhelper_detach_by_pid" name="tcmi_taskhelper_detach_by_pid">
-<area shape="rect" id="node2" href="$d2/daf/group__tcmi__taskhelper__class.html#gaa2fb4cca9aa2b4bbcf606e149151b991" title="&lt;&lt;private&gt;&gt; Dettaches the TCMI task from a specified process &#45; lock free version." alt="" coords="214,5,389,32"/>
-<area shape="rect" id="node3" href="$d8/d3c/util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="242,56,361,83"/>
-</map>

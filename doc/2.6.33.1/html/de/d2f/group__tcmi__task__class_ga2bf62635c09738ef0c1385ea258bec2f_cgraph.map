@@ -1,8 +1,0 @@
-<map id="tcmi_task_flush_and_submit_method" name="tcmi_task_flush_and_submit_method">
-<area shape="rect" id="node2" href="$dc/d0c/group__tcmi__queue__class.html#ga40921ea3b077d55d70fb7b94ac666292" title="&lt;&lt;public&gt;&gt; Adds an element to the queue &#45; lock free version, assumes the lock is already held..." alt="" coords="219,5,349,32"/>
-<area shape="rect" id="node3" href="$d1/d5d/group__tcmi__method__wrapper__class.html#ga57cd57a64f1ec847f1b71452daf4b3b1" title="&lt;&lt;public&gt;&gt; Creates a new wrapper for the specified method." alt="" coords="195,56,373,83"/>
-<area shape="rect" id="node4" href="$d1/d5d/group__tcmi__method__wrapper__class.html#gad93018cc0894a434a94703eed0f869f9" title="&lt;&lt;public&gt;&gt; Decrements the reference counter, when the count reaches 0, the instance is destroyed..." alt="" coords="197,107,371,133"/>
-<area shape="rect" id="node5" href="$dc/d0c/group__tcmi__queue__class.html#ga2b0f1376bcd561196e77599cbc23090f" title="tcmi_queue_empty" alt="" coords="218,157,350,184"/>
-<area shape="rect" id="node6" href="$dc/d0c/group__tcmi__queue__class.html#ga3ae4d7e0a4d5d21ec8b9fff138f5b0d4" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="224,208,344,235"/>
-<area shape="rect" id="node7" href="$dc/d0c/group__tcmi__queue__class.html#ga2e0e25eec1d5e4ea6e89dfde81ed43f4" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="217,259,351,285"/>
-</map>

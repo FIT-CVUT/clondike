@@ -1,5 +1,0 @@
-<map id="migration" name="migration">
-<area shape="rect" id="node2" href="$da/d93/group__tcmi__migcom__class.html" title="A &lt;&lt;singleton&gt;&gt; class that handles migration requests from user space as well as from migration manag..." alt="" coords="235,5,370,32"/>
-<area shape="rect" id="node4" href="$df/dfc/group__tcmi__mighooks__class.html" title="A &lt;&lt;singleton&gt;&gt; class that installs migration hooks into the kernel." alt="" coords="230,56,375,83"/>
-<area shape="rect" id="node3" href="$d0/d20/group__tcmi__module__class.html" title="This &lt;&lt;singleton&gt;&gt; class is the base of the infrastructure and is responsible for initialization/shut..." alt="" coords="6,31,58,57"/>
-</map>

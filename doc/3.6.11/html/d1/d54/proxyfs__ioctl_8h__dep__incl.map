@@ -1,6 +1,0 @@
-<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_ioctl.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_ioctl.h">
-<area shape="rect" id="node2" href="$d4/dd9/proxyfs__fs_8c.html" title="Proxy filesystem for file related system calls forwarding" alt="" coords="5,117,168,173"/>
-<area shape="rect" id="node3" href="$d3/d27/proxyfs__ioctl__table_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/proxyfs/proxyfs_ioctl\l_table.c" alt="" coords="193,110,359,181"/>
-<area shape="rect" id="node4" href="$d7/dd3/proxyfs__proxy__file_8c.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="383,117,592,173"/>
-<area shape="rect" id="node5" href="$d0/dc1/proxyfs__server_8c.html" title="Proxyfs server task." alt="" coords="617,117,804,173"/>
-</map>
