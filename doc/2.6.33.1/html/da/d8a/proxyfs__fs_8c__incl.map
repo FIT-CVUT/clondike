@@ -1,0 +1,17 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/proxyfs/proxyfs_fs.c" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/proxyfs/proxyfs_fs.c">
+<area shape="rect" id="node15" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="461,632,515,659"/>
+<area shape="rect" id="node17" href="$d5/d08/buffer_8h.html" title="Class representing circullar buffer." alt="" coords="1826,109,1936,136"/>
+<area shape="rect" id="node19" href="$dc/ddb/proxyfs__client_8h.html" title="Proxyfs client task." alt="" coords="575,109,733,136"/>
+<area shape="rect" id="node24" href="$db/d4d/proxyfs__proxy__file_8h.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="314,184,451,211"/>
+<area shape="rect" id="node39" href="$dd/d4b/proxyfs__fs_8h.html" title="Proxy filesystem for file related system calls forwarding" alt="" coords="2535,109,2627,136"/>
+<area shape="rect" id="node40" href="$d5/d3a/proxyfs__fs__helper_8h.html" title="proxyfs_fs_helper.h" alt="" coords="2651,109,2785,136"/>
+<area shape="rect" id="node41" href="$d1/dd7/proxyfs__ioctl_8h.html" title="proxyfs_ioctl.h" alt="" coords="2811,109,2917,136"/>
+<area shape="rect" id="node20" href="$da/dc7/proxyfs__task_8h.html" title="Proxyfs task class." alt="" coords="1055,184,1161,211"/>
+<area shape="rect" id="node29" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="524,259,631,285"/>
+<area shape="rect" id="node38" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="642,184,795,211"/>
+<area shape="rect" id="node27" href="$d1/de9/proxyfs__file_8h.html" title="Main file class (used by proxyfs_task)" alt="" coords="284,333,383,360"/>
+<area shape="rect" id="node30" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="730,333,808,360"/>
+<area shape="rect" id="node31" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="826,483,915,509"/>
+<area shape="rect" id="node37" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="676,408,815,435"/>
+<area shape="rect" id="node34" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="706,557,792,584"/>
+</map>

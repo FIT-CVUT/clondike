@@ -12,19 +12,19 @@ class CacheFSController
     $log.debug("CacheFS being resetted.")
     @mountedSystems = Set.new()
   end
-  
+
   # Called whenever a process is being immigrated
   def onImmigrationRequest(node, execName)
     mountCacheFSIfNotMounted(node.ipAddress)
     # It is not responsibility of this class to deny any immigration requests
     return true
   end
-  
-private
+
+  private
   def mountCacheFSIfNotMounted(ipAddress)
     return if @mountedSystems.include?(ipAddress)
-    
-    @mountedSystems.add(ipAddress)    
+
+    @mountedSystems.add(ipAddress)
     delayedAsyncMount(ipAddress)
   end
 
@@ -36,55 +36,55 @@ private
       mountCacheFS(ipAddress)
     }
   end
-  
+
   def mountCacheFS(ipAddress)
-    $log.debug ("Mounting ccfs for ip #{ipAddress}")
+    $log.debug "Mounting ccfs for ip #{ipAddress}"
     pathsToMount = ["/usr/local", "/usr/lib", "/usr/lib32", "/usr/share", "/usr/bin", "/usr/sbin", "/lib", "/etc/", "/bin", "/sbin"]
-    prefix = "/mnt/clondike/#{ipAddress}-0-0"
-    
+    #prefix = "/mnt/clondike/#{ipAddress}-0-0"
+
     pathsToMount.each { |path|
       # first we try to unmout cached fs at the same location in order to prevent multiple overlapping mounts
       #system("umount #{prefix + path}")
       #system("mount -t ccfs #{prefix + path} #{prefix + path}")
-    }    
-      
-    # TODO: This is hardcoded for current measurement, but should be generalized. It tries to mount a specified path 
+    }
+
+    # TODO: This is hardcoded for current measurement, but should be generalized. It tries to mount a specified path
     # so that only files older than current time are cached, the others remain uncached. Useful for kernel compilation testing
-    restrictedMount = ["/usr/src/linux-2.6.33.1", "/mnt/ext/linux-2.6.32.5"]  
+    restrictedMount = ["/usr/src/linux-2.6.33.1", "/mnt/ext/linux-2.6.32.5"]
     restrictedMount.each { |path|
       #system("umount #{prefix + path}")
-      #system("mount -t ccfs -o cache_filter=OLD #{prefix + path} #{prefix + path}")      
+      #system("mount -t ccfs -o cache_filter=OLD #{prefix + path} #{prefix + path}")
     }
-  end    
+  end
 end
 
 ###################### CLI RELATED SECTION ###############################
 
 class ResetCcfsCliHandler
-    def initialize(cacheFsController, interconnection)      
-      @cacheFsController = cacheFsController
-      @interconnection = interconnection
-    end
-    
-    def handle(command)
-	 @interconnection.dispatch(nil, ResetCacheFsMessage.new()) if @interconnection != nil
-	 @cacheFsController.reset()
-      
-        return "Reset performed"
-    end
+  def initialize(cacheFsController, interconnection)
+    @cacheFsController = cacheFsController
+    @interconnection = interconnection
+  end
+
+  def handle(command)
+    @interconnection.dispatch(nil, ResetCacheFsMessage.new()) if @interconnection != nil
+    @cacheFsController.reset()
+
+    return "Reset performed"
+  end
 end
 
 def prepareResetCcfsCliHandlerParser()
-    ccfsParser = CommandParser.new("resetCcfs")
-    return ccfsParser
+  ccfsParser = CommandParser.new("resetCcfs")
+  return ccfsParser
 end
 
-def registerAllCcfsParsers(parser)    
-    parser.addCommandParser(prepareResetCcfsCliHandlerParser())
+def registerAllCcfsParsers(parser)
+  parser.addCommandParser(prepareResetCcfsCliHandlerParser())
 end
 
 def registerAllCcfsHandlers(cacheFsController, interconnection, interpreter)
-    interpreter.addHandler("resetCcfs", ResetCcfsCliHandler.new(cacheFsController, interconnection))
+  interpreter.addHandler("resetCcfs", ResetCcfsCliHandler.new(cacheFsController, interconnection))
 end
 
 ###################### Messages related section###############################
@@ -94,12 +94,12 @@ class ResetCacheFsMessage
 end
 
 class ResetCacheFsHandler
-    def initialize(cacheFsController)
-      @cacheFsController = cacheFsController
-    end
-    
-    def handle(message)        
-        @cacheFsController.reset
-    end  
+  def initialize(cacheFsController)
+    @cacheFsController = cacheFsController
+  end
+
+  def handle(message)
+    @cacheFsController.reset
+  end
 end
 

@@ -1,0 +1,13 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_module.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_module.c">
+<area shape="rect" id="node5" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="861,723,915,749"/>
+<area shape="rect" id="node8" href="$dd/d4b/proxyfs__fs_8h.html" title="Proxy filesystem for file related system calls forwarding" alt="" coords="1225,109,1364,136"/>
+<area shape="rect" id="node9" href="$db/ded/proxyfs__server_8h.html" title="Proxyfs server task." alt="" coords="493,109,656,136"/>
+<area shape="rect" id="node10" href="$da/dc7/proxyfs__task_8h.html" title="Proxyfs task class." alt="" coords="682,192,835,219"/>
+<area shape="rect" id="node15" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="890,349,1043,376"/>
+<area shape="rect" id="node27" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="445,275,597,301"/>
+<area shape="rect" id="node29" href="$d3/d9c/proxyfs__real__file_8h.html" title="Main real file class (used by proxyfs_server_task)" alt="" coords="399,185,537,226"/>
+<area shape="rect" id="node16" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="491,424,569,451"/>
+<area shape="rect" id="node19" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="518,573,607,600"/>
+<area shape="rect" id="node26" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="632,499,771,525"/>
+<area shape="rect" id="node23" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="658,648,744,675"/>
+</map>

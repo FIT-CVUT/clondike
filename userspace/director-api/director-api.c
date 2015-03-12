@@ -28,7 +28,7 @@
 
 static struct internal_state state = {
 	.gnl_fid = 0,
-	.handle = NULL,
+	.sk = NULL,
 };
 
 /* Array of registered handlers (max 1 handler per command) */
@@ -88,14 +88,14 @@ static int genl_cmd_dispatch(struct nl_msg *msg) {
 }
 
 int get_netlink_fd(void) {
-	return nl_socket_get_fd(state.handle);
+	return nl_socket_get_fd(state.sk);
 }
 
-static int read_would_block(struct nl_handle* handle) {
+static int read_would_block(struct nl_sock* sk) {
   	int ret_val;
   	struct pollfd pollfds[1];
   
-  	pollfds[0].fd = nl_socket_get_fd(handle);
+  	pollfds[0].fd = nl_socket_get_fd(sk);
   	pollfds[0].events = POLLIN;
 
   	ret_val = poll(pollfds, 1, 0);
@@ -158,10 +158,10 @@ int run_processing_callback(int allow_block) {
 		//struct timeval start, end;
 		//gettimeofday(&start);
 //		printf("New netlink message arrived\n");
-		if ( !allow_block && read_would_block(state.handle) ) 
+		if ( !allow_block && read_would_block(state.sk) ) 
 			return;
 
-		if ( (res = read_message(state.handle, &msg) ) != 0 ) {
+		if ( (res = read_message(state.sk, &msg) ) != 0 ) {
 			printf("Error in message reading: %d\n", res);
 			if ( res == -EINTR ) // Interrupted => finish the thread
 				break;
@@ -178,7 +178,7 @@ int run_processing_callback(int allow_block) {
  * @return 0 on success
  */
 static int initialize_netlink_family(void) {
-	struct nl_handle* hndl;
+	struct nl_sock *sk;
 	struct nl_msg* msg = NULL;
 	struct nl_msg *ans_msg = NULL;
 	struct nlmsghdr *nl_hdr;
@@ -186,19 +186,19 @@ static int initialize_netlink_family(void) {
 	struct nlattr *nla;
 	int ret_val = 0;
 
-	hndl = nl_handle_alloc();
-	nl_set_buffer_size(hndl, 15000000, 15000000);
+	sk = nl_socket_alloc();
+	nl_socket_set_buffer_size(sk, 15000000, 15000000);
 	
 	//nl_handle_set_peer_pid(hndl, 0);
 	//nl_set_passcred(hndl, 1);
-	nl_disable_sequence_check(hndl);
+	nl_socket_disable_seq_check(sk);
 
-	if ( (ret_val=nl_connect(hndl, NETLINK_GENERIC)) )
+	if ( (ret_val=nl_connect(sk, NETLINK_GENERIC)) )
 		goto init_return;
 	
-	nl_set_buffer_size(hndl, 15000000, 15000000);
+	nl_socket_set_buffer_size(sk, 15000000, 15000000);
   
-	if ( (ret_val=prepare_request_message(hndl, CTRL_CMD_GETFAMILY, GENL_ID_CTRL, &msg) ) != 0 ) {
+	if ( (ret_val=prepare_request_message(sk, CTRL_CMD_GETFAMILY, GENL_ID_CTRL, &msg) ) != 0 ) {
 		goto init_return;
   	}
   
@@ -209,9 +209,9 @@ static int initialize_netlink_family(void) {
   	if (ret_val != 0)
 		goto init_return;
 
-	if ( (ret_val = send_request_message(hndl, msg, 0) ) != 0 )
+	if ( (ret_val = send_request_message(sk, msg, 0) ) != 0 )
 		goto init_return;
-	if ( (ret_val = read_message(hndl, &ans_msg) ) != 0 )
+	if ( (ret_val = read_message(sk, &ans_msg) ) != 0 )
 		goto init_return;
 
 	genl_hdr = nl_msg_genlhdr(ans_msg);
@@ -233,16 +233,16 @@ static int initialize_netlink_family(void) {
   	}
   	  	
 
-  	state.handle = hndl;
+  	state.sk = sk;
 
 	return 0;
 
 init_return:
 	nlmsg_free(ans_msg);
 	
-	if ( state.handle == NULL ) {
-		nl_close(hndl);
-		nl_handle_destroy(hndl);
+	if ( state.sk == NULL ) {
+		nl_close(sk);
+		nl_handle_destroy(sk);
   	}
 
 	return -EINVAL;
@@ -260,7 +260,7 @@ static int register_pid(pid_t pid) {
 
 	printf("Registering pid\n");	
 
-	if ( (ret_val=prepare_request_message(state.handle, DIRECTOR_REGISTER_PID, state.gnl_fid, &msg) ) != 0 ) {
+	if ( (ret_val=prepare_request_message(state.sk, DIRECTOR_REGISTER_PID, state.gnl_fid, &msg) ) != 0 ) {
 		goto done;
   	}
     	
@@ -271,10 +271,10 @@ static int register_pid(pid_t pid) {
 	if (ret_val != 0)
     		goto done;
 
-  	if ( (ret_val = send_request_message(state.handle, msg, 1) ) != 0 )
+  	if ( (ret_val = send_request_message(state.sk, msg, 1) ) != 0 )
     		goto done;
 
-	  if ( (ret_val = read_message(state.handle, &ans_msg) ) != 0 )
+	  if ( (ret_val = read_message(state.sk, &ans_msg) ) != 0 )
     		goto done;
 
 done:
@@ -292,7 +292,7 @@ int send_user_message(int target_slot_type, int target_slot_index, int data_leng
 
 	int ret_val = 0;
 
-	if ( (ret_val=prepare_request_message(state.handle, DIRECTOR_SEND_GENERIC_USER_MESSAGE, state.gnl_fid, &msg) ) != 0 ) {
+	if ( (ret_val=prepare_request_message(state.sk, DIRECTOR_SEND_GENERIC_USER_MESSAGE, state.gnl_fid, &msg) ) != 0 ) {
 		goto done;
   	}
 
@@ -318,10 +318,10 @@ int send_user_message(int target_slot_type, int target_slot_index, int data_leng
 	if (ret_val != 0)
     		goto done;
 
-  	if ( (ret_val = send_request_message(state.handle, msg, 1) ) != 0 )
+  	if ( (ret_val = send_request_message(state.sk, msg, 1) ) != 0 )
     		goto done;
 
-	if ( (ret_val = read_message(state.handle, &ans_msg) ) != 0 ) {
+	if ( (ret_val = read_message(state.sk, &ans_msg) ) != 0 ) {
 	      goto done;
 	}
 
@@ -330,7 +330,7 @@ int send_user_message(int target_slot_type, int target_slot_index, int data_leng
 	    // We can get different than ack messega here.. in this case we have to process it
 	    handle_incoming_message(ans_msg);
 	    
-	    if ( (ret_val = read_message(state.handle, &ans_msg) ) != 0 ) {
+	    if ( (ret_val = read_message(state.sk, &ans_msg) ) != 0 ) {
 		  goto done;
 	    }	  
 	}

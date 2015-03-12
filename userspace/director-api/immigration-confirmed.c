@@ -58,11 +58,11 @@ int handle_immigration_confirmed(struct nl_msg *req_msg) {
 	if ( immigration_confirmed_callback )
         	immigration_confirmed_callback(uid, slot_index, name, local_pid, remote_pid);
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:

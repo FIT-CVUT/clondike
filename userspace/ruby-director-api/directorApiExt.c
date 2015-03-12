@@ -3,8 +3,8 @@
 
 static VALUE module, processingLoopMethod;
 
-static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, struct rusage *rusage, int* decision, int* decision_value);
-static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, char** args, char** envp, int* decision, int* decision_value);
+static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value);
+static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 static void ruby_node_connected_callback(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept );
 static void ruby_node_disconnected_callback(int slot_index, int slot_type, int reason);
 static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const char* name, int* accept);
@@ -76,19 +76,19 @@ static VALUE method_init(VALUE self)
 	rb_iv_set(self, "@nodeConnectedCallbackTarget", Qnil);
 	rb_iv_set(self, "@nodeConnectedCallbackFunction", Qnil);
 	rb_iv_set(self, "@nodeDisconnectedCallbackTarget", Qnil);
-	rb_iv_set(self, "@nodeDisconnectedCallbackFunction", Qnil);	
+	rb_iv_set(self, "@nodeDisconnectedCallbackFunction", Qnil);
 	rb_iv_set(self, "@immigrateRequestCallbackTarget", Qnil);
 	rb_iv_set(self, "@immigrateRequestCallbackFunction", Qnil);
 	rb_iv_set(self, "@immigrationConfirmedCallbackTarget", Qnil);
-	rb_iv_set(self, "@immigrationConfirmedCallbackFunction", Qnil);	
+	rb_iv_set(self, "@immigrationConfirmedCallbackFunction", Qnil);
 	rb_iv_set(self, "@taskExittedCallbackTarget", Qnil);
 	rb_iv_set(self, "@taskExittedCallbackFunction", Qnil);
 	rb_iv_set(self, "@taskForkedCallbackTarget", Qnil);
-	rb_iv_set(self, "@taskForkedCallbackFunction", Qnil);	
+	rb_iv_set(self, "@taskForkedCallbackFunction", Qnil);
 	rb_iv_set(self, "@migratedHomeCallbackTarget", Qnil);
-	rb_iv_set(self, "@migratedHomeCallbackFunction", Qnil);	
+	rb_iv_set(self, "@migratedHomeCallbackFunction", Qnil);
 	rb_iv_set(self, "@emigrationFailedCallbackTarget", Qnil);
-	rb_iv_set(self, "@emigrationFailedCallbackFunction", Qnil);	
+	rb_iv_set(self, "@emigrationFailedCallbackFunction", Qnil);
 	rb_iv_set(self, "@userMessageReceivedCallbackTarget", Qnil);
 	rb_iv_set(self, "@userMessageReceivedCallbackFunction", Qnil);
 	return self;
@@ -100,31 +100,36 @@ static void parse_npm_call_result(VALUE result, int* decision, int* decision_val
 		struct RArray* resArray;
 		Check_Type(result, T_ARRAY);
 		resArray = RARRAY(result);
-		if ( resArray->len < 1 )
+		int resArrayLen = RARRAY_LENINT(resArray);
+		VALUE *resArrayPtr = RARRAY_PTR(resArray);
+
+		if ( resArrayLen < 1 )
 			rb_raise(rb_intern("StandardError"), "Resulting array must contain at least 1 element");
 
-		*decision = FIX2INT(resArray->ptr[0]);
-		if ( resArray->len > 1 )
-			*decision_value = FIX2INT(resArray->ptr[1]);		
-
+		*decision = FIX2INT(resArrayPtr[0]);
 		//printf("Read decision: %d\n", *decision);
+		if ( resArrayLen > 1 )
+		{
+			*decision_value = FIX2INT(resArrayPtr[1]);
+			//printf("Read decision value: %d\n", *decision_value);
+		}
 	}
 }
 
-static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, 
-		struct rusage *rusage, int* decision, int* decision_value) 
+static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name,
+		unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value)
 {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@npmCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@npmCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5, INT2FIX(pid), 
-				INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ruby_rusage(rusage));
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid),
+				INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), ruby_rusage(rusage));
 	}
 
 //	*decision = DO_NOT_MIGRATE;
@@ -144,18 +149,18 @@ static VALUE make_array(char** arr) {
 	return res_array;
 }
 
-static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, char** args, char** envp, int* decision, int* decision_value) {
+static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@npmFullCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@npmFullCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 6, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, make_array(args), make_array(envp));
+
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 7, INT2FIX(pid), INT2FIX(uid), rb_str_new2(name), is_guest ? Qtrue : Qfalse, ULONG2NUM(jiffies), make_array(args), make_array(envp));
 	}
 
 	parse_npm_call_result(callResult, decision, decision_value);
@@ -164,7 +169,7 @@ static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, con
 static void ruby_node_connected_callback(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept ) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -185,7 +190,7 @@ static void ruby_node_connected_callback(char* address, int slot_index, int auth
 static void ruby_node_disconnected_callback(int slot_index, int slot_type, int reason ) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -200,7 +205,7 @@ static void ruby_node_disconnected_callback(int slot_index, int slot_type, int r
 static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const char* name, int* accept ) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -220,7 +225,7 @@ static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const cha
 static void ruby_immigration_confirmed_callback(uid_t uid, int slot_index, const char* name, pid_t local_pid, pid_t remote_pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -234,14 +239,14 @@ static void ruby_immigration_confirmed_callback(uid_t uid, int slot_index, const
 static void ruby_task_exitted_callback(pid_t pid, int exit_code, struct rusage *rusage) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@taskExittedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@taskExittedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3, 
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3,
 				INT2FIX(pid), INT2FIX(exit_code), ruby_rusage(rusage));
 	}
 }
@@ -249,7 +254,7 @@ static void ruby_task_exitted_callback(pid_t pid, int exit_code, struct rusage *
 static void ruby_task_forked_callback(pid_t pid, pid_t ppid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -263,7 +268,7 @@ static void ruby_task_forked_callback(pid_t pid, pid_t ppid) {
 static void ruby_migrated_home_callback(pid_t pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -277,7 +282,7 @@ static void ruby_migrated_home_callback(pid_t pid) {
 static void ruby_emigration_failed_callback(pid_t pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -291,7 +296,7 @@ static void ruby_emigration_failed_callback(pid_t pid) {
 static void ruby_user_message_received_callback(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
-	
+
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
@@ -299,7 +304,7 @@ static void ruby_user_message_received_callback(int node_id, int slot_type, int 
 	callbackTarget = rb_iv_get(self,"@userMessageReceivedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
 		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 4, INT2FIX(slot_type), INT2FIX(slot_index), INT2FIX(user_data_size), rb_str_new(user_data, user_data_size));
-	}	
+	}
 }
 
 /** This can be executed multiple times, if required */
@@ -308,9 +313,9 @@ static VALUE method_runDirectorNetlinkProcessingLoop(VALUE self) {
 
 	while (1) {
 		run_processing_callback(0); // Do not allow blocking!
-		
+
 		//rb_thread_sleep(1);
-		//rb_thread_schedule();		
+		//rb_thread_schedule();
 		rb_thread_wait_fd(netlink_fd);
 	}
 	//finalize_director_api(); TODO: Where to finalize?
@@ -423,7 +428,7 @@ Init_directorApi()
 	rb_define_method(netlinkApi, "registerEmigrationFailedCallback", method_registerEmigrationFailedCallback, 2);
 	rb_define_method(netlinkApi, "registerMigratedHomeCallback", method_registerMigratedHomeCallback, 2);
 	rb_define_method(netlinkApi, "registerUserMessageReceivedCallback", method_registerUserMessageReceivedCallback, 2);
-	rb_define_method(netlinkApi, "sendUserMessage", method_sendUserMessage, 4);	
-	rb_define_method(netlinkApi, "runProcessingLoop", method_runDirectorNetlinkProcessingLoop, 0);	
+	rb_define_method(netlinkApi, "sendUserMessage", method_sendUserMessage, 4);
+	rb_define_method(netlinkApi, "runProcessingLoop", method_runDirectorNetlinkProcessingLoop, 0);
 }
 

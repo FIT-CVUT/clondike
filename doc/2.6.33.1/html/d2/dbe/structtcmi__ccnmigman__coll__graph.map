@@ -1,0 +1,15 @@
+<map id="tcmi_ccnmigman" name="tcmi_ccnmigman">
+<area shape="rect" id="node2" href="$d6/da2/group__tcmi__migman__class.html#d2/d8c/structtcmi__migman" title="A compound structure that holds all current shadow processes and other migration related data..." alt="" coords="324,966,447,1146"/>
+<area shape="rect" id="node3" href="$d3/d7e/group__tcmi__sock__class.html#da/dba/structtcmi__sock" title="A compound structure that holds the actual KKC listening." alt="" coords="161,759,247,851"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#da/d0d/structkkc__sock" title="A coumpound structure that contains generic information about a KKC socket." alt="" coords="287,458,416,609"/>
+<area shape="rect" id="node14" href="$d9/dfc/group__tcmi__comm__class.html#de/d0f/structtcmi__comm" title="Compound structure that holds reference to the connection and the user method." alt="" coords="424,737,523,873"/>
+<area shape="rect" id="node5" href="$d5/ddf/group__kkc__arch__class.html#db/d0a/structkkc__arch" title="Compound structure, describes one particular architecture." alt="" coords="343,213,417,320"/>
+<area shape="rect" id="node6" href="$d5/ddf/group__kkc__arch__class.html#d0/d60/structkkc__arch__ops" title="Architecture specific operations." alt="" coords="309,5,451,83"/>
+<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#d9/db1/structkkc__sock__ops" title="Socket operations that support polymorphism." alt="" coords="154,147,317,386"/>
+<area shape="rect" id="node8" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#db/d2a/structtcmi__ctlfs__entry" title="An entry compound structure." alt="" coords="5,487,120,579"/>
+<area shape="rect" id="node9" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#df/d10/structtcmi__ctlfs__ops" title="entry operations that support polymorphism" alt="" coords="7,228,119,305"/>
+<area shape="rect" id="node10" href="$d6/da2/group__tcmi__migman__class.html#d6/d88/structtcmi__migman__ops" title="Migration manager operations that support polymorphism." alt="" coords="272,723,400,888"/>
+<area shape="rect" id="node11" href="$d0/db7/group__tcmi__slotvec__class.html#da/ded/structtcmi__slotvec" title="A slot vector compound structure." alt="" coords="799,723,909,888"/>
+<area shape="rect" id="node12" href="$da/d0c/group__tcmi__slot__class.html#d9/dbb/structtcmi__slot" title="A slot compound structure." alt="" coords="597,451,707,616"/>
+<area shape="rect" id="node13" href="$dc/d0c/group__tcmi__queue__class.html#d5/d9a/structtcmi__queue" title="compound structure" alt="" coords="686,737,775,873"/>
+</map>

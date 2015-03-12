@@ -1,0 +1,9 @@
+<map id="proxyfs_generic_proxy_file_read_user" name="proxyfs_generic_proxy_file_read_user">
+<area shape="rect" id="node2" href="$d4/d27/group__circ__buf__clas.html#gadb9efe21b0b60c0c5470f468acf4ef5b" title="&lt;&lt;public&gt;&gt; Destructively read from buffer to userspace" alt="" coords="205,107,336,133"/>
+<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#ga3004ef37f6c2f6542b3f65e54151e620" title="&lt;&lt;public&gt;&gt; get count of total data contained in the buffer" alt="" coords="412,5,519,32"/>
+<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#ga41d1f494f53a00e4654c8aedada9b046" title="&lt;&lt;public&gt;&gt; Returns maximum amount of data which are continuos &#45; can by copied with one memcpy call..." alt="" coords="388,56,543,83"/>
+<area shape="rect" id="node6" href="$d4/d27/group__circ__buf__clas.html#ga40f24aba8f8c1498274799b8206e27b1" title="&lt;&lt;public&gt;&gt; Returns base address for reading &#45;" alt="" coords="387,107,543,133"/>
+<area shape="rect" id="node7" href="$d4/d27/group__circ__buf__clas.html#ga3ffe404c675cd571b34f8f6fc8d0d89f" title="&lt;&lt;public&gt;&gt; Adjust read pointer" alt="" coords="384,157,547,184"/>
+<area shape="rect" id="node8" href="$d4/d2b/tcmi__npm__params_8c.html#af64f4ee0104b701e4f843c457b77e14c" title="count" alt="" coords="637,183,691,209"/>
+<area shape="rect" id="node4" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="595,5,733,32"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="tcmi_rpc class" name="tcmi_rpc class">
+<area shape="rect" id="node1" href="$d5/d8f/group__tcmi__shadow__rpc__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on CCN side." alt="" coords="334,56,493,83"/>
+<area shape="rect" id="node3" href="$d0/d35/group__tcmi__guest__rpc__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on PEN side." alt="" coords="340,5,487,32"/>
+<area shape="rect" id="node4" href="$dc/d59/group__tcmi__syscall__group.html" title="Classes in this group are used for system calls modification and forwarding to provide migration tran..." alt="" coords="5,31,131,57"/>
+</map>

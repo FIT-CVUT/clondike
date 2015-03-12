@@ -1,0 +1,15 @@
+<map id="tcmi_syscall_hooks_groupident_init" name="tcmi_syscall_hooks_groupident_init">
+<area shape="rect" id="node2" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#a97f9b0b6702ca083e02afbc1872f4111" title="&lt;&lt;private&gt;&gt; Getegid system call hook" alt="" coords="193,5,330,46"/>
+<area shape="rect" id="node5" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#a69750f9e52d7913a00f91a33ee5b008e" title="&lt;&lt;private&gt;&gt; Getgid system call hook" alt="" coords="193,70,330,111"/>
+<area shape="rect" id="node6" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#aea5aeec1c830aa115a5ebee69fa9b092" title="&lt;&lt;private&gt;&gt; Getgroups system call hook" alt="" coords="193,135,330,177"/>
+<area shape="rect" id="node8" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#a30eb603b1dfb12ddb260b947ef042a5e" title="&lt;&lt;private&gt;&gt; Getresgid system call hook" alt="" coords="193,331,330,373"/>
+<area shape="rect" id="node10" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#af71efa93162cc74b38f5f8a6443d4a4c" title="&lt;&lt;private&gt;&gt; Setgid system call hook" alt="" coords="193,462,330,503"/>
+<area shape="rect" id="node12" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#a3943674ba6a0328b34d1d40097244a4e" title="&lt;&lt;private&gt;&gt; Setgroups system call hook" alt="" coords="193,201,330,242"/>
+<area shape="rect" id="node13" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#ab4ade59ff539ab8e9d6d8546cdd91ff5" title="&lt;&lt;private&gt;&gt; Setregid system call hook" alt="" coords="193,266,330,307"/>
+<area shape="rect" id="node14" href="$dc/dd0/tcmi__syscallhooks__groupident_8c.html#af86ef10171297df47d57aed902e22624" title="&lt;&lt;private&gt;&gt; Setresgid system call hook" alt="" coords="193,397,330,438"/>
+<area shape="rect" id="node3" href="$d2/d43/group__tcmi__rpc__class.html#gaf1b703296ddb9266e763838bdf1f3cd8" title="&lt;&lt;public&gt;&gt; Do a rpc without parameters." alt="" coords="379,77,485,104"/>
+<area shape="rect" id="node4" href="$d2/d43/group__tcmi__rpc__class.html#ga3b19dd529d8c1bc18d24bca70107003f" title="&lt;&lt;public&gt;&gt; Universal procedure to do RPC" alt="" coords="533,307,627,333"/>
+<area shape="rect" id="node7" href="$d2/d43/group__tcmi__rpc__class.html#gac256a36ecc415dfbf0427af0d3e7e902" title="&lt;&lt;public&gt;&gt; Do a rpc with 2 parameters." alt="" coords="379,241,485,268"/>
+<area shape="rect" id="node9" href="$d2/d43/group__tcmi__rpc__class.html#ga2c40c9a03386d2f72490604ae5d938d4" title="&lt;&lt;public&gt;&gt; Do a rpc with 3 parameters." alt="" coords="379,339,485,365"/>
+<area shape="rect" id="node11" href="$d2/d43/group__tcmi__rpc__class.html#ga5b9038dad443fde049925ac3be004ff0" title="&lt;&lt;public&gt;&gt; Do a rpc with 1 parameter." alt="" coords="379,429,485,456"/>
+</map>

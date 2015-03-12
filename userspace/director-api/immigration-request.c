@@ -48,7 +48,7 @@ int handle_immigration_request(struct nl_msg *req_msg) {
 	if ( immigration_request_callback )
         	immigration_request_callback(uid, slot_index, name, &accept);
 	
-	if ( (ret=prepare_response_message(state->handle, DIRECTOR_IMMIGRATION_REQUEST_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
+	if ( (ret=prepare_response_message(state->sk, DIRECTOR_IMMIGRATION_REQUEST_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
 	}
 	
@@ -59,7 +59,7 @@ int handle_immigration_request(struct nl_msg *req_msg) {
 	if (ret != 0)
 		goto error_del_resp;
 
-	ret = send_request_message(state->handle, msg, 0);
+	ret = send_request_message(state->sk, msg, 0);
 	goto done;	
 
 error_del_resp:

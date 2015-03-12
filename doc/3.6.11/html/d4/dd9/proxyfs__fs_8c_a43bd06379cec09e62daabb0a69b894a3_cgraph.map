@@ -1,0 +1,19 @@
+<map id="proxyfs_fs_fdinode_ioctl" name="proxyfs_fs_fdinode_ioctl">
+<area shape="rect" id="node2" href="$d1/dd7/proxyfs__ioctl_8h.html#ae637eabe129538b62d3036da7d3af08a" title="ioctl_get_info" alt="" coords="396,9,495,36"/>
+<area shape="rect" id="node3" href="$da/d8e/group__proxyfs__proxy__file__class.html#gab5441b421f8ff6a78d75935d3a8abecc" title="&lt;&lt;public&gt;&gt; Do ioctl on remote file" alt="" coords="185,93,311,134"/>
+<area shape="rect" id="node4" href="$da/d8e/group__proxyfs__proxy__file__class.html#ga0957a03255bb2c20e99bf5453e3ba03e" title="&lt;&lt;public&gt;&gt; Interruptible wait on file" alt="" coords="603,19,730,61"/>
+<area shape="rect" id="node12" href="$dc/d71/group__proxyfs__msg__class.html#ga60323723423ceaadf6fe16da2243d9b8" title="&lt;&lt;public&gt;&gt; Proxyfs message constructor" alt="" coords="382,111,509,137"/>
+<area shape="rect" id="node9" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="1019,158,1154,199"/>
+<area shape="rect" id="node14" href="$d5/d8c/group__proxyfs__client__class.html#gaa45a08a64f9738ddf6126ed360c94cb7" title="&lt;&lt;public&gt;&gt; Forward a syscall on file" alt="" coords="360,187,531,213"/>
+<area shape="rect" id="node5" href="$d1/d14/group__proxyfs__file__class.html#gaf339a236eacb30281cf28cd69e943722" title="&lt;&lt;public&gt;&gt; Get file status" alt="" coords="804,57,959,84"/>
+<area shape="rect" id="node11" href="$d3/d52/group__proxyfs__peer__class.html#ga8947b90fdcf4dc5fbc4857d0d060bf2b" title="&lt;&lt;public&gt;&gt; Getter of peer state" alt="" coords="803,109,960,136"/>
+<area shape="rect" id="node6" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="1008,5,1165,32"/>
+<area shape="rect" id="node7" href="$d4/d27/group__circ__buf__clas.html#ga3004ef37f6c2f6542b3f65e54151e620" title="&lt;&lt;public&gt;&gt; get count of total data contained in the buffer" alt="" coords="1033,56,1140,83"/>
+<area shape="rect" id="node10" href="$d4/d27/group__circ__buf__clas.html#ga41d1f494f53a00e4654c8aedada9b046" title="&lt;&lt;public&gt;&gt; Returns maximum amount of data which are continuos &#45; can by copied with one memcpy call..." alt="" coords="1009,107,1164,133"/>
+<area shape="rect" id="node8" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="1214,56,1351,83"/>
+<area shape="rect" id="node13" href="$db/dbe/proxyfs__msg_8c.html#a5235c4aa2ee920fc26ce339e7fd20a6f" title="Maximum message size." alt="" coords="579,85,754,112"/>
+<area shape="rect" id="node15" href="$d1/d14/group__proxyfs__file__class.html#ga09bf2c02a87032c44fd9872fa157bf8e" title="&lt;&lt;public&gt;&gt; Set file status" alt="" coords="589,187,744,213"/>
+<area shape="rect" id="node16" href="$d3/d52/group__proxyfs__peer__class.html#gadd03a0c5d82eb8400ef3e5b1babbef59" title="&lt;&lt;public&gt;&gt; Add message to sending queue" alt="" coords="585,237,748,264"/>
+<area shape="rect" id="node17" href="$da/ddf/group__proxyfs__task__class.html#gaa74f23008a777c38e461fa771869d14f" title="&lt;&lt;public&gt;&gt; Notifies task that there are data ready (either for writing/reading/both)" alt="" coords="599,289,734,330"/>
+<area shape="rect" id="node18" href="$d3/d9d/proxyfs__client_8c.html#a3f5b4cfa07e02953d2623d0d53c05d82" title="check_syscall_done" alt="" coords="597,136,737,163"/>
+</map>

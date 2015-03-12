@@ -1,0 +1,7 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_ccnman.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_ccnman.h">
+<area shape="rect" id="node2" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="5,126,160,197"/>
+<area shape="rect" id="node3" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="185,126,340,197"/>
+<area shape="rect" id="node4" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="365,126,523,197"/>
+<area shape="rect" id="node5" href="$db/d35/tcmi__syscallhooks__other_8c.html" title="other syscalls hooks." alt="" coords="547,126,703,197"/>
+<area shape="rect" id="node6" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="728,133,891,189"/>
+</map>

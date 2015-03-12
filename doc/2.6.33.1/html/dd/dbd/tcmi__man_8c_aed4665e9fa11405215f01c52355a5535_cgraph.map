@@ -1,0 +1,5 @@
+<map id="tcmi_man_wait_for_migmans_termination" name="tcmi_man_wait_for_migmans_termination">
+<area shape="rect" id="node2" href="$d0/db7/group__tcmi__slotvec__class.html#ga03946dfe98a88a916f30eaf3f2eed1be" title="&lt;&lt;public&gt;&gt; Tester method for slotvec emptyness" alt="" coords="246,5,383,32"/>
+<area shape="rect" id="node3" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="252,56,377,83"/>
+<area shape="rect" id="node4" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="245,107,384,133"/>
+</map>

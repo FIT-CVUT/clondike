@@ -1,0 +1,28 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_man.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/manager/tcmi_man.c">
+<area shape="rect" id="node5" href="$d0/d49/tcmi__ctlfs_8h.html" title="TCMI control file system module declaration exports the root directory entry" alt="" coords="243,357,389,384"/>
+<area shape="rect" id="node14" href="$d9/d2c/tcmi__sock_8h.html" title="A wrapper class for KKC listenings." alt="" coords="1496,267,1635,293"/>
+<area shape="rect" id="node29" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1129,267,1276,293"/>
+<area shape="rect" id="node45" href="$d2/dc4/tcmi__ccnmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1547,109,1679,136"/>
+<area shape="rect" id="node21" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="1291,357,1369,384"/>
+<area shape="rect" id="node50" href="$df/db0/tcmi__man_8h.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="2784,109,2875,136"/>
+<area shape="rect" id="node10" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="1010,664,1064,691"/>
+<area shape="rect" id="node8" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="1325,440,1435,467"/>
+<area shape="rect" id="node9" href="$df/d2f/tcmi__ctlfs__entry_8h.html" title="Declaration of a generic entry class in tcmifs" alt="" coords="975,589,1100,616"/>
+<area shape="rect" id="node16" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="2359,589,2445,616"/>
+<area shape="rect" id="node19" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="1649,350,1783,391"/>
+<area shape="rect" id="node24" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="1509,515,1597,541"/>
+<area shape="rect" id="node28" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="1161,440,1300,467"/>
+<area shape="rect" id="node26" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="530,589,616,616"/>
+<area shape="rect" id="node32" href="$d6/d30/tcmi__method__wrapper_8h.html" title="artificial class that is used when submitting object methods" alt="" coords="689,515,849,541"/>
+<area shape="rect" id="node34" href="$d7/d0e/tcmi__ctlfs__symlink_8h.html" title="Declaration of a class that represents symbolic link in TCMI control file system." alt="" coords="465,350,599,391"/>
+<area shape="rect" id="node35" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="1231,515,1377,541"/>
+<area shape="rect" id="node37" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="2309,515,2459,541"/>
+<area shape="rect" id="node38" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="2299,357,2457,384"/>
+<area shape="rect" id="node42" href="$d8/d3c/util_8h.html" title="tcmi/lib/util.h" alt="" coords="72,357,168,384"/>
+<area shape="rect" id="node39" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="2293,440,2421,467"/>
+<area shape="rect" id="node40" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="2446,440,2588,467"/>
+<area shape="rect" id="node46" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1807,184,1917,211"/>
+<area shape="rect" id="node47" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="2294,259,2476,301"/>
+<area shape="rect" id="node48" href="$d0/db1/tcmi__comm_8h.html" title="TCMI communication communication component." alt="" coords="2048,267,2219,293"/>
+<area shape="rect" id="node49" href="$d2/def/arch__ids_8h.html" title="arch/arch_ids.h" alt="" coords="1710,267,1820,293"/>
+</map>

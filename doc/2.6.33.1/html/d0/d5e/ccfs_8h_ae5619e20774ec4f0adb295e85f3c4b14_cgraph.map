@@ -1,0 +1,17 @@
+<map id="ccfs_interpose" name="ccfs_interpose">
+<area shape="rect" id="node2" href="$d0/d29/main_8c.html#ae464671e266874efab68d66a052dc479" title="ccfs_init_persistent_file" alt="" coords="160,108,317,134"/>
+<area shape="rect" id="node8" href="$d0/d5e/ccfs_8h.html#af51c0403f4cc05864e61e3b61ceaee0a" title="ccfs_inode_set" alt="" coords="184,285,293,312"/>
+<area shape="rect" id="node11" href="$d0/d5e/ccfs_8h.html#a9cd2a8066ea9ee8a0d85da5d736347d9" title="ccfs_inode_test" alt="" coords="182,336,295,362"/>
+<area shape="rect" id="node3" href="$d0/d5e/ccfs_8h.html#ae68f2e665b7f140ecfcf6bce0d987e2c" title="ccfs_inode_to_private" alt="" coords="800,234,947,261"/>
+<area shape="rect" id="node13" href="$d0/d5e/ccfs_8h.html#a9b28665912cc0b4a1ca106b35ccded75" title="ccfs_superblock_to\l_lower" alt="" coords="171,438,306,479"/>
+<area shape="rect" id="node14" href="$d0/d5e/ccfs_8h.html#aca33136de54371c6acd5e07d32e54fb7" title="ccfs_superblock_to\l_private" alt="" coords="171,503,306,544"/>
+<area shape="rect" id="node15" href="$d2/d4d/filter_8c.html#a5b54778905740cdbd3ff85527360b9df" title="Returns 1, if name matches any of the filter patterns." alt="" coords="187,569,290,596"/>
+<area shape="rect" id="node4" href="$d0/d29/main_8c.html#affb2170f7ad80c07c428a3e6f6119134" title="ccfs_init_persistent\l_file_unlocked" alt="" coords="375,100,510,142"/>
+<area shape="rect" id="node5" href="$d0/d5e/ccfs_8h.html#af1e2659ced9de4a99f74b2e5899124b7" title="ccfs_dentry_to_nested_mnt" alt="" coords="569,82,751,109"/>
+<area shape="rect" id="node6" href="$d0/d5e/ccfs_8h.html#a5ac893d42a904852e78481eba289d9d7" title="ccfs_get_nested_dentry" alt="" coords="580,133,740,160"/>
+<area shape="rect" id="node7" href="$d0/d5e/ccfs_8h.html#a7ba8635aa8f15ffee075315b483377dc" title="ccfs_is_inode_cacheable" alt="" coords="577,184,743,210"/>
+<area shape="rect" id="node9" href="$d0/d5e/ccfs_8h.html#a6f22725bbe8f986ca8da78215c7849d5" title="ccfs_init_inode" alt="" coords="389,285,497,312"/>
+<area shape="rect" id="node10" href="$d0/d5e/ccfs_8h.html#adc76c12e7875112555e8a85d3fbc1ce8" title="ccfs_set_nested_inode" alt="" coords="583,285,737,312"/>
+<area shape="rect" id="node12" href="$d0/d5e/ccfs_8h.html#ae2e223d6f5fc2df0a868edfaa9f643db" title="ccfs_get_nested_inode" alt="" coords="365,336,520,362"/>
+<area shape="rect" id="node16" href="$d2/d4d/filter_8c.html#a5443f0b8c8ff54516356c8c813d8b5c1" title="pattern_matches" alt="" coords="383,569,502,596"/>
+</map>

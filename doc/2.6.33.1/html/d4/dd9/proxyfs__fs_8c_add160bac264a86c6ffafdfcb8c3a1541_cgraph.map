@@ -1,0 +1,13 @@
+<map id="proxyfs_fs_fdinode_write" name="proxyfs_fs_fdinode_write">
+<area shape="rect" id="node2" href="$da/d8e/group__proxyfs__proxy__file__class.html#gac0acfce3dd7f0b3e2a10323343c2f6f0" title="&lt;&lt;public&gt;&gt; Interruptible wait for space in file" alt="" coords="184,26,373,68"/>
+<area shape="rect" id="node9" href="$da/d8e/group__proxyfs__proxy__file__class.html#ga0957a03255bb2c20e99bf5453e3ba03e" title="&lt;&lt;public&gt;&gt; Interruptible wait on file" alt="" coords="215,92,342,133"/>
+<area shape="rect" id="node11" href="$da/d8e/group__proxyfs__proxy__file__class.html#gad733540f4f45cc23a1a323bd0f3bc551" title="&lt;&lt;public&gt;&gt; Write to file from user space buffer" alt="" coords="215,157,342,198"/>
+<area shape="rect" id="node12" href="$da/ddf/group__proxyfs__task__class.html#gaa74f23008a777c38e461fa771869d14f" title="&lt;&lt;public&gt;&gt; Notifies task that there are data ready (either for writing/reading/both)" alt="" coords="211,222,346,264"/>
+<area shape="rect" id="node3" href="$d4/d27/group__circ__buf__clas.html#gab9f1d2fcd5ef64fc22c52fb44847e8a0" title="&lt;&lt;public&gt;&gt; get total free space in buffer" alt="" coords="833,23,970,50"/>
+<area shape="rect" id="node4" href="$d1/d14/group__proxyfs__file__class.html#gaf339a236eacb30281cf28cd69e943722" title="&lt;&lt;public&gt;&gt; Get file status" alt="" coords="423,74,577,100"/>
+<area shape="rect" id="node5" href="$d4/d27/group__circ__buf__clas.html#ga7ad831f37b33980f97873c607e1838bd" title="&lt;&lt;public&gt;&gt; Returns maximum amount of free space which is continuos &#45; can by filled with one memcpy ca..." alt="" coords="627,23,784,50"/>
+<area shape="rect" id="node6" href="$d4/d27/group__circ__buf__clas.html#ga3004ef37f6c2f6542b3f65e54151e620" title="&lt;&lt;public&gt;&gt; get count of total data contained in the buffer" alt="" coords="652,74,759,100"/>
+<area shape="rect" id="node7" href="$d1/d14/group__proxyfs__file__class.html#ga98106c38478a4df7b861052d341a0578" title="&lt;&lt;public&gt;&gt; Get file identifier" alt="" coords="638,125,773,166"/>
+<area shape="rect" id="node8" href="$d4/d27/group__circ__buf__clas.html#ga41d1f494f53a00e4654c8aedada9b046" title="&lt;&lt;public&gt;&gt; Returns maximum amount of data which are continuos &#45; can by copied with one memcpy call..." alt="" coords="628,191,783,218"/>
+<area shape="rect" id="node10" href="$d3/d52/group__proxyfs__peer__class.html#ga8947b90fdcf4dc5fbc4857d0d060bf2b" title="&lt;&lt;public&gt;&gt; Getter of peer state" alt="" coords="421,124,579,151"/>
+</map>

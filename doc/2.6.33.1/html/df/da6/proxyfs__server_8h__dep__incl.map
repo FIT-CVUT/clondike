@@ -1,0 +1,8 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/proxyfs/proxyfs_server.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/proxyfs/proxyfs_server.h">
+<area shape="rect" id="node2" href="$d2/dd6/proxyfs__module_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/proxyfs/proxyfs_module.c" alt="" coords="5,117,200,173"/>
+<area shape="rect" id="node3" href="$d0/dc1/proxyfs__server_8c.html" title="Proxyfs server task." alt="" coords="225,117,412,173"/>
+<area shape="rect" id="node4" href="$d4/d62/tcmi__ckpt__openfile_8c.html" title="a helper class that provides functionality to store/restore information about an open file in the che..." alt="" coords="437,110,603,181"/>
+<area shape="rect" id="node5" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="627,110,792,181"/>
+<area shape="rect" id="node6" href="$db/d35/tcmi__syscallhooks__other_8c.html" title="other syscalls hooks." alt="" coords="817,110,1047,181"/>
+<area shape="rect" id="node7" href="$d7/d0a/tcmi__shadowtask_8c.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="1072,117,1291,173"/>
+</map>

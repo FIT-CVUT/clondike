@@ -1,0 +1,9 @@
+<map id="tcmi_shadow_rpc class" name="tcmi_shadow_rpc class">
+<area shape="rect" id="node1" href="$de/dbe/group__tcmi__shadow__rpc__userident__class.html" title="A part of tcmi_shadow_rpc with RPCs for user identification." alt="" coords="385,223,511,249"/>
+<area shape="rect" id="node4" href="$d3/d91/group__tcmi__shadow__rpc__fork__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on CCN side." alt="" coords="383,5,513,46"/>
+<area shape="rect" id="node8" href="$d5/d91/group__tcmi__shadow__rpc__groupident__class.html" title="A part of tcmi_shadow_rpc with RPCs for group identification." alt="" coords="381,71,515,97"/>
+<area shape="rect" id="node5" href="$df/d0d/group__tcmi__shadow__rpc__pidman__class.html" title="A part of tcmi_shadow_rpc with RPCs for PID and GID manipulation." alt="" coords="369,121,527,148"/>
+<area shape="rect" id="node6" href="$d0/d78/group__tcmi__shadow__rpc__signal__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on CCN side." alt="" coords="395,172,501,199"/>
+<area shape="rect" id="node3" href="$d1/d23/group__tcmi__shadow__rpc__wait__class.html" title="A &lt;&lt;singleton&gt;&gt; class that is executing RPC on CCN side." alt="" coords="373,273,523,300"/>
+<area shape="rect" id="node7" href="$d2/d43/group__tcmi__rpc__class.html" title="A &lt;&lt;virtual&gt;&gt; RPC class, used as parent for both guest and shadow side." alt="" coords="5,147,112,173"/>
+</map>

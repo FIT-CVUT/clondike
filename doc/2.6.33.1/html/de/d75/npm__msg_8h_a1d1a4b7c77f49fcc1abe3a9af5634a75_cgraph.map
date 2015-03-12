@@ -1,0 +1,13 @@
+<map id="npm_check" name="npm_check">
+<area shape="rect" id="node2" href="$d9/df4/comm_8c.html#af68cf85dec3fb86013cb79568bb30026" title="Performs a netlink transaction." alt="" coords="144,81,283,108"/>
+<area shape="rect" id="node3" href="$d9/df4/comm_8c.html#ab708cd00ae28bb68e7a53b6784f6f937" title="Helper method to create&amp;send request." alt="" coords="336,132,504,159"/>
+<area shape="rect" id="node9" href="$d9/df4/comm_8c.html#a66ea56ce29053fb1d9ab6d337429652d" title="msg_transaction_response" alt="" coords="331,56,509,83"/>
+<area shape="rect" id="node4" href="$d8/d7c/genl__ext_8c.html#ac461d0210fcfe8dde0588f23aebf9aab" title="genlmsg_unicast_tx &#45; wrapper around generic netlink unicast." alt="" coords="569,107,708,133"/>
+<area shape="rect" id="node7" href="$d9/df4/comm_8c.html#a4559dadd35469f8de48ab278303e40a0" title="Returns unique sequence number for transaction." alt="" coords="582,157,695,184"/>
+<area shape="rect" id="node8" href="$d9/df4/comm_8c.html#a5f190e32af9d5c630100bee151c00717" title="Returns pid of director process if there is user&#45;space director connected, 0 otherwise." alt="" coords="564,208,713,235"/>
+<area shape="rect" id="node5" href="$d8/d7c/genl__ext_8c.html#ad7afbee4ce89bce50e383aa7b2cce80c" title="genl_ext_lock" alt="" coords="775,107,878,133"/>
+<area shape="rect" id="node6" href="$d8/d7c/genl__ext_8c.html#a9ea9dfe0b2ad73e1306c736e66755b1d" title="genl_ext_unlock" alt="" coords="769,56,885,83"/>
+<area shape="rect" id="node10" href="$d9/df4/comm_8c.html#ae2479089f7107aec24a9c89a13101d0d" title="Checks, if the transaction returned an error." alt="" coords="583,5,694,32"/>
+<area shape="rect" id="node11" href="$d8/d7c/genl__ext_8c.html#a98fc505709c73b6933abbacd5a656cb9" title="Blocking read call that will read netlink response for the specified transaction." alt="" coords="557,56,720,83"/>
+<area shape="rect" id="node12" href="$d8/d7c/genl__ext_8c.html#a96c79abdde8010527de40d4806b4942c" title="__find_itx" alt="" coords="788,5,865,32"/>
+</map>

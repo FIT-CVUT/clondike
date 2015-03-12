@@ -1,0 +1,21 @@
+<map id="tcmi_msg_init_tx" name="tcmi_msg_init_tx">
+<area shape="rect" id="node2" href="$db/dc8/tcmi__msg_8c.html#a5c394462e393c496f11d949b265b8a9e" title="Shared initialization fuction of both rx and tx messages." alt="" coords="176,5,325,32"/>
+<area shape="rect" id="node3" href="$d4/d8c/group__tcmi__transaction__class.html#gaac666feaaab1fe5c341237a3e0283501" title="&lt;&lt;public&gt;&gt; Transaction ID accessor." alt="" coords="786,157,921,184"/>
+<area shape="rect" id="node4" href="$d4/d8c/group__tcmi__transaction__class.html#gada9d9436def8919a10997233cd6b5ea1" title="&lt;&lt;public&gt;&gt; Creates a new transaction." alt="" coords="177,183,325,209"/>
+<area shape="rect" id="node5" href="$d4/d8c/group__tcmi__transaction__class.html#gad66082869d71dbe73b9a0b60cb2f437c" title="&lt;&lt;private&gt;&gt; Generates a transaction ID." alt="" coords="373,107,536,133"/>
+<area shape="rect" id="node6" href="$d0/db7/group__tcmi__slotvec__class.html#ga463d8dd03bd30b24c3ebfed5a0239d8a" title="&lt;&lt;public&gt;&gt; Hashmask accessor." alt="" coords="374,157,535,184"/>
+<area shape="rect" id="node7" href="$d4/d8c/group__tcmi__transaction__class.html#ga244e6188e1c4f9e1faba20d0892f5441" title="&lt;&lt;private&gt;&gt; Callback for the kernel timer that handles transaction timeouts." alt="" coords="377,259,532,285"/>
+<area shape="rect" id="node18" href="$d0/db7/group__tcmi__slotvec__class.html#ga4f973395848150fbebecf3cc292c80ba" title="&lt;&lt;public&gt;&gt; The index where the insertion takes place has to be a valid slot." alt="" coords="585,360,735,387"/>
+<area shape="rect" id="node8" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="589,259,731,285"/>
+<area shape="rect" id="node9" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="791,259,916,285"/>
+<area shape="rect" id="node10" href="$da/d0c/group__tcmi__slot__class.html#ga1d6232adcf00094597a66d9f5740d5f8" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="792,309,915,336"/>
+<area shape="rect" id="node17" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="784,208,923,235"/>
+<area shape="rect" id="node11" href="$da/d0c/group__tcmi__slot__class.html#ga29d8101c5815a6519567c548da4a3c7e" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="971,259,1109,285"/>
+<area shape="rect" id="node15" href="$da/d0c/group__tcmi__slot__class.html#ga109d6d783ebf06046f364f970f84da1f" title="&lt;&lt;public&gt;&gt; Locks the slot data." alt="" coords="987,360,1093,387"/>
+<area shape="rect" id="node16" href="$da/d0c/group__tcmi__slot__class.html#ga5447231fec5f42040c40307eb2e6a13c" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="980,309,1100,336"/>
+<area shape="rect" id="node12" href="$da/d0c/group__tcmi__slot__class.html#ga6dd63ff2854a9939a5aa094f6543a5d1" title="&lt;&lt;public&gt;&gt; Checks if the slot is empty." alt="" coords="1179,259,1298,285"/>
+<area shape="rect" id="node13" href="$da/d0c/group__tcmi__slot__class.html#ga2550a3e6624b54e323c73cb1d06e6cd0" title="&lt;&lt;public&gt;&gt; Moves a slot among unused_slots." alt="" coords="1158,335,1319,361"/>
+<area shape="rect" id="node14" href="$da/d0c/group__tcmi__slot__class.html#ga8d6885be2677819158e0d956f0cca5b2" title="&lt;&lt;private&gt;&gt; Moves a slot into the specified list." alt="" coords="1368,373,1480,400"/>
+<area shape="rect" id="node19" href="$d0/db7/group__tcmi__slotvec__class.html#ga876670f605631a5deb930412dae02b28" title="&lt;&lt;public&gt;&gt; Accesses a slot at a given index." alt="" coords="797,411,909,437"/>
+<area shape="rect" id="node20" href="$da/d0c/group__tcmi__slot__class.html#gaefe294678d9d6922b3af1e452a318fa1" title="&lt;&lt;public&gt;&gt; Inserts a new node into the slot." alt="" coords="796,360,911,387"/>
+</map>

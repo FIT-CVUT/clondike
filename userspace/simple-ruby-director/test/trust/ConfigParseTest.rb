@@ -4,21 +4,21 @@ require 'trust/Entity.rb'
 
 class ConfigParseTestTest < Test::Unit::TestCase
   def testConfigLoad
-      #puts "#{Dir.pwd}"
-      securityConfig = SecurityConfiguration.new()
-      securityConfig.load("test/trust/test.conf")
-      
-      securityConfig.save("test/trust/test-save.cfg")
-      reloadedConfig = SecurityConfiguration.new()
-      reloadedConfig.load("test/trust/test-save.cfg")
-      #securityConfig.entities.each_value { |entity|
-      #    puts "Entity: #{entity}"
-      #}
+    #puts "#{Dir.pwd}"
+    securityConfig = SecurityConfiguration.new()
+    securityConfig.load("test/trust/test.conf")
 
-      performAssertions(securityConfig)
-      performAssertions(reloadedConfig)
+    securityConfig.save("test/trust/test-save.cfg")
+    reloadedConfig = SecurityConfiguration.new()
+    reloadedConfig.load("test/trust/test-save.cfg")
+    #securityConfig.entities.each_value { |entity|
+    #    puts "Entity: #{entity}"
+    #}
+
+    performAssertions(securityConfig)
+    performAssertions(reloadedConfig)
   end
-  
+
   def performAssertions(securityConfig)
     assert_equal 16, securityConfig.entities.size, "Count of entities should match"
     assert securityConfig.entities['Delta'] == nil, "Delta is not present"
@@ -30,7 +30,7 @@ class ConfigParseTestTest < Test::Unit::TestCase
     assert securityConfig.entities['Group5'].identities.include?(RemoteGroupEntity.new("LocalGroup2", LocalEntity.new("Beta"))), "Should contain remote group element"
     assert !securityConfig.entities['Group5'].identities.include?(RemoteGroupEntity.new("LocalGroup1", LocalEntity.new("Beta"))), "Should not contain remote group element"
     assert !securityConfig.entities['Group5'].identities.include?(RemoteGroupEntity.new("LocalGroup2", LocalEntity.new("Alfa"))), "Should not contain remote group element"
-    
+
     assert securityConfig.entities['Group2'].kind_of?(LocalEntity), "Should be local entity"
     assert securityConfig.entities['Group2'].identities.size == 2, "Should have two elements"
     assert !securityConfig.entities['Group2'].identities.include?(RemoteGroupEntity.new("LocalGroup2", LocalEntity.new("Beta"))), "Should not contain remote group element"
@@ -40,6 +40,6 @@ class ConfigParseTestTest < Test::Unit::TestCase
     assert !securityConfig.entities['Group2'].identities.include?(LocalEntity.new("Group3"))
     #assert(false, 'Assertion was false.')
     #flunk "TODO: Write test"
-    # assert_equal("foo", bar)             
+    # assert_equal("foo", bar)
   end
 end

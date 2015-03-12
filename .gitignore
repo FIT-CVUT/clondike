@@ -161,3 +161,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# Clondike specific
+userspace/simple-ruby-director/conf/*
+userspace/dht/

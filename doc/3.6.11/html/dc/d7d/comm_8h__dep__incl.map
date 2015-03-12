@@ -1,0 +1,15 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/director/netlink/comm.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/director/netlink/comm.h">
+<area shape="rect" id="node2" href="$d8/d87/director_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/director.c" alt="" coords="5,117,160,173"/>
+<area shape="rect" id="node3" href="$d9/df4/comm_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/comm.c" alt="" coords="185,117,369,173"/>
+<area shape="rect" id="node4" href="$df/d87/emigration__failed__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/emigration\l_failed_msg.c" alt="" coords="393,110,591,181"/>
+<area shape="rect" id="node5" href="$d5/d32/generic__user__message__recv__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/generic\l_user_message_recv_msg.c" alt="" coords="615,110,801,181"/>
+<area shape="rect" id="node6" href="$d4/dbf/generic__user__message__send__handler_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/generic\l_user_message_send_handler.c" alt="" coords="826,110,1035,181"/>
+<area shape="rect" id="node7" href="$d0/d84/immigration__confirmed__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/immigration\l_confirmed_msg.c" alt="" coords="1059,110,1263,181"/>
+<area shape="rect" id="node8" href="$dd/d04/immigration__request__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/immigration\l_request_msg.c" alt="" coords="1287,110,1491,181"/>
+<area shape="rect" id="node9" href="$d7/d8d/migrated__home__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/migrated\l_home_msg.c" alt="" coords="1516,110,1703,181"/>
+<area shape="rect" id="node10" href="$d9/de3/node__connected__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/node\l_connected_msg.c" alt="" coords="1727,110,1892,181"/>
+<area shape="rect" id="node11" href="$de/dc6/node__disconnected__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/node\l_disconnected_msg.c" alt="" coords="1916,110,2081,181"/>
+<area shape="rect" id="node12" href="$d3/de8/npm__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/npm_msg.c" alt="" coords="2105,117,2311,173"/>
+<area shape="rect" id="node13" href="$d7/d92/task__exitted__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/task\l_exitted_msg.c" alt="" coords="2335,110,2497,181"/>
+<area shape="rect" id="node14" href="$d9/da5/task__forked__msg_8c.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/director/netlink/task\l_forked_msg.c" alt="" coords="2521,110,2684,181"/>
+</map>

@@ -59,7 +59,8 @@ enum {
   DIRECTOR_A_EXIT_CODE, /* 32 bit length */  
   DIRECTOR_A_ERRNO, /* error code, in case some error occured */
   DIRECTOR_A_RUSAGE,
-
+  DIRECTOR_A_JIFFIES, /*64 bit identifier of the task*/
+  
   __DIRECTOR_ATTR_MAX
 };
 

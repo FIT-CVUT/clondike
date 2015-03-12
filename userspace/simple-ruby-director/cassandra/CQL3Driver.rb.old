@@ -1,0 +1,17 @@
+# Cassandra Ruby CQL3 driver
+# gem install cql-rb
+# For inserting logs into database
+
+require 'cql'
+
+client = Cql::Client.connect(hosts: ['localhost'])
+client.use('measurements')
+
+#rows = client.execute('CREATE TABLE events (id INT, nazev VARCHAR, PRIMARY KEY(id))')
+rows = client.execute("SELECT * FROM events", consistency: :one)
+rows.each do |row|
+  puts "Vypis #{row['nazev']}"
+end
+#stat = client.execute("INSERT INTO events (id,nazev) VALUES(2,'sracka')", consistency: :one)
+
+

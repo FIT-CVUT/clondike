@@ -1,28 +1,30 @@
-1. Install the necessary tools for kernel compilation:
-	1.1 ncurses-dev
-	1.2 gcc
-	1.3 make
-	1.4 initramfs-tools
-	1.5 git
+Install for Linux distribution Debian:
+
+1. Install the necessary tools and library for kernel compilation:
+    1.1 gcc
+    1.2 make
+    1.3 initramfs-tools
+    1.4 git
+    1.5 ncurses-dev
 
    It can be done with one command "apt-get install ncurses-dev gcc make initramfs-tools git" as root.
 
 2. Download Clondike patch from github.com: 
-   https://github.com/MarstCVUT/Clondike.git (manually link Downloads at right).
+   https://github.com/FIT-CVUT/clondike.git (manually link Downloads at right).
 
 3. Download the appropriate kernel from www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz.
    You can use commend "wget www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.33.1.tar.gz".
 
 4. Unpack downloaded kernel i.e. by command 
-   "tar -xvf linux-2.6.33.1.tar.gz"
+   "tar -xzf linux-2.6.33.1.tar.gz"
 
 5. Go to the unpacked directory i.e. 
    "cd linux-2.6.33.1".
 
 6. Make a new kernel patch by command 
-   "patch -p1 < path_to_the_downloaded_patch"  (clondike_kernel_2.6.33.1.patch)
+   "patch -p1 < path_to_the_downloaded_patch"  (clondike/patches/clondike_kernel_2.6.33.1.patch)
 	
-7. If we've old and functional kernel config file, for example config-2.6.32-5-xen-amd64, we can use it. 
+7. If we've old and functional kernel config file, for example config-2.6.32-5-xen-amd64, we can use it. If we haven't, skip this step.
    Rename it to actual config file .config and compile it: 
    "cp config-2.6.32-5-xen-amd64 .config"
    "make oldconfig"
@@ -31,65 +33,85 @@
    Use spacebar to change configuration in menu, after all configurations save it to .config 
    by Save an Alternate Configuration File and Exit.
 
-	"menuconfig"
+	"make menuconfig"
 	menu: Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN 
 	menu: File systems/Network File systems/NFS client support (ENABLE *) 
-          > Enable ROOT_NFS (jeste doresit zavislosti viz hledani /root_nfs)
-	
+          > Enable ROOT_NFS (and also dependencies, search /root_nfs)
 	menu: File systems/Network File Systems > Enable Plan 9 Resource Sharing Support
-	menu: Networking support/Networking options > Disable Appletalk protocol support
 	menu: Networking support > Enable Plan 9 Resource Sharing Support
 
 9. Copy recursively a directory Clondike/src to the directory clondike i.e. 
-   "cp -R ../Clondike-master/src/ clondike/".
+   "cp -R ../clondike/sources/kernel_X.X.X.X/src/ clondike/" # X.X.X.X is a version of your kernel in our case 2.6.33.1
 
 10. The kernel compilation (in a directory linux-2.6.33.1)
 	"make clean"
-	"make -j4"
+	"make -j4" # -j4 is a number of cores using to compilation
 	"make modules"
 	"make modules_install"
-	"make install"
+	"make install" # copy files to directory /boot
 
-11. Go to directory /boot "cd /boot"
+11. Go to directory /boot
+	"cd /boot"
 
 12. There create your own ramfs by command mkinitramfs 
-    "mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs"
+    "mkinitramfs -o initrd.img-2.6.33.1 2.6.33.1"
 
-13. GRUB: Add a line proxyfs.server=tcp:0.0.0.0:1112 to a grub config file 
-    "echo "proxyfs.server=tcp:0.0.0.0:1112" >> /etc/default/grub"
-    GRUB2: Add GRUB_CMDLINE_LINUX="proxyfs.server=tcp:0.0.0.0:1112"
+13. GRUB: Add a line proxyfs.server=tcp:0.0.0.0:1112 to a grub config file to parameter GRUB_CMDLINE_LINUX using your favorite editor (i.e. nano) 
+    "nano /etc/default/grub"
+    # there replace GRUB_CMDLINE_LINUX="" for GRUB_CMDLINE_LINUX="proxyfs.server=tcp:0.0.0.0:1112"
 
 14. Erase files with old indentity in the director 
-    "rm * /root/clondike/userspace/simple-ruby-director/conf"
+    "rm -rf /root/clondike/userspace/simple-ruby-director/conf/*"
+    
+15. Add new kernel to grub by i.e. by command update-grub
+	"update-grub"
 
-15. Reboot system a load right kernel linux-2.6.33.1 
+16. Reboot system and load new kernel linux-2.6.33.1 
     "reboot"
 
-16. Install ruby on the new system 
+17. Install ruby on the new system 
     "apt-get install ruby"
 
-17. Compile npfs server for function 9p sharing filesystem:
+18. Compile npfs server for function 9p sharing filesystem:
 	NPFS is in folder /root/npfs_install
 	17.1. Compile NPFS command "make"
-	17.2. Execute file /root/npfs_install/fs copy to folder /root/npfs
+	17.2. Copy file /root/npfs_install/fs/npfs to folder /root/npfs
 	17.3. Execute script /root/npfs/npfs-start &
 	17.4. Copy init script for NPFS from /etc/init.d/npfsd to same location in system 
                            for clondike /etc/init.d/rc.local to same location in system and overwrite it 
 
 	Single commands:
-	# mkdir /root/npfs
-	# /root/clondike/root/npfs_install/fs/npfs /root/npfs/
-	# /root/clondike/root/npfs/npfs-start /root/npfs/
+	# cp /root/clondike/root/npfs_install/fs/npfs /root/npfs/
 	# chmod +x /root/npfs/npfs-start
 	# /root/npfs/npfs-start &
 	# cp /root/clondike/etc/init.d/npfsd /etc/init.d/
+
+19	Replace modified init script for Clondike  
 	# cp /root/clondike/etc/init.d/rc.local /etc/init.d/
 
-18. Registered script for npfsd into INIT process by command:
+20. Registered script for npfsd into INIT process by command:
 	# update-rc.d npfsd defaults
 
-19. Execute script 
+20. Copy configuration file for migration
+	"cp /root/clondike/root/.migration.conf /root/"
+
+21. Execute script 
     "/root/clondike/scripts/install.sh"
 
-20. Restart director to generate new unique certificate
+22. Restart director to generate new unique certificate
 	"/root/clondike/scripts/restart-director.sh"
+
+===================================== Appendix for developers ====================================
+Necessary installed libraries:
+lbnl1
+lbnl-dev
+
+Compile director-api and ruby-director-api by Makefiles which are in same named folders
+Execute in this folders:
+
+#make
+
+Install directorApi into Ruby libraries
+In directory ruby-director-api execute
+
+#make install

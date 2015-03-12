@@ -1,0 +1,10 @@
+<map id="tcmi_ckpt_vm_area_read" name="tcmi_ckpt_vm_area_read">
+<area shape="rect" id="node2" href="$df/d54/group__tcmi__ckpt__class.html#ga5cd1d8b3a1dbbc588cf3fe538b39e385" title="&lt;&lt;public&gt;&gt; Reads a specified number of bytes from a checkpoint file." alt="" coords="674,56,785,83"/>
+<area shape="rect" id="node4" href="$d3/dad/group__tcmi__ckpt__vm__area__class.html#ga48fa3a38bfe17aa6d17636903e08a026" title="&lt;&lt;private&gt;&gt; Reads a memory area from the checkpoint file &#45; heavy version." alt="" coords="222,144,402,171"/>
+<area shape="rect" id="node9" href="$d3/dad/group__tcmi__ckpt__vm__area__class.html#ga59354104129b38287823b51095c8e144" title="&lt;&lt;private&gt;&gt; Reads a memory area from the checkpoint file &#45; light version." alt="" coords="224,5,400,32"/>
+<area shape="rect" id="node3" href="$df/d54/group__tcmi__ckpt__class.html#ga6b8d00619b038e49b552f87cea4a8129" title="&lt;&lt;private&gt;&gt; Executes a specified VFS method on the checkpoint file." alt="" coords="835,56,981,83"/>
+<area shape="rect" id="node5" href="$df/d54/group__tcmi__ckpt__class.html#gac5d7b45cd57fdd09ac83ce079260ec7e" title="&lt;&lt;public&gt;&gt; Aligns the position in the checkpoint file to page boundary." alt="" coords="463,173,611,200"/>
+<area shape="rect" id="node6" href="$d3/dad/group__tcmi__ckpt__vm__area__class.html#gaf3bb948cfeb680ab12571de3f8b23dc5" title="&lt;&lt;private&gt;&gt; This method is responsible for fixing a the stack in the area just read from the checkpoi..." alt="" coords="451,107,624,149"/>
+<area shape="rect" id="node7" href="$df/d54/group__tcmi__ckpt__class.html#gac8491faf16814e68e4da2dbf77c1f9cf" title="&lt;&lt;public&gt;&gt; Helper method that performs a memory mapping on the checkpoint file at its current offset..." alt="" coords="466,224,609,251"/>
+<area shape="rect" id="node8" href="$df/d54/group__tcmi__ckpt__class.html#ga6128870e21ea3aef1bf88d8e34e4cd48" title="&lt;&lt;public&gt;&gt; Seeks in the checkpoint file based on specified offset." alt="" coords="672,224,787,251"/>
+</map>

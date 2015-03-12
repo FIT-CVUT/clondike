@@ -1,0 +1,10 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_generic_real_file.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/proxyfs/proxyfs_generic_real_file.h">
+<area shape="rect" id="node2" href="$d3/d9c/proxyfs__real__file_8h.html" title="Main real file class (used by proxyfs_server_task)" alt="" coords="386,125,512,152"/>
+<area shape="rect" id="node4" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="303,200,409,227"/>
+<area shape="rect" id="node8" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="150,648,204,675"/>
+<area shape="rect" id="node12" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="581,349,659,376"/>
+<area shape="rect" id="node22" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="165,275,317,301"/>
+<area shape="rect" id="node15" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="587,499,676,525"/>
+<area shape="rect" id="node21" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="527,424,665,451"/>
+<area shape="rect" id="node18" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="710,573,796,600"/>
+</map>

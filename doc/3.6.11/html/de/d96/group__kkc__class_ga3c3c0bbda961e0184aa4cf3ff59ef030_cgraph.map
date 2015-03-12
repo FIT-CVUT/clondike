@@ -1,0 +1,11 @@
+<map id="kkc_establish" name="kkc_establish">
+<area shape="rect" id="node2" href="$d5/ddf/group__kkc__arch__class.html#ga5e04e5a8a82c505eed2219852423fea4" title="&lt;&lt;public&gt;&gt; Calls the constructor to build the architecture specific object." alt="" coords="165,5,294,32"/>
+<area shape="rect" id="node3" href="$d5/ddf/group__kkc__arch__class.html#ga06049c969ae0324d0607f10db99af65c" title="&lt;&lt;public&gt;&gt; Decrements the reference counter on the module owning the architecture." alt="" coords="385,107,485,133"/>
+<area shape="rect" id="node4" href="$de/d96/group__kkc__class.html#gad8935ce0affe2c466dd62272b3d4bc44" title="&lt;&lt;private&gt;&gt; Helper function for parsing &#39;where&#39; string and requesting for particular architecture..." alt="" coords="158,56,301,83"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#ga9f980056fbf3436596c4cfdf3913e85c" title="&lt;&lt;public&gt;&gt; Decrements reference counter, if it reaches 0 the custom free method is called if defined..." alt="" coords="178,157,281,184"/>
+<area shape="rect" id="node5" href="$d5/ddf/group__kkc__arch__class.html#gac8f29f1a1a075fdc311c1c40534e2be3" title="&lt;&lt;public&gt;&gt; Retrieves an architecture by name." alt="" coords="355,56,515,83"/>
+<area shape="rect" id="node7" href="$d6/d8e/group__kkc__sock__class.html#gac8e64f52015e75cb76a34c4b7e9ef176" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="349,157,520,184"/>
+<area shape="rect" id="node9" href="$d6/d8e/group__kkc__sock__class.html#ga00d8b033d3e1118303e7b4c54c6aafe6" title="&lt;&lt;public&gt;&gt; Socket name accessor." alt="" coords="351,208,518,235"/>
+<area shape="rect" id="node8" href="$d6/d8e/group__kkc__sock__class.html#ga3cae649f56c8f5fa18f755f6c7d53597" title="&lt;&lt;public&gt;&gt; Local socket name accessor." alt="" coords="568,157,731,184"/>
+<area shape="rect" id="node10" href="$d6/d8e/group__kkc__sock__class.html#gadf1b231c727891d5ac2d32646d574931" title="&lt;&lt;public&gt;&gt; Peer socket name accessor." alt="" coords="569,208,729,235"/>
+</map>

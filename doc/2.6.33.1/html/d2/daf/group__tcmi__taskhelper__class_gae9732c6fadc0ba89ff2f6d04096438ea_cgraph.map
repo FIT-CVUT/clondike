@@ -1,0 +1,5 @@
+<map id="tcmi_taskhelper_sanity_check" name="tcmi_taskhelper_sanity_check">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="215,5,353,32"/>
+<area shape="rect" id="node3" href="$de/d2f/group__tcmi__task__class.html#gad1f29bebb7bb9f2174559555d97d8f29" title="&lt;&lt;public&gt;&gt; Signals, the tcmi task has been pickedup by the associated process.n" alt="" coords="219,56,349,83"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#gaccbe464cf89735f8da8ff88fc1a202a8" title="&lt;&lt;public&gt;&gt; Checks whether the task has been picked up." alt="" coords="211,107,357,133"/>
+</map>

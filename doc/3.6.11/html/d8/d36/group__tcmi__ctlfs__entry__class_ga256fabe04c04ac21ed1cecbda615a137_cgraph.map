@@ -1,0 +1,7 @@
+<map id="tcmi_ctlfs_entry_traverse_pred" name="tcmi_ctlfs_entry_traverse_pred">
+<area shape="rect" id="node2" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gaab2e404bb2da373a66578541e2dc4ba9" title="&lt;&lt;public&gt;&gt; Instance accessor, Calls instance custom get method and increments the reference counter..." alt="" coords="456,33,595,59"/>
+<area shape="rect" id="node4" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#gafb72c9fd91acc569fd17362539c781f3" title="&lt;&lt;public&gt;&gt; Returns parent entry, reference counter is incremented." alt="" coords="261,25,400,67"/>
+<area shape="rect" id="node5" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga58cab501507b9dca27df7f2c2be23c8e" title="&lt;&lt;public&gt;&gt; Checks whether a given entry is the root of the TCMI ctlfs tree." alt="" coords="254,91,407,118"/>
+<area shape="rect" id="node6" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga6d6cbcd957efaaa590b335ac3150bb30" title="&lt;&lt;public&gt;&gt; Calls the instance custom put method(if any) and Decrements the reference counter of the d..." alt="" coords="456,115,595,142"/>
+<area shape="rect" id="node3" href="$d8/d36/group__tcmi__ctlfs__entry__class.html#ga986b629882729daaf2c9607bfca57c3c" title="&lt;&lt;public&gt;&gt; Entry name accessor." alt="" coords="643,61,797,87"/>
+</map>

@@ -27,7 +27,6 @@ Tedy například: "patch -p1 < ../Clondike-master/patch/clondike-33.1.patch".
 menu: Clondike > Enable TCMI Enable TCMI CCN Enable TCMI PEN 
 menu: File systems/Network file systems/NFS client support (ENABLE *) > Enable ROOT_NFS (jeste doresit zavislosti viz hledani /root_nfs)
 menu: File systems/Network File Systems > Enable Plan 9 Resource Sharing Support
-menu: Networking support/Networking options > Disable Appletalk protocol support
 menu: Networking support > Enable Plan 9 Resource Sharing Support
 
 9. Zkopirovat rekurzivne adresar Clondike/src do adresare clondike napriklad "cp -R ../Clondike-master/src/ clondike/".
@@ -39,32 +38,34 @@ menu: Networking support > Enable Plan 9 Resource Sharing Support
 "make modules_install"
 "make install"
 
-11. Vytvorit adresare /mnt/local/proc, /mnt/proxy a /mnt/clondike prikazem "mkdir /mnt/local/proc /mnt/proxy /mnt/clondike".
+11. Prejit do adresare /boot "cd /boot"
 
-12. Prejit do adresare /boot "cd /boot"
+12. Zde vytvorit vlastni ramfs pomoci mkinitramfs "mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs"
 
-13. Zde vytvorit vlastni ramfs pomoci mkinitramfs "mkinitramfs -o initrd.img-2.6.33.1-clondike-nfs 2.6.33.1-clondike-nfs"
+13. Do konfiguracniho souboru grubu pridat radku 
+	GRUB: proxyfs.server=tcp:0.0.0.0:1112 
+	"echo "proxyfs.server=tcp:0.0.0.0:1112" >> /etc/default/grub"
+	GRUB2: Přidat do proměnné GRUB_CMDLINE_LINUX="proxyfs.server=tcp:0.0.0.0:1112" v /etc/defaults/grub
 
-14. Do konfiguracniho souboru grubu pridat radku proxyfs.server=tcp:0.0.0.0:1112 "echo "proxyfs.server=tcp:0.0.0.0:1112" >> /etc/default/grub" 
+14. Smazat soubory s puvodni identitou v directoru "rm * /root/clondike/userspace/simple-ruby-director/conf"
 
-15. Smazat soubory s puvodni identitou v directoru "rm * /root/clondike/userspace/simple-ruby-director/conf"
+15. Reboot system a nacist kernel linux-2.6.33.1 "reboot"
 
-16. Reboot system a nacist kernel linux-2.6.33.1 "reboot"
+16. Instalace ruby pomoci "apt-get install ruby"
 
-17. Instalace ruby pomoci "apt-get install ruby"
+17. Zkopirujte obsah složky root do /root
 
 18. Kompilace npfs server pro funkci 9p sdileni filesystemu:
 	NPFS je v adresari /root/npfs_install
 	18.1. Kompilace NPFS prikaz "make"
-	18.2. Spouseci soubor /root/npfs_install/fs zkopirovat do adresare /root/npfs
+	18.2. Spousteci soubor /root/npfs_install/fs/npfs zkopirovat do adresare /root/npfs
 	18.3. Spustit skript /root/npfs/npfs-start &
 	18.4. Zkopirovat init skript z /etc/init.d/npfsd do stejneho umisteni v systemu 
                            for clondike /etc/init.d/rc.local do stejneho umisteni v systemu a prepsat stavajici soubor
 
 	Jednoduche prikazy pro provedeni postupu vyse:
 	# mkdir /root/npfs
-	# /root/clondike/root/npfs_install/fs/npfs /root/npfs/
-	# /root/clondike/root/npfs/npfs-start /root/npfs/
+	# cp /root/clondike/root/npfs_install/fs/npfs /root/npfs/
 	# chmod +x /root/npfs/npfs-start
 	# /root/npfs/npfs-start &
 	# cp /root/clondike/etc/init.d/npfsd /etc/init.d/
@@ -73,7 +74,10 @@ menu: Networking support > Enable Plan 9 Resource Sharing Support
 19. Registovat skript pro npfsd do INIT procesu prikazem:
 	# update-rc.d npfsd defaults
 
-20. Spustit instalacni skript /root/clondike/scripts/install.sh
+20. Zkopirovat konfiguracni soubor .migration
+	"cp /root/clondike/root/.migration.conf /root/"
 
-21. Restartovat director, aby se vygeneroval novy unikatni certifikat
+21. Spustit instalacni skript /root/clondike/scripts/install.sh
+
+22. Restartovat director, aby se vygeneroval novy unikatni certifikat
 "/root/clondike/scripts/restart-director.sh"

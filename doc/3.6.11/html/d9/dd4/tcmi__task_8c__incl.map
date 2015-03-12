@@ -1,0 +1,26 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_task.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_task.c">
+<area shape="rect" id="node7" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1436,192,1527,219"/>
+<area shape="rect" id="node39" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="521,109,716,136"/>
+<area shape="rect" id="node44" href="$d7/d05/tcmi__taskhelper_8h.html" title="TCMI task helper, supports task manipulation" alt="" coords="2621,109,2747,136"/>
+<area shape="rect" id="node12" href="$d6/d30/tcmi__method__wrapper_8h.html" title="artificial class that is used when submitting object methods" alt="" coords="1389,440,1549,467"/>
+<area shape="rect" id="node18" href="$d0/d49/tcmi__ctlfs_8h.html" title="TCMI control file system module declaration exports the root directory entry" alt="" coords="405,283,552,309"/>
+<area shape="rect" id="node21" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="1597,365,1707,392"/>
+<area shape="rect" id="node24" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="246,275,380,317"/>
+<area shape="rect" id="node26" href="$d7/d0e/tcmi__ctlfs__symlink_8h.html" title="Declaration of a class that represents symbolic link in TCMI control file system." alt="" coords="1585,275,1719,317"/>
+<area shape="rect" id="node27" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="1017,283,1095,309"/>
+<area shape="rect" id="node32" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="1029,440,1176,467"/>
+<area shape="rect" id="node35" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="427,440,577,467"/>
+<area shape="rect" id="node36" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="697,365,855,392"/>
+<area shape="rect" id="node38" href="$d8/d3c/util_8h.html" title="tcmi/lib/util.h" alt="" coords="2200,283,2296,309"/>
+<area shape="rect" id="node16" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="1609,589,1663,616"/>
+<area shape="rect" id="node22" href="$df/d2f/tcmi__ctlfs__entry_8h.html" title="Declaration of a generic entry class in tcmifs" alt="" coords="1737,440,1863,467"/>
+<area shape="rect" id="node29" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="814,440,903,467"/>
+<area shape="rect" id="node31" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="880,365,1019,392"/>
+<area shape="rect" id="node30" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="1218,515,1304,541"/>
+<area shape="rect" id="node40" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="657,185,839,226"/>
+<area shape="rect" id="node41" href="$d0/db1/tcmi__comm_8h.html" title="TCMI communication communication component." alt="" coords="627,283,797,309"/>
+<area shape="rect" id="node42" href="$d9/d2c/tcmi__sock_8h.html" title="A wrapper class for KKC listenings." alt="" coords="864,192,1003,219"/>
+<area shape="rect" id="node43" href="$d2/def/arch__ids_8h.html" title="arch/arch_ids.h" alt="" coords="2321,283,2431,309"/>
+<area shape="rect" id="node49" href="$db/d7c/tcmi__ckptcom_8h.html" title="Process checkpointing component." alt="" coords="2777,192,2951,219"/>
+<area shape="rect" id="node50" href="$d6/db7/tcmi__ckpt_8h.html" title="a helper class that provides functionality to create a process checkpoint" alt="" coords="2554,192,2701,219"/>
+</map>

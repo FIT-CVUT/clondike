@@ -1,0 +1,11 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/lib/tcmi_sock.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/lib/tcmi_sock.h">
+<area shape="rect" id="node3" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="558,291,644,317"/>
+<area shape="rect" id="node11" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="833,201,967,242"/>
+<area shape="rect" id="node15" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="670,110,804,151"/>
+<area shape="rect" id="node18" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="422,117,500,144"/>
+<area shape="rect" id="node7" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="674,440,728,467"/>
+<area shape="rect" id="node12" href="$df/d2f/tcmi__ctlfs__entry_8h.html" title="Declaration of a generic entry class in tcmifs" alt="" coords="837,291,963,317"/>
+<area shape="rect" id="node20" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="259,291,348,317"/>
+<area shape="rect" id="node24" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="339,208,477,235"/>
+<area shape="rect" id="node21" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="131,365,217,392"/>
+</map>

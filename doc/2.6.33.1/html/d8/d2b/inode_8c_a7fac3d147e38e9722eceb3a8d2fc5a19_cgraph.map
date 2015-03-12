@@ -1,0 +1,20 @@
+<map id="ccfs_symlink" name="ccfs_symlink">
+<area shape="rect" id="node2" href="$d0/d5e/ccfs_8h.html#a5ac893d42a904852e78481eba289d9d7" title="ccfs_get_nested_dentry" alt="" coords="727,593,887,620"/>
+<area shape="rect" id="node3" href="$d0/d5e/ccfs_8h.html#ae5619e20774ec4f0adb295e85f3c4b14" title="ccfs_interpose" alt="" coords="152,213,259,240"/>
+<area shape="rect" id="node18" href="$d8/d2b/inode_8c.html#a6a36af9be383e7cbabb89162ff8af440" title="lock_parent" alt="" coords="161,644,250,671"/>
+<area shape="rect" id="node19" href="$d8/d2b/inode_8c.html#a479b2cdc67b7d9c807fafd0aafba3245" title="unlock_dir" alt="" coords="165,695,246,721"/>
+<area shape="rect" id="node4" href="$d0/d29/main_8c.html#ae464671e266874efab68d66a052dc479" title="ccfs_init_persistent_file" alt="" coords="307,463,464,489"/>
+<area shape="rect" id="node9" href="$d0/d5e/ccfs_8h.html#af51c0403f4cc05864e61e3b61ceaee0a" title="ccfs_inode_set" alt="" coords="331,289,440,316"/>
+<area shape="rect" id="node12" href="$d0/d5e/ccfs_8h.html#a9cd2a8066ea9ee8a0d85da5d736347d9" title="ccfs_inode_test" alt="" coords="329,71,442,97"/>
+<area shape="rect" id="node5" href="$d0/d5e/ccfs_8h.html#ae68f2e665b7f140ecfcf6bce0d987e2c" title="ccfs_inode_to_private" alt="" coords="947,340,1093,367"/>
+<area shape="rect" id="node14" href="$d0/d5e/ccfs_8h.html#a9b28665912cc0b4a1ca106b35ccded75" title="ccfs_superblock_to\l_lower" alt="" coords="318,5,453,46"/>
+<area shape="rect" id="node15" href="$d0/d5e/ccfs_8h.html#aca33136de54371c6acd5e07d32e54fb7" title="ccfs_superblock_to\l_private" alt="" coords="318,122,453,163"/>
+<area shape="rect" id="node16" href="$d2/d4d/filter_8c.html#a5b54778905740cdbd3ff85527360b9df" title="Returns 1, if name matches any of the filter patterns." alt="" coords="334,188,437,215"/>
+<area shape="rect" id="node6" href="$d0/d29/main_8c.html#affb2170f7ad80c07c428a3e6f6119134" title="ccfs_init_persistent\l_file_unlocked" alt="" coords="522,455,657,497"/>
+<area shape="rect" id="node7" href="$d0/d5e/ccfs_8h.html#af1e2659ced9de4a99f74b2e5899124b7" title="ccfs_dentry_to_nested_mnt" alt="" coords="715,391,898,417"/>
+<area shape="rect" id="node8" href="$d0/d5e/ccfs_8h.html#a7ba8635aa8f15ffee075315b483377dc" title="ccfs_is_inode_cacheable" alt="" coords="723,441,890,468"/>
+<area shape="rect" id="node10" href="$d0/d5e/ccfs_8h.html#a6f22725bbe8f986ca8da78215c7849d5" title="ccfs_init_inode" alt="" coords="535,289,643,316"/>
+<area shape="rect" id="node11" href="$d0/d5e/ccfs_8h.html#adc76c12e7875112555e8a85d3fbc1ce8" title="ccfs_set_nested_inode" alt="" coords="729,340,884,367"/>
+<area shape="rect" id="node13" href="$d0/d5e/ccfs_8h.html#ae2e223d6f5fc2df0a868edfaa9f643db" title="ccfs_get_nested_inode" alt="" coords="512,104,667,131"/>
+<area shape="rect" id="node17" href="$d2/d4d/filter_8c.html#a5443f0b8c8ff54516356c8c813d8b5c1" title="pattern_matches" alt="" coords="530,188,649,215"/>
+</map>

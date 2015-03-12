@@ -1,0 +1,14 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/comm/tcmi_guest_started_procmsg.c" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/comm/tcmi_guest_started_procmsg.c">
+<area shape="rect" id="node3" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="425,440,553,467"/>
+<area shape="rect" id="node17" href="$d3/db1/tcmi__guest__started__procmsg_8h.html" title="response from the guest task when it is succesfully started" alt="" coords="529,126,663,167"/>
+<area shape="rect" id="node14" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="271,664,325,691"/>
+<area shape="rect" id="node10" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="481,515,631,541"/>
+<area shape="rect" id="node13" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="367,589,453,616"/>
+<area shape="rect" id="node18" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="592,291,707,317"/>
+<area shape="rect" id="node29" href="$d0/da6/tcmi__err__procmsg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="527,216,664,243"/>
+<area shape="rect" id="node19" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="780,365,871,392"/>
+<area shape="rect" id="node20" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="1005,440,1147,467"/>
+<area shape="rect" id="node21" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="808,515,955,541"/>
+<area shape="rect" id="node22" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="1275,515,1389,541"/>
+<area shape="rect" id="node25" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="1511,589,1597,616"/>
+</map>

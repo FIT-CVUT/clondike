@@ -2,12 +2,12 @@
 
 # Specifies how many nodes will participate in the measurements. There must be enough nodes in a cluster
 Nodes count: 
-  3
+  4
 
 # List of all tasks that will be referred later. Format is:
 # <UNIQUE_TASK_NAME>: exec "<COMMAND>" <PATH_WHERE_TO_EXECUTE>
 Tasks:
-  makekernel: exec "make -j 15" /usr/src/linux-2.6.33.1
+  makekernel: exec "make -j 4" /usr/src/linux-2.6.32.5
 
 # Finally, section what, when and where to execute. Format is:
 #  <EXECUTION_NODE_NAME>: <NAME_OF_TASK_TO_EXECUTE> <OPTIONAL_DELAY_IN_SECONDS_WHEN_TO_START_THE_MEASUREMENT>

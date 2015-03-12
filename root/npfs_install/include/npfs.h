@@ -20,7 +20,8 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-
+#ifndef _NPFS_H
+#define _NPFS_H
 #include <sys/types.h>
 #include <stdint.h>
 
@@ -595,4 +596,4 @@ Npfcall *npfile_stat(Npfid *fid);
 Npfcall *npfile_wstat(Npfid *fid, Npstat *stat);
 
 Npfcall *np_encrypt_fcall(Npfcall *tc);
-
+#endif

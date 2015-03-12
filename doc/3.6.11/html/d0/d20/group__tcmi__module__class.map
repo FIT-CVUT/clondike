@@ -1,0 +1,10 @@
+<map id="TCMI" name="TCMI">
+<area shape="rect" id="node1" href="$dc/d84/group__tcmi__lib__group.html" title="Classes in this group provide basic objects used commonly throughout the whole framework." alt="" coords="173,157,211,184"/>
+<area shape="rect" id="node2" href="$d4/d6b/group__tcmi__comm__group.html" title="Classes in this group provide TCMI communication features." alt="" coords="137,56,247,83"/>
+<area shape="rect" id="node3" href="$d4/dcf/group__tcmi__ckptcom__class.html" title="&lt;&lt;Singleton&gt;&gt; class that creates a checkpoint of a process." alt="" coords="107,5,277,32"/>
+<area shape="rect" id="node4" href="$d4/d99/group__tcmi__migration__group.html" title="Classes in this group are responsible migration control in the infrastructure." alt="" coords="155,259,229,285"/>
+<area shape="rect" id="node5" href="$d9/d0a/group__tcmi__ctlfs__class.html" title="This &lt;&lt;singleton&gt;&gt; class represents TCMI control filesystem." alt="" coords="130,107,254,133"/>
+<area shape="rect" id="node8" href="$db/d31/group__tcmi__managers__group.html" title="Classes in this group are responsible for various controlling tasks in the infrastructure." alt="" coords="153,208,231,235"/>
+<area shape="rect" id="node9" href="$dc/d59/group__tcmi__syscall__group.html" title="Classes in this group are used for system calls modification and forwarding to provide migration tran..." alt="" coords="129,309,255,336"/>
+<area shape="rect" id="node7" href="$d3/d1d/group__tcmi__task__group.html" title="Classes in this group represent migrating processes in the system and related objects." alt="" coords="135,360,249,387"/>
+</map>

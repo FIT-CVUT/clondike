@@ -1,0 +1,15 @@
+<map id="tcmi_shadowtask_execve" name="tcmi_shadowtask_execve">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#ga724d575729c5a3f2be09db7ee6833999" title="&lt;&lt;public&gt;&gt; Called from method queue &#45; Exits a task." alt="" coords="247,52,353,79"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga2bf62635c09738ef0c1385ea258bec2f" title="&lt;&lt;public&gt;&gt; Flushes all pending methods in the queue submits a method for execution." alt="" coords="229,175,371,217"/>
+<area shape="rect" id="node11" href="$d2/daf/group__tcmi__taskhelper__class.html#ga9dbb48f23b9ec6a00498db53f026ef4b" title="&lt;&lt;public&gt;&gt; Switches the task into migration mode." alt="" coords="225,353,375,394"/>
+<area shape="rect" id="node3" href="$d1/d5d/group__tcmi__method__wrapper__class.html#gaaf4d02eac4338a675bd5ed2df9943c97" title="&lt;&lt;public&gt;&gt; Accessor for the data stored in the method wrapper." alt="" coords="424,5,605,32"/>
+<area shape="rect" id="node5" href="$d1/d5d/group__tcmi__method__wrapper__class.html#ga57cd57a64f1ec847f1b71452daf4b3b1" title="&lt;&lt;public&gt;&gt; Creates a new wrapper for the specified method." alt="" coords="425,56,604,83"/>
+<area shape="rect" id="node6" href="$dc/d0c/group__tcmi__queue__class.html#ga3ae4d7e0a4d5d21ec8b9fff138f5b0d4" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="455,107,575,133"/>
+<area shape="rect" id="node7" href="$dc/d0c/group__tcmi__queue__class.html#ga2b0f1376bcd561196e77599cbc23090f" title="tcmi_queue_empty" alt="" coords="449,157,581,184"/>
+<area shape="rect" id="node8" href="$d1/d5d/group__tcmi__method__wrapper__class.html#gad93018cc0894a434a94703eed0f869f9" title="&lt;&lt;public&gt;&gt; Decrements the reference counter, when the count reaches 0, the instance is destroyed..." alt="" coords="427,208,602,235"/>
+<area shape="rect" id="node9" href="$dc/d0c/group__tcmi__queue__class.html#ga40921ea3b077d55d70fb7b94ac666292" title="&lt;&lt;public&gt;&gt; Adds an element to the queue &#45; lock free version, assumes the lock is already held..." alt="" coords="449,259,580,285"/>
+<area shape="rect" id="node10" href="$dc/d0c/group__tcmi__queue__class.html#ga2e0e25eec1d5e4ea6e89dfde81ed43f4" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="447,309,582,336"/>
+<area shape="rect" id="node12" href="$de/d2f/group__tcmi__task__class.html#gac263213bf219960dea9c7d4b4e6f3b34" title="Returns a task_struct associated with the tcmi_task." alt="" coords="430,360,599,387"/>
+<area shape="rect" id="node14" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="654,411,791,437"/>
+<area shape="rect" id="node13" href="$d8/d3c/util_8h.html#a5f449355b8f54aaed664de85f89092ea" title="task_find_by_pid" alt="" coords="663,360,782,387"/>
+</map>

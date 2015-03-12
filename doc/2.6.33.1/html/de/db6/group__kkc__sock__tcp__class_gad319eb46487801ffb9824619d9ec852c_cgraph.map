@@ -1,0 +1,7 @@
+<map id="kkc_sock_tcp_new" name="kkc_sock_tcp_new">
+<area shape="rect" id="node2" href="$d5/ddf/group__kkc__arch__class.html#gab0a9effd008615d90ed492c097554a64" title="&lt;&lt;public&gt;&gt; Increments the reference counter on the module owning the architecture." alt="" coords="229,5,329,32"/>
+<area shape="rect" id="node3" href="$de/db6/group__kkc__sock__tcp__class.html#ga4600da550b392fddf22c7ce5766493d1" title="Method used for enabling of keep alive on socket and setting of aggressive timing of timeout detectio..." alt="" coords="187,56,370,83"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#ga112d3dd5b05f7fad91087869eee741d9" title="&lt;&lt;public&gt;&gt; Initializes generic socket." alt="" coords="227,107,330,133"/>
+<area shape="rect" id="node5" href="$de/db6/group__kkc__sock__tcp__class.html#gaf49fbb927ff0c0e4bccf80dcdc1ce4ba" title="Method used for disabling of nagels algorithm on a tcp connection." alt="" coords="203,158,354,199"/>
+<area shape="rect" id="node6" href="$de/db6/group__kkc__sock__tcp__class.html#ga9ef881f63a803634192dcea259805aef" title="Method used for enabling quick&#45;ack on a tcp connection." alt="" coords="205,223,353,265"/>
+</map>

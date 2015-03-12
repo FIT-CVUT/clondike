@@ -1,0 +1,21 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_shadowtask.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_shadowtask.h">
+<area shape="rect" id="node2" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1008,109,1099,136"/>
+<area shape="rect" id="node7" href="$d6/d30/tcmi__method__wrapper_8h.html" title="artificial class that is used when submitting object methods" alt="" coords="1051,349,1211,376"/>
+<area shape="rect" id="node15" href="$d0/d49/tcmi__ctlfs_8h.html" title="TCMI control file system module declaration exports the root directory entry" alt="" coords="11,192,157,219"/>
+<area shape="rect" id="node18" href="$d0/dbd/tcmi__ctlfs__dir_8h.html" title="Declaration of a class that represents directory class in tcmifs." alt="" coords="354,275,464,301"/>
+<area shape="rect" id="node22" href="$d7/dc9/tcmi__ctlfs__file_8h.html" title="Declaration of a class that represents file class in tcmifs." alt="" coords="182,185,316,226"/>
+<area shape="rect" id="node24" href="$d7/d0e/tcmi__ctlfs__symlink_8h.html" title="Declaration of a class that represents symbolic link in TCMI control file system." alt="" coords="695,185,829,226"/>
+<area shape="rect" id="node25" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="906,192,984,219"/>
+<area shape="rect" id="node33" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="1949,349,2096,376"/>
+<area shape="rect" id="node36" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="1438,349,1588,376"/>
+<area shape="rect" id="node38" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="1459,192,1617,219"/>
+<area shape="rect" id="node44" href="$d8/d3c/util_8h.html" title="tcmi/lib/util.h" alt="" coords="2313,192,2409,219"/>
+<area shape="rect" id="node11" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="1305,499,1359,525"/>
+<area shape="rect" id="node19" href="$df/d2f/tcmi__ctlfs__entry_8h.html" title="Declaration of a generic entry class in tcmifs" alt="" coords="343,424,468,451"/>
+<area shape="rect" id="node27" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="807,349,896,376"/>
+<area shape="rect" id="node32" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="908,275,1047,301"/>
+<area shape="rect" id="node29" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="543,424,629,451"/>
+<area shape="rect" id="node37" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="1554,424,1640,451"/>
+<area shape="rect" id="node39" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="1655,275,1784,301"/>
+<area shape="rect" id="node42" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="1489,275,1631,301"/>
+</map>

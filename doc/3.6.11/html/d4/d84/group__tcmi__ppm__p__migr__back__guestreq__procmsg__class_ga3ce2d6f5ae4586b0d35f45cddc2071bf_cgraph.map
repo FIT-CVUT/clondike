@@ -1,0 +1,5 @@
+<map id="tcmi_ppm_p_migr_back_guestreq_procmsg_recv" name="tcmi_ppm_p_migr_back_guestreq_procmsg_recv">
+<area shape="rect" id="node2" href="$d6/d8e/group__kkc__sock__class.html#gadafc7c835c7d6d94be66f61a050108b7" title="&lt;&lt;public&gt;&gt; Receives requested number of bytes of data." alt="" coords="245,5,353,32"/>
+<area shape="rect" id="node4" href="$d7/dc8/group__tcmi__procmsg__class.html#ga00174c2d363b1861e4c14e1804602df8" title="&lt;&lt;public&gt;&gt; Destination PID accessor." alt="" coords="222,56,375,83"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gaff5e8804c93f0cb2a4b5e2e12f64e743" title="&lt;&lt;private&gt;&gt; Transfers a required number of bytes." alt="" coords="425,5,567,32"/>
+</map>

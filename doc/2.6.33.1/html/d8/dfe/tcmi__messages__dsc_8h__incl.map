@@ -1,0 +1,35 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_messages_dsc.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/tcmi/comm/tcmi_messages_dsc.h">
+<area shape="rect" id="node2" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="925,365,1016,392"/>
+<area shape="rect" id="node26" href="$dc/d0c/tcmi__skel__msg_8h.html" title="TCMI test communication message &#45; can be used as skeleton for other messages." alt="" coords="1390,291,1511,317"/>
+<area shape="rect" id="node27" href="$d8/d2b/tcmi__skelresp__msg_8h.html" title="TCMI test response message &#45; can be used as skeleton for response message." alt="" coords="319,208,465,235"/>
+<area shape="rect" id="node29" href="$d6/d23/tcmi__signal__msg_8h.html" title="TCMI signal communication message" alt="" coords="472,291,603,317"/>
+<area shape="rect" id="node30" href="$d5/d20/tcmi__p__emigrate__msg_8h.html" title="PPM/NPM physical emigration message." alt="" coords="627,291,788,317"/>
+<area shape="rect" id="node31" href="$d5/dac/tcmi__authenticate__msg_8h.html" title="authenticate message" alt="" coords="701,117,869,144"/>
+<area shape="rect" id="node33" href="$d6/dd3/tcmi__authenticate__resp__msg_8h.html" title="authentication response message" alt="" coords="1077,110,1235,151"/>
+<area shape="rect" id="node35" href="$d4/d74/tcmi__disconnect__msg_8h.html" title="disconnect message" alt="" coords="893,117,1053,144"/>
+<area shape="rect" id="node36" href="$d6/d96/tcmi__skel__procmsg_8h.html" title="TCMI test process communication message &#45; can be used as skeleton for other process control messages..." alt="" coords="2556,208,2703,235"/>
+<area shape="rect" id="node38" href="$db/dcb/tcmi__skelresp__procmsg_8h.html" title="TCMI test response process message &#45; can be used as skeleton for any response process message..." alt="" coords="2125,117,2296,144"/>
+<area shape="rect" id="node40" href="$d0/d50/tcmi__exit__procmsg_8h.html" title="TCMI exit message, send by guest task from PEN" alt="" coords="2018,208,2160,235"/>
+<area shape="rect" id="node41" href="$df/de9/tcmi__rpc__procmsg_8h.html" title="TCMI rpc process communication message &#45; used for rpcs forwarding." alt="" coords="2185,208,2324,235"/>
+<area shape="rect" id="node42" href="$d9/df2/tcmi__rpcresp__procmsg_8h.html" title="TCMI RPC response process message" alt="" coords="1411,117,1576,144"/>
+<area shape="rect" id="node45" href="$d3/db1/tcmi__guest__started__procmsg_8h.html" title="response from the guest task when it is succesfully started" alt="" coords="1600,110,1733,151"/>
+<area shape="rect" id="node46" href="$d0/def/tcmi__ppm__p__migr__back__guestreq__procmsg_8h.html" title="migrate back request initiated by guest" alt="" coords="1757,110,1917,151"/>
+<area shape="rect" id="node47" href="$d2/dfd/tcmi__ppm__p__migr__back__shadowreq__procmsg_8h.html" title="migrate back request initiated by shadow" alt="" coords="1941,110,2101,151"/>
+<area shape="rect" id="node48" href="$d0/d73/tcmi__vfork__done__procmsg_8h.html" title="TCMI vfork done, send to notify about vfork completition" alt="" coords="2349,208,2531,235"/>
+<area shape="rect" id="node49" href="$da/d22/tcmi__generic__user__msg_8h.html" title="generic userspace message." alt="" coords="1195,291,1365,317"/>
+<area shape="rect" id="node7" href="$dd/d1d/tcmi__transaction_8h.html" title="TCMI communication transaction." alt="" coords="1129,440,1257,467"/>
+<area shape="rect" id="node17" href="$dd/dd5/tcmi__messages__id_8h.html" title="This is a list of all identifiers of migration messages." alt="" coords="1366,440,1508,467"/>
+<area shape="rect" id="node11" href="$d8/dc3/tcmi__slotvec_8h.html" title="slot vector container used through out TCMI" alt="" coords="565,515,715,541"/>
+<area shape="rect" id="node18" href="$d8/d86/tcmi__queue_8h.html" title="Implements an SMP safe queue" alt="" coords="841,515,988,541"/>
+<area shape="rect" id="node20" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="411,515,525,541"/>
+<area shape="rect" id="node13" href="$d3/d94/tcmi__slot_8h.html" title="slot used as an SMP safe doubly link list" alt="" coords="557,589,643,616"/>
+<area shape="rect" id="node14" href="$d6/d01/dbg_8h.html" title="a debugging and logging framework, based on mdbg library by Martin Kacer." alt="" coords="418,664,472,691"/>
+<area shape="rect" id="node22" href="$d0/d6e/kkc__arch_8h.html" title="KKC architecture descriptor class." alt="" coords="141,589,227,616"/>
+<area shape="rect" id="node28" href="$d2/d56/tcmi__err__msg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="336,291,448,317"/>
+<area shape="rect" id="node32" href="$d2/def/arch__ids_8h.html" title="arch/arch_ids.h" alt="" coords="915,208,1025,235"/>
+<area shape="rect" id="node34" href="$d3/dc2/fs__mount__params_8h.html" title="tcmi/migration/fs/fs\l_mount_params.h" alt="" coords="1102,201,1233,242"/>
+<area shape="rect" id="node37" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="1847,291,1961,317"/>
+<area shape="rect" id="node39" href="$d0/da6/tcmi__err__procmsg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="1703,208,1840,235"/>
+<area shape="rect" id="node43" href="$d2/d3e/tcmi__rpc_8h.html" title="." alt="" coords="1416,208,1573,235"/>
+<area shape="rect" id="node44" href="$da/db2/tcmi__rpc__numbers_8h.html" title="tcmi_rpc_numbers.h" alt="" coords="1535,291,1675,317"/>
+</map>

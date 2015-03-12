@@ -1,0 +1,10 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_taskhelper.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/task/tcmi_taskhelper.h">
+<area shape="rect" id="node2" href="$d6/d82/tcmi__migman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="5,110,160,181"/>
+<area shape="rect" id="node3" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="185,110,340,181"/>
+<area shape="rect" id="node4" href="$dc/d44/tcmi__migcom_8c.html" title="TCMI migration component." alt="" coords="365,110,523,181"/>
+<area shape="rect" id="node5" href="$d9/d98/tcmi__mighooks_8c.html" title="a separate module that install migration hooks into the kernel." alt="" coords="547,110,705,181"/>
+<area shape="rect" id="node6" href="$da/d61/tcmi__guesttask_8c.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="730,117,936,173"/>
+<area shape="rect" id="node7" href="$d7/d0a/tcmi__shadowtask_8c.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="961,117,1180,173"/>
+<area shape="rect" id="node8" href="$de/d84/tcmi__task_8c.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1205,117,1379,173"/>
+<area shape="rect" id="node9" href="$d0/d0f/tcmi__module_8c.html" title="main TCMI module" alt="" coords="1404,117,1567,173"/>
+</map>

@@ -1,0 +1,51 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/lib/tcmi_queue.h" name="C:/CLONDIKE/clondike/sources/kernel_3.6.11/src/tcmi/lib/tcmi_queue.h">
+<area shape="rect" id="node2" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="1441,109,1626,165"/>
+<area shape="rect" id="node45" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="3580,461,3754,517"/>
+<area shape="rect" id="node3" href="$d6/dd3/tcmi__authenticate__resp__msg_8h.html" title="authentication response message" alt="" coords="178,454,398,525"/>
+<area shape="rect" id="node15" href="$d5/dac/tcmi__authenticate__msg_8h.html" title="authenticate message" alt="" coords="428,461,690,517"/>
+<area shape="rect" id="node16" href="$d6/df1/tcmi__msg__factory_8h.html" title="TCMI message factory message." alt="" coords="828,214,1002,285"/>
+<area shape="rect" id="node18" href="$d0/db1/tcmi__comm_8h.html" title="TCMI communication communication component." alt="" coords="2561,221,2756,277"/>
+<area shape="rect" id="node19" href="$d4/d74/tcmi__disconnect__msg_8h.html" title="disconnect message" alt="" coords="1241,221,1495,277"/>
+<area shape="rect" id="node21" href="$d2/d56/tcmi__err__msg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="545,221,751,277"/>
+<area shape="rect" id="node24" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="2782,221,2992,277"/>
+<area shape="rect" id="node38" href="$da/d22/tcmi__generic__user__msg_8h.html" title="generic userspace message." alt="" coords="428,334,618,405"/>
+<area shape="rect" id="node39" href="$d4/d37/tcmi__generic__user__procmsg_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_3.6.11\l/src/tcmi/comm/tcmi_generic\l_user_procmsg.h" alt="" coords="1026,214,1216,285"/>
+<area shape="rect" id="node6" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="1808,581,2056,637"/>
+<area shape="rect" id="node40" href="$dc/d0c/tcmi__skel__msg_8h.html" title="TCMI test communication message &#45; can be used as skeleton for other messages." alt="" coords="1587,461,1803,517"/>
+<area shape="rect" id="node23" href="$d8/d2b/tcmi__skelresp__msg_8h.html" title="TCMI test response message &#45; can be used as skeleton for response message." alt="" coords="873,341,1114,397"/>
+<area shape="rect" id="node41" href="$d6/d23/tcmi__signal__msg_8h.html" title="TCMI signal communication message" alt="" coords="1622,221,1848,277"/>
+<area shape="rect" id="node42" href="$d5/d20/tcmi__p__emigrate__msg_8h.html" title="PPM/NPM physical emigration message." alt="" coords="1872,221,2128,277"/>
+<area shape="rect" id="node43" href="$db/dc8/tcmi__msg_8c.html" title="TCMI communication message." alt="" coords="2153,221,2338,277"/>
+<area shape="rect" id="node44" href="$d8/d08/tcmi__ppm__p__emigrate__msg_8h.html" title="PPM_P emigration message." alt="" coords="2362,214,2536,285"/>
+<area shape="rect" id="node10" href="$db/d10/tcmi__migcom_8h.html" title="TCMI migration component." alt="" coords="721,814,879,885"/>
+<area shape="rect" id="node4" href="$d0/d99/tcmi__authenticate__msg_8c.html" title="TCMI authentication request" alt="" coords="326,581,588,637"/>
+<area shape="rect" id="node5" href="$d8/d37/tcmi__authenticate__resp__msg_8c.html" title="TCMI authenticate response message" alt="" coords="30,574,250,645"/>
+<area shape="rect" id="node11" href="$dd/d56/tcmi__ccnmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="542,934,698,1005"/>
+<area shape="rect" id="node13" href="$d9/ded/tcmi__penmigman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="722,934,878,1005"/>
+<area shape="rect" id="node7" href="$dd/d10/tcmi__msg__factory_8c.html" title="TCMI message factory message." alt="" coords="1456,694,1630,765"/>
+<area shape="rect" id="node8" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="3233,694,3388,765"/>
+<area shape="rect" id="node9" href="$d6/d82/tcmi__migman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="3946,814,4102,885"/>
+<area shape="rect" id="node14" href="$de/d84/tcmi__task_8c.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="3580,821,3754,877"/>
+<area shape="rect" id="node12" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="4062,934,4218,1005"/>
+<area shape="rect" id="node17" href="$de/df4/tcmi__comm_8c.html" title="TCMI communication communication component." alt="" coords="1622,341,1818,397"/>
+<area shape="rect" id="node20" href="$d4/dbc/tcmi__disconnect__msg_8c.html" title="TCMI disconnection request" alt="" coords="1190,341,1444,397"/>
+<area shape="rect" id="node22" href="$d4/d08/tcmi__err__msg_8c.html" title="TCMI error message &#45; carries an error status code." alt="" coords="642,341,848,397"/>
+<area shape="rect" id="node25" href="$d0/da6/tcmi__err__procmsg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="2873,334,3036,405"/>
+<area shape="rect" id="node33" href="$d0/d50/tcmi__exit__procmsg_8h.html" title="TCMI exit message, send by guest task from PEN" alt="" coords="1944,334,2115,405"/>
+<area shape="rect" id="node26" href="$d3/db1/tcmi__guest__started__procmsg_8h.html" title="response from the guest task when it is succesfully started" alt="" coords="2614,454,2795,525"/>
+<area shape="rect" id="node34" href="$d6/d96/tcmi__skel__procmsg_8h.html" title="TCMI test process communication message &#45; can be used as skeleton for other process control messages..." alt="" coords="2139,334,2312,405"/>
+<area shape="rect" id="node27" href="$db/dcb/tcmi__skelresp__procmsg_8h.html" title="TCMI test response process message &#45; can be used as skeleton for any response process message..." alt="" coords="2820,454,3018,525"/>
+<area shape="rect" id="node35" href="$df/de9/tcmi__rpc__procmsg_8h.html" title="TCMI rpc process communication message &#45; used for rpcs forwarding." alt="" coords="3260,454,3426,525"/>
+<area shape="rect" id="node28" href="$d9/df2/tcmi__rpcresp__procmsg_8h.html" title="TCMI RPC response process message" alt="" coords="3043,454,3235,525"/>
+<area shape="rect" id="node31" href="$d0/def/tcmi__ppm__p__migr__back__guestreq__procmsg_8h.html" title="migrate back request initiated by guest" alt="" coords="2097,454,2324,525"/>
+<area shape="rect" id="node32" href="$d2/dfd/tcmi__ppm__p__migr__back__shadowreq__procmsg_8h.html" title="migrate back request initiated by shadow" alt="" coords="2350,454,2590,525"/>
+<area shape="rect" id="node36" href="$d0/d73/tcmi__vfork__done__procmsg_8h.html" title="TCMI vfork done, send to notify about vfork completition" alt="" coords="2337,334,2511,405"/>
+<area shape="rect" id="node37" href="$d5/d1c/tcmi__procmsg_8c.html" title="TCMI process control communication message" alt="" coords="2536,341,2747,397"/>
+<area shape="rect" id="node29" href="$df/d9d/tcmi__rpcresp__procmsg_8c.html" title="TCMI error message &#45; carries an error status code." alt="" coords="2966,574,3158,645"/>
+<area shape="rect" id="node30" href="$de/d7b/tcmi__shadow__rpc_8h.html" title="a RPC class used by shadow process ." alt="" coords="3182,574,3338,645"/>
+<area shape="rect" id="node46" href="$dd/dbd/tcmi__man_8c.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="4230,581,4428,637"/>
+<area shape="rect" id="node47" href="$d7/dc5/tcmi__syscallhooks__pidman_8c.html" title="syscalls hooks for proces identification manipulation." alt="" coords="3464,574,3630,645"/>
+<area shape="rect" id="node48" href="$d7/d05/tcmi__taskhelper_8h.html" title="TCMI task helper, supports task manipulation" alt="" coords="3978,701,4187,757"/>
+<area shape="rect" id="node49" href="$da/dc0/tcmi__guesttask_8h.html" title="TCMI guesttask, migrated process abstraction on PEN" alt="" coords="3705,581,3911,637"/>
+<area shape="rect" id="node50" href="$d8/dcb/tcmi__shadowtask_8h.html" title="TCMI shadow task, migrated process abstraction on CCN" alt="" coords="3936,581,4155,637"/>
+</map>

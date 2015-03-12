@@ -1,0 +1,29 @@
+<map id="tcmi_msg_send_and_receive" name="tcmi_msg_send_and_receive">
+<area shape="rect" id="node2" href="$d6/dc2/group__tcmi__msg__class.html#ga1c21eeafb9a0d56dabb025d5fbdc0bc3" title="&lt;&lt;private&gt;&gt; Sends a message via a specified connection." alt="" coords="269,107,384,133"/>
+<area shape="rect" id="node12" href="$d4/d8c/group__tcmi__transaction__class.html#gaec110b630e8c0935ddddfb0529a03368" title="&lt;&lt;public&gt;&gt; Aborting the transaction requires:" alt="" coords="249,377,404,404"/>
+<area shape="rect" id="node25" href="$d4/d8c/group__tcmi__transaction__class.html#ga8a1027d8451c92d105ff818b0bf09c1d" title="&lt;&lt;public&gt;&gt; Transaction context accessor." alt="" coords="243,428,411,455"/>
+<area shape="rect" id="node26" href="$d4/d8c/group__tcmi__transaction__class.html#gaadc5d69241ec4815bf37e041ec0844dc" title="&lt;&lt;public&gt;&gt; Waits on a transaction till it expires or is completed, the task can be prematurely woken ..." alt="" coords="253,297,401,338"/>
+<area shape="rect" id="node3" href="$d6/d8e/group__kkc__sock__class.html#gad734b131e2ab00e8d7fa30737fc2f5ad" title="&lt;&lt;public&gt;&gt; Sends out specified data." alt="" coords="507,56,621,83"/>
+<area shape="rect" id="node5" href="$d6/d8e/group__kkc__sock__class.html#ga141590d302ece9990e5c8cdd82a3c3d8" title="&lt;&lt;public&gt;&gt; Locks this socket instance for sending, interruptible version, the process can be woken up..." alt="" coords="459,157,669,184"/>
+<area shape="rect" id="node6" href="$d6/d8e/group__kkc__sock__class.html#ga841d6dff84842f19540eae27c37fcb4c" title="&lt;&lt;public&gt;&gt; Unlocks this socket instance for sending." alt="" coords="489,5,639,32"/>
+<area shape="rect" id="node7" href="$d4/d8c/group__tcmi__transaction__class.html#ga653b1761a1b6e9fef415196c54e00768" title="&lt;&lt;public&gt;&gt; Starts a transaction." alt="" coords="489,107,639,133"/>
+<area shape="rect" id="node4" href="$d6/d8e/group__kkc__sock__class.html#gaff5e8804c93f0cb2a4b5e2e12f64e743" title="&lt;&lt;private&gt;&gt; Transfers a required number of bytes." alt="" coords="727,56,870,83"/>
+<area shape="rect" id="node8" href="$d4/d8c/group__tcmi__transaction__class.html#gaba57811a17b10df187e7918d02e3679e" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="724,240,873,267"/>
+<area shape="rect" id="node9" href="$d4/d8c/group__tcmi__transaction__class.html#ga176151d0f528ed8cda13e21da8551519" title="&lt;&lt;public&gt;&gt; Instance accessor." alt="" coords="727,107,870,133"/>
+<area shape="rect" id="node10" href="$d4/d8c/group__tcmi__transaction__class.html#ga1dfece4fcea1c1b9ce676f560957077f" title="&lt;&lt;public&gt;&gt; Sets flags in the transaction that denote additional transaction attributes." alt="" coords="727,158,870,199"/>
+<area shape="rect" id="node11" href="$d4/d8c/group__tcmi__transaction__class.html#ga2c5c24c4b88dae68aa68c7b043d105b8" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="717,324,880,351"/>
+<area shape="rect" id="node13" href="$d4/d8c/group__tcmi__transaction__class.html#ga755c57502b82f1c20a9adcdea11990a9" title="&lt;&lt;public&gt;&gt; Checks on a complete transaction." alt="" coords="497,326,631,367"/>
+<area shape="rect" id="node14" href="$d4/d8c/group__tcmi__transaction__class.html#ga2748d267a8fddd1ced86e73ba8efd079" title="&lt;&lt;public&gt;&gt; Releases the instance." alt="" coords="493,493,635,520"/>
+<area shape="rect" id="node15" href="$d0/db7/group__tcmi__slotvec__class.html#ga5b4586b2e897ec306862a0b6901f39e7" title="&lt;&lt;public&gt;&gt; Locks the instance data." alt="" coords="736,569,861,596"/>
+<area shape="rect" id="node16" href="$d4/d8c/group__tcmi__transaction__class.html#gaac666feaaab1fe5c341237a3e0283501" title="&lt;&lt;public&gt;&gt; Transaction ID accessor." alt="" coords="731,417,866,444"/>
+<area shape="rect" id="node17" href="$da/d0c/group__tcmi__slot__class.html#ga1d6232adcf00094597a66d9f5740d5f8" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="737,468,860,495"/>
+<area shape="rect" id="node24" href="$d0/db7/group__tcmi__slotvec__class.html#ga4df343d549736d3dc994ad0f43529a57" title="&lt;&lt;public&gt;&gt; Unlocks the instance data." alt="" coords="729,519,868,545"/>
+<area shape="rect" id="node18" href="$da/d0c/group__tcmi__slot__class.html#ga29d8101c5815a6519567c548da4a3c7e" title="&lt;&lt;public&gt;&gt; Removes a given node from a slot." alt="" coords="929,417,1066,444"/>
+<area shape="rect" id="node22" href="$da/d0c/group__tcmi__slot__class.html#ga109d6d783ebf06046f364f970f84da1f" title="&lt;&lt;public&gt;&gt; Locks the slot data." alt="" coords="944,468,1051,495"/>
+<area shape="rect" id="node23" href="$da/d0c/group__tcmi__slot__class.html#ga5447231fec5f42040c40307eb2e6a13c" title="&lt;&lt;public&gt;&gt; Unlocks the instance data" alt="" coords="937,519,1057,545"/>
+<area shape="rect" id="node19" href="$da/d0c/group__tcmi__slot__class.html#ga6dd63ff2854a9939a5aa094f6543a5d1" title="&lt;&lt;public&gt;&gt; Checks if the slot is empty." alt="" coords="1137,392,1255,419"/>
+<area shape="rect" id="node20" href="$da/d0c/group__tcmi__slot__class.html#ga2550a3e6624b54e323c73cb1d06e6cd0" title="&lt;&lt;public&gt;&gt; Moves a slot among unused_slots." alt="" coords="1115,443,1277,469"/>
+<area shape="rect" id="node21" href="$da/d0c/group__tcmi__slot__class.html#ga8d6885be2677819158e0d956f0cca5b2" title="&lt;&lt;private&gt;&gt; Moves a slot into the specified list." alt="" coords="1325,443,1437,469"/>
+<area shape="rect" id="node27" href="$d4/d8c/group__tcmi__transaction__class.html#gafebfbc6a51c59cbdb2bd9470b82afc18" title="&lt;&lt;public&gt;&gt; Checks on aborted transaction." alt="" coords="497,209,631,250"/>
+<area shape="rect" id="node28" href="$d4/d8c/group__tcmi__transaction__class.html#ga01baf770d7a3fdaa6931024d50f9d039" title="&lt;&lt;public&gt;&gt; Transaction state accessor." alt="" coords="487,275,641,301"/>
+</map>

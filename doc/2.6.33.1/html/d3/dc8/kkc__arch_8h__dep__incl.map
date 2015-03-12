@@ -1,0 +1,51 @@
+<map id="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/kkc/kkc_arch.h" name="C:/CLONDIKE/clondike/sources/kernel_2.6.33.1/src/kkc/kkc_arch.h">
+<area shape="rect" id="node2" href="$df/dfa/kkc__sock_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="2244,109,2409,165"/>
+<area shape="rect" id="node3" href="$de/dba/kkc_8h.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="2477,445,2643,501"/>
+<area shape="rect" id="node32" href="$d9/d75/kkc__sock__tcp_8c.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="2672,325,2837,381"/>
+<area shape="rect" id="node29" href="$da/dfb/kkc__sock__sleeper_8h.html" title="Artificial object, that simplifies sleeping on sockets" alt="" coords="2433,213,2623,269"/>
+<area shape="rect" id="node30" href="$d7/d5c/kkc__sock_8c.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="2244,213,2409,269"/>
+<area shape="rect" id="node31" href="$d1/dc4/kkc__sock__tcp_8h.html" title="Generic Kernel to Kernelin Communcation abstraction &#45; socket" alt="" coords="2647,213,2812,269"/>
+<area shape="rect" id="node33" href="$d1/d6d/tcmi__msg_8h.html" title="TCMI communication message." alt="" coords="911,213,1096,269"/>
+<area shape="rect" id="node39" href="$d0/db1/tcmi__comm_8h.html" title="TCMI communication communication component." alt="" coords="149,325,344,381"/>
+<area shape="rect" id="node4" href="$d0/d94/kkc_8c.html" title="Kernel to Kernel Communication Library for communication between two Linux Kernels" alt="" coords="2648,557,2813,613"/>
+<area shape="rect" id="node5" href="$d7/d05/proxyfs__msg_8h.html" title="Proxyfs messages." alt="" coords="2999,557,3177,613"/>
+<area shape="rect" id="node7" href="$d8/d8b/proxyfs__peer_8h.html" title="Represents connection between client and server." alt="" coords="2999,661,3177,717"/>
+<area shape="rect" id="node16" href="$db/dbe/proxyfs__msg_8c.html" title="Proxyfs messages." alt="" coords="2697,661,2876,717"/>
+<area shape="rect" id="node13" href="$d8/d0e/proxyfs__peer_8c.html" title="Represents connection between client and server." alt="" coords="2535,773,2713,829"/>
+<area shape="rect" id="node12" href="$d0/dc1/proxyfs__server_8c.html" title="Proxyfs server task." alt="" coords="3563,989,3751,1045"/>
+<area shape="rect" id="node17" href="$d9/d2c/tcmi__sock_8h.html" title="A wrapper class for KKC listenings." alt="" coords="2227,557,2392,613"/>
+<area shape="rect" id="node20" href="$d8/d88/tcmi__migman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1638,661,1857,717"/>
+<area shape="rect" id="node19" href="$d2/de0/tcmi__ccnman_8c.html" title="Implementation of TCMI cluster core node manager &#45; a class that controls the cluster core node..." alt="" coords="1546,885,1765,941"/>
+<area shape="rect" id="node22" href="$dd/dbd/tcmi__man_8c.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="2210,885,2408,941"/>
+<area shape="rect" id="node26" href="$d9/d86/tcmi__penman_8c.html" title="Implementation of TCMI cluster process execution manager &#45; a class that controls the process executio..." alt="" coords="1005,885,1224,941"/>
+<area shape="rect" id="node28" href="$d4/d4e/tcmi__task_8h.html" title="common functionality for TCMI shadow and guest tasks." alt="" coords="1333,661,1507,717"/>
+<area shape="rect" id="node6" href="$dc/ddb/proxyfs__client_8h.html" title="Proxyfs client task." alt="" coords="3695,773,3880,829"/>
+<area shape="rect" id="node11" href="$db/ded/proxyfs__server_8h.html" title="Proxyfs server task." alt="" coords="3563,885,3751,941"/>
+<area shape="rect" id="node8" href="$d6/d66/proxyfs__file_8c.html" title="Main file class (used by proxyfs_task)" alt="" coords="2737,773,2908,829"/>
+<area shape="rect" id="node9" href="$d3/d9c/proxyfs__real__file_8h.html" title="Main real file class (used by proxyfs_server_task)" alt="" coords="3421,773,3619,829"/>
+<area shape="rect" id="node14" href="$d7/dd3/proxyfs__proxy__file_8c.html" title="Main client file class (used by proxyfs_client_task)" alt="" coords="2983,773,3192,829"/>
+<area shape="rect" id="node10" href="$d5/d89/proxyfs__real__file_8c.html" title="Main real file class (used by proxyfs_server_task)" alt="" coords="3066,885,3264,941"/>
+<area shape="rect" id="node15" href="$d5/dc9/proxyfs__task_8c.html" title="proxyfs task." alt="" coords="3217,773,3396,829"/>
+<area shape="rect" id="node18" href="$da/d37/tcmi__sock_8c.html" title="A implementation of wrapper class for KKC listenings." alt="" coords="2227,661,2392,717"/>
+<area shape="rect" id="node21" href="$d2/dc4/tcmi__ccnmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1893,773,2133,829"/>
+<area shape="rect" id="node23" href="$df/db0/tcmi__man_8h.html" title="TCMI cluster node manager &#45; a template class that is further implemented by CCN/PEN" alt="" coords="2210,773,2408,829"/>
+<area shape="rect" id="node24" href="$d6/d82/tcmi__migman_8c.html" title="Implementation of TCMI cluster core node migration manager &#45; a class that controls task migration on ..." alt="" coords="1383,773,1603,829"/>
+<area shape="rect" id="node25" href="$dc/d77/tcmi__penmigman_8h.html" title="TCMI cluster core node manager &#45; a class that controls the cluster core node." alt="" coords="1627,773,1868,829"/>
+<area shape="rect" id="node27" href="$db/d10/tcmi__migcom_8h.html" title="TCMI migration component." alt="" coords="1092,766,1257,837"/>
+<area shape="rect" id="node34" href="$d6/dd3/tcmi__authenticate__resp__msg_8h.html" title="authentication response message" alt="" coords="697,438,916,509"/>
+<area shape="rect" id="node36" href="$d5/dac/tcmi__authenticate__msg_8h.html" title="authenticate message" alt="" coords="941,445,1203,501"/>
+<area shape="rect" id="node37" href="$d6/df1/tcmi__msg__factory_8h.html" title="TCMI message factory message." alt="" coords="373,318,547,389"/>
+<area shape="rect" id="node40" href="$d4/d74/tcmi__disconnect__msg_8h.html" title="disconnect message" alt="" coords="1227,445,1481,501"/>
+<area shape="rect" id="node41" href="$d2/d56/tcmi__err__msg_8h.html" title="TCMI error message &#45; carries an error status code." alt="" coords="901,325,1107,381"/>
+<area shape="rect" id="node43" href="$d5/d2b/tcmi__procmsg_8h.html" title="TCMI process control communication message" alt="" coords="1233,325,1444,381"/>
+<area shape="rect" id="node44" href="$da/d22/tcmi__generic__user__msg_8h.html" title="generic userspace message." alt="" coords="1771,438,1961,509"/>
+<area shape="rect" id="node45" href="$d4/d37/tcmi__generic__user__procmsg_8h.html" title="C:/CLONDIKE/clondike\l/sources/kernel_2.6.33.1\l/src/tcmi/comm/tcmi_generic\l_user_procmsg.h" alt="" coords="1469,318,1659,389"/>
+<area shape="rect" id="node35" href="$dd/d5e/tcmi__messages__dsc_8h.html" title="A list of descriptors of all TCMI messages and their groups." alt="" coords="948,557,1196,613"/>
+<area shape="rect" id="node46" href="$dc/d0c/tcmi__skel__msg_8h.html" title="TCMI test communication message &#45; can be used as skeleton for other messages." alt="" coords="1987,445,2203,501"/>
+<area shape="rect" id="node42" href="$d8/d2b/tcmi__skelresp__msg_8h.html" title="TCMI test response message &#45; can be used as skeleton for response message." alt="" coords="1506,445,1747,501"/>
+<area shape="rect" id="node47" href="$d6/d23/tcmi__signal__msg_8h.html" title="TCMI signal communication message" alt="" coords="2227,445,2453,501"/>
+<area shape="rect" id="node48" href="$d5/d20/tcmi__p__emigrate__msg_8h.html" title="PPM/NPM physical emigration message." alt="" coords="365,445,621,501"/>
+<area shape="rect" id="node49" href="$db/dc8/tcmi__msg_8c.html" title="TCMI communication message." alt="" coords="1683,325,1868,381"/>
+<area shape="rect" id="node50" href="$d8/d08/tcmi__ppm__p__emigrate__msg_8h.html" title="PPM_P emigration message." alt="" coords="1893,318,2067,389"/>
+<area shape="rect" id="node38" href="$de/df4/tcmi__comm_8c.html" title="TCMI communication communication component." alt="" coords="145,445,340,501"/>
+</map>

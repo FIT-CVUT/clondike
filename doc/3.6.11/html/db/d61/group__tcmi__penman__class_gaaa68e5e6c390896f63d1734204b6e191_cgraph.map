@@ -1,0 +1,10 @@
+<map id="tcmi_penman_migrateback_npm" name="tcmi_penman_migrateback_npm">
+<area shape="rect" id="node2" href="$de/d2f/group__tcmi__task__class.html#gad0cec9fea3d6f19f8d9c903a97fba347" title="&lt;&lt;public&gt;&gt; Called from method queue &#45; Migrates a task back to CCN &#45; NPM." alt="" coords="264,81,453,108"/>
+<area shape="rect" id="node6" href="$de/d2f/group__tcmi__task__class.html#ga0409e631915b37fbcfe096dfc498bbbb" title="&lt;&lt;public&gt;&gt; Submits a method for execution." alt="" coords="271,153,446,180"/>
+<area shape="rect" id="node8" href="$d2/daf/group__tcmi__taskhelper__class.html#ga2420f9c7c246746d3bbc87578357338f" title="&lt;&lt;public&gt;&gt; This method is registered by CCN or PEN component as the SIGUNUSED signal handler..." alt="" coords="291,205,426,246"/>
+<area shape="rect" id="node3" href="$d1/d5d/group__tcmi__method__wrapper__class.html#gaaf4d02eac4338a675bd5ed2df9943c97" title="&lt;&lt;public&gt;&gt; Accessor for the data stored in the method wrapper." alt="" coords="501,5,683,32"/>
+<area shape="rect" id="node4" href="$de/d2f/group__tcmi__task__class.html#ga0232aeae006148ffa6c760e7f1979865" title="&lt;&lt;public&gt;&gt; Local PID accessor." alt="" coords="523,56,661,83"/>
+<area shape="rect" id="node5" href="$de/d2f/group__tcmi__task__class.html#ga2f054ae4772c0921004eebdb48d39dcf" title="&lt;&lt;public&gt;&gt; Remote PID accessor." alt="" coords="517,107,667,133"/>
+<area shape="rect" id="node7" href="$d1/d5d/group__tcmi__method__wrapper__class.html#ga57cd57a64f1ec847f1b71452daf4b3b1" title="&lt;&lt;public&gt;&gt; Creates a new wrapper for the specified method." alt="" coords="503,157,681,184"/>
+<area shape="rect" id="node9" href="$de/d2f/group__tcmi__task__class.html#gabc853647b7b732333c5909e617030f44" title="&lt;&lt;public&gt;&gt; Process context setter." alt="" coords="515,212,669,239"/>
+</map>
