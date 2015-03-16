@@ -65,6 +65,7 @@
  * - create a TCMI socket to represent the connection in filesystem
  * - run the message processing thread.
  *
+ * @param *parent - pointer to parent of this migration manager instance
  * @param *self - this migration manager instance
  * @param *sock - socket where the control connection between CCN/PEN is running
  * @param ccn_id - CCN identifier - valid when initializing a CCN mig. manager
@@ -78,7 +79,7 @@
  * @param args - variable arguments list
  * @return 0 upon success
  */
-int tcmi_migman_init(struct tcmi_migman *self, struct kkc_sock *sock, 
+int tcmi_migman_init(struct tcmi_man *parent, struct tcmi_migman *self, struct kkc_sock *sock, 
 		     u_int32_t ccn_id, u_int32_t pen_id, 
 		     enum arch_ids peer_arch_type, struct tcmi_slot* manager_slot,
 		     struct tcmi_ctlfs_entry *root,
@@ -88,6 +89,7 @@ int tcmi_migman_init(struct tcmi_migman *self, struct kkc_sock *sock,
 {
 	int err = -EINVAL;
 
+	self->parent = parent;
 	minfo(INFO2, "Creating new TCMI migration manager");
 	atomic_set(&self->state, TCMI_MIGMAN_INIT);
 	self->ccn_id = ccn_id;

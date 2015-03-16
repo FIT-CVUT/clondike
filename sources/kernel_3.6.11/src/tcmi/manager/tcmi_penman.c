@@ -65,8 +65,6 @@ int tcmi_penman_init(struct tcmi_ctlfs_entry *root)
 		goto exit0;
 	}
 	
-	atomic_set(&self.count_connected_nodes,0);	//initialization count of connected nodes
-	
 	return 0;	
 	/* error handling */
  exit0:
@@ -220,7 +218,7 @@ static int tcmi_penman_connect(void *obj, void *str)
 	}
 
 	/* Accept the first incoming connection */
-	if (!(migman = tcmi_penmigman_new(sock, 
+	if (!(migman = tcmi_penmigman_new(TCMI_MAN(&self), sock, 
 					  tcmi_man_id(TCMI_MAN(&self)),
 					  slot,
 					  tcmi_man_nodes_dir(TCMI_MAN(&self)), 					  
@@ -239,7 +237,7 @@ static int tcmi_penman_connect(void *obj, void *str)
 	kkc_sock_put(sock);
 
 	/* Increment file which contains of count connected nodes */
-	atomic_inc(&self.count_connected_nodes);
+	atomic_inc(&TCMI_MAN(&self)->count_connected_nodes);
 
 	return 0;
 /* error handling */
@@ -265,7 +263,7 @@ static int tcmi_penman_count(void *obj, void *str)
 {
 	int *count = (int*) str;
   
-    *count = atomic_read(&self.count_connected_nodes);
+    *count = atomic_read(&TCMI_MAN(&self)->count_connected_nodes);
 
 	return 0;
 }

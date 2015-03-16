@@ -96,6 +96,8 @@ struct tcmi_man {
 	/** slot container for migration managers, 1 manager per slot */
 	struct tcmi_slotvec *mig_mans;
 
+	/* count of connected nodes*/
+  	atomic_t count_connected_nodes;
 
 	/** root directory of CCN or PEN where all control
 	 * files/directories reside */
@@ -234,6 +236,18 @@ static inline struct tcmi_ctlfs_entry* tcmi_man_migproc_dir(struct tcmi_man *sel
 static inline u_int32_t tcmi_man_id(struct tcmi_man *self)
 {
 	return self->id;
+}
+
+/**
+ * \<\<public\>\> TCMI manager Decrement count of connected nodes.
+ *
+ * @param *self - a particular manager singleton instance
+ * 
+ */
+
+static inline void tcmi_man_decrement_count_connected_nodes(struct tcmi_man *self)
+{
+	atomic_dec(&self->count_connected_nodes);
 }
 
 /** \<\<public\>\> Method that performs non-preemtive migration  */

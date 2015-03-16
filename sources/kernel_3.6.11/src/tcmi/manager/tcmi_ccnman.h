@@ -170,8 +170,6 @@ struct tcmi_ccnman {
 	/** protects the list from concurrent access */
 	spinlock_t sleepers_lock;
 
-  /* count of connected ccn nodes*/
-  atomic_t count_connected_nodes;
 
 };
 /** Casts to the CCN manager. */

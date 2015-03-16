@@ -76,7 +76,8 @@ int tcmi_man_init(struct tcmi_man *self,
 		goto exit0;
 	}
 	atomic_set(&self->ready, 0);
-	
+	atomic_set(&self->count_connected_nodes,0);	//initialization count of connected nodes
+
 	self->ops = ops;
 
 	if (!(self->mig_mans = tcmi_slotvec_new(MAX_NODES)))

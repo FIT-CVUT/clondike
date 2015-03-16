@@ -92,6 +92,9 @@ typedef enum {
  * other migration related data.
  */
 struct tcmi_migman {
+	/*Parent migman - instance of object which construct it*/
+	struct tcmi_man* parent;
+
 	/** A slot node, used for insertion of the manager into a slot */
 	tcmi_slot_node_t node;
 
@@ -183,7 +186,7 @@ typedef void process_msg_t (struct tcmi_migman*, struct tcmi_msg*);
 /** \<\<public\>\> TCMI migration manager initializer. 
  *
  * */
-extern int tcmi_migman_init(struct tcmi_migman *self, struct kkc_sock *sock, 
+extern int tcmi_migman_init(struct tcmi_man *parent, struct tcmi_migman *self, struct kkc_sock *sock, 
 			    u_int32_t ccn_id, u_int32_t pen_id, 
 			    enum arch_ids peer_arch_type, struct tcmi_slot* manager_slot,
 			    struct tcmi_ctlfs_entry *root,

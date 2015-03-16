@@ -53,7 +53,8 @@
  * - allocate new slot vector for shadow processes.
  * - delegates all remaining intialization work to the generic manager.
  * - authenticate the connecting PEN
- *
+ * 
+ * @param *parent - pointer to struct of parent for example - decrement count of connected nodes*
  * @param *sock - socket where the new PEN is registering
  * @param ccn_id - CCN identifier
  * @param *root - directory where the migration manager should create its
@@ -63,7 +64,7 @@
  * @param ... - variable arguments
  * @return new TCMI CCN manager instance or NULL
  */
-struct tcmi_migman* tcmi_ccnmigman_new(struct kkc_sock *sock, u_int32_t ccn_id, struct tcmi_slot* manager_slot,
+struct tcmi_migman* tcmi_ccnmigman_new(struct tcmi_man *parent, struct kkc_sock *sock, u_int32_t ccn_id, struct tcmi_slot* manager_slot,
 					  struct tcmi_ctlfs_entry *root,
 				       struct tcmi_ctlfs_entry *migproc,
 					  const char namefmt[], ...)
@@ -79,7 +80,7 @@ struct tcmi_migman* tcmi_ccnmigman_new(struct kkc_sock *sock, u_int32_t ccn_id, 
 	}
 	init_waitqueue_head(&migman->wq);
 	va_start(args, namefmt);
-	if (tcmi_migman_init(TCMI_MIGMAN(migman), sock, ccn_id, 0, UNKNOWN, manager_slot, root, migproc,
+	if (tcmi_migman_init(parent ,TCMI_MIGMAN(migman), sock, ccn_id, 0, UNKNOWN, manager_slot, root, migproc,
 			     &ccnmigman_ops, namefmt, args) < 0) {
 		mdbg(ERR3, "TCMI CCN migman initialization failed!");
 		va_end(args);
@@ -164,6 +165,7 @@ static void tcmi_ccnmigman_stop_ctlfs_files(struct tcmi_migman *self)
 	mdbg(INFO3, "Destroying  TCMI ctlfs files - CCN migman");
 	tcmi_ctlfs_file_unregister(self_ccn->f_load);
 	tcmi_ctlfs_entry_put(self_ccn->f_load);
+	atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
 }
 
 /**

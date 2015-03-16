@@ -36,6 +36,7 @@
 
 #define TCMI_PENMIGMAN_PRIVATE
 #include "tcmi_penmigman.h"
+#include "tcmi_penman.h"
 
 #include <tcmi/comm/tcmi_authenticate_msg.h>
 #include <tcmi/comm/tcmi_authenticate_resp_msg.h>
@@ -55,6 +56,7 @@ static int tcmi_penmigman_migrate_all_home(void *obj, void *data);
  * - create new instance
  * - delegates all remaining intialization work to the generic manager.
  *
+ * @param *parent - pointer to struct of parent for example - decrement count of connected nodes
  * @param *sock - socket where the new PEN is registering
  * @param pen_id - PEN identifier
  * @param *root - directory where the migration manager should create its
@@ -64,7 +66,7 @@ static int tcmi_penmigman_migrate_all_home(void *obj, void *data);
  * @param ... - variable arguments
  * @return new TCMI PEN manager instance or NULL
  */
-struct tcmi_migman* tcmi_penmigman_new(struct kkc_sock *sock, u_int32_t pen_id, struct tcmi_slot* manager_slot,
+struct tcmi_migman* tcmi_penmigman_new(struct tcmi_man* parent, struct kkc_sock *sock, u_int32_t pen_id, struct tcmi_slot* manager_slot,
 				       struct tcmi_ctlfs_entry *root,
 				       struct tcmi_ctlfs_entry *migproc,
 				       const char namefmt[], ...)
@@ -79,7 +81,7 @@ struct tcmi_migman* tcmi_penmigman_new(struct kkc_sock *sock, u_int32_t pen_id, 
 		goto exit0;
 	}
 	va_start(args, namefmt);
-	if (tcmi_migman_init(TCMI_MIGMAN(migman), sock, 0, pen_id, UNKNOWN, manager_slot, root, migproc,
+	if (tcmi_migman_init(parent, TCMI_MIGMAN(migman), sock, 0, pen_id, UNKNOWN, manager_slot, root, migproc,
 			     &penmigman_ops, namefmt, args) < 0) {
 		mdbg(ERR3, "TCMI PEN migman initializtion failed!");
 		va_end(args);
@@ -181,6 +183,7 @@ static void tcmi_penmigman_stop_ctlfs_files(struct tcmi_migman *self)
 
 	tcmi_ctlfs_file_unregister(self_pen->f_mighome_all);
 	tcmi_ctlfs_entry_put(self_pen->f_mighome_all);
+	atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
 
 }
 
