@@ -238,17 +238,6 @@ static inline u_int32_t tcmi_man_id(struct tcmi_man *self)
 	return self->id;
 }
 
-/**
- * \<\<public\>\> TCMI manager Decrement count of connected nodes.
- *
- * @param *self - a particular manager singleton instance
- * 
- */
-
-static inline void tcmi_man_decrement_count_connected_nodes(struct tcmi_man *self)
-{
-	atomic_dec(&self->count_connected_nodes);
-}
 
 /** \<\<public\>\> Method that performs non-preemtive migration  */
 extern int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, u_int32_t migman_id, struct pt_regs* regs, struct tcmi_npm_params* npm_params);
