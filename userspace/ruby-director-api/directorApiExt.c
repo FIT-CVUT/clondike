@@ -1,8 +1,6 @@
 #include "ruby.h"
 #include "director-api.h"
 
-static VALUE module, processingLoopMethod;
-
 static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, struct rusage *rusage, int* decision, int* decision_value);
 static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 static void ruby_node_connected_callback(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept );
@@ -189,15 +187,14 @@ static void ruby_node_connected_callback(char* address, int slot_index, int auth
 
 static void ruby_node_disconnected_callback(int slot_index, int slot_type, int reason ) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@nodeDisconnectedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@nodeDisconnectedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3, INT2FIX(slot_index), INT2FIX(slot_type), INT2FIX(reason));
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3, INT2FIX(slot_index), INT2FIX(slot_type), INT2FIX(reason));
 	}
 }
 
@@ -224,86 +221,80 @@ static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const cha
 
 static void ruby_immigration_confirmed_callback(uid_t uid, int slot_index, const char* name, pid_t local_pid, pid_t remote_pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@immigrationConfirmedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@immigrationConfirmedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5,INT2FIX(uid), INT2FIX(slot_index), rb_str_new2(name), INT2FIX(local_pid), INT2FIX(remote_pid));
+	    rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5,INT2FIX(uid), INT2FIX(slot_index), rb_str_new2(name), INT2FIX(local_pid), INT2FIX(remote_pid));
 	}
 }
 
 static void ruby_task_exitted_callback(pid_t pid, int exit_code, struct rusage *rusage) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@taskExittedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@taskExittedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3,
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3,
 				INT2FIX(pid), INT2FIX(exit_code), ruby_rusage(rusage));
 	}
 }
 
 static void ruby_task_forked_callback(pid_t pid, pid_t ppid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@taskForkedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@taskForkedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 2, INT2FIX(pid), INT2FIX(ppid));
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 2, INT2FIX(pid), INT2FIX(ppid));
 	}
 }
 
 static void ruby_migrated_home_callback(pid_t pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@migratedHomeCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@migratedHomeCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
+	    rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
 	}
 }
 
 static void ruby_emigration_failed_callback(pid_t pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@emigrationFailedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@emigrationFailedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
 	}
 }
 
 static void ruby_user_message_received_callback(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
-	VALUE callResult = Qnil;
-
+	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
 	instanceMethod = rb_intern("instance");
 	self = rb_funcall(selfClass, instanceMethod, 0);
 	callbackMethod = rb_iv_get(self,"@userMessageReceivedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@userMessageReceivedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 4, INT2FIX(slot_type), INT2FIX(slot_index), INT2FIX(user_data_size), rb_str_new(user_data, user_data_size));
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 4, INT2FIX(slot_type), INT2FIX(slot_index), INT2FIX(user_data_size), rb_str_new(user_data, user_data_size));
 	}
 }
 
@@ -326,56 +317,67 @@ static VALUE method_runDirectorNetlinkProcessingLoop(VALUE self) {
 static VALUE method_registerNpmCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@npmCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@npmCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerNpmFullCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@npmFullCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@npmFullCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerNodeConnectedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@nodeConnectedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@nodeConnectedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerNodeDisconnectedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@nodeDisconnectedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@nodeDisconnectedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerImmigrateRequestCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@immigrateRequestCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@immigrateRequestCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerImmigrationConfirmedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@immigrationConfirmedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@immigrationConfirmedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerTaskExittedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@taskExittedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@taskExittedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerTaskForkedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@taskForkedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@taskForkedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerMigratedHomeCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@migratedHomeCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@migratedHomeCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerEmigrationFailedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@emigrationFailedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@emigrationFailedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_registerUserMessageReceivedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@userMessageReceivedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@userMessageReceivedCallbackFunction", callbackFunc);
+	return 0;
 }
 
 static VALUE method_sendUserMessage(VALUE self, VALUE targetSlotType, VALUE targetSlotIndex, VALUE dataLength, VALUE data) {

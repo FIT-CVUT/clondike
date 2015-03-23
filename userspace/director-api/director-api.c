@@ -242,7 +242,7 @@ init_return:
 	
 	if ( state.sk == NULL ) {
 		nl_close(sk);
-		nl_handle_destroy(sk);
+		nl_socket_free(sk);
   	}
 
 	return -EINVAL;
