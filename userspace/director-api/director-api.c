@@ -194,10 +194,9 @@ static int initialize_netlink_family(void) {
 	nl_socket_disable_seq_check(sk);
 
 	if ( (ret_val=nl_connect(sk, NETLINK_GENERIC)) )
-		goto init_return;
-	
-	nl_socket_set_buffer_size(sk, 15000000, 15000000);
-  
+	    goto init_return;
+
+
 	if ( (ret_val=prepare_request_message(sk, CTRL_CMD_GETFAMILY, GENL_ID_CTRL, &msg) ) != 0 ) {
 		goto init_return;
   	}
@@ -225,14 +224,13 @@ static int initialize_netlink_family(void) {
     		ret_val = -EBADMSG;
     		goto init_return;
   	}
-
+	
   	state.gnl_fid = nla_get_u16(nla);  
   	if (state.gnl_fid == 0) {
     		ret_val = -EBADMSG;
     		goto init_return;
   	}
-  	  	
-
+	printf("Initialization netlink family OK\n");
   	state.sk = sk;
 
 	return 0;
@@ -343,13 +341,18 @@ done:
 int initialize_director_api(void) {
 	printf("Initializing director\n");
 
-	if ( initialize_netlink_family() )
+	if ( initialize_netlink_family() ){
+		printf("Initialize netlink family failed\n");
 		return -EINVAL;
-
+	}
+	printf("Initialize netlink family success\n");
+	
 	 // Registers self into the kernel
 	if ( register_pid(getpid()) ) {
+		printf("Register PID failed\n");
 		return -EBUSY;
 	}
+	printf("Register PID success\n");
 
 	printf("Generic netlink channel for director number is: %d\n", state.gnl_fid);
   	handlers[DIRECTOR_CHECK_NPM] = handle_npm_check;

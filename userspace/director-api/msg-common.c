@@ -121,102 +121,85 @@ struct nl_sock
 
 /** Fixed netlink receive function that is capable of properly receiving messages larger than pagesize */
 int nl_recv_fixed(struct nl_sock *sk, struct sockaddr_nl *nla,
-	    unsigned char **buf, struct ucred **creds)
+        unsigned char **buf, struct ucred **creds)
 {
-ssize_t n;
-        int flags = 0;
-        static int page_size = 0;
-        struct iovec iov;
-        struct msghdr msg = {
-                .msg_name = (void *) nla,
-                .msg_namelen = sizeof(struct sockaddr_nl),
-                .msg_iov = &iov,
-                .msg_iovlen = 1,
-        };
-        int retval = 0;
+    int n;
+    int flags = 0;
+    static int page_size = 0;
+    struct iovec iov;
+    struct msghdr msg = {
+	.msg_name = (void *) nla,
+	.msg_namelen = sizeof(struct sockaddr_nl),
+	.msg_iov = &iov,
+	.msg_iovlen = 1,
+	.msg_control = NULL,
+	.msg_controllen = 0,
+	.msg_flags = 0,
+    };
+    struct cmsghdr *cmsg;
+    
+    if (sk->s_flags & NL_MSG_PEEK)
+	flags |= MSG_PEEK;	
 
-        if (!buf || !nla)
-                return -NLE_INVAL;
+    if (page_size == 0)
+	page_size = getpagesize() * 10;
 
-        if (sk->s_flags & NL_MSG_PEEK)
-                flags |= MSG_PEEK | MSG_TRUNC;
-
-        if (page_size == 0)
-                page_size = getpagesize() * 10;
-
-        iov.iov_len = sk->s_bufsize ? : page_size;
-        iov.iov_base = malloc(iov.iov_len);
-
-        if (!iov.iov_base) {
-                retval = -NLE_NOMEM;
-                goto abort;
-        }
+    iov.iov_len = page_size;
+    iov.iov_base = *buf = calloc(1, iov.iov_len);
 
 retry:
 
-        n = recvmsg(sk->s_fd, &msg, flags);
-        if (!n) {
-                retval = 0;
-                goto abort;
-        }
-        if (n < 0) {
-                if (errno == EINTR) {
-                        NL_DBG(3, "recvmsg() returned EINTR, retrying\n");
-                        goto retry;
-                }
-                retval = -nl_syserr2nlerr(errno);
-                goto abort;
-        }
+    n = recvmsg(sk->s_fd, &msg, flags);
+    if (!n)
+	goto abort;
+    else if (n < 0) {
+	if (errno == EINTR) {
+	    NL_DBG(3, "recvmsg() returned EINTR, retrying\n");
+	    goto retry;
+	} else if (errno == EAGAIN) {
+	    NL_DBG(3, "recvmsg() returned EAGAIN, aborting\n");
+	    goto abort;
+	} else {
+	    free(msg.msg_control);
+	    free(*buf);
+	    *buf = 0;
+	    printf("Recvmsg failed with error: %d\n", errno);
+	    return -errno;
+	}
+    }
 
-        if (msg.msg_flags & MSG_CTRUNC) {
-                void *tmp;
-                msg.msg_controllen *= 2;
-                tmp = realloc(msg.msg_control, msg.msg_controllen);
-                if (!tmp) {
-                        retval = -NLE_NOMEM;
-                        goto abort;
-                }
-                msg.msg_control = tmp;
-                goto retry;
-        }
+    if (iov.iov_len < n ||
+        msg.msg_flags & MSG_TRUNC) {
+	/* Provided buffer is not long enough, enlarge it
+	 * and try again. */
+	iov.iov_len *= 2;
+	iov.iov_base = *buf = realloc(*buf, iov.iov_len);
+	goto retry;
+    } else if (msg.msg_flags & MSG_CTRUNC) {
+	msg.msg_controllen *= 2;
+	msg.msg_control = realloc(msg.msg_control, msg.msg_controllen);
+	goto retry;
+    } else if (flags != 0) {
+	/* Buffer is big enough, do the actual reading */
+	flags = 0;
+	goto retry;
+    }
 
-        if (iov.iov_len < n || (msg.msg_flags & MSG_TRUNC)) {
-                void *tmp;
-                /* Provided buffer is not long enough, enlarge it
-                 * to size of n (which should be total length of the message)
-                 * and try again. */
-                iov.iov_len *= 2;
-                tmp = realloc(iov.iov_base, iov.iov_len);
-                if (!tmp) {
-                        retval = -NLE_NOMEM;
-                        goto abort;
-                }
-                iov.iov_base = tmp;
-                flags = 0;
-                goto retry;
-        }
+    if (msg.msg_namelen != sizeof(struct sockaddr_nl)) {
+	free(msg.msg_control);
+	free(*buf);
+	printf("Addr no avail in packet %d vs %d\n", msg.msg_namelen, sizeof(struct sockaddr_nl));
+	return -EADDRNOTAVAIL;
+    }
 
-        if (flags != 0) {
-                /* Buffer is big enough, do the actual reading */
-                flags = 0;
-                goto retry;
-        }
 
-        if (msg.msg_namelen != sizeof(struct sockaddr_nl)) {
-                retval =  -NLE_NOADDR;
-                goto abort;
-        }
+    free(msg.msg_control);
+    return n;
 
-        retval = n;
 abort:
-        free(msg.msg_control);
-        if (retval <= 0) {
-            free(iov.iov_base);
-            iov.iov_base = NULL;
-        } else
-            *buf = iov.iov_base;
-
-        return retval;
+    free(msg.msg_control);
+    free(*buf);
+    return 0;
 }
 
 
