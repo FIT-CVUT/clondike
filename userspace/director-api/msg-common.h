@@ -12,7 +12,7 @@
 
 #define __s32 uint32_t
 
-struct nl_handle;
+struct nl_sock;
 
 /* Callback method to be called for processing of specific command when the user daemon is running in a server mode */
 typedef int (*cmd_handler)(struct nl_msg *msg);
