@@ -66,13 +66,10 @@ int is_director_pid(pid_t ppid) {
 pid_t get_director_pid(void) {
 	return user_director_pid;
 }
-EXPORT_SYMBOL(get_director_pid);
 
 void disconnect_director(void){
 	user_director_pid = 0;
 }
-EXPORT_SYMBOL(disconnect_director);
-
 
 /** Returns unique sequence number for transaction */
 static int get_unique_seq(void) {
