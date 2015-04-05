@@ -9,7 +9,7 @@ struct sk_buff;
 
 /* Structure representing one request-response transaction */
 struct genl_tx {
-/*	u8 cmd;  Command type */
+	u8 cmd;  /*Command type */
 	u32 seq; /* Sequence number */
 };
 

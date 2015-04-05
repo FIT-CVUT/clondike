@@ -22,6 +22,14 @@ int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name,
 		int* migman_to_use, int* migrate_home, struct rusage *rusage, unsigned long jif) {
 	int res, decision, decision_value;
 
+	
+	if (current->nonmigratable) {
+		minfo(INFO4, "No Director connected or this process forked from director");
+		return 0;
+	}
+	
+	
+	
 	// TODO: If full is not too expensive do full every time? Or perhaps some "learning" for which processes we should do full immediately and for which not?
 
 	res = npm_check(pid, uid, is_guest, name, &decision, &decision_value, rusage, jif);
@@ -68,12 +76,14 @@ int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, 
 EXPORT_SYMBOL(director_immigration_confirmed);
 
 int director_node_connected(const char* address, int slot_index, int auth_data_size, char* auth_data,  int* accept) {
+	if (current->nonmigratable) return 0;
 	return node_connected(address, slot_index, auth_data_size, auth_data, accept);
 }
 
 EXPORT_SYMBOL(director_node_connected);
 
 int director_node_disconnected(int slot_index, int detached, int reason) {
+	if (current->nonmigratable) return 0;
 	minfo(INFO4, "Node disconnected being called");
 	
 	return node_disconnected(slot_index, detached, reason);
@@ -93,21 +103,62 @@ void director_register_send_generic_user_message_handler(send_generic_user_messa
 
 EXPORT_SYMBOL(director_register_send_generic_user_message_handler);
 
-int director_task_exit(pid_t pid, int exit_code, struct rusage *rusage) {
-	return task_exitted(pid, exit_code, rusage);	
+int director_task_exit(struct task_struct *task, int exit_code, struct rusage *rusage) {
+	if (task->nonmigratable) return 0;
+	return task_exitted(task->pid, exit_code, rusage);	
 }
 
 EXPORT_SYMBOL(director_task_exit);
 
-int director_task_fork(pid_t pid, pid_t ppid) {
+int director_task_fork(struct task_struct *parent, struct task_struct *child) {
 	/** Do not notify directory about its own forks, as this would lead to a lock-out of netlink communications */
-	if ( is_director_pid(ppid) )
+	mdbg(INFO4,"FORK new process nonmigratable = %d", child->nonmigratable);
+	if (child->nonmigratable) return 0;
+
+	if ( is_director_pid(parent->pid) )
 	    return 0;
-	
-	return task_forked(pid, ppid);	
+	return task_forked(child->pid, parent->pid);	
 }
 
 EXPORT_SYMBOL(director_task_fork);
+
+
+int director_check_forked_process(struct task_struct *p){
+	pid_t director_pid = get_director_pid();
+	if (director_pid == 0) return 2;		//Director is not connected
+	return director_check_parent(p, director_pid);
+}
+
+int director_check_parent(struct task_struct *p, pid_t find_pid) {
+	struct task_struct *tmp = NULL;
+	if (p == NULL) return 0;
+	task_lock(p);
+	if (p->pid == 1) goto not;
+	if (p->pid == find_pid) goto found;
+	printk("(%s pid = %d)\n",p->comm, p->pid);
+	tmp = p->tcmi_parent;
+	task_unlock(p);
+	return director_check_parent(tmp, find_pid);
+
+not:
+	task_unlock(p);
+	return 0;
+found:
+	task_unlock(p);
+	printk("(Found %s pid = %d)\n",p->comm, p->pid);
+	return 1;
+
+}
+
+void director_disconnect(void){
+	disconnect_director();
+}
+
+pid_t director_pid(void) {
+	return get_director_pid();
+}
+
+EXPORT_SYMBOL(director_check_forked_process);
 
 int director_emigration_failed(pid_t pid) {
 	return emigration_failed(pid);

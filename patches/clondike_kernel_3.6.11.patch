@@ -1,15 +1,15 @@
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/Kconfig linux-3.6.11/arch/x86/Kconfig
---- linux-3.6.11_original/linux-3.6.11/arch/x86/Kconfig	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/Kconfig	2013-04-06 13:54:14.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/Kconfig linux-3.6.11/arch/x86/Kconfig
+--- linux-3.6.11-vanilla/arch/x86/Kconfig	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/Kconfig	2015-04-05 11:40:14.444026791 +0200
 @@ -2235,3 +2235,5 @@
  source "arch/x86/kvm/Kconfig"
  
  source "lib/Kconfig"
 +
 +source "clondike/Kconfig"
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/entry_64.S linux-3.6.11/arch/x86/kernel/entry_64.S
---- linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/entry_64.S	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/kernel/entry_64.S	2013-04-06 13:55:19.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/kernel/entry_64.S linux-3.6.11/arch/x86/kernel/entry_64.S
+--- linux-3.6.11-vanilla/arch/x86/kernel/entry_64.S	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/kernel/entry_64.S	2015-04-05 11:40:14.460026906 +0200
 @@ -1252,6 +1252,36 @@
  	CFI_ENDPROC
  END(kernel_execve)
@@ -47,9 +47,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/entry_64.S linux-3
  /* Call softirq on interrupt stack. Interrupts are off. */
  ENTRY(call_softirq)
  	CFI_STARTPROC
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/process_64.c linux-3.6.11/arch/x86/kernel/process_64.c
---- linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/process_64.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/kernel/process_64.c	2013-04-06 13:56:22.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/kernel/process_64.c linux-3.6.11/arch/x86/kernel/process_64.c
+--- linux-3.6.11-vanilla/arch/x86/kernel/process_64.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/kernel/process_64.c	2015-04-05 11:40:14.460026906 +0200
 @@ -244,6 +244,7 @@
  	start_thread_common(regs, new_ip, new_sp,
  			    __USER_CS, __USER_DS, 0);
@@ -58,9 +58,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/process_64.c linux
  
  #ifdef CONFIG_IA32_EMULATION
  void start_thread_ia32(struct pt_regs *regs, u32 new_ip, u32 new_sp)
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c
---- linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c	2013-04-06 14:02:26.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/kernel/x8664_ksyms_64.c linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c
+--- linux-3.6.11-vanilla/arch/x86/kernel/x8664_ksyms_64.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c	2015-04-05 11:40:14.480027050 +0200
 @@ -38,6 +38,9 @@
  
  EXPORT_SYMBOL(csum_partial);
@@ -71,9 +71,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/kernel/x8664_ksyms_64.c l
  /*
   * Export string functions. We normally rely on gcc builtin for most of these,
   * but gcc sometimes decides not to inline them.
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/mm/fault.c linux-3.6.11/arch/x86/mm/fault.c
---- linux-3.6.11_original/linux-3.6.11/arch/x86/mm/fault.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/mm/fault.c	2013-04-06 14:10:58.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/mm/fault.c linux-3.6.11/arch/x86/mm/fault.c
+--- linux-3.6.11-vanilla/arch/x86/mm/fault.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/mm/fault.c	2015-04-05 11:40:14.504027221 +0200
 @@ -11,6 +11,7 @@
  #include <linux/kprobes.h>		/* __kprobes, ...		*/
  #include <linux/mmiotrace.h>		/* kmmio_handler, ...		*/
@@ -192,9 +192,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/mm/fault.c linux-3.6.11/a
  	if (unlikely(access_error(error_code, vma))) {
  		bad_area_access_error(regs, error_code, address);
  		return;
-diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/vdso/vdso32-setup.c linux-3.6.11/arch/x86/vdso/vdso32-setup.c
---- linux-3.6.11_original/linux-3.6.11/arch/x86/vdso/vdso32-setup.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/arch/x86/vdso/vdso32-setup.c	2013-04-06 14:13:18.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/arch/x86/vdso/vdso32-setup.c linux-3.6.11/arch/x86/vdso/vdso32-setup.c
+--- linux-3.6.11-vanilla/arch/x86/vdso/vdso32-setup.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/arch/x86/vdso/vdso32-setup.c	2015-04-05 11:40:14.548027537 +0200
 @@ -364,6 +364,8 @@
  	return ret;
  }
@@ -204,9 +204,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/arch/x86/vdso/vdso32-setup.c linux
  #ifdef CONFIG_X86_64
  
  subsys_initcall(sysenter_setup);
-diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/Kconfig linux-3.6.11/clondike/Kconfig
---- linux-3.6.11_original/linux-3.6.11/clondike/Kconfig	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/clondike/Kconfig	2013-03-14 18:22:38.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/clondike/Kconfig linux-3.6.11/clondike/Kconfig
+--- linux-3.6.11-vanilla/clondike/Kconfig	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/clondike/Kconfig	2015-04-05 11:40:14.548027537 +0200
 @@ -0,0 +1,57 @@
 +#
 +# Clondike
@@ -265,9 +265,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/Kconfig linux-3.6.11/clon
 +
 +endmenu
 +
-diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/Makefile linux-3.6.11/clondike/Makefile
---- linux-3.6.11_original/linux-3.6.11/clondike/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/clondike/Makefile	2013-01-07 11:22:45.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/clondike/Makefile linux-3.6.11/clondike/Makefile
+--- linux-3.6.11-vanilla/clondike/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/clondike/Makefile	2015-04-05 11:40:14.548027537 +0200
 @@ -0,0 +1,7 @@
 +# Builds the Clondike system
 +#
@@ -276,9 +276,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/Makefile linux-3.6.11/clo
 +ifeq ($(CONFIG_TCMI),y)
 +	obj-y += src/
 +endif
-diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/Makefile linux-3.6.11/clondike/tcmi/Makefile
---- linux-3.6.11_original/linux-3.6.11/clondike/tcmi/Makefile	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/clondike/tcmi/Makefile	2013-01-07 11:22:45.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/clondike/tcmi/Makefile linux-3.6.11/clondike/tcmi/Makefile
+--- linux-3.6.11-vanilla/clondike/tcmi/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/clondike/tcmi/Makefile	2015-04-05 11:40:14.548027537 +0200
 @@ -0,0 +1,6 @@
 +#
 +# Makefile for TCMI components required to be built into kernel
@@ -286,9 +286,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/Makefile linux-3.6.1
 +# 
 +
 +obj-$(CONFIG_TCMI_HOOKS) :=	tcmi_hooks.o tcmi_dbg.o
-diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_dbg.c linux-3.6.11/clondike/tcmi/tcmi_dbg.c
---- linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_dbg.c	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/clondike/tcmi/tcmi_dbg.c	2013-01-07 11:22:45.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/clondike/tcmi/tcmi_dbg.c linux-3.6.11/clondike/tcmi/tcmi_dbg.c
+--- linux-3.6.11-vanilla/clondike/tcmi/tcmi_dbg.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/clondike/tcmi/tcmi_dbg.c	2015-04-05 11:40:14.548027537 +0200
 @@ -0,0 +1,6 @@
 +#include <clondike/tcmi/tcmi_dbg.h>
 +#include <linux/cache.h>
@@ -296,9 +296,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_dbg.c linux-3.6
 +
 +int tcmi_dbg __read_mostly = 1;
 +EXPORT_SYMBOL_GPL(tcmi_dbg);
-diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_hooks.c linux-3.6.11/clondike/tcmi/tcmi_hooks.c
---- linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_hooks.c	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/clondike/tcmi/tcmi_hooks.c	2013-01-07 11:22:45.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/clondike/tcmi/tcmi_hooks.c linux-3.6.11/clondike/tcmi/tcmi_hooks.c
+--- linux-3.6.11-vanilla/clondike/tcmi/tcmi_hooks.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/clondike/tcmi/tcmi_hooks.c	2015-04-05 11:40:14.548027537 +0200
 @@ -0,0 +1,21 @@
 +/**
 + * @file tcmi_hooks.c - Definition of all hooks in kernel requires only
@@ -321,9 +321,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/clondike/tcmi/tcmi_hooks.c linux-3
 +#define TCMI_HOOKS_FACTORY_PRIVATE
 +#include <clondike/tcmi/tcmi_hooks.h>
 +
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/fid.c linux-3.6.11/fs/9p/fid.c
---- linux-3.6.11_original/linux-3.6.11/fs/9p/fid.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/9p/fid.c	2013-04-06 14:14:53.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/9p/fid.c linux-3.6.11/fs/9p/fid.c
+--- linux-3.6.11-vanilla/fs/9p/fid.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/9p/fid.c	2015-04-05 11:40:14.564027651 +0200
 @@ -161,9 +161,11 @@
  		if (access == V9FS_ACCESS_SINGLE)
  			return ERR_PTR(-EPERM);
@@ -339,9 +339,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/fid.c linux-3.6.11/fs/9p/fid
  			uname = v9ses->uname;
  
  		fid = p9_client_attach(v9ses->clnt, NULL, uname, uid,
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.c linux-3.6.11/fs/9p/v9fs.c
---- linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/9p/v9fs.c	2013-04-06 14:17:54.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/9p/v9fs.c linux-3.6.11/fs/9p/v9fs.c
+--- linux-3.6.11-vanilla/fs/9p/v9fs.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/9p/v9fs.c	2015-04-05 11:40:14.568027680 +0200
 @@ -51,6 +51,9 @@
  enum {
  	/* Options that take integer arguments */
@@ -384,9 +384,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.c linux-3.6.11/fs/9p/v9
  		case Opt_uname:
  			match_strlcpy(v9ses->uname, &args[0], PATH_MAX);
  			break;
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.h linux-3.6.11/fs/9p/v9fs.h
---- linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.h	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/9p/v9fs.h	2013-04-06 14:19:01.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/9p/v9fs.h linux-3.6.11/fs/9p/v9fs.h
+--- linux-3.6.11-vanilla/fs/9p/v9fs.h	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/9p/v9fs.h	2015-04-05 11:40:14.584027795 +0200
 @@ -106,6 +106,9 @@
  	struct fscache_cookie *fscache;
  #endif
@@ -397,9 +397,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/v9fs.h linux-3.6.11/fs/9p/v9
  	char *uname;		/* user name to mount as */
  	char *aname;		/* name of remote hierarchy being mounted */
  	unsigned int maxdata;	/* max data for client interface */
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/vfs_inode.c linux-3.6.11/fs/9p/vfs_inode.c
---- linux-3.6.11_original/linux-3.6.11/fs/9p/vfs_inode.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/9p/vfs_inode.c	2013-04-06 14:22:55.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/9p/vfs_inode.c linux-3.6.11/fs/9p/vfs_inode.c
+--- linux-3.6.11-vanilla/fs/9p/vfs_inode.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/9p/vfs_inode.c	2015-04-05 11:40:14.584027795 +0200
 @@ -283,9 +283,6 @@
  	inode->i_mapping->a_ops = &v9fs_addr_operations;
  
@@ -468,9 +468,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/9p/vfs_inode.c linux-3.6.11/fs/
  	if ((S_ISREG(inode->i_mode)) || (S_ISDIR(inode->i_mode))) {
  		if (v9fs_proto_dotu(v9ses) && (stat->extension[0] != '\0')) {
  			/*
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/exec.c linux-3.6.11/fs/exec.c
---- linux-3.6.11_original/linux-3.6.11/fs/exec.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/exec.c	2013-04-06 14:24:59.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/exec.c linux-3.6.11/fs/exec.c
+--- linux-3.6.11-vanilla/fs/exec.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/exec.c	2015-04-05 11:40:14.608027968 +0200
 @@ -63,6 +63,7 @@
  
  #include <trace/events/task.h>
@@ -498,9 +498,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/exec.c linux-3.6.11/fs/exec.c
  int do_execve(const char *filename,
  	const char __user *const __user *__argv,
  	const char __user *const __user *__envp,
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/fcntl.c linux-3.6.11/fs/fcntl.c
---- linux-3.6.11_original/linux-3.6.11/fs/fcntl.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/fcntl.c	2013-04-08 07:59:01.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/fcntl.c linux-3.6.11/fs/fcntl.c
+--- linux-3.6.11-vanilla/fs/fcntl.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/fcntl.c	2015-04-05 11:40:14.636028170 +0200
 @@ -128,6 +128,7 @@
  	}
  	return sys_dup3(oldfd, newfd, 0);
@@ -509,9 +509,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/fcntl.c linux-3.6.11/fs/fcntl.c
  
  SYSCALL_DEFINE1(dup, unsigned int, fildes)
  {
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/namei.c linux-3.6.11/fs/namei.c
---- linux-3.6.11_original/linux-3.6.11/fs/namei.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/namei.c	2013-04-08 15:48:50.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/namei.c linux-3.6.11/fs/namei.c
+--- linux-3.6.11-vanilla/fs/namei.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/namei.c	2015-04-05 11:40:14.668028400 +0200
 @@ -1933,7 +1933,7 @@
  	if (!err && !(flags & LOOKUP_PARENT)) {
  		err = lookup_last(nd, &path);
@@ -530,9 +530,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/namei.c linux-3.6.11/fs/namei.c
  		if (!(nd->flags & LOOKUP_FOLLOW)) {
  			path_put_conditional(&path, nd);
  			path_put(&nd->path);
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/namespace.c linux-3.6.11/fs/namespace.c
---- linux-3.6.11_original/linux-3.6.11/fs/namespace.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/namespace.c	2013-04-08 08:00:06.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/namespace.c linux-3.6.11/fs/namespace.c
+--- linux-3.6.11-vanilla/fs/namespace.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/namespace.c	2015-04-05 11:40:14.704028658 +0200
 @@ -1278,6 +1278,8 @@
  	return retval;
  }
@@ -551,9 +551,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/namespace.c linux-3.6.11/fs/nam
  /*
   * Allocate a new namespace structure and populate it with contents
   * copied from the namespace of the passed in task structure.
-diff -Naur linux-3.6.11_original/linux-3.6.11/fs/open.c linux-3.6.11/fs/open.c
---- linux-3.6.11_original/linux-3.6.11/fs/open.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/fs/open.c	2013-04-06 14:29:18.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/fs/open.c linux-3.6.11/fs/open.c
+--- linux-3.6.11-vanilla/fs/open.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/fs/open.c	2015-04-05 11:40:14.716028745 +0200
 @@ -964,6 +964,7 @@
  	}
  	return fd;
@@ -562,9 +562,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/fs/open.c linux-3.6.11/fs/open.c
  
  SYSCALL_DEFINE3(open, const char __user *, filename, int, flags, umode_t, mode)
  {
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h
---- linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h	2013-01-31 10:18:05.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_dbg.h linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h
+--- linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_dbg.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h	2015-04-05 11:40:14.716028745 +0200
 @@ -0,0 +1,31 @@
 +/**
 +* @file tcmi_dbg.h - Helper module when debugging TCMI tasks in kernel
@@ -598,9 +598,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_dbg.h l
 +
 +#endif /* _TCMI_DBG_H */
 \ No newline at end of file
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h
---- linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h	2013-02-20 12:47:16.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_hooks_factory.h linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h
+--- linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_hooks_factory.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/include/clondike/tcmi/tcmi_hooks_factory.h	2015-04-05 11:40:14.716028745 +0200
 @@ -0,0 +1,125 @@
 +/**
 + * @file tcmi_hooks_factory.h - Declaration of all a factory class that
@@ -728,9 +728,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks_f
 + 
 +#endif /* _TCMI_HOOKS_FACTORY_H */
 \ No newline at end of file
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h
---- linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h	2013-03-12 18:55:27.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_hooks.h linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h
+--- linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_hooks.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h	2015-04-05 11:40:14.716028745 +0200
 @@ -0,0 +1,104 @@
 +/**
 + * @file tcmi_hooks.h - Declaration of all hooks that are to be used in the kernel.
@@ -837,9 +837,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_hooks.h
 +
 +#endif /* _TCMI_HOOKS_H */
 \ No newline at end of file
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_struct.h linux-3.6.11/include/clondike/tcmi/tcmi_struct.h
---- linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_struct.h	1970-01-01 01:00:00.000000000 +0100
-+++ linux-3.6.11/include/clondike/tcmi/tcmi_struct.h	2013-03-26 13:35:11.000000000 +0100
+diff -Naur linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_struct.h linux-3.6.11/include/clondike/tcmi/tcmi_struct.h
+--- linux-3.6.11-vanilla/include/clondike/tcmi/tcmi_struct.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-3.6.11/include/clondike/tcmi/tcmi_struct.h	2015-04-05 11:40:14.716028745 +0200
 @@ -0,0 +1,58 @@
 +/**
 + * @file tcmi_struct.h - Declaration of extension structure for task_struct
@@ -900,10 +900,21 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/clondike/tcmi/tcmi_struct.
 + */
 +#endif /* _TCMI_STRUCT_H */
 \ No newline at end of file
-
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/sched.h linux-3.6.11/include/linux/sched.h
---- linux-3.6.11_original/linux-3.6.11/include/linux/sched.h	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/include/linux/sched.h	2013-04-06 17:11:34.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/include/linux/init_task.h linux-3.6.11/include/linux/init_task.h
+--- linux-3.6.11-vanilla/include/linux/init_task.h	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/include/linux/init_task.h	2015-04-05 10:13:00.000000000 +0200
+@@ -177,6 +177,8 @@
+ 	.parent		= &tsk,						\
+ 	.children	= LIST_HEAD_INIT(tsk.children),			\
+ 	.sibling	= LIST_HEAD_INIT(tsk.sibling),			\
++	.tcmi_parent	= NULL,						\
++	.nonmigratable	= 1,						\
+ 	.group_leader	= &tsk,						\
+ 	RCU_POINTER_INITIALIZER(real_cred, &init_cred),			\
+ 	RCU_POINTER_INITIALIZER(cred, &init_cred),			\
+diff -Naur linux-3.6.11-vanilla/include/linux/sched.h linux-3.6.11/include/linux/sched.h
+--- linux-3.6.11-vanilla/include/linux/sched.h	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/include/linux/sched.h	2015-04-04 22:25:38.000000000 +0200
 @@ -93,6 +93,7 @@
  #include <linux/uidgid.h>
  
@@ -920,7 +931,7 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/sched.h linux-3.6.11
  #ifdef CONFIG_CGROUPS
  	/*
  	 * group_rwsem prevents new tasks from entering the threadgroup and
-@@ -1499,6 +1502,12 @@
+@@ -1499,6 +1501,14 @@
  	int cpuset_mem_spread_rotor;
  	int cpuset_slab_spread_rotor;
  #endif
@@ -928,14 +939,16 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/sched.h linux-3.6.11
 +#if defined CONFIG_TCMI || defined CONFIG_TCMI_MODULE
 +	struct tcmi_struct tcmi;
 +	unsigned long jiffies; /*Identifier of current task for Cassandra*/
++	struct task_struct __rcu *tcmi_parent; /*Pointer to parent original process from which was forked */
++	int nonmigratable;
 +#endif
 +
  #ifdef CONFIG_CGROUPS
  	/* Control Group info protected by css_set_lock */
  	struct css_set __rcu *cgroups;
-diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/signal.h linux-3.6.11/include/linux/signal.h
---- linux-3.6.11_original/linux-3.6.11/include/linux/signal.h	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/include/linux/signal.h	2013-04-06 14:33:16.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/include/linux/signal.h linux-3.6.11/include/linux/signal.h
+--- linux-3.6.11-vanilla/include/linux/signal.h	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/include/linux/signal.h	2015-04-05 11:40:14.748028972 +0200
 @@ -351,17 +351,17 @@
  #define siginmask(sig, mask) (rt_sigmask(sig) & (mask))
  
@@ -957,9 +970,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/include/linux/signal.h linux-3.6.1
          rt_sigmask(SIGXCPU)   |  rt_sigmask(SIGXFSZ)   | \
  	SIGEMT_MASK				       )
  
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/capability.c linux-3.6.11/kernel/capability.c
---- linux-3.6.11_original/linux-3.6.11/kernel/capability.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/capability.c	2013-04-06 14:34:44.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/capability.c linux-3.6.11/kernel/capability.c
+--- linux-3.6.11-vanilla/kernel/capability.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/capability.c	2015-04-05 11:40:14.768029115 +0200
 @@ -16,6 +16,7 @@
  #include <linux/pid_namespace.h>
  #include <linux/user_namespace.h>
@@ -980,9 +993,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/capability.c linux-3.6.11/k
  	if (get_user(pid, &header->pid))
  		return -EFAULT;
  
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/exit.c linux-3.6.11/kernel/exit.c
---- linux-3.6.11_original/linux-3.6.11/kernel/exit.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/exit.c	2013-04-06 14:37:01.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/exit.c linux-3.6.11/kernel/exit.c
+--- linux-3.6.11-vanilla/kernel/exit.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/exit.c	2015-04-05 11:40:14.784029231 +0200
 @@ -58,6 +58,7 @@
  #include <asm/unistd.h>
  #include <asm/pgtable.h>
@@ -1021,9 +1034,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/exit.c linux-3.6.11/kernel/
  #ifdef __ARCH_WANT_SYS_WAITPID
  
  /*
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/fork.c linux-3.6.11/kernel/fork.c
---- linux-3.6.11_original/linux-3.6.11/kernel/fork.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/fork.c	2013-04-06 17:14:35.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/fork.c linux-3.6.11/kernel/fork.c
+--- linux-3.6.11-vanilla/kernel/fork.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/fork.c	2015-04-05 11:40:14.808029403 +0200
 @@ -82,6 +82,7 @@
  
  #define CREATE_TRACE_POINTS
@@ -1090,9 +1103,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/fork.c linux-3.6.11/kernel/
  #ifndef ARCH_MIN_MMSTRUCT_ALIGN
  #define ARCH_MIN_MMSTRUCT_ALIGN 0
  #endif
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/groups.c linux-3.6.11/kernel/groups.c
---- linux-3.6.11_original/linux-3.6.11/kernel/groups.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/groups.c	2013-04-06 14:43:33.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/groups.c linux-3.6.11/kernel/groups.c
+--- linux-3.6.11-vanilla/kernel/groups.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/groups.c	2015-04-05 11:40:14.828029547 +0200
 @@ -223,6 +223,8 @@
  	return i;
  }
@@ -1111,9 +1124,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/groups.c linux-3.6.11/kerne
  /*
   * Check whether we're fsgid/egid or in the supplemental group..
   */
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/sched/core.c linux-3.6.11/kernel/sched/core.c
---- linux-3.6.11_original/linux-3.6.11/kernel/sched/core.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/sched/core.c	2013-04-06 14:46:11.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/sched/core.c linux-3.6.11/kernel/sched/core.c
+--- linux-3.6.11-vanilla/kernel/sched/core.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/sched/core.c	2015-04-05 11:40:14.844029661 +0200
 @@ -8329,6 +8329,7 @@
  #endif	/* CONFIG_CGROUP_SCHED */
  
@@ -1122,9 +1135,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/sched/core.c linux-3.6.11/k
  
  /*
   * CPU accounting code for task groups.
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/signal.c linux-3.6.11/kernel/signal.c
---- linux-3.6.11_original/linux-3.6.11/kernel/signal.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/signal.c	2013-04-06 14:54:20.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/signal.c linux-3.6.11/kernel/signal.c
+--- linux-3.6.11-vanilla/kernel/signal.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/signal.c	2015-04-05 11:40:14.856029748 +0200
 @@ -39,6 +39,7 @@
  #include <asm/siginfo.h>
  #include <asm/cacheflush.h>
@@ -1262,9 +1275,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/signal.c linux-3.6.11/kerne
  int do_sigaction(int sig, struct k_sigaction *act, struct k_sigaction *oact)
  {
  	struct task_struct *t = current;
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/sys.c linux-3.6.11/kernel/sys.c
---- linux-3.6.11_original/linux-3.6.11/kernel/sys.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/sys.c	2013-04-06 15:06:44.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/sys.c linux-3.6.11/kernel/sys.c
+--- linux-3.6.11-vanilla/kernel/sys.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/sys.c	2015-04-05 11:40:14.868029834 +0200
 @@ -55,6 +55,7 @@
  #include <asm/uaccess.h>
  #include <asm/io.h>
@@ -1550,9 +1563,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/sys.c linux-3.6.11/kernel/s
  char poweroff_cmd[POWEROFF_CMD_PATH_LEN] = "/sbin/poweroff";
  
  static void argv_cleanup(struct subprocess_info *info)
-diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/timer.c linux-3.6.11/kernel/timer.c
---- linux-3.6.11_original/linux-3.6.11/kernel/timer.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/kernel/timer.c	2013-04-06 15:14:55.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/kernel/timer.c linux-3.6.11/kernel/timer.c
+--- linux-3.6.11-vanilla/kernel/timer.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/kernel/timer.c	2015-04-05 11:40:14.884029948 +0200
 @@ -46,6 +46,7 @@
  #include <asm/div64.h>
  #include <asm/timex.h>
@@ -1657,9 +1670,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/kernel/timer.c linux-3.6.11/kernel
  
  static int __cpuinit init_timers_cpu(int cpu)
  {
-diff -Naur linux-3.6.11_original/linux-3.6.11/Makefile linux-3.6.11/Makefile
---- linux-3.6.11_original/linux-3.6.11/Makefile	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/Makefile	2013-04-06 15:16:12.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/Makefile linux-3.6.11/Makefile
+--- linux-3.6.11-vanilla/Makefile	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/Makefile	2015-04-05 11:40:14.884029948 +0200
 @@ -504,7 +504,7 @@
  
  # Objects we will link into vmlinux / subdirs we need to visit
@@ -1685,9 +1698,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/Makefile linux-3.6.11/Makefile
 +clondike_symlink:
 +	(ln -fsn $(ARCH) clondike/src/arch/current)
 \ No newline at end of file
-diff -Naur linux-3.6.11_original/linux-3.6.11/mm/memory.c linux-3.6.11/mm/memory.c
---- linux-3.6.11_original/linux-3.6.11/mm/memory.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/mm/memory.c	2013-04-06 15:17:46.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/mm/memory.c linux-3.6.11/mm/memory.c
+--- linux-3.6.11-vanilla/mm/memory.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/mm/memory.c	2015-04-05 11:40:14.916030179 +0200
 @@ -56,6 +56,7 @@
  #include <linux/kallsyms.h>
  #include <linux/swapops.h>
@@ -1708,9 +1721,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/mm/memory.c linux-3.6.11/mm/memory
  	entry = *pte;
  	if (!pte_present(entry)) {
  		if (pte_none(entry)) {
-diff -Naur linux-3.6.11_original/linux-3.6.11/mm/mmap.c linux-3.6.11/mm/mmap.c
---- linux-3.6.11_original/linux-3.6.11/mm/mmap.c	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/mm/mmap.c	2013-04-06 15:18:29.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/mm/mmap.c linux-3.6.11/mm/mmap.c
+--- linux-3.6.11-vanilla/mm/mmap.c	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/mm/mmap.c	2015-04-05 11:40:14.960030493 +0200
 @@ -2531,6 +2531,7 @@
  	kmem_cache_free(vm_area_cachep, vma);
  	return ret;
@@ -1719,9 +1732,9 @@ diff -Naur linux-3.6.11_original/linux-3.6.11/mm/mmap.c linux-3.6.11/mm/mmap.c
  
  static DEFINE_MUTEX(mm_all_locks_mutex);
  
-diff -Naur linux-3.6.11_original/linux-3.6.11/scripts/Makefile linux-3.6.11/scripts/Makefile
---- linux-3.6.11_original/linux-3.6.11/scripts/Makefile	2012-12-17 18:27:45.000000000 +0100
-+++ linux-3.6.11/scripts/Makefile	2013-04-06 15:18:46.000000000 +0200
+diff -Naur linux-3.6.11-vanilla/scripts/Makefile linux-3.6.11/scripts/Makefile
+--- linux-3.6.11-vanilla/scripts/Makefile	2012-12-17 18:27:45.000000000 +0100
++++ linux-3.6.11/scripts/Makefile	2015-04-05 11:40:14.976030609 +0200
 @@ -16,6 +16,7 @@
  hostprogs-$(CONFIG_IKCONFIG)     += bin2c
  hostprogs-$(BUILD_C_RECORDMCOUNT) += recordmcount

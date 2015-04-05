@@ -50,7 +50,7 @@ static struct msg_transaction_ops task_forked_msg_ops = {
 
 int task_forked(pid_t pid, pid_t ppid) {
 	struct task_forked_params params;
-	int ret;
+	int ret = 0;
 
 	params.pid = pid;
 	params.ppid = ppid;

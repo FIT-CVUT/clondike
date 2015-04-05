@@ -131,6 +131,10 @@ static long tcmi_syscall_hooks_in_fork(struct task_struct* child) {
 static long tcmi_syscall_hooks_post_fork(struct task_struct* child, long res, pid_t remote_pid, 
 					int __user *parent_tidptr, int __user *child_tidptr) 
 {
+	child->tcmi_parent = current;  // Set original parent PID for Clondike NPM check
+	if(director_check_forked_process(child)) child->nonmigratable = 1;
+	else child->nonmigratable = 0;
+
 	if ( current->tcmi.task_type == guest ) {
 		// Guest task hook
 		struct tcmi_task* child_task = NULL;
@@ -157,8 +161,8 @@ static long tcmi_syscall_hooks_post_fork(struct task_struct* child, long res, pi
 			proxyfs_server_duplicate_all_parent(current, child);
 		}
 	}
-
-	director_task_fork(res, current->pid);
+	
+	director_task_fork(current, child);
 
 	return res;
 };

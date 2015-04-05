@@ -63,6 +63,17 @@ int is_director_pid(pid_t ppid) {
 	return (u32)ppid == user_director_pid;
 }
 
+pid_t get_director_pid(void) {
+	return user_director_pid;
+}
+EXPORT_SYMBOL(get_director_pid);
+
+void disconnect_director(void){
+	user_director_pid = 0;
+}
+EXPORT_SYMBOL(disconnect_director);
+
+
 /** Returns unique sequence number for transaction */
 static int get_unique_seq(void) {
 	return atomic_inc_return(&director_seq);
@@ -148,7 +159,6 @@ void destroy_director_comm(void) {
 //	if ( (res = shutdown_user_daemon_request()) ) {
 //		printk(KERN_ERR "Failed to stop the helper daemon: %d\n", res);
 //	}
-
 	genl_unregister_ops(&director_gnl_family, &register_pid_ops);
 	genl_unregister_ops(&director_gnl_family, &send_user_message_ops);
 	genl_unregister_ops(&director_gnl_family, check_npm_ops_ref);
@@ -156,7 +166,7 @@ void destroy_director_comm(void) {
 	genl_unregister_ops(&director_gnl_family, ack_ops_ref);
 	genl_unregister_ops(&director_gnl_family, immigration_request_ops_ref);
 	genl_unregister_family(&director_gnl_family);
-
+	
 	kfree(check_npm_ops_ref);
 }
 
@@ -167,7 +177,7 @@ void destroy_director_comm(void) {
 static int msg_transaction_request(int msg_code, struct genl_tx* tx, struct msg_transaction_ops* ops, void* params, int interruptible) {
   int ret;
   void *msg_head;
-  struct sk_buff *skb;
+  struct sk_buff *skb = NULL;
   int seq, director_pid;
 
   director_pid = is_director_connected();
@@ -207,12 +217,12 @@ failure:
 }
 
 static int msg_transaction_response(struct genl_tx* tx, struct msg_transaction_ops* ops, void* params) {
-	struct sk_buff *skb;
+	struct sk_buff *skb = NULL;
 	struct genl_info info;
 	unsigned int ret = 0;
 
 	if ( (ret= genlmsg_read_response(tx, &skb, &info, read_timeout)) )
-		return ret;
+		goto done;
 
 	if ( (ret=check_for_error(&info)) )
 		goto done;

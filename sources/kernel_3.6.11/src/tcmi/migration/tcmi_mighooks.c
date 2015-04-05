@@ -134,18 +134,20 @@ static void dump_user_stack(void) {
  */
 static long tcmi_mighooks_do_exit(long code)
 {
+	pid_t director = 0;
 	int prio = 1, is_shadow;
 	struct rusage rusage;
 	mm_segment_t old_fs;
 	long res;
-	
+	struct task_struct *child = NULL;
+
 	is_shadow = (current->tcmi.task_type == shadow || current->tcmi.task_type == shadow_detached);
 
 	old_fs = get_fs();
 	set_fs(get_ds());
 	res = getrusage(current, RUSAGE_SELF, &rusage);
 	set_fs(old_fs);
-	director_task_exit(current->pid, code, &rusage);
+	director_task_exit(current, code, &rusage);
 	
 	res = tcmi_taskhelper_notify_current(tcmi_task_exit, &code, 
 					      sizeof(code), prio);
@@ -155,6 +157,23 @@ static long tcmi_mighooks_do_exit(long code)
 		proxyfs_server_release_all();
 	}
 
+	/*Disconnect main director process*/
+	director = director_pid();
+	if(director != 0 && current->pid == director) director_disconnect();
+		
+	task_lock(current);
+	for_each_process(child) {
+        /* this pointlessly prints the name and PID of each task */
+        if (child->tcmi_parent == current){
+        	task_lock(child);
+        	child->tcmi_parent = current->tcmi_parent;
+        	task_unlock(child);
+        }
+    }
+	current->tcmi_parent = NULL;
+	task_unlock(current);
+		
+	
 	return res;
 }
 

@@ -3,6 +3,8 @@
 
 #include <linux/types.h>
 #include <linux/resource.h>
+#include <linux/list.h>
+#include <linux/slab.h>
 #include "handlers.h"
 
 /**
@@ -90,21 +92,57 @@ int director_generic_user_message_recv(int node_id, int is_core_node, int slot_i
 /**
  * Called, when a task exits
  *
- * @param pid Pid of the task that exists
+ * @param task Pointer to process descriptor
  * @param exit_code Exit code of the task
  * @param rusage Resource usage structure of process
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int director_task_exit(pid_t pid, int exit_code, struct rusage *rusage);
+int director_task_exit(struct task_struct *task, int exit_code, struct rusage *rusage);
 
 /**
  * Called, when a task forks
  *
- * @param pid Pid of a new task that was forked
- * @param ppid Pid of a parent task that was forked
+ * @param parent Pointer to parent process descriptor
+ * @param child Pointer to child process descriptor
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int director_task_fork(pid_t pid, pid_t ppid);
+int director_task_fork(struct task_struct *parent, struct task_struct *child);
+
+/**
+ * Called, when a task forks
+ * Check process p by if his parent process was registered as main director process 
+ *
+ * @param *p Pointer to process respectively his task structure
+  * @return 1 if process p was forked from process director_pid else 0
+ */
+
+int director_check_forked_process(struct task_struct *p);
+
+
+/**
+ * Private function
+ * Find recursively if find_pid is parent process p
+ *
+ * @param *p Pointer to process respectively his task structure
+ * @param find_pid  Find PID process from process p was forked
+ * @return 1 if process p was forked from process find_pid else 0 
+ */
+
+int director_check_parent(struct task_struct *p, pid_t find_pid);
+
+/**
+ * Called if exitting director process
+ *
+ */
+
+void director_disconnect(void);
+
+/**
+ * Returning PID director process
+ * @return PID 
+ 
+ */
+pid_t director_pid(void);
 
 /**
  * Called, when a task emigration has failed

@@ -55,7 +55,7 @@ static struct msg_transaction_ops task_exitted_msg_ops = {
 
 int task_exitted(pid_t pid, int exit_code, struct rusage *rusage) {
 	struct task_exitted_params params;
-	int ret;
+	int ret = 0;
 
 	params.pid = pid;
 	params.exit_code = exit_code;

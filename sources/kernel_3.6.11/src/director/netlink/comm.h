@@ -43,4 +43,8 @@ int msg_transaction_do(int msg_code, struct msg_transaction_ops* ops, void* para
 /** Returns 1 if, ppid is equal to userspace director pid */
 int is_director_pid(pid_t ppid);
 
+pid_t get_director_pid(void);
+
+void disconnect_director(void);
+
 #endif

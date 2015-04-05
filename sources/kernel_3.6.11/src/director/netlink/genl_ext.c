@@ -54,7 +54,7 @@ int genlmsg_unicast_tx(struct sk_buff *skb, u32 pid, struct genl_tx* tx, int int
 		nlh = (struct nlmsghdr *) skb->data;
 		hdr = nlmsg_data(nlh);
 
-		/*tx->cmd = hdr->cmd;*/		
+		tx->cmd = hdr->cmd;
 		tx->seq = nlh->nlmsg_seq;
 		memcpy(&itx->tx,tx, sizeof(struct genl_tx));
 		itx->skb = NULL; /* Response buffer, not the request buffer */
@@ -64,7 +64,7 @@ int genlmsg_unicast_tx(struct sk_buff *skb, u32 pid, struct genl_tx* tx, int int
 		list_add(&itx->link, &transactions);
 		genl_ext_unlock();
 
-		mdbg(INFO3,"Generic Tx registered: %d Data len: %d\n",tx->seq, skb->len);
+		mdbg(INFO3,"Generic Tx registered: %d Data len: %d Cmd: %d\n",tx->seq, skb->len, tx->cmd);
 	}
 	
 	res = genlmsg_unicast(&init_net, skb, pid);
@@ -83,7 +83,7 @@ static struct genl_tx_internal* __find_itx(struct genl_tx* tx) {
 
 	list_for_each(tmp, &transactions) {
 		tmp_entry = list_entry(tmp, struct genl_tx_internal, link);
-		if ( memcmp(&tmp_entry->tx, tx, sizeof(*tx)) == 0 ) {
+		if ( tmp_entry->tx.seq == tx->seq) {
 			return tmp_entry;
 		};
 	};
@@ -141,9 +141,9 @@ static int generic_message_handler(struct sk_buff *skb, struct genl_info *info) 
 	struct genl_tx_internal* itx;
 	struct genl_tx tx;
 
-	/*tx.cmd = info->genlhdr->cmd;*/
+	tx.cmd = info->genlhdr->cmd;
 	tx.seq = info->snd_seq;
-	mdbg(INFO4,"Generic message handler got: %d", tx.seq);
+	mdbg(INFO4,"Generic message handler got: %d Cmd: %d", tx.seq, tx.cmd);
 
 	genl_ext_lock();	
 	itx = __find_itx(&tx);	
