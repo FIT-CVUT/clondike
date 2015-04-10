@@ -65,14 +65,14 @@ class AuthenticationDispatcher
   include PseudoRandomNumberGenerator
 
   attr_reader :localIdentity
-  attr_reader :interconnection
+  attr_reader :trustManagement
   attr_reader :clientNegotiations
   attr_reader :serverNegotiations
 
-  def initialize(localIdentity, interconnection)
+  def initialize(localIdentity, interconnection, trustManagement)
     @localIdentity = localIdentity
     @interconnection = interconnection
-
+    @trustManagement = trustManagement
     # Set of session negotiations initiated by this node
     # Key: Public key of peer server
     # Value: Associated NegotiatedSession object
@@ -88,9 +88,9 @@ class AuthenticationDispatcher
     # TODO: Timeouts of these records
     @authenticatedNegotiations = {}
 
-    @interconnection.addReceiveHandler(STSInitialRequest, STSInitialRequestHandler.new(@serverNegotiations, @interconnection, @localIdentity, @authenticatedNegotiations)) if ( interconnection )
-    @interconnection.addReceiveHandler(STSServerChallenge, STSServerChallengeHandler.new(@clientNegotiations, @interconnection, @localIdentity)) if ( interconnection )
-    @interconnection.addReceiveHandler(STSFinalize, STSFinalizeHandler.new(@serverNegotiations)) if ( interconnection )
+    @interconnection.addReceiveHandler(STSInitialRequest, STSInitialRequestHandler.new(@serverNegotiations, @interconnection, @localIdentity, @authenticatedNegotiations, @trustManagement)) if ( interconnection )
+    @interconnection.addReceiveHandler(STSServerChallenge, STSServerChallengeHandler.new(@clientNegotiations, @interconnection, @localIdentity, @trustManagement)) if ( interconnection )
+    @interconnection.addReceiveHandler(STSFinalize, STSFinalizeHandler.new(@serverNegotiations, @trustManagement)) if ( interconnection )
   end
 
   # This is called at the server as a callback when a new session is being created in kernel
@@ -116,33 +116,39 @@ class AuthenticationDispatcher
   def prepareSession(localNodeId, remoteNodeId, remoteKey)
     $log.debug("Trying to negotiate a new session")
     xValue = generatePseudoRandomNumber
-    initialMessage = STSInitialRequest.new(@localIdentity.publicKey, localNodeId, xValue)
-    @clientNegotiations[remoteKey] = NegotiatedSession.new(@localIdentity.publicKey, remoteKey, remoteNodeId)
-    @clientNegotiations[remoteKey].clientChallenge = xValue
+    remoteKeyPEM = remoteKey.to_pem
+    initialMessage = STSInitialRequest.new(@trustManagement.convertKeyToPEMString(@localIdentity.publicKey), localNodeId, xValue)
+    @clientNegotiations[remoteKeyPEM] = NegotiatedSession.new(@localIdentity.publicKey, remoteKey, remoteNodeId)
+    @clientNegotiations[remoteKeyPEM].clientChallenge = xValue
     @interconnection.dispatch(remoteNodeId, initialMessage)
     # Blocking wait for confirmation state (TODO: Better would be to make some callback action to handle this asynchronously so that we do not need to block here!)
-    @clientNegotiations[remoteKey].waitForConfirmationState()
-    $log.debug("Negotiation finished. Confirmed = #{@clientNegotiations[remoteKey].confirmed}")
+    @clientNegotiations[remoteKeyPEM].waitForConfirmationState()
+    $log.debug("Negotiation finished. Confirmed = #{@clientNegotiations[remoteKeyPEM].confirmed}")
 
-    return nil if ( @clientNegotiations[remoteKey].confirmed == false )
-    raise TimeoutException.new("No response arrived") if ( @clientNegotiations[remoteKey].confirmed == nil )
+    return nil if ( @clientNegotiations[remoteKeyPEM].confirmed == false )
+    raise TimeoutException.new("No response arrived") if ( @clientNegotiations[remoteKeyPEM].confirmed == nil )
 
-    return @clientNegotiations[remoteKey].proof
+    return @clientNegotiations[remoteKeyPEM].proof
   end
 
   # Listens on initial session requests and issues server challenge key + signature
   # Executed on server
   class STSInitialRequestHandler
     include PseudoRandomNumberGenerator
-    def initialize(serverNegotiations, interconnection, localIdentity, authenticatedNegotiations)
+    def initialize(serverNegotiations, interconnection, localIdentity, authenticatedNegotiations, trustManagement)
       @serverNegotiations = serverNegotiations
       @interconnection = interconnection
       @localIdentity = localIdentity
       @authenticatedNegotiations = authenticatedNegotiations
+      @trustManagement = trustManagement
     end
 
     def handle(message)
       # Server received an auth challenge => Prepare yValue and challenge the client
+      key = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+      publicKey = key.nil? ? nil : key.public_key 
+      publicKeyPEM = message.publicKeyPEM
+
       xValue = message.challenge
       yValue = generatePseudoRandomNumber
       proof = generatePseudoRandomNumber
@@ -150,77 +156,87 @@ class AuthenticationDispatcher
       # TODO and use a real concat
       valueToSign = yValue.to_s + xValue.to_s
       signature = @localIdentity.sign(valueToSign)
-      encryptedProof = message.publicKey.public_encrypt(proof.to_s)
-      serverChallengeMessage = STSServerChallenge.new(@localIdentity.publicKey, yValue, signature, encryptedProof)
-      @serverNegotiations[message.publicKey] = NegotiatedSession.new(message.publicKey, @localIdentity.publicKey, message.nodeId)
-      @serverNegotiations[message.publicKey].clientChallenge = xValue
-      @serverNegotiations[message.publicKey].serverChallenge = yValue
-      @serverNegotiations[message.publicKey].proof = proof
+      encryptedProof = publicKey.public_encrypt(proof.to_s)
+      serverChallengeMessage = STSServerChallenge.new(@trustManagement.convertKeyToPEMString(@localIdentity.publicKey), yValue, signature, encryptedProof)
+      @serverNegotiations[publicKeyPEM] = NegotiatedSession.new(publicKey, @localIdentity.publicKey, message.nodeId)
+      @serverNegotiations[publicKeyPEM].clientChallenge = xValue
+      @serverNegotiations[publicKeyPEM].serverChallenge = yValue
+      @serverNegotiations[publicKeyPEM].proof = proof
       # TODO: Check for proof collisions?
-      @authenticatedNegotiations[proof.to_s] = @serverNegotiations[message.publicKey]
-      @interconnection.dispatch(@serverNegotiations[message.publicKey].peerNodeId, serverChallengeMessage, DeliveryOptions::ACK_1_MIN)
+      @authenticatedNegotiations[proof.to_s] = @serverNegotiations[publicKeyPEM]
+      @interconnection.dispatch(@serverNegotiations[publicKeyPEM].peerNodeId, serverChallengeMessage, DeliveryOptions::ACK_1_MIN)
     end
   end
 
   # Executed on client
   class STSServerChallengeHandler
-    def initialize(clientNegotiations, interconnection, localIdentity)
+    def initialize(clientNegotiations, interconnection, localIdentity, trustManagement)
       @clientNegotiations = clientNegotiations
       @interconnection = interconnection
       @localIdentity = localIdentity
+      @trustManagement = trustManagement
     end
 
     def handle(message)
       $log.info("Server challenge received")
       # Already expired (or other bullshit arrived?)
-      return if !@clientNegotiations[message.publicKey]
+      key = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+      publicKey = key.nil? ? nil : key.public_key 
+      publicKeyPEM = message.publicKeyPEM
+
+      return if !@clientNegotiations[publicKeyPEM]
 
       yValue = message.challenge
-      xValue = @clientNegotiations[message.publicKey].clientChallenge
+      xValue = @clientNegotiations[publicKeyPEM].clientChallenge
       valueToSign = yValue.to_s + xValue.to_s
-      if !message.publicKey.verifySignature(message.signature, valueToSign)
-        $log.debug("Server signature verification failed for public key peer #{message.publicKey.undecorated_to_s}")
+      if !@trustManagement.verifySignature(valueToSign, message.signature, publicKey)
+        $log.warn("Server signature verification failed for public key peer #{publicKey}")
         # TODO: Delete record here or let it up-to autodeletion
-        @clientNegotiations[message.publicKey].confirmed = false
+        @clientNegotiations[publicKeyPEM].confirmed = false
         return
       end
 
-      @clientNegotiations[message.publicKey].proof = @localIdentity.decrypt(message.proof)
+      @clientNegotiations[publicKeyPEM].proof = @localIdentity.decrypt(message.proof)
 
       $log.debug("Server identity confirmed ")
 
       valueToSign = xValue.to_s + yValue.to_s
       signature = @localIdentity.sign(valueToSign)
-      finalMessage = STSFinalize.new(@localIdentity.publicKey, signature)
-      @interconnection.dispatch(@clientNegotiations[message.publicKey].peerNodeId, finalMessage)
+      finalMessage = STSFinalize.new(@trustManagement.convertKeyToPEMString(@localIdentity.publicKey), signature)
+      @interconnection.dispatch(@clientNegotiations[publicKeyPEM].peerNodeId, finalMessage)
 
-      @clientNegotiations[message.publicKey].confirmed = true
+      @clientNegotiations[publicKeyPEM].confirmed = true
     end
   end
 
   # Executed on server
   class STSFinalizeHandler
-    def initialize(serverNegotiations)
+    def initialize(serverNegotiations, trustManagement)
       @serverNegotiations = serverNegotiations
+      @trustManagement = trustManagement
     end
 
     def handle(message)
       # Already expired (or other bullshit arrived?)
-      return if !@serverNegotiations[message.publicKey]
+      key = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+      publicKey = key.nil? ? nil : key.public_key 
+      publicKeyPEM = message.publicKeyPEM
 
-      yValue = @serverNegotiations[message.publicKey].serverChallenge
-      xValue = @serverNegotiations[message.publicKey].clientChallenge
+      return if !@serverNegotiations[publicKeyPEM]
+      
+      yValue = @serverNegotiations[publicKeyPEM].serverChallenge
+      xValue = @serverNegotiations[publicKeyPEM].clientChallenge
       valueToSign = xValue.to_s + yValue.to_s
 
-      if !message.publicKey.verifySignature(message.signature, valueToSign)
-        $log.debug("Client signature verification failed for public key peer #{message.publicKey.undecorated_to_s}")
+      if !@trustManagement.verifySignature(valueToSign, message.signature, publicKey)
+        $log.warn("Client signature verification failed for public key peer #{publicKey.to_pem}")
         # TODO: Delete record here or let it up-to autodeletion
-        @serverNegotiations[message.publicKey].confirmed = false
+        @serverNegotiations[publicKeyPEM].confirmed = false
         return
       end
 
-      $log.debug("Client identity confirmed. Registering negotiated proof #{@serverNegotiations[message.publicKey].proof}")
-      @serverNegotiations[message.publicKey].confirmed = true
+      $log.debug("Client identity confirmed. Registering negotiated proof #{@serverNegotiations[publicKeyPEM].proof}")
+      @serverNegotiations[publicKeyPEM].confirmed = true
     end
   end
 

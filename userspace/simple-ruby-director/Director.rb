@@ -64,20 +64,20 @@ class Director
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
     @immigratedTasksController = ImmigratedTasksController.new(@filesystemConnector, false)
-    acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
-    @measurementLimiter = MeasurementAcceptLimiter.new()
-    @immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
+    #acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
+    #@measurementLimiter = MeasurementAcceptLimiter.new()
+    #@immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
     @dhtMessageDispatcher = DHTMessageDispatcher.new(@filesystemConnector.getLocalNetworkAddress)
     @interconnection = Interconnection.new(@dhtMessageDispatcher, CONF_DIR)
     initializeTrust()
-
+        
     @idResolver = PublicKeyNodeIdResolver.new(@trustManagement)
     @nodeInfoProvider = NodeInfoProvider.new(@idResolver, @immigratedTasksController)
     @trustManagement.registerIdProvider(@idResolver)
     selfNode = SelfNode.createSelfNode(@nodeInfoProvider,@filesystemConnector.getLocalNetworkAddress)
 
-    $log.info("Starting director on node with id #{selfNode.nodeId}")
+    $log.info("Starting director on node with id\n #{selfNode.nodeId}")
 
     @nodeRepository = NodeRepository.new(selfNode)
     @dhtMessageDispatcher.registerNodeRepository(@nodeRepository)
@@ -90,31 +90,31 @@ class Director
     @immigratedTasksController.registerTaskRepository(@taskRepository)
 
     predictor = ExecutionTimePredictor.new(CONF_DIR, false)
-
+    
     #balancingStrategy = RandomBalancingStrategy.new(@nodeRepository, @membershipManager)
     #balancingStrategy = CpuLoadBalancingStrategy.new(@nodeRepository, @membershipManager)
     #balancingStrategy = RoundRobinBalancingStrategy.new(@nodeRepository, @membershipManager)
     balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
-    balancingStrategy.startDebuggingToFile("LoadBalancer.log")
+    #balancingStrategy.startDebuggingToFile("LoadBalancer.log")
     @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
     @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository)
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
     @nodeInfoProvider.addListener(selfNode)
-    @nodeInfoProvider.addLimiter(acceptLimiter)
-    @nodeInfoProvider.addLimiter(@measurementLimiter)
+    #@nodeInfoProvider.addLimiter(acceptLimiter)
+    #@nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
 
     #@taskRepository.registerListener(ExecutionTimeTracer.new)
     @taskRepository.registerListener(balancingStrategy)
-    @taskRepository.registerListener(acceptLimiter)
-    @taskRepository.registerListener(predictor)
+    #@taskRepository.registerListener(acceptLimiter)
+    #@taskRepository.registerListener(predictor)
     @loadBalancer.registerMigrationListener(@taskRepository)
 
     #@cacheFSController = CacheFSController.new(@interconnection)
 
-    initializeMeasurements()
-    initializeCliServer()
+    #initializeMeasurements()
+    #initializeCliServer()
   end
 
   # Starts director processing
@@ -131,25 +131,25 @@ class Director
       $log.warn "Creating mock netlink connector as a real connector cannot be created! Problem with creation of the real connector:\n #{err.backtrace.join("\n")}"
       @netlinkConnector = MockNetlinkConnector.new(@membershipManager)
     end
-    procTrace = ProcTrace.new(['/usr/bin/make','/usr/bin/gcc'])
+    #procTrace = ProcTrace.new(['/usr/bin/make','/usr/bin/gcc'])
     @netlinkConnector.pushNpmHandlers(@taskRepository)
-#    @netlinkConnector.pushNpmHandlers(procTrace) if $useProcTrace
-    @netlinkConnector.pushNpmHandlers(ExecDumper.new())
+    #@netlinkConnector.pushNpmHandlers(procTrace) if $useProcTrace
+    #@netlinkConnector.pushNpmHandlers(ExecDumper.new())
     @netlinkConnector.pushNpmHandlers(@loadBalancer)
 
     @netlinkConnector.pushExitHandler(@taskRepository)
     @netlinkConnector.pushExitHandler(@immigratedTasksController)
-    @netlinkConnector.pushExitHandler(procTrace) if $useProcTrace
+    #@netlinkConnector.pushExitHandler(procTrace) if $useProcTrace
 
     @netlinkConnector.pushForkHandler(@immigratedTasksController)
     @netlinkConnector.pushForkHandler(@taskRepository)
-    @netlinkConnector.pushForkHandler(@immigratedTasksController)
-    @netlinkConnector.pushForkHandler(procTrace) if $useProcTrace
+    #@netlinkConnector.pushForkHandler(@immigratedTasksController)
+    #@netlinkConnector.pushForkHandler(procTrace) if $useProcTrace
 
     @netlinkConnector.pushUserMessageHandler(@interconnection)
 
     #@netlinkConnector.pushImmigrationHandler(@cacheFSController)
-    @netlinkConnector.pushImmigrationHandler(@immigrationController)
+    #@netlinkConnector.pushImmigrationHandler(@immigrationController)
 
     @netlinkConnector.pushImmigrationConfirmedHandler(@immigratedTasksController)
 
@@ -157,7 +157,7 @@ class Director
     @netlinkConnector.pushEmigrationFailedHandler(@taskRepository)
     @netlinkConnector.startProcessingThread
 
-    @loadBalancer.registerMigrationListener(procTrace) if $useProcTrace
+    #@loadBalancer.registerMigrationListener(procTrace) if $useProcTrace
 
     #Start notification thread
     @nodeInfoProvider.startNotifyThread
@@ -165,6 +165,7 @@ class Director
     @informationDistributionStrategy.start
     @interconnection.start(@trustManagement, @netlinkConnector, @idResolver)
     @managerMonitor.start()
+
   end
 
   # Waits, till director and all its threads terminates
@@ -207,8 +208,8 @@ end
 
 begin
   $log = Logger.new(STDOUT)
-  $log.level = Logger::DEBUG;
-  #$log.datetime_format = "%Y-%m-%d %H:%M:%S"
+  $log.level = Logger::INFO;
+  $log.datetime_format = "%Y-%m-%d %H:%M:%S"
 
   $useProcTrace = false
 

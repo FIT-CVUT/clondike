@@ -100,7 +100,11 @@ class Identity
 
   # Signs arbitrary (string) data and returns a signature
   def sign(dataToSign)
-    @privateKey.sign(OpenSSL::Digest::SHA1.new, dataToSign)
+    @privateKey.sign(@digest, dataToSign)
+  end
+
+  def verify(signedBy, signature, data)
+    return signedBy.verify(@digest, signature, data)
   end
 
   def decrypt(encryptedData)
@@ -116,6 +120,8 @@ class Identity
     @certificate = certificate
 
     @certificateStore = CertificateStore.new(self, distributionStrategy, @directory)
+
+    @digest=OpenSSL::Digest::SHA1.new
 
     # Sequence used for certificate ID generation
     @sequenceId = PersistentIdSequence.new("#{directory}/seq")

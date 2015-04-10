@@ -30,7 +30,7 @@ class FilesystemConnector
       #    /clondike/pen/nodes/192.168.0.4:54321
       #                                    ^^^^^
       # TODO: Fix the one that serving about /clondike/pen/connect and learn it about a authString
-
+      
       loop {
         unless @connectAddresses.empty?
           contactedAddress = nil
@@ -40,10 +40,10 @@ class FilesystemConnector
               break
             }
           }
-          $log.debug "echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect"
+          $log.debug("echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect")
           timer = Time.now
           `echo tcp:#{contactedAddress.ip}:#{contactedAddress.port} > #{@detachedRootPath}/connect` # This is time expensive, units of seconds
-          $log.debug "FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer} sec, Result: #{($? == 0?"SUCCESS":"FAILED")}"
+          $log.debug("FilesystemConnector.connect(#{contactedAddress.ip}:#{contactedAddress.port}) took #{Time.now - timer} sec, Result: #{($? == 0?"SUCCESS":"FAILED")}")
           @connectAddresses.delete(contactedAddress)
         end
         sleep(1) # Active waiting TODO: make here waiting for signal from connect()
@@ -157,7 +157,7 @@ class FilesystemConnector
           next
         end
         ip = address[1].gsub(/\s+/, "")
-        port = address[2].gsub(/\s+/, "")
+	      port = address[2].gsub(/\s+/, "")
         bootstrapList.push(NetworkAddress.new(ip, port))
       end
     end
