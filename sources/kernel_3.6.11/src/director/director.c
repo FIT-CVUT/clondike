@@ -76,14 +76,14 @@ int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, 
 EXPORT_SYMBOL(director_immigration_confirmed);
 
 int director_node_connected(const char* address, int slot_index, int auth_data_size, char* auth_data,  int* accept) {
-	if (current->nonmigratable) return 0;
+	//if (current->nonmigratable) return 0;
 	return node_connected(address, slot_index, auth_data_size, auth_data, accept);
 }
 
 EXPORT_SYMBOL(director_node_connected);
 
 int director_node_disconnected(int slot_index, int detached, int reason) {
-	if (current->nonmigratable) return 0;
+	//if (current->nonmigratable) return 0;
 	minfo(INFO4, "Node disconnected being called");
 	
 	return node_disconnected(slot_index, detached, reason);
@@ -92,14 +92,14 @@ int director_node_disconnected(int slot_index, int detached, int reason) {
 EXPORT_SYMBOL(director_node_disconnected);
 
 int director_generic_user_message_recv(int node_id, int is_core_node, int slot_index, int user_data_size, char* user_data) {
-	if (current->nonmigratable) return 0;
+	//if (current->nonmigratable) return 0;
 	return generic_user_message_recv(node_id, is_core_node, slot_index, user_data_size, user_data);
 }
 
 EXPORT_SYMBOL(director_generic_user_message_recv);
 
 void director_register_send_generic_user_message_handler(send_generic_user_message_handler_t handler) {
-	if (current->nonmigratable) return 0;
+	//if (current->nonmigratable) return 0;
 	register_send_generic_user_message_handler(handler);
 }
 

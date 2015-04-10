@@ -27,7 +27,7 @@ class LoadBalancer
   #Should return array with non-preemptive migration decisions and a target migman
   #in case a migration should be performed
   def onExec(pid, uid, name, is_guest, jiffies, args=nil, envp=nil, rusage=nil)
-    response = is_guest ? onExecGuest(pid, name, args, envp) : onExecCore(pid, uid, name, args, envp)
+    response = is_guest ? onExecGuest(pid, name, args, envp, jiffies) : onExecCore(pid, uid, name, args, envp, jiffies)
     notifyMigration(pid, response, rusage)
     response
   end
@@ -70,13 +70,13 @@ class LoadBalancer
   end
 
   #Called, if the execv-ed task is a guest task
-  def onExecGuest(pid, name, args, envp)
+  def onExecGuest(pid, name, args, envp, jiffies)
     [shouldMigrateBack(pid,name, args, envp) ? DirectorNetlinkApi::MIGRATE_BACK : DirectorNetlinkApi::DO_NOT_MIGRATE]
   end
 
   #Called, if the execv-ed task is a normal task (which can be considered local
   #to a local core node)
-  def onExecCore(pid, uid, name, args, envp)
+  def onExecCore(pid, uid, name, args, envp, jiffies)
     return [DirectorNetlinkApi::DO_NOT_MIGRATE] if ( !canMigrate(name, uid) );
     return [DirectorNetlinkApi::REQUIRE_ARGS_AND_ENVP] if ( !envp );
 
@@ -84,6 +84,7 @@ class LoadBalancer
     if ( migrationTarget )
       task = @taskRepository.getTask(pid)
       if ( task )
+        # Sem pridat sber dat pro Cassandru !!!!!!!!!!!!!!!!!!
         $log.info("LoadBalancer decided to emigrate #{name}:#{pid} to node #{migrationTarget} (#{task.classifications_to_s})")
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid}")

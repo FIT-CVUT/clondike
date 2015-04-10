@@ -115,25 +115,25 @@ class ManagerMonitor
     }
 
     # Kernel link channel
-    @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
-      next if !element
-      emitHeartBeat(CORE_MANAGER_SLOT, slotIndex, element);
-    }
-    @membershipManager.detachedManagers.each_with_index { |element, slotIndex|
-      next if !element
-      emitHeartBeat(DETACHED_MANAGER_SLOT, slotIndex, element.coreNode);
-    }
+    #@membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
+    #  next if !element
+    #  emitHeartBeat(CORE_MANAGER_SLOT, slotIndex, element);
+    #}
+    #@membershipManager.detachedManagers.each_with_index { |element, slotIndex|
+    #  next if !element
+    #  emitHeartBeat(DETACHED_MANAGER_SLOT, slotIndex, element.coreNode);
+    #}
   end
 
-  def emitHeartBeat(slotType, slotIndex, node)
-    managerSlot = ManagerSlot.new(slotType, slotIndex)
-    if ( !node )
-      $log.warn("Failed to resolve node for slot #{managerSlot}")
-    end
+  #def emitHeartBeat(slotType, slotIndex, node)
+  #  managerSlot = ManagerSlot.new(slotType, slotIndex)
+  #  if ( !node )
+  #    $log.warn("Failed to resolve node for slot #{managerSlot}")
+  #  end
 
-    message = HeartBeatMessage.new(@currentNodeId)
-    @interconnection.dispatchToSlot(managerSlot, message)
-  end
+  #  message = HeartBeatMessage.new(@currentNodeId)
+  #  @interconnection.dispatchToSlot(managerSlot, message)
+  #end
 end
 
 class HeartBeatKernelLinkHandler

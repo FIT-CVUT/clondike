@@ -154,15 +154,12 @@ static int generic_message_handler(struct sk_buff *skb, struct genl_info *info) 
 		minfo(ERR1, "Sequence not registered: %d", tx.seq);
 		return -EINVAL;
 	}
-
-	skb = skb_get(skb); /* Get a reference of skb for further processing */
-	itx->skb = skb;
+	 
 	memcpy(&itx->info, info, sizeof(struct genl_info));
 	/* TODO: Do we need wmb here? Or does wake up all make a barrier? */
 	itx->done = 1;
 
 	wake_up_all(&tx_queue); /* TODO: Some more scalable waking strategy? Wake up only thread waiting for current itx? */
-
 	return 0;
 }
 

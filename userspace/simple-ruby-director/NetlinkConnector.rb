@@ -126,14 +126,14 @@ class NetlinkConnector
     end
   end
 
-  def connectorSendUserMessage(managerSlot, messageLength, message)
-    $log.debug( "Sending user message to slot #{managerSlot}")
-    if managerSlot.class == ManagerSlot
-      DirectorNetlinkApi.instance.sendUserMessage(managerSlot.slotType, managerSlot.slotIndex, messageLength, message)
-    else
-      $log.warn "NetlinkConnector.rb: We got managerSlot that IS NOT INSTANCE OF CLASS ManagerSlot, #{managerSlot}"
-    end
-  end
+  #ef connectorSendUserMessage(managerSlot, messageLength, message)
+  #  $log.debug( "Sending user message to slot #{managerSlot}")
+  #  if managerSlot.class == ManagerSlot
+  #   DirectorNetlinkApi.instance.sendUserMessage(managerSlot.slotType, managerSlot.slotIndex, messageLength, message)
+  #  else
+  #    $log.warn "NetlinkConnector.rb: We got managerSlot that IS NOT INSTANCE OF CLASS ManagerSlot, #{managerSlot}"
+  #  end
+  #end
 
   # Adds a new listener on exit events. Registered as a last listener on events
   def pushExitHandler(handler)
