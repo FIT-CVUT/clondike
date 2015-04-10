@@ -64,9 +64,9 @@ class Director
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
     @immigratedTasksController = ImmigratedTasksController.new(@filesystemConnector, false)
-    #acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
-    #@measurementLimiter = MeasurementAcceptLimiter.new()
-    #@immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
+    acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
+    @measurementLimiter = MeasurementAcceptLimiter.new()
+    @immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
 
     @dhtMessageDispatcher = DHTMessageDispatcher.new(@filesystemConnector.getLocalNetworkAddress)
     @interconnection = Interconnection.new(@dhtMessageDispatcher, CONF_DIR)
@@ -101,14 +101,14 @@ class Director
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
     @nodeInfoProvider.addListener(selfNode)
-    #@nodeInfoProvider.addLimiter(acceptLimiter)
-    #@nodeInfoProvider.addLimiter(@measurementLimiter)
+    @nodeInfoProvider.addLimiter(acceptLimiter)
+    @nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
 
     #@taskRepository.registerListener(ExecutionTimeTracer.new)
     @taskRepository.registerListener(balancingStrategy)
-    #@taskRepository.registerListener(acceptLimiter)
-    #@taskRepository.registerListener(predictor)
+    @taskRepository.registerListener(acceptLimiter)
+    @taskRepository.registerListener(predictor)
     @loadBalancer.registerMigrationListener(@taskRepository)
 
     #@cacheFSController = CacheFSController.new(@interconnection)
@@ -143,13 +143,13 @@ class Director
 
     @netlinkConnector.pushForkHandler(@immigratedTasksController)
     @netlinkConnector.pushForkHandler(@taskRepository)
-    #@netlinkConnector.pushForkHandler(@immigratedTasksController)
+    @netlinkConnector.pushForkHandler(@immigratedTasksController)
     #@netlinkConnector.pushForkHandler(procTrace) if $useProcTrace
 
     @netlinkConnector.pushUserMessageHandler(@interconnection)
 
     #@netlinkConnector.pushImmigrationHandler(@cacheFSController)
-    #@netlinkConnector.pushImmigrationHandler(@immigrationController)
+    @netlinkConnector.pushImmigrationHandler(@immigrationController)
 
     @netlinkConnector.pushImmigrationConfirmedHandler(@immigratedTasksController)
 
