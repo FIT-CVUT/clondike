@@ -237,7 +237,9 @@ static int tcmi_penman_connect(void *obj, void *str)
 	kkc_sock_put(sock);
 
 	/* Increment file which contains of count connected nodes */
+	down(&TCMI_MAN(&self)->sem);
 	atomic_inc(&TCMI_MAN(&self)->count_connected_nodes);
+	up(&TCMI_MAN(&self)->sem);
 
 	return 0;
 /* error handling */

@@ -165,7 +165,10 @@ static void tcmi_ccnmigman_stop_ctlfs_files(struct tcmi_migman *self)
 	mdbg(INFO3, "Destroying  TCMI ctlfs files - CCN migman");
 	tcmi_ctlfs_file_unregister(self_ccn->f_load);
 	tcmi_ctlfs_entry_put(self_ccn->f_load);
-	atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
+	
+	down(&self->parent->sem);
+	if (atomic_read(&self->parent->count_connected_nodes) > 0) atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
+	up(&self->parent->sem);
 }
 
 /**

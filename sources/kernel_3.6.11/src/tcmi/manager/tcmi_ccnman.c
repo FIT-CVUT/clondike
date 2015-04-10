@@ -662,7 +662,9 @@ static void tcmi_ccnman_process_sock(struct kkc_sock *sock)
 	kkc_sock_put(new_sock);
 
 	/* Increment count of connected PEN nodes to CCN migman*/
+	down(&TCMI_MAN(&self)->sem);
 	atomic_inc(&TCMI_MAN(&self)->count_connected_nodes);
+	up(&TCMI_MAN(&self)->sem);
 
 	return;
 /* error handling */

@@ -183,8 +183,10 @@ static void tcmi_penmigman_stop_ctlfs_files(struct tcmi_migman *self)
 
 	tcmi_ctlfs_file_unregister(self_pen->f_mighome_all);
 	tcmi_ctlfs_entry_put(self_pen->f_mighome_all);
-	atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
-
+	
+	down(&self->parent->sem);
+	if (atomic_read(&self->parent->count_connected_nodes) > 0) atomic_dec(&self->parent->count_connected_nodes); //decrement counter of connected nodes
+	up(&self->parent->sem);
 }
 
 /** 

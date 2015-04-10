@@ -75,9 +75,13 @@ int tcmi_man_init(struct tcmi_man *self,
 		mdbg(ERR3, "Missing migration manager operations!");
 		goto exit0;
 	}
+	
 	atomic_set(&self->ready, 0);
-	atomic_set(&self->count_connected_nodes,0);	//initialization count of connected nodes
-
+	sema_init(&self->sem,1);
+	down(&self->sem);
+		atomic_set(&self->count_connected_nodes,0);	//initialization count of connected nodes
+	up(&self->sem);
+	
 	self->ops = ops;
 
 	if (!(self->mig_mans = tcmi_slotvec_new(MAX_NODES)))

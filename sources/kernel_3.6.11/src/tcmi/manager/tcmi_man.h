@@ -35,6 +35,7 @@
 #include <linux/spinlock.h>
 #include <linux/list.h>
 #include <linux/types.h>
+#include <linux/semaphore.h>
 
 #include <tcmi/manager/tcmi_migman.h>
 #include <tcmi/lib/tcmi_slotvec.h>
@@ -125,6 +126,11 @@ struct tcmi_man {
 
 	/** Operations specific to a CCN/PEN manager resp. */
 	struct tcmi_man_ops *ops;
+
+	/** Semaphore for locking critical section connected to change atributes*/
+	struct semaphore sem;
+
+
 };
 /** Migration manager operations that support polymorphism */
 struct tcmi_man_ops {
