@@ -5,12 +5,12 @@ class LookUpNodeIdRequestMessage
   attr_reader :lookUpNodeId
   attr_reader :countClosestNodes
   attr_reader :nodeId    # for learning new node
-  attr_reader :publicKey # for learning new node
-  def initialize(lookUpNodeId, countClosestNodes, nodeId, publicKey)
+  attr_reader :publicKeyPEM # for learning new node
+  def initialize(lookUpNodeId, countClosestNodes, nodeId, publicKeyPEM)
     @lookUpNodeId = lookUpNodeId
     @countClosestNodes = countClosestNodes
     @nodeId = nodeId
-    @publicKey = publicKey
+    @publicKeyPEM = publicKeyPEM
   end
 end
 
@@ -21,6 +21,9 @@ class LookUpNodeIdRequestMessageHandler
     @trustManagement = trustManagement
   end
   def handleFrom(message, from)
+    key = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+    publicKey = key.nil? ? nil : key.public_key
+    
     closestNodes = @nodeRepository.getClosestNodesTo(message.lookUpNodeId, message.countClosestNodes)
     closestNodesWithoutSelfNodeClass = []
     closestNodes.each { |node|
@@ -30,24 +33,24 @@ class LookUpNodeIdRequestMessageHandler
         closestNodesWithoutSelfNodeClass.push(node)
       end
     }
-    responseMessage = LookUpNodeIdResponseMessage.new(closestNodesWithoutSelfNodeClass, @nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
+    responseMessage = LookUpNodeIdResponseMessage.new(closestNodesWithoutSelfNodeClass, @nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey))
     @interconnection.dispatch(from, responseMessage)
 
     # We try add the requesting node to our routing table
     requestingNode = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(requestingNode)
-    @trustManagement.registerKey(message.nodeId, message.publicKey) if @trustManagement.getKey(message.nodeId).nil?
+    @trustManagement.registerKey(message.nodeId, publicKey) if @trustManagement.getKey(message.nodeId).nil?
   end
 end
 
 class LookUpNodeIdResponseMessage
   attr_reader :listOfClosestNodes
   attr_reader :nodeId    # for learning new node
-  attr_reader :publicKey # for learning new node
-  def initialize(listOfClosestNodes, nodeId, publicKey)
+  attr_reader :publicKeyPEM # for learning new node
+  def initialize(listOfClosestNodes, nodeId, publicKeyPEM)
     @listOfClosestNodes = listOfClosestNodes
     @nodeId = nodeId
-    @publicKey = publicKey
+    @publicKeyPEM = publicKeyPEM
   end
 end
 
@@ -93,6 +96,8 @@ class LookUpNodeIdResponseMessageHandler
 
     respondingNode = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(respondingNode)
-    @trustManagement.registerKey(message.nodeId, message.publicKey) if @trustManagement.getKey(message.nodeId).nil?
+    key = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+    publicKey = key.nil? ? nil : key.public_key 
+    @trustManagement.registerKey(message.nodeId, publicKey) if @trustManagement.getKey(message.nodeId).nil?
   end
 end

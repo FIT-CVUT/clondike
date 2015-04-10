@@ -61,18 +61,18 @@ class MembershipManager
     ExceptionAwareThread.new {
       loop do
         sleep(10)
-        @nodeRepository.getAllNodes.each { |node|
+	      @nodeRepository.getAllNodes.each { |node|
           next if node == @nodeRepository.selfNode
           if @trustManagement.isVerified?(node.nodeId)
-            unless containsDetachedNode(node)
+            if containsDetachedNode(node) == false
               if node.networkAddress.class == NetworkAddress
                 $log.debug "MembershipManager: AutoConnectingThread tries connect address #{node.networkAddress}"
-                res = @filesystemConnector.connect(node.networkAddress, "") # TODO: fix missing authentication data!
-              elsif
+                @filesystemConnector.connect(node.networkAddress, "") # TODO: fix missing authentication data!
+              else
                 $log.warn "Network address is invalid! #{node.networkAddress}"
               end
             end
-          elsif
+          else
             # Not verified yet
             connectToNode(node)
           end
@@ -100,7 +100,7 @@ class MembershipManager
     if placeHolderNode.nil?
       placeHolderNode = Node.new(nil, networkAddress) # Just a placeholder node with no id, not even registered to repository
     end
-    $log.debug("Adding detached placeholder node: #{slotIndex} .. #{placeHolderNode}")
+    $log.info("Adding detached placeholder node: #{slotIndex} .. #{placeHolderNode}")
     @coreManager.registerDetachedNode(slotIndex, placeHolderNode)
   end
 
@@ -124,42 +124,43 @@ class MembershipManager
     ExceptionAwareThread.new() {
       nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);
-
-      if nodePublicKey then
+      
+      if nodePublicKey
         session = nil
         # If the node is verified already, we wont to verified again
         if @trustManagement.isVerified?(node.nodeId)
           negotiationSession = @trustManagement.getSession(node.nodeId)
           session = Session.new(nodePublicKey, negotiationSession.proof)
-        elsif
+        else
           $log.debug("Trying verify #{node}")
           session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
         end
-
-        if session then
+	
+	      if session
           # The Proof is prooved in trust/AuthenticationDispatcher.rb
-          succeeded = @filesystemConnector.connect(node.networkAddress, session.authenticationProof)
+          succeeded = @filesystemConnector.connect(node.networkAddress, nil) # session.authenticationProof)
           $log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
-          if succeeded
+	        if succeeded
             slotIndex = @filesystemConnector.findDetachedManagerSlot(nodeIpAddress)
             if slotIndex.nil?
-              $log.debug "MembershipManager.rb: connectToNode: no slotIndex find for node:"
-              pp node
+              $log.info "MembershipManager.rb: connectToNode: no slotIndex find for node:"
+              #pp node
             else
               @detachedManagers[slotIndex] = DetachedNodeManager.new(node, slotIndex)
             end
           end
         end
-      elsif
+      else
         # Do not know the key yet
-        publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey, true)
+        publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey), true)
         @interconnection.dispatch(node.nodeId, publicKeyDisseminationMessage)
       end
     }
   end
 
   def handleFrom(message, from)
-    @trustManagement.registerKey(message.nodeId, message.publicKey)
+    publicKey = @trustManagement.convertPEMStringToKey(message.publicKeyPEM)
+    @trustManagement.registerKey(message.nodeId, publicKey)
 
     node = Node.new(message.nodeId, from)
     @nodeRepository.insertIfNotExists(node)
@@ -170,7 +171,7 @@ class MembershipManager
     end
 
     if message.sendMeYours
-      publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
+      publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey))
       @interconnection.dispatch(from, publicKeyDisseminationMessage)
     end
   end
@@ -191,7 +192,7 @@ class MembershipManager
   def getMorePeersToNodeRepository(targetNumberOfNodes)
     $log.debug "getMorePeersToNodeRepository: start"
     @nodeRepository.printListOfAllNodes()
-    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@nodeRepository.selfNode.nodeId, targetNumberOfNodes, @nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@nodeRepository.selfNode.nodeId, targetNumberOfNodes, @nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey))
     while targetNumberOfNodes > (@nodeRepository.knownNodesCount() + 1)
       $log.debug "getMorePeersToNodeRepository: send requests to all known nodes"
       @interconnection.dispatch(nil, lookUpNodeIdRequestMessage)

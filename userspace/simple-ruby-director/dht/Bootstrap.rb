@@ -7,7 +7,7 @@ require 'dht/DHTMessages'
 # This class is responsible for initial bootstraping, initial discovery nodes
 # Implements Kademlia based discovery
 class Bootstrap
-  TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC = 1
+  TIMEOUT_FOR_MESSAGE_RESPONSE_IN_SEC = 5
 
   def initialize(filesystemConnector, nodeRepository, trustManagement, interconnection)
     @filesystemConnector = filesystemConnector
@@ -61,7 +61,7 @@ class Bootstrap
   private
 
   def initLookUpNodeIdRequest(node)
-    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K, @nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey)
+    lookUpNodeIdRequestMessage = LookUpNodeIdRequestMessage.new(@selfNodeId, DHTConfig::K, @nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey))
     #@interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage, DeliveryOptions::ACK_8_SEC)
     @interconnection.dispatch(node.nodeId, lookUpNodeIdRequestMessage)
   end
@@ -71,11 +71,10 @@ class Bootstrap
   end
 
   def initialJoinAtLeastOneNode
-    @publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.localIdentity.publicKey, true)
+    @publicKeyDisseminationMessage = PublicKeyDisseminationMessage.new(@nodeRepository.selfNode.nodeId, @trustManagement.convertKeyToPEMString(@trustManagement.localIdentity.publicKey), true)
 
     bootstrapNodes = @filesystemConnector.getBootstrapNodes().shuffle
     bootstrapNodes.delete_if { |networkAddress| networkAddress == @nodeRepository.selfNode.networkAddress }
-
     dispatchAsyncPKDMessages(bootstrapNodes)
 
     loop {
@@ -87,7 +86,7 @@ class Bootstrap
   end
 
   def dispatchAsyncPKDMessages(bootstrapNodes)
-    for index in 1..[DHTConfig::ALPHA, bootstrapNodes.length].min do
+    1.upto([DHTConfig::ALPHA, bootstrapNodes.length].min) do
       choosedAddress = bootstrapNodes.shift
       bootstrapNodes.push(choosedAddress)
       #@interconnection.dispatch(choosedAddress, @publicKeyDisseminationMessage, DeliveryOptions::ACK_8_SEC)

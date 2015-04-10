@@ -228,7 +228,7 @@ class CertificateStore
         certificate = loadCertificate(path)
         # First we process only revocations to avoid inserting some conflicting certificates
         if ( certificate.kind_of?(RevocationCertificate))
-          record = insertNewCertificate(certificate, false)
+          insertNewCertificate(certificate, false)
         else
           nonRevocations.add(certificate)
         end
@@ -237,7 +237,7 @@ class CertificateStore
 
     # Later non revocations are processed
     nonRevocations.each { |certificate|
-      record = insertNewCertificate(certificate, false)
+      insertNewCertificate(certificate, false)
     }
   end
 

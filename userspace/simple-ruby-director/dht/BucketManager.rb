@@ -117,7 +117,7 @@ class BucketManager
 
   def getKClosestKnownNodes(to_node_id, known_nodes, count)
     k_closest_known_nodes = []
-    for i in 1..count
+    1.upto(count) do
       closest = getClosestKnownNode(to_node_id, k_closest_known_nodes, known_nodes)
       k_closest_known_nodes.push closest unless closest.nil?
     end

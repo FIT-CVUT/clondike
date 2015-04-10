@@ -1,3 +1,4 @@
+require 'openssl'
 require 'monitor'
 require 'trust/Session.rb'
 require 'trust/TrustInMemoryDataStore.rb'
@@ -18,7 +19,7 @@ class TrustManagement
     @interconnection = interconnection
     @interconnection.addReceiveHandler(CertificateMessage, CertificateHandler.new(self)) if interconnection
 
-    @authenticationDispatcher = AuthenticationDispatcher.new(localIdentity, interconnection)
+    @authenticationDispatcher = AuthenticationDispatcher.new(localIdentity, interconnection, self)
 
     # Maps nodeId -> public key of that node as known from periodic broadcast
     @keyMap = {}
@@ -34,7 +35,7 @@ class TrustManagement
     begin
       proof = @authenticationDispatcher.prepareSession(@idProvider.getCurrentId(), nodeId, publicKey)
       if !proof then
-        $log.debug("Authentication negotiation has failed (Peer: #{publicKey.undecorated_to_s})!")
+        $log.debug("Authentication negotiation has failed (Peer: #{publicKey})!")
         return nil
       end
       return Session.new(publicKey, "#{proof}")
@@ -73,6 +74,17 @@ class TrustManagement
     return nil
   end
 
+  def convertKeyToPEMString(key)
+    return nil if key.nil? 
+    return key.to_pem
+  end
+
+  def convertPEMStringToKey(pem)
+    return nil if pem.nil?
+    return OpenSSL::PKey::RSA.new(pem)
+  end
+
+
   def registerIdProvider(idProvider)
     @idProvider = idProvider
   end
@@ -102,7 +114,10 @@ class TrustManagement
   # Check of signature.
   # @param signedBy - Public key of the entity that signed the data
   def verifySignature(data, signature, signedBy)
-    signedBy.verifySignature(signature, data)
+    res=@localIdentity.verify(signedBy, signature, data)
+    #res = signedBy.verify(@digest, signature, data)
+    #puts "Verify #{res}"
+    return res
   end
 
   # Returns true or false
@@ -115,7 +130,7 @@ class TrustManagement
   end
 
   def getSession(nodeId)
-    key = getKey(nodeId)
+    key = getKey(nodeId).to_pem
     return nil if key.nil?
     cliNegs = @authenticationDispatcher.clientNegotiations
     srvNegs = @authenticationDispatcher.serverNegotiations
@@ -201,7 +216,7 @@ end
 
 class PublicKeyNodeIdResolver
   def initialize(trustManagement)
-    @identity = trustManagement.localIdentity.publicKey.to_s
+    @identity = trustManagement.localIdentity.publicKey.to_pem
   end
 
   def getCurrentId()

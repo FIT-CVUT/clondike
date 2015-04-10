@@ -15,7 +15,7 @@ class NodeInfoWithId
   end
 
   def to_s
-    "NodeId: #{nodeId} NodeInfo: #{nodeInfo}"
+    "NodeId:\n #{nodeId} NodeInfo: #{nodeInfo}"
   end
 end
 

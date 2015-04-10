@@ -131,7 +131,7 @@ class DeauthorizeHandler<AuthorizeHandlerBase
     return "Authorizee entity not found." if ( !authorizedEntity )
 
     authorizedEntity.authorizations.each { |certifiedRelation|
-      authorization = certifiedRelation.object
+      certifiedRelation.object
       certificate = certifiedRelation.certificate
 
       result = handleAuthorizationRevocation(authorizee, authorizeeGroup, target, targetGroup, permission, certificate)
@@ -140,7 +140,7 @@ class DeauthorizeHandler<AuthorizeHandlerBase
     }
 
     authorizedEntity.delegations.each { |certifiedRelation|
-      authorization = certifiedRelation.object.accessControlList
+      certifiedRelation.object.accessControlList
       certificate = certifiedRelation.certificate
 
       result = handleAuthorizationRevocation(authorizee, authorizeeGroup, target, targetGroup, permission, certificate)

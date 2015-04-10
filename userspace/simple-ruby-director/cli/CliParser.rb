@@ -119,7 +119,7 @@ class AttributeParser<NamedParserWithAttributes
   end
 
   def parse(parseContext)
-    nameToken = parseContext.tokenStream.pop
+    parseContext.tokenStream.pop
     attribute = CommandAttribute.new(@name)
 
     attribute.addAttributes(parseAttributes(parseContext))
@@ -136,7 +136,7 @@ class CommandParser<NamedParserWithAttributes
   end
 
   def parse(parseContext)
-    nameToken = parseContext.tokenStream.pop
+    parseContext.tokenStream.pop
     command = Command.new(@name)
 
     command.addAttributes(parseAttributes(parseContext))

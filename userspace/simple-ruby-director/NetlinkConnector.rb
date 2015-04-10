@@ -88,7 +88,7 @@ class NetlinkConnector
   end
 
   def connectorImmigrationConfirmedCallbackFunction(uid, slotIndex, name, localPid, remotePid)
-    #$log.info("Immigration of process #{name} (#{localPid}, #{remotePid}) confirmed.")
+    $log.info("Immigration of process #{name} (#{localPid}, #{remotePid}) confirmed.")
     @immigrationConfirmedHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
       handler.onImmigrationConfirmed(node, name, localPid, remotePid)
@@ -119,7 +119,7 @@ class NetlinkConnector
   end
 
   def connectorUserMessageReceivedCallbackFunction(slotType, slotIndex, messageLength, message)
-    #		$log.info("Received user message on slot: #{slotType}/#{slotIndex} of length #{messageLength}")
+    $log.info("Received user message on slot: #{slotType}/#{slotIndex} of length #{messageLength}")
 
     @userMessageHandlers.each do |handler|
       handler.userMessageReceived(ManagerSlot.new(slotType, slotIndex), messageLength, message)
@@ -127,7 +127,7 @@ class NetlinkConnector
   end
 
   def connectorSendUserMessage(managerSlot, messageLength, message)
-    #		$log.debug( "Sending user message to slot #{managerSlot}")
+    $log.debug( "Sending user message to slot #{managerSlot}")
     if managerSlot.class == ManagerSlot
       DirectorNetlinkApi.instance.sendUserMessage(managerSlot.slotType, managerSlot.slotIndex, messageLength, message)
     else
@@ -152,6 +152,7 @@ class NetlinkConnector
   end
 
   def connectorTaskForkedCallbackFunction(pid, parentPid)
+    #$log.debug( "Connector Task Forked")
     @forkHandlers.each do |handler|
       handler.onFork(pid, parentPid)
     end

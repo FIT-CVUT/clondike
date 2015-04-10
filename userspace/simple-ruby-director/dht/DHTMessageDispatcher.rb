@@ -1,4 +1,5 @@
 require 'NetworkAddress'
+require 'trust/Identity'
 
 class DHTMessageDispatcher
   MAXLEN_RECEIVE_MESSAGE = 60000
@@ -55,7 +56,8 @@ class DHTMessageDispatcher
         end
       end
 
-      $log.debug "SEND TO #{contact}\n#{message}"
+      $log.debug("SEND TO #{contact}\n#{message}")
+    
       @socket.send(Marshal.dump(message), 0, contact.ip, contact.port)
     end
   end

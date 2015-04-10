@@ -154,7 +154,7 @@ def OptimizedStrategyTargetResolver
 
   # Sends message to a single entity
   def sendMessageToEntity(publicKey)
-    message = CertificateMessage.new(certificate)
+    CertificateMessage.new(certificate)
     #$log.debug("Sending message #{certificate.class} to #{publicKey}")
     #@interconnect.dispatch(nil, message) if @interconnect != nil
     @targetSet.add(publicKey)
