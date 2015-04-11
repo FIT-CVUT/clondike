@@ -12,6 +12,6 @@
  * @param accept Output param. 0 if immigration is rejected, everything else if it is accepted
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int immigration_request(int slot_index, uid_t uid, const char* name, int* accept);
+int immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif);
 
 #endif

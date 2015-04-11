@@ -93,7 +93,7 @@ struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_rx(u_int32_t msg_id)
  * @param *ckpt_name - checkpoint name that will be wrapped in the message
  * @return a new error ready for the transfer or NULL.
  */
-struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(pid_t dst_pid, char *ckpt_name)
+struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(pid_t dst_pid, char *ckpt_name, unsigned long jif)
 {
 	struct tcmi_ppm_p_migr_back_guestreq_procmsg *msg;
 
@@ -109,6 +109,8 @@ struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(pid_t dst_pid, cha
 		goto exit1;
 	}
 	strcpy(msg->ckpt_name, ckpt_name);
+
+	msg->jif = jif;
 
 	/* Initialize the message for transfer, no transaction
 	 * required, no timout, no response ID */

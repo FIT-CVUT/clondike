@@ -77,6 +77,8 @@ struct tcmi_p_emigrate_msg {
 		int16_t fsuid;
 		/** fsgid of the process on the core node.. may be needed for DFS mount before the checkpoint is read */
 		int16_t fsgid;
+		/** identificator of current emigrate task is jiffies - for Cassandra */
+		unsigned long jif;
 	} pid_and_size  __attribute__((__packed__));
 
 	/** name of the executable of the process. */
@@ -93,7 +95,7 @@ extern struct tcmi_msg* tcmi_p_emigrate_msg_new_rx(u_int32_t msg_id);
 
 /** \<\<public\>\> Phys. emigrate message constructor for transferring. */
 extern struct tcmi_msg* tcmi_p_emigrate_msg_new_tx(struct tcmi_slotvec *transactions, 
-						       pid_t reply_pid, char *exec_name, char *ckpt_name, int16_t euid, int16_t egid, int16_t fsuid, int16_t fsgid);
+						       pid_t reply_pid, char *exec_name, char *ckpt_name, int16_t euid, int16_t egid, int16_t fsuid, int16_t fsgid, unsigned long jif);
 
 
 /** \<\<public\>\> Message descriptor for the factory class, there is no error
@@ -180,6 +182,17 @@ static inline int16_t tcmi_p_emigrate_msg_euid(struct tcmi_p_emigrate_msg *self)
 static inline int16_t tcmi_p_emigrate_msg_egid(struct tcmi_p_emigrate_msg *self)
 {
 	return self->pid_and_size.egid;
+}
+
+/**
+ * \<\<public\>\> Jiffies identificator of current migrate task for Cassandra.
+ * 
+ * @param *self - this message instance
+ * @return jiffies identificator task
+ */
+static inline unsigned long tcmi_p_emigrate_msg_ckpt_jif(struct tcmi_p_emigrate_msg *self)
+{
+	return self->pid_and_size.jif;
 }
 
 /********************** PRIVATE METHODS AND DATA ******************************/

@@ -306,7 +306,7 @@ int tcmi_migcom_immigrate(struct tcmi_msg *m, struct tcmi_migman *migman)
 	int accept = 0;
 
 
-	int call_res = director_immigration_request(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), &accept);
+	int call_res = director_immigration_request(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), &accept, tcmi_p_emigrate_msg_ckpt_jif(msg));
 	if ( call_res == 0 ) {
 		if ( !accept ) {
 			mdbg(INFO2, "Immigration rejected by director.");
@@ -381,7 +381,7 @@ int tcmi_migcom_immigrate(struct tcmi_msg *m, struct tcmi_migman *migman)
 		goto exit1;
 	}
 	mdbg(INFO2, "Guest successfully picked up: %p", guest);
-	director_immigration_confirmed(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), pid, tcmi_p_emigrate_msg_reply_pid(msg));	
+	director_immigration_confirmed(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), pid, tcmi_p_emigrate_msg_reply_pid(msg), guest->jiffies);	
 	tcmi_task_put(guest);
 	return 0;
 

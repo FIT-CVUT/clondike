@@ -8,6 +8,7 @@
 #include <netlink/attr.h>
 #include <netlink/handlers.h>
 #include <netlink/utils.h>
+#include <stdio.h>
 
 #include <linux/genetlink.h>
 
@@ -82,6 +83,8 @@ int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ac
   	nl_hdr->nlmsg_flags |= NLM_F_ACK;
   else 
   	nl_hdr->nlmsg_flags |= NLM_F_REQUEST;
+
+  nl_msg_dump(msg, stdout);
 
   ret_val = nl_send_auto_complete(sk, msg);
   if (ret_val <= 0) {
@@ -212,6 +215,7 @@ int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
   int ret_val;
   struct pollfd pollfds[1];
   
+
   pollfds[0].fd = nl_socket_get_fd(sk);
   pollfds[0].events = POLLIN;
 
@@ -221,7 +225,7 @@ int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
 	goto read_error;
   }
   
-
+  
   /* read the response */
   ret_val = nl_recv_fixed(sk, &peer, &data, NULL);
   if (ret_val <= 0) {
@@ -235,6 +239,8 @@ int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
  // This makes a new buffer! Old buffer (data) has to be freed!
   ans_msg = nlmsg_convert((struct nlmsghdr *)data);
   
+  nl_msg_dump(ans_msg, stdout);
+
   /* process the response */
   if (!nlmsg_ok(nl_hdr, ret_val)) {
     ret_val = -EBADMSG;

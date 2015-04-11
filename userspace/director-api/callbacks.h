@@ -20,9 +20,9 @@ typedef void (*npm_check_callback_t)(pid_t pid, uid_t uid, int is_guest, const c
 
 typedef void (*npm_check_full_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 
-typedef void (*immigration_request_callback_t)(uid_t uid, int slot_index, const char* exec_name, int* accept);
+typedef void (*immigration_request_callback_t)(uid_t uid, int slot_index, const char* exec_name, unsigned long jiffies,int* accept);
 
-typedef void (*immigration_confirmed_callback_t)(uid_t uid, int slot_index, const char* exec_name, pid_t local_pid, pid_t remote_pid);
+typedef void (*immigration_confirmed_callback_t)(uid_t uid, int slot_index, const char* exec_name, pid_t local_pid, unsigned long jiffies, pid_t remote_pid);
 
 typedef void (*node_connected_callback_t)(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept);
 

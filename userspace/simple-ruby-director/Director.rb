@@ -105,7 +105,7 @@ class Director
     @nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
 
-    #@taskRepository.registerListener(ExecutionTimeTracer.new)
+    @taskRepository.registerListener(ExecutionTimeTracer.new)
     @taskRepository.registerListener(balancingStrategy)
     @taskRepository.registerListener(acceptLimiter)
     @taskRepository.registerListener(predictor)

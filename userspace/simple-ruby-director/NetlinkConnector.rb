@@ -69,8 +69,8 @@ class NetlinkConnector
     @immigrationHandlers << handler;
   end
 
-  def connectorImmigrationRequestCallbackFunction(uid, slotIndex, name)
-    $log.info("Immigration request for process #{name}")
+  def connectorImmigrationRequestCallbackFunction(uid, slotIndex, name, jiffies)
+    $log.info("Immigration request for process #{name} #{jiffies}")
     result = true
     @immigrationHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
@@ -87,8 +87,8 @@ class NetlinkConnector
     @immigrationConfirmedHandlers << handler;
   end
 
-  def connectorImmigrationConfirmedCallbackFunction(uid, slotIndex, name, localPid, remotePid)
-    $log.info("Immigration of process #{name} (#{localPid}, #{remotePid}) confirmed.")
+  def connectorImmigrationConfirmedCallbackFunction(uid, slotIndex, name, localPid, remotePid, jiffies)
+    $log.info("Immigration of process #{name} (#{localPid}, #{remotePid}, #{jiffies}) confirmed.")
     @immigrationConfirmedHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
       handler.onImmigrationConfirmed(node, name, localPid, remotePid)

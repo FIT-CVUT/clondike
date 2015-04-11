@@ -41,7 +41,7 @@ int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, con
  * @param accept Output param. 0 if immigration is rejected, everything else if it is accepted
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept);
+int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif);
 
 /**
  * Notification about successful imigration
@@ -53,7 +53,7 @@ int director_immigration_request(int slot_index, uid_t uid, const char* name, in
  * @param remote_pid Pid of the task on core node
  * @return 0 on success, error code otherwise
  */
-int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid);
+int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid, unsigned long jif);
 
 /**
  * Called, when a detached node connects to the core node.

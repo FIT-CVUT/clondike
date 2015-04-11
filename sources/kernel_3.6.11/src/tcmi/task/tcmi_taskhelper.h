@@ -634,7 +634,7 @@ static inline int tcmi_taskhelper_checkpoint(struct tcmi_task *t_task, struct tc
 	pathname = (char*) page;
 	
 	snprintf(pathname, PAGE_SIZE, "/home/clondike/%s.%d.%lu", current->comm, 
-		 current->pid, current->jiffies);
+		 current->pid, t_task->jiffies);
 	mdbg(INFO3, "Composed checkpoint name: '%s' Npm params: %p", pathname, npm_params);
 		
 	/* setup execve arguments - this is just to store checkpoint name in the instance */

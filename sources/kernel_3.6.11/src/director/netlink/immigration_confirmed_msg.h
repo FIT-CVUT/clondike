@@ -13,6 +13,6 @@
  * @param remote_pid Pid of the task on core node
  * @return 0 on success, error code otherwise
  */
-int immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid);
+int immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid, unsigned long jiffies);
 
 #endif

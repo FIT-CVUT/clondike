@@ -14,6 +14,7 @@ struct immigration_confirmed_params {
 	uid_t uid;
 	pid_t local_pid;
 	pid_t remote_pid;
+	unsigned long jiffies;
 
 	/* Out params */
 };
@@ -33,6 +34,10 @@ static int immigration_confirmed_create_request(struct sk_buff *skb, void* param
 	ret = nla_put_string(skb, DIRECTOR_A_NAME, immigration_confirmed_params->name);
   	if (ret != 0)
       		goto failure;
+
+    ret = nla_put_u64(skb, DIRECTOR_A_JIFFIES, immigration_confirmed_params->jiffies);
+  	if (ret != 0)
+      		goto failure;  	
 
 	ret = nla_put_u32(skb, DIRECTOR_A_PID, immigration_confirmed_params->local_pid);
   	if (ret != 0)
@@ -56,7 +61,7 @@ static struct msg_transaction_ops immigration_confirmed_msg_ops = {
 	.read_response = immigration_confirmed_read_response
 };
 
-int immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid) {
+int immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid, unsigned long jif) {
 	struct immigration_confirmed_params params;
 	int ret;
 	
@@ -65,6 +70,7 @@ int immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t loc
 	params.name = name;
 	params.local_pid = local_pid;
 	params.remote_pid = remote_pid;
+	params.jiffies = jif;
 
 	ret = msg_transaction_do(DIRECTOR_IMMIGRATION_CONFIRMED, &immigration_confirmed_msg_ops, &params, 0);
 

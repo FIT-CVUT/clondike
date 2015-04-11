@@ -25,6 +25,7 @@ int handle_immigration_confirmed(struct nl_msg *req_msg) {
 	char* name;
 	pid_t local_pid;
 	pid_t remote_pid;
+	unsigned long jiffies;
 	
 	seq = nlmsg_hdr(req_msg)->nlmsg_seq;
 
@@ -44,6 +45,11 @@ int handle_immigration_confirmed(struct nl_msg *req_msg) {
 	//name = nl_data_get(nla_get_data(nla));
 	name = nla_data(nla);
 
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_JIFFIES);
+	if (nla == NULL)
+		return  -EBADMSG;
+	jiffies = nla_get_u64(nla);
+
 	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_PID);
 	if (nla == NULL)
 		return  -EBADMSG;
@@ -56,7 +62,7 @@ int handle_immigration_confirmed(struct nl_msg *req_msg) {
 
 	//printf("NPM CALLED FOR NAME: %s\n", name);
 	if ( immigration_confirmed_callback )
-        	immigration_confirmed_callback(uid, slot_index, name, local_pid, remote_pid);
+        	immigration_confirmed_callback(uid, slot_index, name, jiffies, local_pid, remote_pid);
 	
 	if ( (ret=prepare_response_message(state->sk, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;

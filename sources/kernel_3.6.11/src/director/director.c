@@ -64,14 +64,14 @@ int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name,
 
 EXPORT_SYMBOL(director_npm_check);
 
-int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept) {
-	return immigration_request(slot_index, uid, name, accept);
+int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif) {
+	return immigration_request(slot_index, uid, name, accept, jif);
 }
 
 EXPORT_SYMBOL(director_immigration_request);
 
-int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid) {
-	return immigration_confirmed(slot_index, uid, name, local_pid, remote_pid);
+int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, pid_t local_pid, pid_t remote_pid, unsigned long jif) {
+	return immigration_confirmed(slot_index, uid, name, local_pid, remote_pid, jif);
 }
 EXPORT_SYMBOL(director_immigration_confirmed);
 

@@ -156,7 +156,7 @@ static int tcmi_guesttask_migrateback_p(struct tcmi_task* self, struct tcmi_npm_
 		goto exit0;
 	}
 	tcmi_taskhelper_flushfiles();
-	if (!(req = tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(tcmi_task_remote_pid(self), tcmi_task_ckpt_name(self)))) {
+	if (!(req = tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(tcmi_task_remote_pid(self), tcmi_task_ckpt_name(self), self->jiffies))) {
 		mdbg(ERR3, "Error creating a migration back message");
 		goto exit0;
 	}
@@ -316,6 +316,7 @@ static int tcmi_guesttask_process_p_emigrate_msg(struct tcmi_task *self,
 	tcmi_task_set_remote_pid(self, remote_pid);
 	/* extract the checkpoint name */
 	ckpt_name =  tcmi_p_emigrate_msg_ckpt_name(TCMI_P_EMIGRATE_MSG(m));
+	self->jiffies = tcmi_p_emigrate_msg_ckpt_jif(TCMI_P_EMIGRATE_MSG(m));
 		
 	mdbg(INFO2, "Processing emigration request, remote PID=%d, checkpoint: '%s'", tcmi_task_remote_pid(self), ckpt_name);
 

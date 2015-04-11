@@ -100,7 +100,7 @@ struct tcmi_msg* tcmi_ppm_p_emigrate_msg_new_rx(u_int32_t msg_id)
  * @return a new error ready for the transfer or NULL.
  */
 struct tcmi_msg* tcmi_ppm_p_emigrate_msg_new_tx(struct tcmi_slotvec *transactions, 
-						pid_t reply_pid, char *ckpt_name)
+						pid_t reply_pid, char *ckpt_name, unsigned long jif)
 {
 	struct tcmi_ppm_p_emigrate_msg *msg;
 
@@ -110,6 +110,7 @@ struct tcmi_msg* tcmi_ppm_p_emigrate_msg_new_tx(struct tcmi_slotvec *transaction
 	}
 	msg->pid_and_size.reply_pid = reply_pid;
 	msg->pid_and_size.size = strlen(ckpt_name) + 1;
+	msg->pid_and_size.jif = jif;
 
 	if (!(msg->ckpt_name = (char*)kmalloc(msg->pid_and_size.size, GFP_KERNEL))) {
 		mdbg(ERR3, "Can't allocate memory for checkpoint name");
@@ -175,8 +176,8 @@ static int tcmi_ppm_p_emigrate_msg_recv(struct tcmi_msg *self, struct kkc_sock *
 		mdbg(ERR3, "Failed to receive checkpoint name");
 		goto exit0;
 	}
-	mdbg(INFO2, "PPM emigrate message received PID=%d, size=%d, ckptname='%s'",
-	     self_msg->pid_and_size.reply_pid, self_msg->pid_and_size.size, self_msg->ckpt_name);
+	mdbg(INFO2, "PPM emigrate message received PID=%d, size=%d, ckptname='%s', jif=%d",
+	     self_msg->pid_and_size.reply_pid, self_msg->pid_and_size.size, self_msg->ckpt_name, self_msg->pid_and_size.jif);
 
 	return 0;
 	/* error handling*/
@@ -211,8 +212,8 @@ static int tcmi_ppm_p_emigrate_msg_send(struct tcmi_msg *self, struct kkc_sock *
 		goto exit0;
 	}
 
-	mdbg(INFO2, "PPM emigrate message sent PID=%d, size=%d, ckptname='%s'",
-	     self_msg->pid_and_size.reply_pid, self_msg->pid_and_size.size, self_msg->ckpt_name);
+	mdbg(INFO2, "PPM emigrate message sent PID=%d, size=%d, ckptname='%s', jif=%d",
+	     self_msg->pid_and_size.reply_pid, self_msg->pid_and_size.size, self_msg->ckpt_name, self_msg->pid_and_size.jif);
 
 	return 0;
 	/* error handling */

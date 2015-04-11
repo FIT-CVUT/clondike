@@ -53,6 +53,8 @@ struct tcmi_ppm_p_migr_back_guestreq_procmsg {
 	int32_t size;
 	/** name of the checkpoint file. */
 	char *ckpt_name;
+	/** identificator of current migrate back task for Cassandra*/
+	unsigned long jif;
 };
 
 
@@ -62,7 +64,7 @@ struct tcmi_ppm_p_migr_back_guestreq_procmsg {
 extern struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_rx(u_int32_t msg_id);
 
 /** \<\<public\>\> Guest request for migration back tx constructor. */
-extern struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(pid_t dst_pid, char *ckpt_name);
+extern struct tcmi_msg* tcmi_ppm_p_migr_back_guestreq_procmsg_new_tx(pid_t dst_pid, char *ckpt_name, unsigned long jif);
 
 
 

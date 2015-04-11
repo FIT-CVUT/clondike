@@ -68,6 +68,7 @@ struct tcmi_ppm_p_emigrate_msg {
 		/** size of the checkpoint name in bytes (including
 		    trailing zero) */
 		int32_t size;
+		unsigned long jif; /*Identificator of current emigrate task for Cassandra*/
 	} pid_and_size  __attribute__((__packed__));
 	/** name of the checkpoint file. */
 	char *ckpt_name;
@@ -81,7 +82,7 @@ extern struct tcmi_msg* tcmi_ppm_p_emigrate_msg_new_rx(u_int32_t msg_id);
 
 /** \<\<public\>\> PPM phys. emigrate message constructor for transferring. */
 extern struct tcmi_msg* tcmi_ppm_p_emigrate_msg_new_tx(struct tcmi_slotvec *transactions, 
-						       pid_t reply_pid, char *ckpt_name);
+						       pid_t reply_pid, char *ckpt_name, unsigned long jif);
 
 
 /** \<\<public\>\> Message descriptor for the factory class, there is no error
