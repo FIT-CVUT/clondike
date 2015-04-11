@@ -3,6 +3,8 @@ require 'cassandra'
 
 class CQL3Driver
 
+    records = {}
+
     @session = nil    
     @tasks = nil    
 
@@ -48,22 +50,28 @@ class CQL3Driver
 	TABLE_CQL
 	@session.execute(table_definition)
     end
+
+    def createRecord(id_task, id_src_node, id_dst_node, ret, time)
+
+
+    end
 	
 
 end
 
 class TaskRecord
-        attr_accessor	:id_task, :id_src_node, :id_dst_node,
-			:ret_send_task,:ret_accept_task, :ret_send_back, :ret_accept_back,
-			:time_send_task,:time_accept_task, :time_send_back, :time_accept_back
+        attr_accessor :id_task, :id_src_node, :id_dst_node, :ret,:time
+    def initialize(id_task, id_src_node, id_dst_node, ret, time)
+    	@id_task = id_task
+    	@id_src_node = id_src_node
+    	@id_dst_node = id_dst_node
+    	@ret = ret
+    	@time = time
+    end
+
 end
 
-
-
-
-
-
-	CQLDriver = CQL3Driver.new()
+CQLDriver = CQL3Driver.new()
 
 
 
