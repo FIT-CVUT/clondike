@@ -143,7 +143,6 @@ class Director
 
     @netlinkConnector.pushForkHandler(@immigratedTasksController)
     @netlinkConnector.pushForkHandler(@taskRepository)
-    @netlinkConnector.pushForkHandler(@immigratedTasksController)
     #@netlinkConnector.pushForkHandler(procTrace) if $useProcTrace
 
     @netlinkConnector.pushUserMessageHandler(@interconnection)
