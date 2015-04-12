@@ -101,8 +101,8 @@ extern struct tcmi_msg* tcmi_p_emigrate_msg_new_tx(struct tcmi_slotvec *transact
 /** \<\<public\>\> Message descriptor for the factory class, there is no error
  * handling as this is the starting request */
 #define TCMI_P_EMIGRATE_MSG_DSC TCMI_MSG_DSC(TCMI_P_EMIGRATE_MSG_ID, tcmi_p_emigrate_msg_new_rx, NULL)
-/** Response time out is set to 10 seconds*/
-#define TCMI_P_EMIGRATE_MSGTIMEOUT (10*HZ)
+/** Response time out is set to 20 seconds*/
+#define TCMI_P_EMIGRATE_MSGTIMEOUT (20*HZ)
 
 /** Casts to the tcmi_p_emigrate_msg instance. */
 #define TCMI_P_EMIGRATE_MSG(m) ((struct tcmi_p_emigrate_msg*)m)

@@ -16,7 +16,7 @@ static u32 user_director_pid = 0;
 static atomic_t director_seq = ATOMIC_INIT(1);
 
 /** Read timeout in seconds */
-static int read_timeout = 5;
+static int read_timeout = 2;
 
 static struct genl_family director_gnl_family = {
 	.id = GENL_ID_GENERATE,
