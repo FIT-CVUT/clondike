@@ -21,6 +21,8 @@ int handle_migrated_home(struct nl_msg *req_msg) {
 
 	// In params
 	pid_t pid;
+	char* name;
+	unsigned long jiffies;
 	
 	seq = nlmsg_hdr(req_msg)->nlmsg_seq;
 
@@ -29,8 +31,20 @@ int handle_migrated_home(struct nl_msg *req_msg) {
 		return  -EBADMSG;
 	pid = nla_get_u32(nla);
 
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_NAME);
+	if (nla == NULL)
+		return  -EBADMSG;
+
+	name = nla_data(nla);
+
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_JIFFIES);
+	if (nla == NULL)
+		return  -EBADMSG;
+	
+	jiffies = nla_get_u64(nla);
+
 	if ( migrated_home_callback )
-        	migrated_home_callback(pid);
+        	migrated_home_callback(pid, name, jiffies);
 	
 	if ( (ret=prepare_response_message(state->sk, DIRECTOR_ACK, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;

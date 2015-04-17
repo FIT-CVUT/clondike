@@ -161,6 +161,7 @@ static long tcmi_mighooks_do_exit(long code)
 	director = director_pid();
 	if(director != 0 && current->pid == director) director_disconnect();
 		
+	rcu_read_lock();
 	task_lock(current);
 	for_each_process(child) {
         /* this pointlessly prints the name and PID of each task */
@@ -172,6 +173,7 @@ static long tcmi_mighooks_do_exit(long code)
     }
 	current->tcmi_parent = NULL;
 	task_unlock(current);
+	rcu_read_unlock();
 		
 	
 	return res;
@@ -223,7 +225,7 @@ static void tcmi_try_npm_on_exec(const char *filename, const char __user * const
 			if ( migrate_home )
 				tcmi_penman_migrateback_npm(man, regs, npm_params);
 			else
-				tcmi_man_emig_npm(man, current->pid, migman_to_use, regs, npm_params);
+				tcmi_man_emig_npm(man, current->pid, filename, current->jiffies, migman_to_use, regs, npm_params);
 			// If we got here, the migration was not performed => free npm params
 			mdbg(INFO3, "Freeing npm_params after unsuccessful npm migration attempt.");
 			vfree(npm_params);

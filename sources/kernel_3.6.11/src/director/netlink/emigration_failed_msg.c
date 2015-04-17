@@ -12,6 +12,8 @@
 struct emigration_failed_params {
 	/* In params */
 	u32 pid;
+	const char* name;
+	unsigned long jiffies;
 
 	/* Out params -> NONE */
 
@@ -24,6 +26,14 @@ static int emigration_failed_create_request(struct sk_buff *skb, void* params) {
 	ret = nla_put_u32(skb, DIRECTOR_A_PID, emigration_failed_params->pid);
   	if (ret != 0)
       		goto failure;
+
+    ret = nla_put_string(skb, DIRECTOR_A_NAME, emigration_failed_params->name);
+  	if (ret != 0)
+      		goto failure;
+	
+	ret = nla_put_u64(skb, DIRECTOR_A_JIFFIES, emigration_failed_params->jiffies);
+		if (ret != 0)
+			goto failure;
 failure:
 	return ret;
 }
@@ -41,11 +51,13 @@ static struct msg_transaction_ops emigration_failed_msg_ops = {
 };
 
 
-int emigration_failed(pid_t pid) {
+int emigration_failed(pid_t pid, const char* name,	unsigned long jif) {
 	struct emigration_failed_params params;
 	int ret;
 
 	params.pid = pid;
+	params.name = name;
+	params.jiffies = jif;
 
 	ret = msg_transaction_do(DIRECTOR_EMIGRATION_FAILED, &emigration_failed_msg_ops, &params, 1);
 

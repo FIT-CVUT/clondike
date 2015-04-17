@@ -69,8 +69,9 @@ class NetlinkConnector
     @immigrationHandlers << handler;
   end
 
-  def connectorImmigrationRequestCallbackFunction(uid, slotIndex, name, jiffies)
-    $log.info("Immigration request for process #{name} #{jiffies}")
+  # Pridat do teto zpravy pid pro Cassandra
+  def connectorImmigrationRequestCallbackFunction(uid, pid, slotIndex, name, jiffies)
+    $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
     result = true
     @immigrationHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
@@ -162,8 +163,9 @@ class NetlinkConnector
     @migrationFailedHandlers << handler;
   end
 
-  def connectorEmigrationFailedCallbackFunction(pid)
-    $log.info("Emigration failed for pid #{pid}")
+  # Pridat jiffies a name pro Cassandra
+  def connectorEmigrationFailedCallbackFunction(pid, name, jiffies)
+    $log.info("Emigration failed for pid #{pid} #{name} #{jiffies}")
 
     @migrationFailedHandlers.each do |handler|
       handler.onEmigrationFailed(pid)
@@ -174,8 +176,9 @@ class NetlinkConnector
     @migratedHomeHandlers << handler;
   end
 
-  def connectorMigratedHomeCallbackFunction(pid)
-    $log.info("Migrated home: #{pid}")
+  # Pridat jiffies a name pro Cassandra
+  def connectorMigratedHomeCallbackFunction(pid, name, jiffies)
+    $log.info("Migrated home: #{pid} #{name} #{jiffies}")
 
     @migratedHomeHandlers.each do |handler|
       handler.onMigratedHome(pid)

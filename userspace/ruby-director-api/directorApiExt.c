@@ -5,12 +5,12 @@ static void ruby_npm_check_callback(pid_t pid, uid_t uid, int is_guest, const ch
 static void ruby_npm_check_full_callback(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 static void ruby_node_connected_callback(char* address, int slot_index, int auth_data_size, const char* auth_data, int* accept );
 static void ruby_node_disconnected_callback(int slot_index, int slot_type, int reason);
-static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const char* name, unsigned long jiffies, int* accept);
+static void ruby_immigrate_request_callback(uid_t uid, pid_t pid, int slot_index, const char* name, unsigned long jiffies, int* accept);
 static void ruby_immigration_confirmed_callback(uid_t uid, int slot_index, const char* name, unsigned long jiffies, pid_t local_pid, pid_t remote_pid);
 static void ruby_task_exitted_callback(pid_t pid, int exit_code, struct rusage *rusage);
 static void ruby_task_forked_callback(pid_t pid, pid_t ppid);
-static void ruby_migrated_home_callback(pid_t pid);
-static void ruby_emigration_failed_callback(pid_t pid);
+static void ruby_migrated_home_callback(pid_t pid, const char* name, unsigned long jiffies);
+static void ruby_emigration_failed_callback(pid_t pid, const char* name, unsigned long jiffies);
 static void ruby_user_message_received_callback(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data);
 
 static VALUE ruby_rusage(struct rusage *rusage)
@@ -199,7 +199,7 @@ static void ruby_node_disconnected_callback(int slot_index, int slot_type, int r
 }
 
 
-static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const char* name, unsigned long jiffies, int* accept ) {
+static void ruby_immigrate_request_callback(uid_t uid, pid_t pid, int slot_index, const char* name, unsigned long jiffies, int* accept ) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	VALUE callResult = Qnil;
 
@@ -209,7 +209,7 @@ static void ruby_immigrate_request_callback(uid_t uid, int slot_index, const cha
 	callbackMethod = rb_iv_get(self,"@immigrateRequestCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@immigrateRequestCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 4,INT2FIX(uid), INT2FIX(slot_index), rb_str_new2(name), ULONG2NUM(jiffies));
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5,INT2FIX(uid), INT2FIX(pid) ,INT2FIX(slot_index), rb_str_new2(name), ULONG2NUM(jiffies));
 	}
 
 	if ( callResult != Qnil ) {
@@ -259,7 +259,7 @@ static void ruby_task_forked_callback(pid_t pid, pid_t ppid) {
 	}
 }
 
-static void ruby_migrated_home_callback(pid_t pid) {
+static void ruby_migrated_home_callback(pid_t pid, const char* name, unsigned long jiffies) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
@@ -268,11 +268,11 @@ static void ruby_migrated_home_callback(pid_t pid) {
 	callbackMethod = rb_iv_get(self,"@migratedHomeCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@migratedHomeCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-	    rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
+	    rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3, INT2FIX(pid), rb_str_new2(name), ULONG2NUM(jiffies));
 	}
 }
 
-static void ruby_emigration_failed_callback(pid_t pid) {
+static void ruby_emigration_failed_callback(pid_t pid, const char* name, unsigned long jiffies) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	
 	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
@@ -281,7 +281,7 @@ static void ruby_emigration_failed_callback(pid_t pid) {
 	callbackMethod = rb_iv_get(self,"@emigrationFailedCallbackFunction");
 	callbackTarget = rb_iv_get(self,"@emigrationFailedCallbackTarget");
 	if ( callbackMethod != Qnil ) {
-		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 1, INT2FIX(pid));
+		rb_funcall(callbackTarget, rb_to_id(callbackMethod), 3, INT2FIX(pid), rb_str_new2(name), ULONG2NUM(jiffies));
 	}
 }
 

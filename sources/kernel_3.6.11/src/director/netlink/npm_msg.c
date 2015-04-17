@@ -49,9 +49,9 @@ static int npm_check_create_request(struct sk_buff *skb, void* params) {
   	if (ret != 0)
       		goto failure;
 
-  	ret = nla_put_u32(skb, DIRECTOR_A_LENGTH, check_params->name_length);
-	if (ret != 0)
-		goto failure;
+  	//ret = nla_put_u32(skb, DIRECTOR_A_LENGTH, check_params->name_length);
+	//if (ret != 0)
+	//	goto failure;
 
 	ret = nla_put_u64(skb, DIRECTOR_A_JIFFIES, check_params->jiffies);
 	if (ret != 0)
@@ -104,7 +104,7 @@ int npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, int* decisio
 	params.uid = uid;
 	params.is_guest = is_guest;
 	params.name = name;
-	params.name_length = strlen(name);
+	//params.name_length = strlen(name);
 	params.args = NULL;
 	params.envp = NULL;
 	params.rusage = rusage;
@@ -213,7 +213,7 @@ int npm_check_full(pid_t pid, uid_t uid, int is_guest, const char* name, const c
 	params.uid = uid;
 	params.is_guest = is_guest;
 	params.name = name;
-	params.name_length = strlen(name);
+	//params.name_length = strlen(name);
 	params.args = args;
 	params.envp = envp;
 	params.rusage = NULL;

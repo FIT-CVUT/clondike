@@ -131,6 +131,7 @@ static long tcmi_syscall_hooks_in_fork(struct task_struct* child) {
 static long tcmi_syscall_hooks_post_fork(struct task_struct* child, long res, pid_t remote_pid, 
 					int __user *parent_tidptr, int __user *child_tidptr) 
 {
+	if(child == NULL) return 0;
 	child->tcmi_parent = current;  // Set original parent PID for Clondike NPM check
 	if(director_check_forked_process(child)) child->nonmigratable = 1;
 	else child->nonmigratable = 0;

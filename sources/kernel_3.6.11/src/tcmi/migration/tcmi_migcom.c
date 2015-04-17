@@ -145,11 +145,13 @@ static int tcmi_task_mount_proxyfs(void *self, struct tcmi_method_wrapper *wr) {
  * physical checkpoint image.
  *
  * @param pid - task that is to be migrated
+ * @param name - name of task that is to be migrated
+ * @param jiffies - identifier of task for Cassandra
  * @param *migman - migration manager that will provide the communication
  * channel for the migrated task.
  * @return 0 upon success;
  */
-int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, struct tcmi_migman *migman)
+int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, const char* name, unsigned long jiffies, struct tcmi_migman *migman)
 {
 	int err = 0;
 	struct tcmi_task *shadow;
@@ -181,7 +183,7 @@ int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, struct tcmi_migman *migman)
 	/* wait for pickup */
 	if (tcmi_taskhelper_wait_for_pick_up_timeout(shadow, 2*HZ) < 0) {
 		mdbg(INFO1, "Shadow not picked up: %p", shadow);
-		director_emigration_failed(pid);
+		director_emigration_failed(pid, name, jiffies);
 	} else {
 		mdbg(INFO1, "Shadow successfully picked up: %p", shadow);
 	}
@@ -200,7 +202,7 @@ int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, struct tcmi_migman *migman)
 }
 
 /** \<\<public\>\> Migrates non-preemptively a task from a CCN to a PEN */
-int tcmi_migcom_emigrate_ccn_npm(pid_t pid, struct tcmi_migman *migman, struct pt_regs* regs, struct tcmi_npm_params* npm_params) {
+int tcmi_migcom_emigrate_ccn_npm(pid_t pid, const char* name, unsigned long jiffies,struct tcmi_migman *migman, struct pt_regs* regs, struct tcmi_npm_params* npm_params) {
 	int err = 0;
 	struct tcmi_task *shadow;
 
@@ -239,7 +241,7 @@ int tcmi_migcom_emigrate_ccn_npm(pid_t pid, struct tcmi_migman *migman, struct p
 	// - task migrates back, so it must execve to a new checkpoint => we still do not get here
 	mdbg(INFO3, "Got after npm migration handler start");
 	
-	director_emigration_failed(pid);
+	director_emigration_failed(pid, name, jiffies);
 
 	// Ok, the emigration failed. Task is going to release its reference to migman and we've release the reference we got
 	// from the manager.. we have to retake this reference so that the release made by manager has matching get
@@ -306,7 +308,7 @@ int tcmi_migcom_immigrate(struct tcmi_msg *m, struct tcmi_migman *migman)
 	int accept = 0;
 
 
-	int call_res = director_immigration_request(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), &accept, tcmi_p_emigrate_msg_ckpt_jif(msg));
+	int call_res = director_immigration_request(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_reply_pid(msg), tcmi_p_emigrate_msg_exec_name(msg), &accept, tcmi_p_emigrate_msg_ckpt_jif(msg));
 	if ( call_res == 0 ) {
 		if ( !accept ) {
 			mdbg(INFO2, "Immigration rejected by director.");
@@ -381,7 +383,7 @@ int tcmi_migcom_immigrate(struct tcmi_msg *m, struct tcmi_migman *migman)
 		goto exit1;
 	}
 	mdbg(INFO2, "Guest successfully picked up: %p", guest);
-	director_immigration_confirmed(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), pid, tcmi_p_emigrate_msg_reply_pid(msg), guest->jiffies);	
+	director_immigration_confirmed(tcmi_migman_slot_index(migman), tcmi_p_emigrate_msg_euid(msg), tcmi_p_emigrate_msg_exec_name(msg), pid, tcmi_p_emigrate_msg_reply_pid(msg), tcmi_p_emigrate_msg_ckpt_jif(msg));	
 	tcmi_task_put(guest);
 	return 0;
 

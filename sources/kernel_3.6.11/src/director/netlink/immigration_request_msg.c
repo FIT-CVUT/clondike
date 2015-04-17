@@ -12,6 +12,7 @@ struct immigration_request_params {
 	const char* name;
 	int slot_index;
 	uid_t uid;
+	pid_t pid;
 	unsigned long jiffies;
 
 	/* Out params */
@@ -25,6 +26,10 @@ static int immigration_request_create_request(struct sk_buff *skb, void* params)
   	struct immigration_request_params* immigration_request_params = params;
 
 	ret = nla_put_u32(skb, DIRECTOR_A_UID, immigration_request_params->uid);
+  	if (ret != 0)
+      		goto failure;
+
+    ret = nla_put_u32(skb, DIRECTOR_A_PID, immigration_request_params->pid);
   	if (ret != 0)
       		goto failure;
 
@@ -65,11 +70,12 @@ static struct msg_transaction_ops immigration_request_msg_ops = {
 	.read_response = immigration_request_read_response
 };
 
-int immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif) {
+int immigration_request(int slot_index, uid_t uid, pid_t pid, const char* name, int* accept, unsigned long jif) {
 	struct immigration_request_params params;
 	int ret;
 	
 	params.slot_index = slot_index;
+	params.pid = pid;
 	params.uid = uid;
 	params.name = name;
 	params.jiffies = jif;

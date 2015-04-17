@@ -85,7 +85,7 @@ class LoadBalancer
       task = @taskRepository.getTask(pid)
       if ( task )
         # Sem pridat sber dat pro Cassandru !!!!!!!!!!!!!!!!!!
-        $log.info("LoadBalancer decided to emigrate #{name}:#{pid} to node #{migrationTarget} (#{task.classifications_to_s})")
+        $log.info("LoadBalancer decided to emigrate #{name}:#{pid}:#{jiffies} to node #{migrationTarget} (#{task.classifications_to_s})")
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid}")
       end
@@ -93,7 +93,7 @@ class LoadBalancer
     else
       task = @taskRepository.getTask(pid)
       if ( task )
-        $log.info("LoadBalancer decided to keep #{name}:#{pid} home (#{task.classifications_to_s})")
+        $log.info("LoadBalancer decided to keep #{name}:#{pid}:#{jiffies} home (#{task.classifications_to_s})")
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid} (kept home)")
       end

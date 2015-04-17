@@ -504,10 +504,12 @@ static int tcmi_man_emig_ppm_p(void *obj, void *data)
  * \<\<public\>\> Method that performs non-preemtive migration  
  *
  * @param pid Pid of the process to be migrated
+ * @param name Name of the process
+ * @param jiffies Jiffies is identifier of task for Cassandra
  * @param migman_id Id of the migration manager to be used for the migration
  * @param npm_params Params of the non-preemptive migration
  */
-int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, u_int32_t migman_id, struct pt_regs* regs, struct tcmi_npm_params* npm_params)
+int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, const char *name, unsigned long jiffies, u_int32_t migman_id, struct pt_regs* regs, struct tcmi_npm_params* npm_params)
 {
 	int err = 0;
 	struct tcmi_slot *slot;
@@ -532,7 +534,7 @@ int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, u_int32_t migman_id, str
 	tcmi_slotvec_unlock(self->mig_mans);
 
 	if (self->ops->emigrate_npm)
-		err = self->ops->emigrate_npm(pid, migman, regs, npm_params);
+		err = self->ops->emigrate_npm(pid, name, jiffies, migman, regs, npm_params);
 
 	/* release the migration manager */
 	tcmi_migman_put(migman);

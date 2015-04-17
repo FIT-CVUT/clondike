@@ -130,14 +130,15 @@ class TrustManagement
   end
 
   def getSession(nodeId)
-    key = getKey(nodeId).to_pem
+    key = getKey(nodeId)
     return nil if key.nil?
+    keyPEM = key.to_pem 
     cliNegs = @authenticationDispatcher.clientNegotiations
     srvNegs = @authenticationDispatcher.serverNegotiations
-    return cliNegs[key] if (cliNegs.has_key?(key) && cliNegs[key].confirmed == true)
-    return srvNegs[key] if (srvNegs.has_key?(key) && srvNegs[key].confirmed == true)
-    return cliNegs[key] if cliNegs.has_key?(key)
-    return srvNegs[key] if srvNegs.has_key?(key)
+    return cliNegs[keyPEM] if (cliNegs.has_key?(keyPEM) && cliNegs[keyPEM].confirmed == true)
+    return srvNegs[keyPEM] if (srvNegs.has_key?(keyPEM) && srvNegs[keyPEM].confirmed == true)
+    return cliNegs[keyPEM] if cliNegs.has_key?(keyPEM)
+    return srvNegs[keyPEM] if srvNegs.has_key?(keyPEM)
     return nil
   end
 

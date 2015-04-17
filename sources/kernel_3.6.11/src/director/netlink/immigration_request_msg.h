@@ -8,10 +8,11 @@
  *
  * @param slot_index Index of the remote core node manager that requests immigration to this node
  * @param uid Uid of user on the remote node that is requesting the migration
+ * @param pid Pid of the immigrate process 
  * @param name Name of the binary the process (executable) that should be immigrated
  * @param accept Output param. 0 if immigration is rejected, everything else if it is accepted
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif);
+int immigration_request(int slot_index, uid_t uid, pid_t pid,const char* name, int* accept, unsigned long jif);
 
 #endif

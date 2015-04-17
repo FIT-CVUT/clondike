@@ -145,7 +145,7 @@ struct tcmi_man_ops {
 	/** Preemptive emigration method. */
 	int (*emigrate_ppm_p)(pid_t, struct tcmi_migman*);
 	/** Non-preemptive emigration method. */
-	int (*emigrate_npm)(pid_t, struct tcmi_migman*, struct pt_regs* regs, struct tcmi_npm_params*);
+	int (*emigrate_npm)(pid_t, const char *name, unsigned long jiffies, struct tcmi_migman*, struct pt_regs* regs, struct tcmi_npm_params*);
 	/** Migrate home method. */
 	int (*migrate_home_ppm_p)(pid_t);	
 	/** Transforms forked process to a same type of task as parent and assigns it with a same manager. */
@@ -246,7 +246,7 @@ static inline u_int32_t tcmi_man_id(struct tcmi_man *self)
 
 
 /** \<\<public\>\> Method that performs non-preemtive migration  */
-extern int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, u_int32_t migman_id, struct pt_regs* regs, struct tcmi_npm_params* npm_params);
+extern int tcmi_man_emig_npm(struct tcmi_man *self, pid_t pid, const char *name, unsigned long jiffies, u_int32_t migman_id, struct pt_regs* regs, struct tcmi_npm_params* npm_params);
 
 /** \<\<public\>\> Method that performs task fork */
 extern int tcmi_man_fork(struct tcmi_man *self, struct task_struct* parent, struct task_struct* child);

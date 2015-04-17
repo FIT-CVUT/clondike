@@ -41,7 +41,7 @@ int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name, con
  * @param accept Output param. 0 if immigration is rejected, everything else if it is accepted
  * @return 0 on success, error code otherwise. In case of error, output params are not valid!
  */
-int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif);
+int director_immigration_request(int slot_index, uid_t uid, pid_t pid, const char* name, int* accept, unsigned long jif);
 
 /**
  * Notification about successful imigration
@@ -148,17 +148,21 @@ pid_t director_pid(void);
  * Called, when a task emigration has failed
  *
  * @param pid Pid of a new task that failed to emigrate
+ * @param name Name of the task that failed to emigrate
+ * @param jif Jiffies as identifier of the task that failed to emigrate
  * @return 0 on success, error code otherwise.
  */
-int director_emigration_failed(pid_t pid);
+int director_emigration_failed(pid_t pid, const char* name, unsigned long jif);
 
 /**
  * Called, when a task migrates home
  *
  * @param pid Pid of a new task that returned home
+ * @param name Name of a new task that returned home
+ * @param jif Jiffies as identifier of a new task that returned home
  * @return 0 on success, error code otherwise.
  */
-int director_migrated_home(pid_t pid);
+int director_migrated_home(pid_t pid, const char* name, unsigned long jif);
 
 /**
  * Registers handler for send generic user message command..

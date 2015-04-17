@@ -64,8 +64,8 @@ int director_npm_check(pid_t pid, uid_t uid, int is_guest, const char* name,
 
 EXPORT_SYMBOL(director_npm_check);
 
-int director_immigration_request(int slot_index, uid_t uid, const char* name, int* accept, unsigned long jif) {
-	return immigration_request(slot_index, uid, name, accept, jif);
+int director_immigration_request(int slot_index, uid_t uid, pid_t pid, const char* name, int* accept, unsigned long jif) {
+	return immigration_request(slot_index, uid, pid, name, accept, jif);
 }
 
 EXPORT_SYMBOL(director_immigration_request);
@@ -76,14 +76,14 @@ int director_immigration_confirmed(int slot_index, uid_t uid, const char* name, 
 EXPORT_SYMBOL(director_immigration_confirmed);
 
 int director_node_connected(const char* address, int slot_index, int auth_data_size, char* auth_data,  int* accept) {
-	//if (current->nonmigratable) return 0;
+	if (current->nonmigratable) return 0;
 	return node_connected(address, slot_index, auth_data_size, auth_data, accept);
 }
 
 EXPORT_SYMBOL(director_node_connected);
 
 int director_node_disconnected(int slot_index, int detached, int reason) {
-	//if (current->nonmigratable) return 0;
+	if (current->nonmigratable) return 0;
 	minfo(INFO4, "Node disconnected being called");
 	
 	return node_disconnected(slot_index, detached, reason);
@@ -113,6 +113,7 @@ int director_task_exit(struct task_struct *task, int exit_code, struct rusage *r
 EXPORT_SYMBOL(director_task_exit);
 
 int director_task_fork(struct task_struct *parent, struct task_struct *child) {
+	if(child == NULL) return 0;
 	/** Do not notify directory about its own forks, as this would lead to a lock-out of netlink communications */
 	mdbg(INFO4,"FORK new process nonmigratable = %d", child->nonmigratable);
 	if (child->nonmigratable) return 0;
@@ -126,9 +127,13 @@ EXPORT_SYMBOL(director_task_fork);
 
 
 int director_check_forked_process(struct task_struct *p){
+	int res = 0;
 	pid_t director_pid = get_director_pid();
 	if (director_pid == 0) return 2;		//Director is not connected
-	return director_check_parent(p, director_pid);
+	rcu_read_lock();
+	res = director_check_parent(p, director_pid);
+	rcu_read_unlock();
+	return res;
 }
 
 int director_check_parent(struct task_struct *p, pid_t find_pid) {
@@ -162,14 +167,14 @@ pid_t director_pid(void) {
 
 EXPORT_SYMBOL(director_check_forked_process);
 
-int director_emigration_failed(pid_t pid) {
-	return emigration_failed(pid);
+int director_emigration_failed(pid_t pid, const char* name, unsigned long jif) {
+	return emigration_failed(pid, name, jif);
 }
 
 EXPORT_SYMBOL(director_emigration_failed);
 
-int director_migrated_home(pid_t pid) {
-	return migrated_home(pid);
+int director_migrated_home(pid_t pid, const char* name, unsigned long jif) {
+	return migrated_home(pid, name, jif);
 }
 
 EXPORT_SYMBOL(director_migrated_home);

@@ -49,10 +49,10 @@ struct tcmi_npm_params;
  */
 
 /** \<\<public\>\> Migrates a task from a CCN to a PEN */
-extern int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, struct tcmi_migman *migman);
+extern int tcmi_migcom_emigrate_ccn_ppm_p(pid_t pid, const char* name, unsigned long jiffies, struct tcmi_migman *migman);
 
 /** \<\<public\>\> Migrates non-preemptively a task from a CCN to a PEN */
-extern int tcmi_migcom_emigrate_ccn_npm(pid_t pid, struct tcmi_migman *migman, struct pt_regs* regs, struct tcmi_npm_params* npm_params);
+extern int tcmi_migcom_emigrate_ccn_npm(pid_t pid, const char* name, unsigned long jiffies, struct tcmi_migman *migman, struct pt_regs* regs, struct tcmi_npm_params* npm_params);
 
 /** \<\<public\>\> Immigrates a task - handles accepting the task on the PEN side */
 extern int tcmi_migcom_immigrate(struct tcmi_msg *m, struct tcmi_migman *migman);

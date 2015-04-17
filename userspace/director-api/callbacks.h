@@ -20,7 +20,7 @@ typedef void (*npm_check_callback_t)(pid_t pid, uid_t uid, int is_guest, const c
 
 typedef void (*npm_check_full_callback_t)(pid_t pid, uid_t uid, int is_guest, const char* name, unsigned long jiffies, char** args, char** envp, int* decision, int* decision_value);
 
-typedef void (*immigration_request_callback_t)(uid_t uid, int slot_index, const char* exec_name, unsigned long jiffies,int* accept);
+typedef void (*immigration_request_callback_t)(uid_t uid, pid_t pid, int slot_index, const char* exec_name, unsigned long jiffies,int* accept);
 
 typedef void (*immigration_confirmed_callback_t)(uid_t uid, int slot_index, const char* exec_name, pid_t local_pid, unsigned long jiffies, pid_t remote_pid);
 
@@ -32,9 +32,9 @@ typedef void (*task_exitted_callback_t)(pid_t pid, int exit_code, struct rusage 
 
 typedef void (*task_forked_callback_t)(pid_t pid, pid_t ppid);
 
-typedef void (*migrated_home_callback_t)(pid_t pid);
+typedef void (*migrated_home_callback_t)(pid_t pid, const char* name, unsigned long jiffies);
 
-typedef void (*emigration_failed_callback_t)(pid_t pid);
+typedef void (*emigration_failed_callback_t)(pid_t pid, const char* name, unsigned long jiffies);
 
 typedef void (*generic_user_message_callback_t)(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data);
 

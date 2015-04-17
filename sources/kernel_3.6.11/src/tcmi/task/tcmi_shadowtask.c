@@ -477,7 +477,7 @@ static int tcmi_shadowtask_process_ppm_p_migr_back_guestreq_procmsg(struct tcmi_
 	mdbg(INFO2, "Processing migrate back request, remote PID=%d, checkpoint: '%s'",
 		     tcmi_task_remote_pid(self), ckpt_name);
 
-	director_migrated_home(tcmi_task_local_pid(self));
+	director_migrated_home(tcmi_task_local_pid(self), current->comm, self->jiffies);
 	
 	/* schedules process restart from a checkpoint image */
 	if (tcmi_taskhelper_restart(self, ckpt_name) < 0) {

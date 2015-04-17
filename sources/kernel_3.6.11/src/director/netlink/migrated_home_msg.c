@@ -12,6 +12,8 @@
 struct migrated_home_params {
 	/* In params */
 	u32 pid;
+	const char* name;
+	unsigned long jiffies;
 
 	/* Out params -> NONE */
 
@@ -24,6 +26,15 @@ static int migrated_home_create_request(struct sk_buff *skb, void* params) {
 	ret = nla_put_u32(skb, DIRECTOR_A_PID, migrated_home_params->pid);
   	if (ret != 0)
       		goto failure;
+
+    ret = nla_put_string(skb, DIRECTOR_A_NAME, migrated_home_params->name);
+  	if (ret != 0)
+      		goto failure;
+	
+	ret = nla_put_u64(skb, DIRECTOR_A_JIFFIES, migrated_home_params->jiffies);
+		if (ret != 0)
+			goto failure;
+
 failure:
 	return ret;
 }
@@ -41,11 +52,14 @@ static struct msg_transaction_ops migrated_home_msg_ops = {
 };
 
 
-int migrated_home(pid_t pid) {
+int migrated_home(pid_t pid, const char* name, unsigned long jif) {
 	struct migrated_home_params params;
 	int ret;
 
 	params.pid = pid;
+	params.name = name;
+	params.jiffies = jif;
+
 
 	ret = msg_transaction_do(DIRECTOR_MIGRATED_HOME, &migrated_home_msg_ops, &params, 1);
 

@@ -21,6 +21,7 @@ int handle_immigration_request(struct nl_msg *req_msg) {
 
 	// In params	
 	int uid;
+	pid_t pid;
 	int slot_index;
 	char* name;
 	unsigned long jiffies;
@@ -33,6 +34,11 @@ int handle_immigration_request(struct nl_msg *req_msg) {
 	if (nla == NULL)
 		return  -EBADMSG;
 	uid = nla_get_u32(nla);
+
+	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_PID);
+	if (nla == NULL)
+		return  -EBADMSG;
+	pid = nla_get_u32(nla);
 
 	nla = nlmsg_find_attr(nlmsg_hdr(req_msg), sizeof(struct genlmsghdr), DIRECTOR_A_INDEX);
 	if (nla == NULL)
@@ -52,7 +58,7 @@ int handle_immigration_request(struct nl_msg *req_msg) {
 
 	//printf("NPM CALLED FOR NAME: %s\n", name);
 	if ( immigration_request_callback )
-        	immigration_request_callback(uid, slot_index, name, jiffies, &accept);
+        	immigration_request_callback(uid, pid, slot_index, name, jiffies, &accept);
 	
 	if ( (ret=prepare_response_message(state->sk, DIRECTOR_IMMIGRATION_REQUEST_RESPONSE, state->gnl_fid, seq, &msg) ) != 0 ) {
 		goto done;
