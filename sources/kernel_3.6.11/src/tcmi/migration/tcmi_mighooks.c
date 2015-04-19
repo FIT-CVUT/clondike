@@ -161,20 +161,14 @@ static long tcmi_mighooks_do_exit(long code)
 	director = director_pid();
 	if(director != 0 && current->pid == director) director_disconnect();
 		
-	rcu_read_lock();
-	task_lock(current);
+	write_lock_irq(&tasklist_lock);
 	for_each_process(child) {
         /* this pointlessly prints the name and PID of each task */
-        if (child->tcmi_parent == current){
-        	task_lock(child);
-        	child->tcmi_parent = current->tcmi_parent;
-        	task_unlock(child);
-        }
+        if (child->tcmi_parent == current)
+         	child->tcmi_parent = current->tcmi_parent;
     }
 	current->tcmi_parent = NULL;
-	task_unlock(current);
-	rcu_read_unlock();
-		
+	write_unlock_irq(&tasklist_lock);	
 	
 	return res;
 }

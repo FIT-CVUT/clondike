@@ -127,34 +127,18 @@ EXPORT_SYMBOL(director_task_fork);
 
 
 int director_check_forked_process(struct task_struct *p){
-	int res = 0;
 	pid_t director_pid = get_director_pid();
-	if (director_pid == 0) return 2;		//Director is not connected
-	rcu_read_lock();
-	res = director_check_parent(p, director_pid);
-	rcu_read_unlock();
-	return res;
+	if (director_pid == 0) return 2;		//Director is not connected		
+	return director_check_parent(p, director_pid);
 }
 
 int director_check_parent(struct task_struct *p, pid_t find_pid) {
 	struct task_struct *tmp = NULL;
 	if (p == NULL) return 0;
-	task_lock(p);
-	if (p->pid == 1) goto not;
-	if (p->pid == find_pid) goto found;
-	printk("(%s pid = %d)\n",p->comm, p->pid);
+	if (p->pid == 1) return 0;
+	if (p->pid == find_pid) return 1;
 	tmp = p->tcmi_parent;
-	task_unlock(p);
 	return director_check_parent(tmp, find_pid);
-
-not:
-	task_unlock(p);
-	return 0;
-found:
-	task_unlock(p);
-	printk("(Found %s pid = %d)\n",p->comm, p->pid);
-	return 1;
-
 }
 
 void director_disconnect(void){

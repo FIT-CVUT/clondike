@@ -110,6 +110,12 @@ static long tcmi_syscall_hooks_pre_fork(unsigned long clone_flags, unsigned long
  * \<\<private\>\> in-fork... performs attachement of guest/shadow task to TCMI
  */
 static long tcmi_syscall_hooks_in_fork(struct task_struct* child) {
+
+	child->tcmi_parent = current;  // Set original parent PID for Clondike NPM check
+	if(director_check_forked_process(current)) child->nonmigratable = 1;
+	else child->nonmigratable = 0;
+
+
 	if ( current->tcmi.task_type == guest ) {
 		// Parent task is guest => child will be guest
 		struct tcmi_penman* pen_man = tcmi_penman_get_instance();
@@ -131,11 +137,6 @@ static long tcmi_syscall_hooks_in_fork(struct task_struct* child) {
 static long tcmi_syscall_hooks_post_fork(struct task_struct* child, long res, pid_t remote_pid, 
 					int __user *parent_tidptr, int __user *child_tidptr) 
 {
-	if(child == NULL) return 0;
-	child->tcmi_parent = current;  // Set original parent PID for Clondike NPM check
-	if(director_check_forked_process(child)) child->nonmigratable = 1;
-	else child->nonmigratable = 0;
-
 	if ( current->tcmi.task_type == guest ) {
 		// Guest task hook
 		struct tcmi_task* child_task = NULL;
