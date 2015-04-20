@@ -196,13 +196,6 @@ static int tcmi_ccnman_init_ctlfs_files(void)
 				     TCMI_FS_MOUNT_OPTIONS_LENGTH, "fs-mount-options")))
 		goto exit1;
 
-	/* Create file for count of connected nodes by pen */
-	if (!(self.f_nodes_count = 
-	      tcmi_ctlfs_intfile_new(tcmi_man_nodes_dir(TCMI_MAN(&self)), TCMI_PERMS_FILE_R,
-				     NULL, tcmi_ccnman_count, NULL,
-				     sizeof(int), "count")))
-		goto exit1;
-
 	return 0;
 
 	/* error handling */
@@ -284,10 +277,7 @@ static void tcmi_ccnman_stop_ctlfs_files(void)
 
 	tcmi_ctlfs_file_unregister(self.f_mount_options);
 	tcmi_ctlfs_entry_put(self.f_mount_options);	
-
-	tcmi_ctlfs_file_unregister(self.f_nodes_count);
-	tcmi_ctlfs_entry_put(self.f_nodes_count);
-
+	
 }
 
 /**
@@ -709,26 +699,10 @@ static struct tcmi_man_ops ccnman_ops = {
 	.emigrate_ppm_p = tcmi_migcom_emigrate_ccn_ppm_p,
 	.emigrate_npm = tcmi_migcom_emigrate_ccn_npm,
 	.migrate_home_ppm_p = tcmi_migcom_migrate_home_ppm_p,
-	.fork = tcmi_migcom_shadow_fork,
+	.fork = tcmi_migcom_shadow_fork
 };
 
 
-/**
- * \<\<private\>\> Updates count of connected nodes
- *
- * @param *obj - pointer to an object - NULL is expected as
- * TCMI PEN manager is a singleton class.
- * @param *str - number connected nodes 
- * @return 0 upon success
- */
-static int tcmi_ccnman_count(void *obj, void *str)
-{
-	int *count = (int*) str;
-  
-    *count = atomic_read(&TCMI_MAN(&self)->count_connected_nodes);
-
-	return 0;
-}
 
 
 /**

@@ -124,10 +124,6 @@ struct tcmi_penman {
   /** TCMI ctlfs - connect control file */
 	struct tcmi_ctlfs_entry *f_connect;
 
-  /** TCMI CTLFS - count of connected nodes */
-  struct tcmi_ctlfs_entry *f_nodes_count;
-
-
 };
 /** Casts to the PEN manager. */
 #define TCMI_PENMAN(man) ((struct tcmi_penman *)man)
@@ -159,8 +155,6 @@ static void tcmi_penman_stop(void);
 
 /** Write method for the TCMI ctlfs - connects to a CCN. */
 static int tcmi_penman_connect(void *obj, void *data);
-
-static int tcmi_penman_count(void *obj, void *str);
 
 /** CCN manager operations that support polymorphism */
 static struct tcmi_man_ops penman_ops;

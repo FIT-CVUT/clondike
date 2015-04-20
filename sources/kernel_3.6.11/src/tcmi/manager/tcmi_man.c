@@ -302,6 +302,13 @@ static int tcmi_man_init_ctlfs_files(struct tcmi_man *self)
 		mdbg(ERR3, "Failed to create specific ctlfs files!");
 		goto exit3;
 	}
+
+	/* Create file for count of connected nodes*/
+	if (!(self->f_nodes_count = 
+	      tcmi_ctlfs_intfile_new(self->d_nodes, TCMI_PERMS_FILE_R,
+				     self, tcmi_man_count, NULL,
+				     sizeof(int), "count")))
+		goto exit1;
 	return 0;
 
 
@@ -358,6 +365,10 @@ static void tcmi_man_stop_ctlfs_files(struct tcmi_man *self)
 
 	tcmi_ctlfs_file_unregister(self->f_mig_home_ppm_p);
 	tcmi_ctlfs_entry_put(self->f_mig_home_ppm_p);
+
+	tcmi_ctlfs_file_unregister(self->f_nodes_count);
+	tcmi_ctlfs_entry_put(self->f_nodes_count);
+
 
 }
 
@@ -446,6 +457,25 @@ static int tcmi_man_stop(void *obj, void *data)
 	return 0;
 }
 
+/**
+ * \<\<private\>\> Read method returns count of connected nodes
+ *
+ * @param *obj - pointer to an object - NULL is expected as
+ * TCMI manager is a singleton class.
+ * @param *str - number connected nodes - output parameter
+ * @return 0 upon success
+ */
+ 
+static int tcmi_man_count(void *obj, void *str)
+{  
+	int *count = (int*) str;
+  	struct tcmi_man *self = TCMI_MAN(obj); 
+    down(&self->sem);
+    *count = atomic_read(&self->count_connected_nodes);
+    up(&self->sem);
+	return 0;
+}
+
 /** 
  * \<\<private\>\> TCMI ctlfs write method - emigration PPM P 
  * What needs to be done: 
@@ -466,7 +496,7 @@ static int tcmi_man_emig_ppm_p(void *obj, void *data)
 	struct tcmi_man *self = TCMI_MAN(obj);
 	struct tcmi_slot *slot;
 	struct tcmi_migman *migman = NULL;
-
+	struct task_struct *task = pid_task(find_vpid(pid), PIDTYPE_PID); 
 	
 	mdbg(INFO2, "Emigration request PID %d, migration manager %d", 
 	     pid, migman_id);
@@ -487,7 +517,7 @@ static int tcmi_man_emig_ppm_p(void *obj, void *data)
 	tcmi_slotvec_unlock(self->mig_mans);
 
 	if (self->ops->emigrate_ppm_p)
-		err = self->ops->emigrate_ppm_p(pid, migman);
+		err = self->ops->emigrate_ppm_p(pid, task->comm ,task->jiffies, migman);
 
 	/* release the migration manager */
 	tcmi_migman_put(migman);

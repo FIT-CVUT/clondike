@@ -156,9 +156,6 @@ struct tcmi_ccnman {
 	/** TCMI ctlfs - remote mount options. */
 	struct tcmi_ctlfs_entry *f_mount_options;
 	
-  /** TCMI CTLFS - count of connected nodes */
-  struct tcmi_ctlfs_entry *f_nodes_count;
-
   /** Remote moutn params */
 	struct fs_mount_params mount_params;
 
@@ -239,8 +236,6 @@ static inline void tcmi_ccnman_add_sleeper(struct kkc_sock_sleeper *);
 
 /** Removes sleepers that sleep on the socket. */ 
 static inline void tcmi_ccnman_remove_sleepers(struct tcmi_sock *);
-
-static int tcmi_ccnman_count(void *obj, void *str);
 
 /** CCN manager operations that support polymorphism */
 static struct tcmi_man_ops ccnman_ops;

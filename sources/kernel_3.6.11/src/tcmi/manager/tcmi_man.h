@@ -121,6 +121,9 @@ struct tcmi_man {
 	/** TCMI ctlfs - migration control file (PPM physical ckpt.) */
 	struct tcmi_ctlfs_entry *f_mig_home_ppm_p;
 
+	/** TCMI CTLFS - count of connected nodes */
+  	struct tcmi_ctlfs_entry *f_nodes_count;
+
 	/** Unique manager ID. */
 	u_int32_t id;
 
@@ -143,7 +146,7 @@ struct tcmi_man_ops {
 	/** Destroys all TCMI ctlfs files. */
 	void (*stop_ctlfs_files)(void);
 	/** Preemptive emigration method. */
-	int (*emigrate_ppm_p)(pid_t, struct tcmi_migman*);
+	int (*emigrate_ppm_p)(pid_t, const char*name, unsigned long jiffies, struct tcmi_migman*);
 	/** Non-preemptive emigration method. */
 	int (*emigrate_npm)(pid_t, const char *name, unsigned long jiffies, struct tcmi_migman*, struct pt_regs* regs, struct tcmi_npm_params*);
 	/** Migrate home method. */
@@ -274,6 +277,9 @@ static void tcmi_man_stop_migration(struct tcmi_man *self);
 
 /** TCMI ctlfs write method - stops the manager. */
 static int tcmi_man_stop(void *obj, void *data);
+
+/** TCMI ctlfs read method - count of connected nodes*/
+static int tcmi_man_count(void *obj, void *str);
 
 /** TCMI ctlfs write method - emigration PPM P */
 static int tcmi_man_emig_ppm_p(void *obj, void *data);

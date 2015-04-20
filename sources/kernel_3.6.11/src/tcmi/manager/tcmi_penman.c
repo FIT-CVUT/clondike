@@ -109,14 +109,6 @@ static int tcmi_penman_init_ctlfs_files(void)
 		goto exit0;
 	
 
-	/* Create file for count of connected nodes by pen */
-	if (!(self.f_nodes_count = 
-	      tcmi_ctlfs_intfile_new(tcmi_man_nodes_dir(TCMI_MAN(&self)), TCMI_PERMS_FILE_R,
-				     NULL, tcmi_penman_count, NULL,
-				     sizeof(int), "count")))
-		goto exit0;
-	
-
 	return 0;
 
 	/* error handling */
@@ -136,8 +128,6 @@ static void tcmi_penman_stop_ctlfs_files(void)
 	tcmi_ctlfs_file_unregister(self.f_connect);
 	tcmi_ctlfs_entry_put(self.f_connect);
 
-	tcmi_ctlfs_file_unregister(self.f_nodes_count);
-	tcmi_ctlfs_entry_put(self.f_nodes_count);
 }
 
 /**
@@ -254,24 +244,6 @@ static int tcmi_penman_connect(void *obj, void *str)
 }
 
 /**
- * \<\<private\>\> Updates count of connected nodes
- *
- * @param *obj - pointer to an object - NULL is expected as
- * TCMI PEN manager is a singleton class.
- * @param *str - number connected nodes 
- * @return 0 upon success
- */
-static int tcmi_penman_count(void *obj, void *str)
-{
-	int *count = (int*) str;
-  
-    *count = atomic_read(&TCMI_MAN(&self)->count_connected_nodes);
-
-	return 0;
-}
-
-
-/**
  * \<\<private\>\> Stops the PEN manager.
  *
  */
@@ -300,7 +272,7 @@ int tcmi_penman_migrateback_npm(struct tcmi_man *self, struct pt_regs* regs, str
 
 /** Singleton instance pre-initialization */
 static struct tcmi_penman self = {
-	.f_connect = NULL,
+	.f_connect = NULL
 };
 
 
@@ -310,7 +282,7 @@ static struct tcmi_man_ops penman_ops = {
 	.stop_ctlfs_files = tcmi_penman_stop_ctlfs_files,
 	.stop = tcmi_penman_stop,
 	.migrate_home_ppm_p = tcmi_migcom_migrate_home_ppm_p,
-	.fork = tcmi_migcom_guest_fork,
+	.fork = tcmi_migcom_guest_fork
 };
 
 /**
