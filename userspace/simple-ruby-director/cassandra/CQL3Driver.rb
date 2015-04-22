@@ -9,8 +9,7 @@ class CQL3Driver
     records = {}
     @cluster = nil
     @session = nil    
-    @tasks = nil    
-
+    
     KEYSPACE_NAME = "CLONDIKE"
     TABLE_NAME = "TASK_TIMELINE"
 
@@ -19,7 +18,6 @@ class CQL3Driver
 	@session  = cluster.connect('system') # create session, optionally scoped to a keyspace, to execute queries
 	createKeySpaceIfNotExists()
 	createTableIfNotExists()
-	@tasks = Queue.new()
 	@cluster.use('#{KEYSPACE_NAME}')
     end
 
