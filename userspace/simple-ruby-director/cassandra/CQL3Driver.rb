@@ -41,14 +41,14 @@ class CQL3Driver
 	    id_task UUID,
 	    id_src_node VARCHAR,
 	    id_dst_node VARCHAR,
-	    ret_send_task INT,
-	    ret_accept_task INT,
-	    ret_send_back INT,
-	    ret_accept_back INT,
-	    time_send_task TIMESTAMP,
-	    time_accept_task TIMESTAMP,
-	    time_send_back TIMESTAMP,
-	    time_accept_backid TIMESTAMP,
+	    ret_em_task INT,
+	    ret_em_f_task INT,
+	    ret_imm_r_task INT,
+	    ret_imm_c_task INT,
+	    time_em_task TIMESTAMP,
+	    time_em_f_task TIMESTAMP,
+	    time_imm_r_task TIMESTAMP,
+	    time_imm_c_task TIMESTAMP,
 	    PRIMARY KEY (id_task)
 	)
 	TABLE_CQL
@@ -61,19 +61,19 @@ class CQL3Driver
     def createRecord(type, id_task, id_src_node, id_dst_node, ret, time)
     	case type
     		when "EMIGRATE"
-    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_task, time_em_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
     			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate.log`
 
     		when "EMIGRATE_FAILED"	
-				# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_f, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+				# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_f_task, time_em_f_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
     			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate_failed.log`
 
     		when "IMMIGRATION_REQUEST"
-    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_r, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_r_task, time_imm_r_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
     			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_request.log`
     		
     		when "IMMIGRATION_CONFIRMED"
-    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_c, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_c_task, time_imm_c_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
     			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_confirmed.log`
     		else
     			$log.err("Unknown type of record #{type}")
