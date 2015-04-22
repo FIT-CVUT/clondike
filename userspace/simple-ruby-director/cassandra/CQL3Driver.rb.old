@@ -12,6 +12,6 @@ rows = client.execute("SELECT * FROM events", consistency: :one)
 rows.each do |row|
   puts "Vypis #{row['nazev']}"
 end
-#stat = client.execute("INSERT INTO events (id,nazev) VALUES(2,'sracka')", consistency: :one)
+#stat = client.execute("INSERT INTO events (id,nazev) VALUES(2,'hodnota')", consistency: :one)
 
 

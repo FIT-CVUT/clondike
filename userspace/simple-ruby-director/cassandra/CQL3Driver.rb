@@ -1,10 +1,13 @@
 require 'cassandra'
 
+#The class provides an object for logging to Apache Cassandra
+#Beta version is preparation - the need to debug with Cassandra
+
 
 class CQL3Driver
 
     records = {}
-
+    @cluster = nil
     @session = nil    
     @tasks = nil    
 
@@ -12,11 +15,12 @@ class CQL3Driver
     TABLE_NAME = "TASK_TIMELINE"
 
     def initialize(host='localhost')
-	cluster = Cassandra.connect(hosts: [host]) # connects to localhost by default
+	@cluster = Cassandra.connect(hosts: [host]) # connects to localhost by default
 	@session  = cluster.connect('system') # create session, optionally scoped to a keyspace, to execute queries
 	createKeySpaceIfNotExists()
 	createTableIfNotExists()
 	@tasks = Queue.new()
+	@cluster.use('#{KEYSPACE_NAME}')
     end
 
     def createKeySpaceIfNotExists()
@@ -51,17 +55,40 @@ class CQL3Driver
 	@session.execute(table_definition)
     end
 
-    def createRecord(id_task, id_src_node, id_dst_node, ret, time)
+    #
+    # Creates records by type, for testing is used command echo into specific log file
+    # 
+    def createRecord(type, id_task, id_src_node, id_dst_node, ret, time)
+    	case type
+    		when "EMIGRATE"
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate.log`
 
+    		when "EMIGRATE_FAILED"	
+				# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_f, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate_failed.log`
 
+    		when "IMMIGRATION_REQUEST"
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_r, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_request.log`
+    		
+    		when "IMMIGRATION_CONFIRMED"
+    			# stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_c, time) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
+    			`echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_confirmed.log`
+    		else
+    			$log.err("Unknown type of record #{type}")
+    		end	
     end
 	
 
 end
 
+# Class represents record for Clondike table named task_timeline
+
 class TaskRecord
         attr_accessor :id_task, :id_src_node, :id_dst_node, :ret,:time
-    def initialize(id_task, id_src_node, id_dst_node, ret, time)
+    def initialize(type, id_task, id_src_node, id_dst_node, ret, time)
+    	@type = type
     	@id_task = id_task
     	@id_src_node = id_src_node
     	@id_dst_node = id_dst_node
@@ -70,8 +97,6 @@ class TaskRecord
     end
 
 end
-
-CQLDriver = CQL3Driver.new()
 
 
 

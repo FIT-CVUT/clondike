@@ -60,6 +60,9 @@ class Director
 
   def initialize
     begin Dir.mkdir(Director::LOG_DIR) rescue Errno::EEXIST end
+    
+    #@cql3Driver = CQL3Driver.new('localhost')
+    
     @filesystemConnector = FilesystemConnector.new
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
@@ -113,8 +116,8 @@ class Director
 
     #@cacheFSController = CacheFSController.new(@interconnection)
 
-    #initializeMeasurements()
-    #initializeCliServer()
+    initializeMeasurements()
+    initializeCliServer()
   end
 
   # Starts director processing
@@ -125,7 +128,7 @@ class Director
     #Start kernel listening thread
     begin
       #@netlinkConnector = TimingProxy.new(NetlinkConnector.new(@membershipManager))
-      @netlinkConnector = NetlinkConnector.new(@membershipManager)
+      @netlinkConnector = NetlinkConnector.new(@membershipManager, @trustManagement, @cql3Driver)
       NetlinkConnector.register(@netlinkConnector)
     rescue => err
       $log.warn "Creating mock netlink connector as a real connector cannot be created! Problem with creation of the real connector:\n #{err.backtrace.join("\n")}"
