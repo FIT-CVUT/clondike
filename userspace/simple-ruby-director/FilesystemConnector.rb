@@ -147,7 +147,7 @@ class FilesystemConnector
   end
 
   def getBootstrapNodes
-    bootstrapListFile = "#{Dir.pwd}/BootstrapList.txt"
+    bootstrapListFile = File.dirname(__FILE__)+"/BootstrapList.txt"
     bootstrapList = []
     File.open(bootstrapListFile, "r") do |file|
       file.each_line do |line|

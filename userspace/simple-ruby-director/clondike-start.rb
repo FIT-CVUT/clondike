@@ -1,13 +1,33 @@
 #!/usr/bin/ruby -w
 
-require 'Configuration.rb'
-require 'Director.rb'
+require 'Configuration'
+require 'Director'
 require 'resolv'
 require 'logger'
 require 'fileutils'
 
 class Clondike
     @localIP = nil
+    @simpleRubyDirectorPath = nil
+
+    ###################
+    def initialize
+        @simpleRubyDirectorPath = File.dirname(__FILE__)
+        configuration = Configuration.new("#{@simpleRubyDirectorPath}/clondike.conf")
+        @localIP = getLocalIP( configuration );
+
+        clearCurrentConfig()
+
+
+        listen( configuration )
+        #cmd = "../../scripts/listen.sh #{ip}"
+        #$log.debug( "#{cmd}" )
+        #`#{cmd}`
+
+       $log.debug( "[OK]\tStarting Clondike complete..\n.................................\n\n" )
+    end
+
+
 
     ###################
     def getConfigDirective( configuration, directive, default_value )
@@ -20,7 +40,9 @@ class Clondike
     def getLocalIP( configuration )
         interface   = getConfigDirective( configuration, 'interface', 'eth0' )
         command     = "ifconfig | awk '/#{interface}/ { getline; adrs=$2; split(adrs,adr,\":\"); printf \"%s\", adr[2]; }'"
+        $log.debug("#{command}\n")
         localIP     = `#{command}`
+        $log.debug("LocalIP: #{localIP}\n")
 
         # test IP address and if not pass exit with error
         if ( localIP !~ Resolv::IPv4::Regex )
@@ -37,7 +59,7 @@ class Clondike
         $log.debug( "[OK]\tDeleting current config complete" )
         
         # README file
-        File.write( 'conf/README', 'This directory should be empty before starting Clondike' )
+        File.write( "#{@simpleRubyDirectorPath}/conf/README", 'This directory should be empty before starting Clondike' )
 
         $log.debug( "[OK]\tClearing current config complete" )
     end
@@ -83,25 +105,11 @@ class Clondike
         $log.debug( "[OK]\tListening complete" )
     end
 
-    ###################
-    def initialize
-        configuration = Configuration.new('clondike.conf')
-        @localIP = getLocalIP( configuration );
-
-        clearCurrentConfig()
-
-
-        listen( configuration )
-        #cmd = "../../scripts/listen.sh #{ip}"
-        #$log.debug( "#{cmd}" )
-        #`#{cmd}`
-
-       $log.debug( "[OK]\tStarting Clondike complete..\n.................................\n\n" )
-    end
 end
 
 ########### Main program #############
 begin
+#    $log = Logger.new("/tmp/director.log")
     $log = Logger.new(STDOUT)
     $log.level = Logger::INFO;
     $log.datetime_format = "%Y-%m-%d %H:%M:%S"
@@ -113,7 +121,7 @@ begin
     # Running director
     director = Director.new()
     $log.debug( "[OK]\tDirector created" )
-    director.start()
+    director.start
     $log.debug( "[OK]\tDirector started" )
     director.waitForFinished()
     $log.debug( "[OK]\tDirector waiting complete" )

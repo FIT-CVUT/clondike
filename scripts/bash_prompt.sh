@@ -58,3 +58,5 @@ fi
 
 # Try to keep environment pollution down.
 unset use_color safe_term match_lhs
+
+

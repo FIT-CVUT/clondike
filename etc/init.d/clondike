@@ -1,0 +1,128 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          clondike
+# Required-Start:    $network $local_fs $syslog $all
+# Required-Stop:
+# Default-Start:	2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Run clondike cluster
+### END INIT INFO
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+LOCKFILE="/var/lock/clondike"
+PIDFILE="/var/run/clondike"
+DIRECTOR_LOG="/tmp/director.log"
+
+RUBY="/usr/bin/ruby"
+BASH="/bin/bash"
+
+SRDIRECTOR_DIR="/root/clondike/userspace/simple-ruby-director"
+CLONDIKE_START="${SRDIRECTOR_DIR}/clondike-start.rb"
+CLONDIKE="ruby" # name of Clondike in processes
+
+VERBOSE="yes"
+
+
+
+lock_clondike() {
+    if [ -x /usr/bin/lockfile-create ]; then
+        lockfile-create $LOCKFILE
+        lockfile-touch $LOCKFILE &
+        LOCKTOUCHPID="$!"
+    fi
+}
+
+unlock_clondike() {
+    if [ -x /usr/bin/lockfile-create ] ; then
+        kill $LOCKTOUCHPID
+        lockfile-remove $LOCKFILE
+    fi
+}
+
+
+chk_files() {
+	if [ ! -x "$RUBY" ] ; then
+        [ "$VERBOSE" != no ] && log_failure_msg "Executable $RUBY does not find"
+        exit 1
+    fi
+    if [ ! -r "$CLONDIKE_START" ] ; then
+        [ "$VERBOSE" != no ] && log_failure_msg "Clondike start script ${CLONDIKE_START} does not exists or is not readable"
+        exit 1
+    fi
+}
+
+do_start() {
+    [ "$VERBOSE" != no ] && log_begin_msg "Starting clondike cluster"
+    chk_files
+
+    lock_clondike
+#    /root/clondike/scripts/clondike-init &
+#    ruby -w -I "$simpleRubyDirector" "${simpleRubyDirector}/clondike-start.rb" > /tmp/director.log 2>&1 &
+
+    # Have to wait for load IP address from DHCP
+    # Init script is also in /etc/network/if-up/ with name clondike
+    sleep 1
+    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$BASH" -- -c "$RUBY -w -I ${SRDIRECTOR_DIR} ${CLONDIKE_START} > ${DIRECTOR_LOG} 2>&1"
+    status=$?
+
+    unlock_clondike
+
+#    [ "$VERBOSE" != no ] && log_daemon_msg "Start clondike succeeded"
+    [ "$VERBOSE" != no ] && log_end_msg $status
+    return $status
+}
+
+do_stop() {
+    [ "$VERBOSE" != no ] && log_begin_msg "Stoping clondike cluster"
+
+#    pkill ruby
+#    start-stop-daemon --stop --quiet --remove-pidfile --name "${CLONDIKE}" >/dev/null 2>&1
+    start-stop-daemon --stop --quiet --name "${CLONDIKE}" >/dev/null 2>&1
+    status=$?
+
+    # Delete pidfile
+    echo "" > "$PIDFILE"
+
+    # Soft disconnecting
+    find /clondike/*/nodes/[0-9]*/stop -exec sh -c "echo 1 > {} " \; >/dev/null 2>&1
+
+    #Hard disconneting
+#    pkill -9 ruby >/dev/null 2>&1
+
+    # Stop migrating processes
+#    pkill make >/dev/null 2>&1
+#    pkill cc1 >/dev/null 2>&1
+
+    [ "$VERBOSE" != no ] && log_end_msg $status
+}
+
+
+case "$1" in
+    start)
+        do_start
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$RUBY" clondike && exit 0 :: exit $?
+        ;;
+    restart)
+        do_stop
+        do_start
+        ;;
+    reload|force-reload)
+        echo "Error: argument '$1' not supported, you can use restart" >&2
+        exit 3
+        ;;
+    stop)
+        do_stop
+        ;;
+    *)
+        echo "Usage: $0 start|stop|restart" >&2
+        exit 3
+        ;;
+esac
+
+
