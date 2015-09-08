@@ -1,15 +1,17 @@
 require 'set'
+require 'monitor'
 require 'Util'
 require 'NetworkAddress'
-require 'monitor'
+require 'ConfigurationParser'
 
 # This class interacts with the kernel module via its exported pseudo-fs
 class FilesystemConnector
 
-  def initialize
+  def initialize( configuration )
     @rootPath = "/clondike"
     @coreRootPath = "#{@rootPath}/ccn"
     @detachedRootPath = "#{@rootPath}/pen"
+    @configuration = configuration
 
     @connectAddresses = Set.new
     @connectAddresses.extend(MonitorMixin)
@@ -147,6 +149,8 @@ class FilesystemConnector
   end
 
   def getBootstrapNodes
+=begin
+    # Old way by reading file BootstrapList.txt
     bootstrapListFile = File.dirname(__FILE__)+"/BootstrapList.txt"
     bootstrapList = []
     File.open(bootstrapListFile, "r") do |file|
@@ -157,13 +161,31 @@ class FilesystemConnector
           next
         end
         ip = address[1].gsub(/\s+/, "")
-	      port = address[2].gsub(/\s+/, "")
+        port = address[2].gsub(/\s+/, "")
         bootstrapList.push(NetworkAddress.new(ip, port))
       end
     end
     bootstrapList.each { |addr|
       $log.debug("getBootstrapList: #{addr}")
     }
+    return bootstrapList
+=end
+    bootstrapList = []
+    bootstraps = @configuration.getValue('bootstrap')
+
+    bootstraps = bootstraps.split(%r{\s*,\s*})
+    bootstraps.each do | bootstrap |
+      $log.debug("Parsing bootstrap #{bootstrap}")
+      ipAndPort = bootstrap.split(':')
+      ip = ipAndPort[0]
+      port = ipAndPort[1]
+      if( (ip !~ Resolv::IPv4::Regex) or ( !(Integer(port) rescue false) ) )
+        $log.warn "In reading configuration skip the bootstrap: '#{bootstrap}'"
+        next
+      end
+      bootstrapList.push( NetworkAddress.new(ip, port) )
+    end
+
     return bootstrapList
   end
 

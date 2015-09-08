@@ -2,6 +2,7 @@
 
 require 'FilesystemConnector'
 require 'FilesystemNodeBuilder'
+require 'ConfigurationParser'
 require 'MockNetlinkConnector'
 require 'NetlinkConnector'
 require 'NodeRepository'
@@ -59,11 +60,11 @@ class Director
 
   attr_reader :nodeRepository
 
-  def initialize
+  def initialize( configuration )
     begin Dir.mkdir(Director::LOG_DIR) rescue Errno::EEXIST end
     #@cql3Driver = CQL3Driver.new('localhost')
-    
-    @filesystemConnector = FilesystemConnector.new
+    @configuration = configuration
+    @filesystemConnector = FilesystemConnector.new( @configuration )
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
     @immigratedTasksController = ImmigratedTasksController.new(@filesystemConnector, false)

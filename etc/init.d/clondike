@@ -21,7 +21,7 @@ RUBY="/usr/bin/ruby"
 BASH="/bin/bash"
 
 SRDIRECTOR_DIR="/root/clondike/userspace/simple-ruby-director"
-CLONDIKE_START="${SRDIRECTOR_DIR}/clondike-start.rb"
+CLONDIKE_START="${SRDIRECTOR_DIR}/ClondikeInit.rb"
 CLONDIKE="ruby" # name of Clondike in processes
 
 VERBOSE="yes"
@@ -61,12 +61,10 @@ do_start() {
 
     lock_clondike
 #    /root/clondike/scripts/clondike-init &
-#    ruby -w -I "$simpleRubyDirector" "${simpleRubyDirector}/clondike-start.rb" > /tmp/director.log 2>&1 &
 
     # Have to wait for load IP address from DHCP
-    # Init script is also in /etc/network/if-up/ with name clondike
     sleep 1
-    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$BASH" -- -c "$RUBY -w -I ${SRDIRECTOR_DIR} ${CLONDIKE_START} > ${DIRECTOR_LOG} 2>&1"
+    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$BASH" -- -c "$RUBY -w -I ${SRDIRECTOR_DIR} ${CLONDIKE_START} >${DIRECTOR_LOG} 2>&1"
     status=$?
 
     unlock_clondike

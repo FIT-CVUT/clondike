@@ -1,24 +1,27 @@
 #!/usr/bin/ruby -w
 
+# require 'logger' # for testing
 require 'pathname'
 
-
-##################### CLASS CONFIGURATION ####################
+################# CLASS CONFIGURATIONPARSER #################
 #
-# Class to parse Clondike config file, save the configuration
-#  directives to a hash table and return a wanted value 
-#  of the directive
+# Class to parse Clondike config file.
+# 
+# Save the configuration directives to a hash table
+#  and return a required value of the directive
+#
 # Author: Zdenek Novy (novyzde3@fit.cvut.cz)
 #
-#################### CLASS CONFIGURATION ####################
-class Configuration
+################# CLASS CONFIGURATIONPARSER #################
+#
+class ConfigurationParser
 ################## Constants ###################
    REGEX_CHAR               = '[A-Za-z0-9_-]'
    REGEX_DIRECTIVE          = '\s*(' + REGEX_CHAR + '+)\s*'
    REGEX_COMMENT            = '\s*#.*$'
    REGEX_LINEOFWHITESPACES  = '^\s*$'
    REGEX_SPACEANDTAB        = '[ \t]'
-   DEBUG                    = true
+   DEBUG                    = false
    #################################################
 
    ################ Class variables ###############
@@ -35,12 +38,12 @@ class Configuration
    # Display error message and exit the program
    # @param y_msg string
    def error( y_msg, i_err=-1 )
-       $log.error( "[ERROR]\t(Configuration.rb): #{y_msg}!" )
+       $log.error( "[ERROR]\t(ConfigurationParser.rb): #{y_msg}!" )
        exit( i_err )
    end
  
-   # Create an object Configuration and load
-   #  config file to memory
+   # Create an object ConfigurationParser and load
+   #  config file to hash table
    # @param string   name of config file to load
    def initialize( configFile )
       @@ya_directives = Hash.new
@@ -123,12 +126,10 @@ class Configuration
       if @@ya_directives.empty?
          error("Error: ya_directives si null", 21)
       end
-      if DEBUG
-          if @@ya_directives[directive].nil?
-              $log.warn( "[WARNING]\tReturning directive '#{directive}' with null value" )
-          else
-              $log.debug( "[OK]\tReturning directive '#{directive}' with value '" + @@ya_directives[directive] + "'" )
-          end
+      if @@ya_directives[directive].nil?
+          $log.warn( "[WARNING]\tReturning directive '#{directive}' with null value" )
+      else
+          $log.debug( "[OK]\tReturning directive '#{directive}' with value '" + @@ya_directives[directive] + "'" )
       end
       return @@ya_directives[directive]
    end
@@ -136,11 +137,11 @@ class Configuration
    # Method to print actual Hash table
    #  with actually loaded directives and their value
    def printDirectives()
-      puts "\n[DEBUG]\tPrint directives:"
+      y_directives=""
       @@ya_directives.each do |key, value|
-         puts key.to_s + ':  \'' + value + '\''
+          y_directives += key.to_s + ":  '" + value + "'\n"
       end
-      print "\n"
+      $log.info "Directives of #{@@configFile}:\n#{y_directives}"
    end
 
 end
@@ -148,9 +149,13 @@ end
 
 
 ### TESTING THE CLASS ###
-#configuration = Configuration.new("clondike.conf")
-#configuration.printDirectives()
-#puts "getValue(): '" + configuration.getValue('interface') + "'"
-
+# $log = Logger.new(STDOUT)
+# $log.level = Logger::INFO;
+# $log.datetime_format = "%Y-%m-%d %H:%M:%S"
+# 
+# configuration = ConfigurationParser.new("clondike.conf")
+# configuration.printDirectives()
+# 
+# bootstrapList = configuration.getValue("bootstrap")
 
 

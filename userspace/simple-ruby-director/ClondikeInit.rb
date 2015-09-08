@@ -1,6 +1,6 @@
 #!/usr/bin/ruby -w
 
-require 'Configuration'
+require 'ConfigurationParser'
 require 'Director'
 require 'resolv'
 require 'logger'
@@ -11,9 +11,8 @@ class Clondike
     @simpleRubyDirectorPath = nil
 
     ###################
-    def initialize
+    def initialize( configuration )
         @simpleRubyDirectorPath = File.dirname(__FILE__)
-        configuration = Configuration.new("#{@simpleRubyDirectorPath}/clondike.conf")
         @localIP = getLocalIP( configuration );
 
         clearCurrentConfig()
@@ -116,15 +115,14 @@ begin
 
     $useProcTrace = false
 
-    clondike = Clondike.new()
+    configuration = ConfigurationParser.new( File.dirname(__FILE__)+"/clondike.conf" )
+    clondike = Clondike.new( configuration )
 
     # Running director
-    director = Director.new()
-    $log.debug( "[OK]\tDirector created" )
+    director = Director.new( configuration )
     director.start
     $log.debug( "[OK]\tDirector started" )
     director.waitForFinished()
-    $log.debug( "[OK]\tDirector waiting complete" )
 
 rescue => err
     $log.error "Error in main Director thread: #{err.message} \n#{err.backtrace.join("\n")}"
