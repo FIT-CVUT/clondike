@@ -5,9 +5,10 @@ require 'ConfigurablePatternMatcher'
 #Preemptive are periodically evaluated (once per REBALANCING_INTERVAL seconds) and acted upon
 class LoadBalancer
   REBALANCING_INTERVAL = 1
+  SRDIRECTOR_DIR = File.dirname(__FILE__)+'/'
 
   def initialize(balancingStrategy, taskRepository, filesystemConnector)
-    loadPatterns("migrateable.patterns")
+    loadPatterns(SRDIRECTOR_DIR+"migrateable.patterns")
     @balancingStrategy = balancingStrategy;
     @taskRepository = taskRepository
     # Listeners on migration decisions

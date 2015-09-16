@@ -2,6 +2,7 @@
 
 require 'FilesystemConnector'
 require 'FilesystemNodeBuilder'
+require 'ConfigurationParser'
 require 'MockNetlinkConnector'
 require 'NetlinkConnector'
 require 'NodeRepository'
@@ -53,17 +54,17 @@ require 'ExecutionTimePredictor'
 #It controls both Core node and Detached nodes
 #This class should be started AFTER core and/or detached node kernel managers are started!
 class Director
-  CONF_DIR = "conf"
+  SRDIRECTOR_DIR = File.dirname(__FILE__)+'/'
+  CONF_DIR = SRDIRECTOR_DIR+"conf"
   LOG_DIR = '/var/log/director'
 
   attr_reader :nodeRepository
 
-  def initialize
+  def initialize( configuration )
     begin Dir.mkdir(Director::LOG_DIR) rescue Errno::EEXIST end
-    
     #@cql3Driver = CQL3Driver.new('localhost')
-    
-    @filesystemConnector = FilesystemConnector.new
+    @configuration = configuration
+    @filesystemConnector = FilesystemConnector.new( @configuration )
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
     @immigratedTasksController = ImmigratedTasksController.new(@filesystemConnector, false)
@@ -208,16 +209,18 @@ class Director
   end
 end
 
-begin
-  $log = Logger.new(STDOUT)
-  $log.level = Logger::INFO;
-  $log.datetime_format = "%Y-%m-%d %H:%M:%S"
+#begin
+#  $log = Logger.new(STDOUT)
+#  $log.level = Logger::INFO;
+#  $log.datetime_format = "%Y-%m-%d %H:%M:%S"
+#
+#  $useProcTrace = false
+#
+#  director = Director.new
+#  director.start
+#  director.waitForFinished
+#rescue => err
+#  $log.error "Error in main Director thread: #{err.message} \n#{err.backtrace.join("\n")}"
+#end
 
-  $useProcTrace = false
 
-  director = Director.new
-  director.start
-  director.waitForFinished
-rescue => err
-  $log.error "Error in main Director thread: #{err.message} \n#{err.backtrace.join("\n")}"
-end

@@ -124,7 +124,7 @@ class MembershipManager
     ExceptionAwareThread.new() {
       nodeIpAddress = node.networkAddress.ip
       nodePublicKey = @trustManagement.getKey(node.nodeId);
-      
+
       if nodePublicKey
         session = nil
         # If the node is verified already, we wont to verified again
@@ -135,12 +135,12 @@ class MembershipManager
           $log.debug("Trying verify #{node}")
           session = @trustManagement.authenticate(node.nodeId, nodePublicKey)
         end
-	
-	      if session
+
+        if session
           # The Proof is prooved in trust/AuthenticationDispatcher.rb
           succeeded = @filesystemConnector.connect(node.networkAddress, nil) # session.authenticationProof)
           $log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
-	        if succeeded
+          if succeeded
             slotIndex = @filesystemConnector.findDetachedManagerSlot(nodeIpAddress)
             if slotIndex.nil?
               $log.info "MembershipManager.rb: connectToNode: no slotIndex find for node:"
