@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -e
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# Feel free to change this, especially if you regularly
+# bring up new network interfaces.
+if [ "$METHOD" = loopback ]; then
+    exit 0
+fi
+
+(
+# This is for the case that /usr will be mounted later.
+if [ -r /lib/udev/hotplug.functions ]; then
+    . /lib/udev/hotplug.functions
+    wait_for_file /usr/bin/ruby
+fi
+
+LOCKFILE=/var/lock/clondike_net
+
+# Avoid running more than one at a time
+if [ -x /usr/bin/lockfile-create ]; then
+    lockfile-create $LOCKFILE
+    lockfile-touch $LOCKFILE &
+    LOCKTOUCHPID="$!"
+fi
+
+# Start clondike
+/etc/init.d/clondike start
+
+if [ -x /usr/bin/lockfile-remove ] ; then
+    kill $LOCKTOUCHPID
+    lockfile-remove $LOCKFILE
+fi
+
+) &
+

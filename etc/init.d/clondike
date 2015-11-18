@@ -55,6 +55,7 @@ chk_files() {
     fi
 }
 
+####### Start Clondike #######
 do_start() {
     [ "$VERBOSE" != no ] && log_begin_msg "Starting clondike cluster"
     chk_files
@@ -74,6 +75,7 @@ do_start() {
     return $status
 }
 
+####### Stop Clondike #######
 do_stop() {
     [ "$VERBOSE" != no ] && log_begin_msg "Stoping clondike cluster"
 
