@@ -1,14 +1,114 @@
-#!/bin/sh
+#! /bin/sh
 
 ### BEGIN INIT INFO
 # Provides:          npfsd
-# Required-Start:    $remote_fs $syslog
+# Required-Start:    $network $local_fs $syslog
 # Required-Stop:
 # Default-Start:     2 3 4 5
-# Default-Stop:
+# Default-Stop:      0 1 6
 # Short-Description: NPFS server
 ### END INIT INFO
 
-echo "Starting NPFS server"
 
-/root/npfs/npfs -w 1 -p 5577 &
+###### Initialization ######
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+NPFSD="/root/npfs/npfs"
+NPFS="npfs"
+
+LOCKFILE="/var/lock/npfsd" # .lock add automatically
+PIDFILE="/var/run/npfsd.pid"
+LOGFILE="/var/log/npfsd"
+
+VERBOSE="yes"
+
+###### Functions ######
+lock_npfsd() {
+    if [ -x /usr/bin/lockfile-create ]; then
+        lockfile-create "$LOCKFILE"
+        lockfile-touch "$LOCKFILE" &
+        LOCKTOUCHPID="$!"
+    fi
+}
+
+unlock_npfsd() {
+    if [ -x /usr/bin/lockfile-remove ] ; then
+        kill "$LOCKTOUCHPID"
+        lockfile-remove "$LOCKFILE"
+    fi
+}
+
+chk_files() {
+    if [ ! -x "$NPFSD" ] ; then
+        [ "$VERBOSE" != "no" ] && log_failure_msg "Executable $NPFSD not found"
+    fi
+}
+
+## Start NPFSD
+do_start() {
+    [ "$VERBOSE" != no ] && log_begin_msg "Starting NPFS server"
+    
+    chk_files
+
+    lock_npfsd
+
+
+    # /root/npfs/npfs -w 1 -p 5577 &
+    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$NPFSD" -- -w 1 -p 5577 > "$LOGFILE" 2>&1
+    status=$?
+
+    unlock_npfsd
+
+    [ "$VERBOSE" != no ] && log_end_msg $status
+    return $status
+}
+
+## Stop NPFSD
+do_stop() {
+    [ "$VERBOSE" != no ] && log_begin_msg "Stopping NPFS server"
+
+    lock_npfsd
+
+    start-stop-daemon --stop --quiet --pidfile "$PIDFILE" --name "$NPFS"
+    status=$?
+
+    # Delete pidfile
+    [ $status -eq 0 ] && echo "" > "$PIDFILE"
+
+    unlock_npfsd
+
+    # Message
+    [ "$VERBOSE" != "no" ] && log_end_msg $status
+    return $status
+}
+
+
+###### Program ######
+case "$1" in
+    start)
+        do_start
+        ;;
+    status)
+        status_of_proc -p "$PIDFILE" "$NPFSD" "$NPFS" && exit 0 || exit $?
+        ;;
+    restart)
+        do_stop
+        do_start
+        ;;
+    reload|force-reload)
+        echo "Error: argument '$1' not supported, you can use restart" >&2
+        exit 3
+        ;;
+    stop)
+        do_stop
+        ;;
+    *)
+        echo "Usage: $0 start|stop|restart|status"
+        exit 3
+        ;;
+esac
+
+
+exit 0
+
