@@ -122,16 +122,17 @@ class ConfigurationParser
    ### Get the value of wanted directive
    # @param    string   name of the wanted directive
    # @return   string   value of the directive or null if not exists
-   def getValue(directive)
+   def getValue(directive, defaultValue = nil)
       if @@ya_directives.empty?
          error("Error: ya_directives si null", 21)
       end
       if @@ya_directives[directive].nil?
-          $log.warn( "[WARNING]\tReturning directive '#{directive}' with null value" )
+          $log.warn( "[WARNING]\tReturning directive '#{directive}' with default value '#{defaultValue}'" )
       else
           $log.debug( "[OK]\tReturning directive '#{directive}' with value '" + @@ya_directives[directive] + "'" )
       end
-      return @@ya_directives[directive]
+      return @@ya_directives[directive] if not @@ya_directives[directive].nil?
+      return defaultValue
    end
 
    # Method to print actual Hash table
@@ -149,13 +150,17 @@ end
 
 
 ### TESTING THE CLASS ###
+# require 'logger'
 # $log = Logger.new(STDOUT)
-# $log.level = Logger::INFO;
+# $log.level = Logger::DEBUG;
 # $log.datetime_format = "%Y-%m-%d %H:%M:%S"
 # 
 # configuration = ConfigurationParser.new("clondike.conf")
 # configuration.printDirectives()
 # 
-# bootstrapList = configuration.getValue("bootstrap")
-
+# # Testing bootstrapList
+# bootstrapList = configuration.getValue("bootstrap", ['192.168.22.136', '192.168.22.137'])
+# puts "Prvni slozka: "+bootstrapList[0]
+# puts "Druha slozka: "+bootstrapList[1]
+# puts "Cely seznam: #{bootstrapList}"
 

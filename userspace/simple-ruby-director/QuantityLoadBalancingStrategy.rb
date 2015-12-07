@@ -179,6 +179,8 @@ class QuantityLoadBalancingStrategy
   def localTaskCount()
     @counter.getCount(@nodeRepository.selfNode)
   end
+
+
   private
   def getCurrentLocalMinimum()
 	# if nodes become overloaded more tasks than minimum

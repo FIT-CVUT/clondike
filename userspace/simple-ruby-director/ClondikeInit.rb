@@ -1,5 +1,7 @@
 #!/usr/bin/ruby -w
 
+# Add simple-ruby director directory to ruby path
+$:.push("/root/clondike/userspace/simple-ruby-director")
 require 'ConfigurationParser'
 require 'Director'
 require 'resolv'
@@ -29,15 +31,16 @@ class Clondike
 
 
     ###################
-    def getConfigDirective( configuration, directive, default_value )
-        value = configuration.getValue( directive )
-        value = default_value if value==nil
-        return value
-    end
+    #def getConfigDirective( configuration, directive, default_value )
+    #    value = configuration.getValue( directive )
+    #    value = default_value if value==nil
+    #    return value
+    #end
 
     ###################
     def getLocalIP( configuration )
-        interface   = getConfigDirective( configuration, 'interface', 'eth0' )
+        #interface   = getConfigDirective( configuration, 'interface', 'eth0' )
+        interface   = configuration.getValue( 'interface', 'eth0' )
         command     = "ifconfig | awk '/#{interface}/ { getline; adrs=$2; split(adrs,adr,\":\"); printf \"%s\", adr[2]; }'"
         $log.debug("#{command}\n")
         localIP     = `#{command}`
@@ -68,7 +71,8 @@ class Clondike
     def mount( configuration, listen_ip )
         # 9p mounting parameters
         $log.debug( "[..]\tCreating mounting files" )
-        mounterdir = getConfigDirective( configuration, 'mounterdir', '/clondike/ccn/mounter/' )
+        #mounterdir = getConfigDirective( configuration, 'mounterdir', '/clondike/ccn/mounter/' )
+        mounterdir = configuration.getValue( 'mounterdir', '/clondike/ccn/mounter/' )
         File.write( "#{mounterdir}fs-mount", '9p-global' )
         File.write( "#{mounterdir}fs-mount-device", listen_ip )
         File.write( "#{mounterdir}fs-mount-options", 'aname=/,uname=root,port=5577' )
@@ -83,8 +87,10 @@ class Clondike
     def listen( configuration )
         @localIP = getLocalIP( configuration ) if @localIP==nil
         listen_ip   = @localIP
-        listen_port = getConfigDirective( configuration, 'listenport', '54321' )
-        listen_prot = getConfigDirective( configuration, 'listenprot', 'tcp'   )
+        #listen_port = getConfigDirective( configuration, 'listenport', '54321' )
+        #listen_port = getConfigDirective( configuration, 'listenprot', 'tcp' )
+        listen_port = configuration.getValue( 'listenport', '54321' )
+        listen_prot = configuration.getValue( 'listenprot', 'tcp'   )
         listen_str  = "#{listen_prot}:#{listen_ip}:#{listen_port}"
         $log.debug( "[INFO]\tListenstr: #{listen_str}" )
 
@@ -92,7 +98,8 @@ class Clondike
         mount( configuration, listen_ip )
 
         # Listen file
-        listen_file = getConfigDirective( configuration, 'listenfile', '/clondike/ccn/listen' )
+        #listen_file = getConfigDirective( configuration, 'listenfile', '/clondike/ccn/listen' )
+        listen_file = configuration.getValue( 'listenfile', '/clondike/ccn/listen' )
         if not File.file?( listen_file )
             $log.error( "[ERROR]\tCan't listen on '#{listen_str}', missing listen file '#{listen_file}'" )
             exit 1
@@ -108,17 +115,24 @@ end
 
 ########### Main program #############
 begin
+
 #    $log = Logger.new("/tmp/director.log")
+    # Temporary log to STDOUT until logfile is readed from configuration
     $log = Logger.new(STDOUT)
+    # Log level info only for time to read it from configuration
     $log.level = Logger::INFO;
     $log.datetime_format = "%Y-%m-%d %H:%M:%S"
 
-    $useProcTrace = false
-
     configuration = ConfigurationParser.new( File.dirname(__FILE__)+"/clondike.conf" )
+
+    # Get log level from config file
+    logLevel = configuration.getValue( "loglevel", "INFO" )
+    $log.level = eval "Logger::#{logLevel}"
+
+    # Run Clondike
     clondike = Clondike.new( configuration )
 
-    # Running director
+    # Run director
     director = Director.new( configuration )
     director.start
     $log.debug( "[OK]\tDirector started" )

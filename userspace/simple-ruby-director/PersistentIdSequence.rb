@@ -22,7 +22,7 @@ class PersistentIdSequence
   def load()
     fileName = "#{@idFile}"
 
-    if !File.exists?(fileName)
+    if !File.exists?(fileName) or File.zero?(fileName)
       @sequenceNumber = 1
       save()
       return

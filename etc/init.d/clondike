@@ -14,15 +14,17 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
 LOCKFILE="/var/lock/clondike"
-PIDFILE="/var/run/clondike"
+PIDFILE="/var/run/clondike.pid"
+LOGFILE="/tmp/director.log"
 DIRECTOR_LOG="/tmp/director.log"
 
 RUBY="/usr/bin/ruby"
 BASH="/bin/bash"
 
 SRDIRECTOR_DIR="/root/clondike/userspace/simple-ruby-director"
-CLONDIKE_START="${SRDIRECTOR_DIR}/ClondikeInit.rb"
-CLONDIKE="ruby" # name of Clondike in processes
+CLONDIKE="ClondikeInit.rb" # name of Clondike in processes
+CLONDIKE_START="${SRDIRECTOR_DIR}/${CLONDIKE}"
+
 
 VERBOSE="yes"
 
@@ -45,58 +47,71 @@ unlock_clondike() {
 
 
 chk_files() {
-	if [ ! -x "$RUBY" ] ; then
-        [ "$VERBOSE" != no ] && log_failure_msg "Executable $RUBY does not find"
+	if [ ! -x "${RUBY}" ] ; then
+        [ "${VERBOSE}" != no ] && log_failure_msg "Executable '$RUBY' not find"
         exit 1
     fi
-    if [ ! -r "$CLONDIKE_START" ] ; then
-        [ "$VERBOSE" != no ] && log_failure_msg "Clondike start script ${CLONDIKE_START} does not exists or is not readable"
+    if [ ! -r "${CLONDIKE_START}" ] ; then
+        [ "${VERBOSE}" != no ] && log_failure_msg "Clondike start script '${CLONDIKE_START}' does not exists or is not readable"
         exit 1
     fi
 }
 
 do_start() {
-    [ "$VERBOSE" != no ] && log_begin_msg "Starting clondike cluster"
+    [ "${VERBOSE}" != no ] && log_begin_msg "Starting clondike cluster"
+
+    # Check needed files
     chk_files
 
-    lock_clondike
-#    /root/clondike/scripts/clondike-init &
 
-    # Have to wait for load IP address from DHCP
-    sleep 1
-    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$BASH" -- -c "$RUBY -w -I ${SRDIRECTOR_DIR} ${CLONDIKE_START} >${DIRECTOR_LOG} 2>&1"
+    lock_clondike
+    # Critical section
+
+    # Check if the Clondike already running
+    if [ -r "${PIDFILE}" ] && [ -n "`pgrep \"${CLONDIKE}\"`" ] ; then
+        log_end_msg "3"
+        log_failure_msg "Clondike already running"
+        unlock_clondike
+        exit
+    fi
+
+    # Don't have to wait for load IP address from DHCP
+    #  it manages script /etc/network/if-up.d/clondike if ethX up
+    #sleep 1
+    start-stop-daemon --start --make-pidfile --pidfile "${PIDFILE}" --exec "${CLONDIKE_START}" >"${LOGFILE}" 2>&1 &
     status=$?
 
+    # End of critical section
     unlock_clondike
 
-#    [ "$VERBOSE" != no ] && log_daemon_msg "Start clondike succeeded"
-    [ "$VERBOSE" != no ] && log_end_msg $status
-    return $status
+    [ "${VERBOSE}" != no ] && log_end_msg "${status}"
+    return "${status}"
 }
 
 do_stop() {
     [ "$VERBOSE" != no ] && log_begin_msg "Stoping clondike cluster"
 
-#    pkill ruby
-#    start-stop-daemon --stop --quiet --remove-pidfile --name "${CLONDIKE}" >/dev/null 2>&1
-    start-stop-daemon --stop --quiet --name "${CLONDIKE}" >/dev/null 2>&1
+    lock_clondike
+
+    start-stop-daemon --stop --quiet --pidfile "${PIDFILE}" --name "${CLONDIKE}" >/dev/null 2>&1
+    #start-stop-daemon --stop --quiet --pidfile "${PIDFILE}" >/dev/null 2>&1
     status=$?
 
     # Delete pidfile
-    echo "" > "$PIDFILE"
+    rm "${PIDFILE}" >/dev/null 2>&1
 
     # Soft disconnecting
     find /clondike/*/nodes/[0-9]*/stop -exec sh -c "echo 1 > {} " \; >/dev/null 2>&1
 
-    #Hard disconneting
-#    pkill -9 ruby >/dev/null 2>&1
-
     # Stop migrating processes
-#    pkill make >/dev/null 2>&1
-#    pkill cc1 >/dev/null 2>&1
+    #pkill make >/dev/null 2>&1
+    #pkill cc1 >/dev/null 2>&1
 
-    [ "$VERBOSE" != no ] && log_end_msg $status
+    unlock_clondike
+
+    [ "${VERBOSE}" != no ] && log_end_msg "${status}"
 }
+
 
 
 case "$1" in
@@ -104,7 +119,7 @@ case "$1" in
         do_start
         ;;
     status)
-        status_of_proc -p "$PIDFILE" "$RUBY" clondike && exit 0 :: exit $?
+        status_of_proc -p "${PIDFILE}" "${CLONDIKE}" "Clondike" && exit 0 :: exit $?
         ;;
     restart)
         do_stop

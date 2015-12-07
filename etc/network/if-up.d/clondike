@@ -1,0 +1,46 @@
+#! /bin/sh
+# Reload the Clondike cluster when an interface comes up,
+#  to allow it to start listening on new addresses.
+
+set -e
+
+CLONDIKE="ClondikeInit.rb"
+PIDFILE="/var/run/clondike.pid"
+
+
+# Don't bother to restart sshd when lo is configured.
+if [ "$IFACE" = lo ] ; then
+	exit 0
+fi
+
+# Only run from ifup.
+if [ "$MODE" != start ] ; then
+	exit 0
+fi
+
+# Clondike only cares about inet (IPv4). IPv6 not supported
+#  Get ye gone, strange people still using other (ipx).
+if [ "$ADDRFAM" != inet ] ; then
+	exit 0
+fi
+
+# Is /usr mounted?
+if [ ! -e "/root/clondike/userspace/simple-ruby-director/${CLONDIKE}" ] ; then
+	exit 0
+fi
+
+# Start or restart depends on running Clondike
+if [ ! -f "${PIDFILE}" ] || [ "$(ps -p "$(cat ${PIDFILE})" -o comm=)" != "${CLONDIKE}" ] ; then
+	cmd="start"
+else
+    cmd="restart"
+fi
+
+# Restart or start
+if [ -x /usr/sbin/invoke-rc.d ]; then
+	invoke-rc.d clondike "$cmd" >/dev/null 2>&1 || true
+else
+	/etc/init.d/clondike "$cmd" >/dev/null 2>&1 || true
+fi
+
+exit 0
