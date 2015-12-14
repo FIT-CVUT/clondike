@@ -16,6 +16,8 @@
 
 NPFSD="/root/npfs/npfs"
 NPFS="npfs"
+NPFS_PORT="5577"
+NPFS_THREADS="1"
 
 LOCKFILE="/var/lock/npfsd" # .lock add automatically
 PIDFILE="/var/run/npfsd.pid"
@@ -25,29 +27,29 @@ VERBOSE="yes"
 
 ###### Functions ######
 lock_npfsd() {
-    if [ -x /usr/bin/lockfile-create ]; then
-        lockfile-create "$LOCKFILE"
-        lockfile-touch "$LOCKFILE" &
+    if [ -x "/usr/bin/lockfile-create" ]; then
+        lockfile-create "${LOCKFILE}"
+        lockfile-touch "${LOCKFILE}" &
         LOCKTOUCHPID="$!"
     fi
 }
 
 unlock_npfsd() {
-    if [ -x /usr/bin/lockfile-remove ] ; then
-        kill "$LOCKTOUCHPID"
-        lockfile-remove "$LOCKFILE"
+    if [ -x "/usr/bin/lockfile-remove" ] ; then
+        kill "${LOCKTOUCHPID}"
+        lockfile-remove "${LOCKFILE}"
     fi
 }
 
 chk_files() {
-    if [ ! -x "$NPFSD" ] ; then
-        [ "$VERBOSE" != "no" ] && log_failure_msg "Executable $NPFSD not found"
+    if [ ! -x "${NPFSD}" ] ; then
+        [ "${VERBOSE}" != "no" ] && log_failure_msg "Executable ${NPFSD} not found"
     fi
 }
 
 ## Start NPFSD
 do_start() {
-    [ "$VERBOSE" != no ] && log_begin_msg "Starting NPFS server"
+    [ "${VERBOSE}" != "no" ] && log_begin_msg "Starting NPFS server"
     
     chk_files
 
@@ -55,32 +57,32 @@ do_start() {
 
 
     # /root/npfs/npfs -w 1 -p 5577 &
-    start-stop-daemon --start --quiet --make-pidfile --pidfile "$PIDFILE" --background --exec "$NPFSD" -- -w 1 -p 5577 > "$LOGFILE" 2>&1
+    start-stop-daemon --start --quiet --make-pidfile --pidfile "${PIDFILE}" --background --exec "${NPFSD}" -- -w "${NPFS_THREADS}" -p "${NPFS_PORT}" > "${LOGFILE}" 2>&1
     status=$?
 
     unlock_npfsd
 
-    [ "$VERBOSE" != no ] && log_end_msg $status
-    return $status
+    [ "${VERBOSE}" != "no" ] && log_end_msg "${status}"
+    return "${status}"
 }
 
 ## Stop NPFSD
 do_stop() {
-    [ "$VERBOSE" != no ] && log_begin_msg "Stopping NPFS server"
+    [ "${VERBOSE}" != "no" ] && log_begin_msg "Stopping NPFS server"
 
     lock_npfsd
 
-    start-stop-daemon --stop --quiet --pidfile "$PIDFILE" --name "$NPFS"
+    start-stop-daemon --stop --quiet --pidfile "${PIDFILE}" --name "${NPFS}"
     status=$?
 
     # Delete pidfile
-    [ $status -eq 0 ] && echo "" > "$PIDFILE"
+    [ $status -eq 0 ] && rm "${PIDFILE}"
 
     unlock_npfsd
 
     # Message
-    [ "$VERBOSE" != "no" ] && log_end_msg $status
-    return $status
+    [ "${VERBOSE}" != "no" ] && log_end_msg "${status}"
+    return "${status}"
 }
 
 
@@ -90,7 +92,7 @@ case "$1" in
         do_start
         ;;
     status)
-        status_of_proc -p "$PIDFILE" "$NPFSD" "$NPFS" && exit 0 || exit $?
+        status_of_proc -p "${PIDFILE}" "${NPFSD}" "${NPFS}" && exit 0 || exit $?
         ;;
     restart)
         do_stop
