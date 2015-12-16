@@ -842,7 +842,7 @@ diff -Naur linux-3.18.21-vanilla/include/clondike/tcmi/tcmi_hooks_factory.h linu
 diff -Naur linux-3.18.21-vanilla/include/clondike/tcmi/tcmi_hooks.h linux-3.18.21/include/clondike/tcmi/tcmi_hooks.h
 --- linux-3.18.21-vanilla/include/clondike/tcmi/tcmi_hooks.h	1970-01-01 01:00:00.000000000 +0100
 +++ linux-3.18.21/include/clondike/tcmi/tcmi_hooks.h	2015-10-09 16:26:01.000000000 +0200
-@@ -0,0 +1,105 @@
+@@ -0,0 +1,107 @@
 +/**
 + * @file tcmi_hooks.h - Declaration of all hooks that are to be used in the kernel.
 + * 
@@ -947,9 +947,6 @@ diff -Naur linux-3.18.21-vanilla/include/clondike/tcmi/tcmi_hooks.h linux-3.18.2
 +
 +TCMI_HOOKS_DEFINE(replace_proc_self_file, const char*, const char**);
 +
-+/**
-+ * @}
-+ */
 +
 +#endif /* _TCMI_HOOKS_H */
 +
