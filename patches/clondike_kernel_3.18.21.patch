@@ -77,7 +77,7 @@ diff -Naur linux-3.18.21-vanilla/arch/x86/kernel/entry_64.S linux-3.18.21/arch/x
 +	call sys_execve	
 +	movq %rax, RAX(%rsp)
 +	testq %rax,%rax
-+	jnz failedexec
++	jnz failedexecve
 +	/* After we've checked return value, we set rax to value of orig rax */
 +	movq ORIG_RAX(%rsp), %rax
 +	/* And in addition we need to set eax to RAX pt regs to correctly survive args restore */
@@ -85,7 +85,7 @@ diff -Naur linux-3.18.21-vanilla/arch/x86/kernel/entry_64.S linux-3.18.21/arch/x
 +
 +	RESTORE_REST	
 +	jmp int_ret_from_sys_call
-+failedexec:
++failedexecve:
 +	RESTORE_REST	
 +	RESTORE_ARGS
 +	UNFAKE_STACK_FRAME
@@ -258,18 +258,25 @@ diff -Naur linux-3.18.21-vanilla/arch/x86/mm/fault.c linux-3.18.21/arch/x86/mm/f
  	/*
  	 * We must have this function tagged with __kprobes, notrace and call
  	 * read_cr2() before calling anything else. To avoid calling any kind
-diff -Naur linux-3.18.21-vanilla/arch/x86/vdso/vdso32-setup.c linux-3.18.21/arch/x86/vdso/vdso32-setup.c
---- linux-3.18.21-vanilla/arch/x86/vdso/vdso32-setup.c	2015-12-14 07:28:13.675627581 +0100
-+++ linux-3.18.21/arch/x86/vdso/vdso32-setup.c	2015-12-13 10:49:02.664673198 +0100
-@@ -81,6 +81,8 @@
- 	return 0;
- }
+diff -Naur linux-3.18.21-vanilla/arch/x86/vdso/vma.c linux-3.18.21/arch/x86/vdso/vma.c
+--- linux-3.18.21-vanilla/arch/x86/vdso/vma.c	2015-09-01 00:19:23.000000000 +0200
++++ linux-3.18.21/arch/x86/vdso/vma.c	2015-10-09 16:36:25.000000000 +0200
+@@ -219,6 +219,7 @@
  
+ 	return map_vdso(&vdso_image_64, true);
+ }
 +EXPORT_SYMBOL(arch_setup_additional_pages);
+ 
+ #ifdef CONFIG_COMPAT
+ int compat_arch_setup_additional_pages(struct linux_binprm *bprm,
+@@ -243,6 +244,7 @@
+ }
+ #endif
+ 
 +
  #ifdef CONFIG_X86_64
- 
- subsys_initcall(sysenter_setup);
+ static __init int vdso_setup(char *s)
+ {
 diff -Naur linux-3.18.21-vanilla/clondike/Kconfig linux-3.18.21/clondike/Kconfig
 --- linux-3.18.21-vanilla/clondike/Kconfig	1970-01-01 01:00:00.000000000 +0100
 +++ linux-3.18.21/clondike/Kconfig	2015-12-13 11:43:59.397097818 +0100
@@ -562,7 +569,7 @@ diff -Naur linux-3.18.21-vanilla/fs/exec.c linux-3.18.21/fs/exec.c
  	}
 +	
 +	// Clondike for kernel 3.18.21 fix this macro, convert type argv and regs by Zdenek Novy
-+	TCMI_HOOKS_CALL(execve, filename, argv.ptr.native, envp.ptr.native, NULL); 	/* TCMI system call hook */
++	TCMI_HOOKS_CALL(execve, filename->name, argv.ptr.native, envp.ptr.native, NULL); 	/* TCMI system call hook */
  
  	/* We're below the limit (still or again), so we don't want to make
  	 * further execve() calls fail. */
@@ -575,24 +582,17 @@ diff -Naur linux-3.18.21-vanilla/fs/exec.c linux-3.18.21/fs/exec.c
  int do_execve(struct filename *filename,
  	const char __user *const __user *__argv,
  	const char __user *const __user *__envp)
-diff -Naur linux-3.18.21-vanilla/fs/fcntl.c linux-3.18.21/fs/fcntl.c
---- linux-3.18.21-vanilla/fs/fcntl.c	2015-12-14 07:28:13.683627629 +0100
-+++ linux-3.18.21/fs/fcntl.c	2015-12-13 10:49:16.620769111 +0100
-@@ -127,6 +127,7 @@
- {
- 	f_modown(filp, NULL, PIDTYPE_PID, 1);
+diff -Naur linux-3.18.21-vanilla/fs/file.c linux-3.18.21/fs/file.c
+--- linux-3.18.21-vanilla/fs/file.c	2015-09-01 00:19:23.000000000 +0200
++++ linux-3.18.21/fs/file.c	2015-12-16 15:18:55.867097238 +0100
+@@ -862,6 +862,7 @@
+ 	}
+ 	return sys_dup3(oldfd, newfd, 0);
  }
 +EXPORT_SYMBOL(sys_dup2);
  
- pid_t f_getown(struct file *filp)
+ SYSCALL_DEFINE1(dup, unsigned int, fildes)
  {
-@@ -755,4 +756,6 @@
- 	return 0;
- }
- 
-+EXPORT_SYMBOL(sys_dup2); // export symbol possible problem with it
-+
- module_init(fcntl_init)
 diff -Naur linux-3.18.21-vanilla/fs/namei.c linux-3.18.21/fs/namei.c
 --- linux-3.18.21-vanilla/fs/namei.c	2015-12-14 07:28:13.683627629 +0100
 +++ linux-3.18.21/fs/namei.c	2015-10-07 15:35:56.000000000 +0200
@@ -1814,14 +1814,6 @@ diff -Naur linux-3.18.21-vanilla/mm/memory.c linux-3.18.21/mm/memory.c
 diff -Naur linux-3.18.21-vanilla/mm/mmap.c linux-3.18.21/mm/mmap.c
 --- linux-3.18.21-vanilla/mm/mmap.c	2015-09-01 00:19:23.000000000 +0200
 +++ linux-3.18.21/mm/mmap.c	2015-12-13 10:49:17.976778531 +0100
-@@ -2521,6 +2521,7 @@
- 
- 	return __split_vma(mm, vma, addr, new_below);
- }
-+EXPORT_SYMBOL(install_special_mapping);
- 
- /* Munmap is split into 2 main parts -- this part which finds
-  * what needs doing, and the areas themselves, which do the
 @@ -2786,8 +2787,9 @@
  	}
  	vm_unacct_memory(nr_accounted);
