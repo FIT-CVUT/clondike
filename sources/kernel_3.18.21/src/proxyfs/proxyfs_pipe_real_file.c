@@ -48,7 +48,8 @@
  * */
 static int proxyfs_pipe_real_file_write(struct proxyfs_real_file *self)
 {
-	int lenght, total= 0, poll_result, nread;
+	int lenght, total= 0, poll_result;
+    // int nread;
 	mm_segment_t old_fs;
 	void *buf_addr;
 	size_t buf_data;
@@ -60,7 +61,7 @@ static int proxyfs_pipe_real_file_write(struct proxyfs_real_file *self)
 restart_write:
 	//nread = proxyfs_real_file_ioctl_nread(self); // TODO: Remove this, just for debugging now
 	poll_result = proxyfs_real_file_poll_write(self);
-	mdbg(INFO3, "[File %lu] polling result: %d (nread: %d)", proxyfs_file_get_file_ident(PROXYFS_FILE(self)), poll_result, nread);
+	mdbg(INFO3, "[File %lu] polling result: %d", proxyfs_file_get_file_ident(PROXYFS_FILE(self)), poll_result);
 
 	if ( poll_result < 1 ) // No space for writing (in pipe it means no free buffer)
 		return total;

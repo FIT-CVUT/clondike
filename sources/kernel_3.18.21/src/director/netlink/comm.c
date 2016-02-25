@@ -79,6 +79,8 @@ static int get_unique_seq(void) {
 /* Callback for initial daemon registration */
 static int register_pid_handler(struct sk_buff *skb, struct genl_info *info) {
 	struct nlattr* attr;
+	minfo(INFO4, "Registering pid info:");
+	mdbg(INFO4, "Registering pid info:");
 
 	attr = nlmsg_find_attr(info->nlhdr, sizeof(struct genlmsghdr), DIRECTOR_A_PID);
 	if ( attr == NULL ) {
@@ -91,6 +93,61 @@ static int register_pid_handler(struct sk_buff *skb, struct genl_info *info) {
 
 	return 0;
 }
+
+
+/*
+ * fix kernel 3.18.21 by Jan Friedl
+ * family_ops are registred during family registration instead of genl_register_ops() in previous kernel version
+ *
+ *
+ */
+
+static struct genl_ops register_family_ops[] = {
+    {
+        .cmd = DIRECTOR_REGISTER_PID,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = register_pid_handler,
+        .dumpit = NULL,
+    },
+    {
+        .cmd = DIRECTOR_SEND_GENERIC_USER_MESSAGE,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = handle_send_generic_user_message,
+        .dumpit = NULL,
+    },
+    {
+        .cmd = DIRECTOR_NPM_RESPONSE,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = generic_message_handler,
+        .dumpit = NULL,
+    },
+    {
+        .cmd = DIRECTOR_NODE_CONNECT_RESPONSE,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = generic_message_handler,
+        .dumpit = NULL,
+    },
+    {
+        .cmd = DIRECTOR_IMMIGRATION_REQUEST_RESPONSE,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = generic_message_handler,
+        .dumpit = NULL,
+    },
+    {
+        .cmd = DIRECTOR_ACK,
+        .flags = 0,
+        .policy = director_genl_policy,
+        .doit = generic_message_handler,
+        .dumpit = NULL,
+    },
+};
+
+
 
 static struct genl_ops register_pid_ops[] = {
         {
@@ -120,16 +177,21 @@ static struct genl_ops* check_npm_ops_ref,
 int init_director_comm(void) {
 	int ret;
 
-	ret = genl_register_family(&director_gnl_family);
-	if (ret != 0)
+    mdbg(INFO4,"initializing director");
+    minfo(INFO4,"initializing director");
+    
+	//ret = genl_register_family(&director_gnl_family);
+    /* fix in kernel 3.18.21 by Jan Friedl */
+	ret = genl_register_family_with_ops(&director_gnl_family, register_family_ops);
+    if (ret != 0)
 		return ret;
 
 	// TODO: Release temporarily allocated resources ;)
 
 	/* Register callback for daemin PID registration */
-	genl_register_family_with_ops_groups(&director_gnl_family, register_pid_ops, gnl_mcgrps);
+	//genl_register_family_with_ops(&director_gnl_family, register_pid_ops);
 
-	genl_register_family_with_ops_groups(&director_gnl_family, send_user_message_ops, gnl_mcgrps);	
+	//genl_register_family_with_ops(&director_gnl_family, send_user_message_ops);	
 
 	/* Register generic dispatching callback for all other calls */
 	check_npm_ops_ref = genlmsg_register_tx_ops(&director_gnl_family, director_genl_policy, DIRECTOR_NPM_RESPONSE);
@@ -148,7 +210,7 @@ int init_director_comm(void) {
 	if ( !ack_ops_ref )
 		return -1;	
 
-
+    mdbg(INFO4,"Director comm component initialized");
 	minfo(INFO3, "Director comm component initialized");
 
 	return 0;
@@ -174,6 +236,8 @@ static int msg_transaction_request(int msg_code, struct genl_tx* tx, struct msg_
   void *msg_head;
   struct sk_buff *skb = NULL;
   int seq, director_pid;
+  
+  mdbg(INFO4,"msg_transaction_request");
 
   director_pid = is_director_connected();
   if ( !director_pid )
@@ -215,6 +279,7 @@ static int msg_transaction_response(struct genl_tx* tx, struct msg_transaction_o
 	struct sk_buff *skb = NULL;
 	struct genl_info info;
 	unsigned int ret = 0;
+    mdbg(INFO4,"msg_transaction_response");
 
 	if ( (ret= genlmsg_read_response(tx, &skb, &info, read_timeout)) )
 		goto done;

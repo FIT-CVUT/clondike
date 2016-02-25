@@ -162,10 +162,8 @@ static long tcmi_syscall_hooks_post_fork(struct task_struct* child, long res, pi
 		if (!IS_ERR((void*)res) ) {			
 			proxyfs_server_duplicate_all_parent(current, child);
 		}
-		director_task_fork(current, child);
-
-		return res;
 	}
+	director_task_fork(current, child);
 
 	return res;	
 };

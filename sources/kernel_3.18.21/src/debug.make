@@ -33,13 +33,13 @@ export MDBG_kkc_INFO := 0
 
 export MDBG_proxyfs_CRIT := 4
 export MDBG_proxyfs_ERR  := 4
-export MDBG_proxyfs_WARN := 0
-export MDBG_proxyfs_INFO := 0
+export MDBG_proxyfs_WARN := 4
+export MDBG_proxyfs_INFO := 4
 
-export MDBG_arch_CRIT := 0
+export MDBG_arch_CRIT := 4
 export MDBG_arch_ERR  := 4
-export MDBG_arch_WARN := 0
-export MDBG_arch_INFO := 0
+export MDBG_arch_WARN := 4
+export MDBG_arch_INFO := 4
 
 # Director and director netlink
 export MDBG_director_CRIT := 4

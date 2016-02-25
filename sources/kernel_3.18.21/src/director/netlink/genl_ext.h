@@ -13,8 +13,9 @@ struct genl_tx {
 	u32 seq; /* Sequence number */
 };
 
+/* not used now */
 /* Multicast group for Netlink family */
-static const struct genl_multicast_group gnl_mcgrps[] = {{.name = "clondike",},};
+/* static const struct genl_multicast_group gnl_mcgrps[] = {{.name = "clondike",},}; */
 
 /**
   * genlmsg_unicast_tx - wrapper around generic netlink unicast. 
@@ -36,6 +37,16 @@ int genlmsg_unicast_tx(struct sk_buff *skb, u32 pid, struct genl_tx* tx, int int
   * @param timeout: timeout in seconds
   */
 int genlmsg_read_response(struct genl_tx* tx, struct sk_buff **skb, struct genl_info *info, int timeout);
+
+
+
+/**
+  * This handler will distribute the message to registered transactions 
+  *
+  * @param skb: netlink message as socket buffer
+  * @param info: receiving information
+  * */
+int generic_message_handler(struct sk_buff *skb, struct genl_info *info);
 
 /**
   * This method must be called to register response command for transaction handling. No other callback can be registered for this command

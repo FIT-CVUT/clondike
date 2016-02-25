@@ -81,10 +81,12 @@ static int tcmi_ckptcom_checkpoint(struct file *file, struct pt_regs *regs,
 	beg_time = cpu_clock(smp_processor_id());
 
 	mdbg(INFO3, "Start checkpointing. Is_npm: %d", is_npm);
-	if ( !regs ) {
-		mdbg(ERR3, "Failed to create a checkpoint file. No regs provided");
-		goto exit0;
-	}
+	
+    /* kernel 3.18.21 - regs are not available in this kernel - always NULL | by Jan Friedl */
+    //if ( !regs ) {
+	//	mdbg(ERR3, "Failed to create a checkpoint file. No regs provided");
+	//	goto exit0;
+	//}
 	
 	ckpt = tcmi_ckpt_new(file);
 	if ( IS_ERR(ckpt) ) {
@@ -120,10 +122,13 @@ static int tcmi_ckptcom_checkpoint(struct file *file, struct pt_regs *regs,
 		}
 	}
 
-	if (tcmi_ckpt_regs_write(ckpt, regs) < 0) {
+    /* kernel 3.18.21 - regs are not available in this kernel - always NULL | by Jan Friedl */
+	/*
+    if (tcmi_ckpt_regs_write(ckpt, regs) < 0) {
 		mdbg(ERR3, "Error writing processor registers descriptor!");
 		goto exit1;
 	}
+    */
 	if (tcmi_ckpt_tls_write(ckpt, current) < 0) {
 		mdbg(ERR3, "Error writing process tls!");
 		goto exit1;
@@ -150,6 +155,8 @@ static int tcmi_ckptcom_checkpoint(struct file *file, struct pt_regs *regs,
 
 
 	tcmi_ckpt_put(ckpt);
+    
+	mdbg(INFO3, "after tcmi_ckpt_put");
 	return 0;
 
 	/* error handling */
@@ -191,18 +198,24 @@ int tcmi_ckptcom_checkpoint_npm(struct file *file, struct pt_regs *regs, struct 
 int tcmi_ckptcom_restart(struct linux_binprm *bprm, struct pt_regs *regs)
 {
 	struct tcmi_ckpt *ckpt;
-	struct pt_regs* original_regs;	
+    //No longer needed, regs no available in kernel 3.18.21 | by Jan Friedl
+	//struct pt_regs* original_regs;	
 //	int i;	
 	u64 beg_time = 0, end_time = 0;
 	
 	beg_time = cpu_clock(smp_processor_id());
-	
+
+    if (!regs)
+        mdbg(INFO4, "regs are NULL");
 
 memory_sanity_check("Start");
 	
+    //No longer needed, regs no available in kernel 3.18.21 | by Jan Friedl
+    /*
 	original_regs = kmalloc(sizeof(struct pt_regs), GFP_KERNEL);
 	if ( !original_regs )
 		return -ENOMEM;
+    */
 
 	if (!tcmi_ckpt_check_magic(bprm->buf)) {
 		goto exit0;
@@ -252,11 +265,13 @@ memory_sanity_check("Post mm");
 		}
 	}
 
-	*original_regs = *regs;
+/* regs not available in kernel 3.18.21 | by Jan Friedl */
+/*	*original_regs = *regs;
 	if (tcmi_ckpt_regs_read(ckpt, regs) < 0) {
 		mdbg(ERR3, "Error reading processor registers descriptor!");
 		goto exit1;
 	}
+*/
 	if (tcmi_ckpt_tls_read(ckpt, current, regs) < 0) {
 		mdbg(ERR3, "Error reading process tls!");
 		goto exit1;
@@ -273,25 +288,29 @@ memory_sanity_check("Post mm");
 		struct tcmi_npm_params* params = vmalloc(sizeof(struct tcmi_npm_params));
 		int exec_result = -EFAULT;
 		mm_segment_t old_fs;
-		*regs = *original_regs;
-
+        //No longer needed, regs no available in kernel 3.18.21 | by Jan Friedl
+		//*regs = *original_regs;
+    
 		if ( !params ) {
 			mdbg(ERR3, "Cannot allocate memory for npm params!");
 			goto exit1;
 		}
 		
-
 		if (tcmi_ckpt_npm_params_read(ckpt, params) < 0) {
 			mdbg(ERR3, "Error reading npm params!");
 			goto exit1;
 		}				
 		tcmi_ckpt_put(ckpt);
 
-		// TEMPORARY DEBUG!
+        // alocate filename struct * because of changes in do_execve parameters | fix for 3.18.21 by Jan Friedl
+        struct filename * execve_filename;
+        execve_filename = getname_kernel(params->file_name);
+		
+        // TEMPORARY DEBUG!
 		if ( current->mm )
-			/*mdbg(INFO2, "MM %p nr_ptes: %lu", current->mm, current->mm->nr_ptes);*/
+			mdbg(INFO2, "MM %p nr_ptes: %lu", current->mm, current->mm->nr_ptes);
 		if ( current->active_mm )
-			/*mdbg(INFO2, "ACTIVE %p MM nr_ptes: %lu", current->active_mm, current->active_mm->nr_ptes);*/
+			mdbg(INFO2, "ACTIVE %p MM nr_ptes: %lu", current->active_mm, current->active_mm->nr_ptes);
 
 		// TODO: This is something REALLY NASTY! Some better solution is appreciated
 		if ( current->mm ) {
@@ -303,19 +322,19 @@ memory_sanity_check("Post mm");
 
 		// TEMPORARY DEBUG!
 		if ( current->mm )
-			/*mdbg(INFO2, "MM %p nr_ptes: %lu", current->mm, current->mm->nr_ptes);*/
+			mdbg(INFO2, "MM %p nr_ptes: %lu", current->mm, current->mm->nr_ptes);
 		if ( current->active_mm )
-			/*mdbg(INFO2, "ACTIVE %p MM nr_ptes: %lu", current->active_mm, current->active_mm->nr_ptes);*/
+			mdbg(INFO2, "ACTIVE %p MM nr_ptes: %lu", current->active_mm, current->active_mm->nr_ptes);
 
 		// We have to unlock temprarily guar to prevent recursive lock (we are calling recursive exceve). TODO: Some better solution?
 		// Moved cred_guard_mutex to struct signal in new kernel 3.x.x => Fix by Jiri Rakosnik
-    mutex_unlock(&current->signal->cred_guard_mutex);
+        mutex_unlock(&current->signal->cred_guard_mutex);
 		current->fs->in_exec = 0; // Required to pass through 'check_unsafe_exec'
 
-		mdbg(INFO3, "Going to execute '%s', Args: %d, Envps %d", params->file_name, params->argsc, params->envpc);
+		mdbg(INFO3, "Going to execute '%s', Args: %d, Envps %d", execve_filename->name, params->argsc, params->envpc);
 		//mdbg(INFO3, "Arg[0] '%s', Envp[0] '%s'", params->args[0], params->envp[0]);
 		
-		exec_result = do_execve(params->file_name, (const char __user * const __user *)params->args, (const char __user * const __user *)params->envp);
+		exec_result = do_execve(execve_filename, (const char __user * const __user *)params->args, (const char __user * const __user *)params->envp);
 		mdbg(INFO3, "NPM internal execution result %d", exec_result);
 
 		// And now we relock again as the relock of outer execve will be attempted.
@@ -328,8 +347,11 @@ memory_sanity_check("Post mm");
 		// Do we have to call "set_binfmt(&tcmi_ckptcom_format);" here or can we release it here?
 		set_fs(old_fs);
 
-		vfree(params);
+		//vfree(params);
 		mdbg(INFO3, "NPM after param free");		
+
+        // release filename struct * | fix for 3.18.21 by Jan Friedl
+        //putname(execve_filename);
 
 		if ( exec_result ) {// In case of error of internal execution, we have to return ENOEXEC
 			return -EFAULT;
@@ -344,7 +366,9 @@ memory_sanity_check("Post mm");
 		// Restart fixup is performed only in PPM
 		tcmi_resolve_restart_block(current, regs, ckpt->hdr.checkpoint_arch, ckpt->hdr.is_32bit_application);
 	}
-	kfree(original_regs);
+
+    //No longer needed, regs no available in kernel 3.18.21 | by Jan Friedl
+	//kfree(original_regs);
 	
 	/* flush_signals(current);*/
 	tcmi_ckpt_put(ckpt);

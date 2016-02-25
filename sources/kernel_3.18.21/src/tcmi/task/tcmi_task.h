@@ -391,6 +391,8 @@ static inline void* tcmi_task_context(struct tcmi_task *self)
  */
 static inline void tcmi_task_set_context(struct tcmi_task *self, void *context)
 {
+    if (context == NULL)
+        mdbg(ERR1, "set task context NULL");
 	self->context = context;
 }
 

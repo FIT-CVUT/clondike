@@ -669,9 +669,13 @@ static inline int tcmi_taskhelper_checkpoint(struct tcmi_task *t_task, struct tc
 		}
 	}
 
+	mdbg(INFO3, "Before filp_close()");
 	filp_close(file, NULL);	
+	mdbg(INFO3, "After filp_close()");
 
 	free_page(page);
+	mdbg(INFO3, "After free_page()");
+
 	return 0;
 
 	/* error handling */
