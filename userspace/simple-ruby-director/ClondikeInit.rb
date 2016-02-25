@@ -71,7 +71,8 @@ class Clondike
         mounterdir = getConfigDirective( configuration, 'mounterdir', '/clondike/ccn/mounter/' )
         File.write( "#{mounterdir}fs-mount", '9p-global' )
         File.write( "#{mounterdir}fs-mount-device", listen_ip )
-        File.write( "#{mounterdir}fs-mount-options", 'aname=/,uname=root,port=5577' )
+        #File.write( "#{mounterdir}fs-mount-options", 'aname=/,uname=root,port=5577' )
+        File.write( "#{mounterdir}fs-mount-options", 'aname=/,uname=root,version=9p2000.L' )
         $log.debug( "[OK]\tMounting files created in #{mounterdir}" )
 
         # Proxyfs
@@ -110,7 +111,7 @@ end
 begin
 #    $log = Logger.new("/tmp/director.log")
     $log = Logger.new(STDOUT)
-    $log.level = Logger::INFO;
+    $log.level = Logger::DEBUG;
     $log.datetime_format = "%Y-%m-%d %H:%M:%S"
 
     $useProcTrace = false
