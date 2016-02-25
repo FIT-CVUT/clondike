@@ -305,11 +305,16 @@ void tcmi_task_flush_and_submit_method(struct tcmi_task *self, tcmi_method_t *me
 		mdbg(ERR3, "Can't create method wrapper");
 		goto exit0;
 	}
-
+    mdbg(INFO4, "before lock");
 	tcmi_queue_lock(&self->method_queue);
 	/* flush everything in the queue. */
+
+    mdbg(INFO4, "before while");
 	while (!tcmi_queue_empty(&self->method_queue)) {
+
+        mdbg(INFO4, "before remove entry");
 		__tcmi_queue_remove_entry(&self->method_queue, old_w, node);
+        mdbg(INFO4, "before put");
 		tcmi_method_wrapper_put(old_w);
 	}
 	/* append the requested method into the queue. */

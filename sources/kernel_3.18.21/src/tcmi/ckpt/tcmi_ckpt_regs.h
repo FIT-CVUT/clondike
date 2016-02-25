@@ -51,6 +51,10 @@ static inline int tcmi_ckpt_regs_write(struct tcmi_ckpt *ckpt, struct pt_regs *r
 
 	mdbg(INFO4, "Getting registers: %p", regs);
 
+    /* kernel 3.18.21 - regs are not available in this kernel | by Jan Friedl */
+    //if ( !regs)
+    //    return 0;
+
 	/* copy the process registers into the header */
 	get_registers(regs, &tcmi_regs);
 

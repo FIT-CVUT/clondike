@@ -148,7 +148,7 @@ wait_err:
 }
 
 /* This handler will distribute the message to registered transactions */
-static int generic_message_handler(struct sk_buff *skb, struct genl_info *info) {
+int generic_message_handler(struct sk_buff *skb, struct genl_info *info) {
 	struct genl_tx_internal* itx;
 	struct genl_tx tx;
 
@@ -187,10 +187,13 @@ struct genl_ops* genlmsg_register_tx_ops(struct genl_family *family, struct nla_
 	ops->doit = generic_message_handler;
 	ops->dumpit = NULL;
 
-	if ( (err=genl_register_family_with_ops_groups(family, ops, gnl_mcgrps)) )  {
+    /* TODO: register this ops */
+    /*
+	if ( (err=genl_register_family_with_ops(family, ops)) )  {
 		//kfree(ops);
 		return NULL;
 	}
+    */
 
 	return ops;
 }

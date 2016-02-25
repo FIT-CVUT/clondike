@@ -163,7 +163,7 @@ void proxyfs_file_destroy(struct proxyfs_file_t* self)
 {
 	circ_buf_destroy( & self->write_buf ); 
 	circ_buf_destroy( & self->read_buf ); 
-	proxyfs_peer_put(self->peer);
+	proxyfs_peer_put(self->peer); 
 }
 
 /** \<\<public\>\> Writes to file from peer - writes to read buffer */

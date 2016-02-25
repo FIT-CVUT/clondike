@@ -103,6 +103,11 @@ static inline int tcmi_ckpt_mm_write(struct tcmi_ckpt *ckpt)
 	mdbg(INFO4, "START BRK  :      %08lx", current->mm->start_brk);
 	mdbg(INFO4, "BRK        :      %08lx", current->mm->brk);
 	mdbg(INFO4, "START STACK:      %08lx", current->mm->start_stack);
+	mdbg(INFO4, "START ARG:      %08lx", current->mm->arg_start);
+	mdbg(INFO4, "END ARG:      %08lx", current->mm->arg_end);
+	mdbg(INFO4, "START ENV:      %08lx", current->mm->env_start);
+	mdbg(INFO4, "END ENV:      %08lx", current->mm->env_end);
+	mdbg(INFO4, "DEF FLAGS:      %08lx", current->mm->def_flags);
 	return 0;
 		
 	/* error handling */

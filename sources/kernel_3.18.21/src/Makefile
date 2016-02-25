@@ -24,7 +24,7 @@ ifeq ($(KERNELRELEASE),)
 .PHONY: all prepare clean
 
 #KDIR ?= /home/petr/projects/clondike3/linux-2.6.33.1/ # symlink to the kernel source
-KDIR ?= /usr/src/linux-3.6.11
+KDIR ?= /usr/src/linux-3.18.21-dev
 ARCH := $(shell uname -m | sed -e s/i.86/i386/     -e s/sun4u/sparc64/ \
 		               -e s/arm.*/arm/ 	   -e s/sa110/arm/ \
 		               -e s/s390x/s390/    -e s/parisc64/parisc/ \
@@ -46,7 +46,7 @@ export PATH := $(PATH):$(NPWD)/$(src)/scripts:$(src)/scripts
 
 subdir-ccflags-y   := -I$(src) 
 obj-$(CONFIG_TCMI) := kkc/ director/ ccfs/ proxyfs/ tcmi/
-EXTRA_CFLAGS += -DMDBG_CRIT=1 -DMDBG_ERR=1 -DMDBG_WARN=0 -DMDBG_INFO=0 
+EXTRA_CFLAGS += -DMDBG_CRIT=4 -DMDBG_ERR=4 -DMDBG_WARN=4 -DMDBG_INFO=4
 
 endif
 

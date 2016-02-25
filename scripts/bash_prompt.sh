@@ -10,14 +10,18 @@ CC=$?
 #  by return code of the last command
 if [ "$1" = "defPS1" ] ; then
     [ $CC -eq 0 ] && DLR="\[\e[33;1m\]" || DLR="\[\e[31;1m\]"
-	if [[ ${EUID} == 0 && -d /clondike/pen/nodes && -d /clondike/ccn/nodes ]] ; then
-        PS1="\[\033[01;31m\]$(cut -d: -f2 /clondike/ccn/listen) $(cat /clondike/pen/nodes/count)/$(cat /clondike/ccn/nodes/count)\[\033[01;34m\] \W $DLR\\$\[\033[00m\] "
-	else
-		PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w $DLR\\$\[\033[00m\] '
-	fi
+    if [[ ${EUID} == 0 && -d /clondike/pen/nodes && -d /clondike/ccn/nodes ]] ; then
+        COUNT=`cat /clondike/ccn/nodes/count`
+        if [[ $COUNT -eq 0 ]] ; then
+            PS1="\[\033[01;32m\]\u@\h:\[\033[01;31m\]$(cat /clondike/pen/nodes/count)/$(cat /clondike/ccn/nodes/count):\[\033[01;34m\]\w\[\033[00m\]\$"
+        else
+            PS1="\[\033[01;31m\]$(cut -d: -f2 /clondike/ccn/listen) $(cat /clondike/pen/nodes/count)/$(cat /clondike/ccn/nodes/count)\[\033[01;34m\] \W $DLR\\$\[\033[00m\] "
+        fi
+    else
+        PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \$\[\033[00m\] '
+    fi
     return 0;
 fi
-
 
 
 # Change the window title of X terminals 

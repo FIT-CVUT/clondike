@@ -59,6 +59,7 @@ int tcmi_ckpt_vm_area_write(struct tcmi_ckpt *ckpt, struct vm_area_struct *vma,
 	hdr.vm_flags = vma->vm_flags;
 	hdr.vm_pgoff = vma->vm_pgoff;
 	/* light version only when it's non-writable and  maps a file */
+    mdbg(INFO4, "TCMI CKPT WRITE");
 	if (type == TCMI_CKPT_VM_AREA_LIGHT && 
 	    !(vma->vm_flags & VM_WRITE) && vma->vm_file)
 		err = tcmi_ckpt_vm_area_write_l(ckpt, vma, &hdr);
@@ -128,6 +129,16 @@ static int tcmi_ckpt_vm_area_write_l(struct tcmi_ckpt *ckpt,
 	/* page for the filepathname */
 	unsigned long page;
 	char *pathname;
+    
+    /* omit vvar page | fix by Jan Friedl*/
+    if (vma->vm_private_data && ((struct vm_special_mapping *)(vma->vm_private_data))->name){
+        mdbg(INFO4, "writing special filename_h: %s", ((struct vm_special_mapping *)(vma->vm_private_data))->name);
+        if ( !strcmp(((struct vm_special_mapping *)(vma->vm_private_data))->name, "[vvar]")){
+            mdbg(INFO4, "Ommiting [vvar] page during dumping vm areas");
+            return 0;
+        }
+    }
+
 
 	/* finish the header */
 	hdr->type = TCMI_CKPT_VM_AREA_LIGHT;
@@ -200,6 +211,16 @@ static int tcmi_ckpt_vm_area_write_h(struct tcmi_ckpt *ckpt,
 {
 	/* page for the filepathname */
 	unsigned long addr;
+
+    /* omit vvar page | fix by Jan Friedl*/
+    if (vma->vm_private_data && ((struct vm_special_mapping *)(vma->vm_private_data))->name){
+        mdbg(INFO4, "writing special filename_h: %s", ((struct vm_special_mapping *)(vma->vm_private_data))->name);
+        if ( !strcmp(((struct vm_special_mapping *)(vma->vm_private_data))->name, "[vvar]")){
+            mdbg(INFO4, "Ommiting [vvar] page during dumping vm areas");
+            return 0;
+        }
+    }
+        
 
 	/* finish the header */
 	hdr->type = TCMI_CKPT_VM_AREA_HEAVY;

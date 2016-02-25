@@ -319,10 +319,18 @@ static int tcmi_ckpt_map_count(struct tcmi_ckpt *self)
 
 		count++;
 		/* Do not dump I/O mapped devices, shared memory, or special mappings */
-		if (vma->vm_flags & (VM_IO | VM_SHARED ))
+		//if (vma->vm_flags & (VM_IO | VM_SHARED ))
+		if (vma->vm_flags & ( VM_SHARED ))
 			err = -EINVAL;
 		mdbg(INFO4, "Scanning area start:%08lx, end: %08lx, flags: %08lx, pageprot %08lx", 
 		     vma->vm_start, vma->vm_end, vma->vm_flags, vma->vm_page_prot.pgprot);
+        if(vma->vm_file)
+            mdbg(INFO4, "Scanning area filename: %s", vma->vm_file->f_path.dentry->d_iname);
+        else{
+        	/* this is ignored in vma_ignore | by Jan Friedl*/
+        	if (vma->vm_private_data && ((struct vm_special_mapping *)(vma->vm_private_data))->name)
+        		mdbg(INFO4, "Scanning area special filename: %s", ((struct vm_special_mapping *)(vma->vm_private_data))->name);
+        }
 	}
 	mdbg(INFO4, "Found %d areas, mm indicates: %d", count, current->mm->map_count);
 	return (err ? err : count);

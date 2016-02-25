@@ -140,26 +140,32 @@ static long tcmi_mighooks_do_exit(long code)
 	mm_segment_t old_fs;
 	long res;
 	struct task_struct *child = NULL;
-
+    
+    //mdbg(INFO4, "mighooks_do_exit - init");
 	is_shadow = (current->tcmi.task_type == shadow || current->tcmi.task_type == shadow_detached);
 
 	old_fs = get_fs();
 	set_fs(get_ds());
 	res = getrusage(current, RUSAGE_SELF, &rusage);
 	set_fs(old_fs);
+//mdbg(INFO4, "mighooks_do_exit before director_task_exit");
 	director_task_exit(current, code, &rusage);
+//mdbg(INFO4, "mighooks_do_exit after director_task_exit");
 	
 	res = tcmi_taskhelper_notify_current(tcmi_task_exit, &code, 
 					      sizeof(code), prio);
+//mdbg(INFO4, "mighooks_do_exit after notify_current");
 
 	if ( is_shadow ) { // If the exitting task is a shadow task, we release all its proxy files as they won't be needed
 		proxyfs_sync_files_on_exit(); // We have to synchronize all files first so that no new writes occur after server release
 		proxyfs_server_release_all();
 	}
 
+//mdbg(INFO4, "mighooks_do_exit disconnecting director");
 	/*Disconnect main director process*/
 	director = director_pid();
 	if(director != 0 && current->pid == director) director_disconnect();
+//mdbg(INFO4, "mighooks_do_exit after director disconnect");
 		
 	write_lock_irq(&tasklist_lock);
 	for_each_process(child) {
@@ -170,6 +176,7 @@ static long tcmi_mighooks_do_exit(long code)
 	current->tcmi_parent = NULL;
 	write_unlock_irq(&tasklist_lock);	
 	
+//mdbg(INFO4, "mighooks_do_exit at the end");
 	return res;
 }
 
@@ -239,7 +246,7 @@ static long tcmi_mighooks_execve(const char *filename, const char __user * const
 		if ( ccn_man != NULL )
 			tcmi_try_npm_on_exec(filename, argv, envp, regs, TCMI_MAN(ccn_man), 0);
 	} else if ( tcmi_task_get_type(current->tcmi.tcmi_task) == guest ) {
-		mdbg(INFO4, "DEBUG TCMI_TASK == QUEST");
+		mdbg(INFO4, "DEBUG TCMI_TASK == GUEST");
 		// We allow npm only after we get initial execve executed.. not during the initial image load!
 		if ( tcmi_task_get_execve_count(current->tcmi.tcmi_task) > 1 ) {
 			// Task is guest, so DN has to take care of its possible NPM
