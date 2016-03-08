@@ -1,5 +1,5 @@
 CC=gcc
-OBJECTS= clondike_kernel_simulator.o ctlfs.o ctlfs_file_helper.o
+OBJECTS= clondike_kernel_simulator.o ctlfs.o ctlfs_file_helper.o message_helper.o
 CFLAGS += -g -I/usr/include/libnl3 
 LDFLAGS = -lnl-3 -lnl-genl-3 
 EXEC=clondike_kernel_simulator
