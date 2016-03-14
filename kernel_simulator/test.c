@@ -5,12 +5,9 @@
 #include "message_task_fork.h"
 #include "message_task_exit.h"
 #include "message_node_connected.h"
-#include "kkc.h"
-#include "pen_watcher.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include <netlink/netlink.h>
 #include <netlink/socket.h>
@@ -27,7 +24,7 @@ struct genl_cmd my_genl_cmds[] = {
         .c_id = DIRECTOR_ACK,
         .c_name = "DIRECTOR_ACK",
         .c_msg_parser = ack_handler,
-    },
+    }
 };
 
 struct genl_ops my_genl_ops = {
@@ -128,7 +125,10 @@ int main(){
 
 
     init_ctlfs();
-    
+    //destroy_ctlfs();
+
+
+
 
     struct nl_sock* sk = nl_socket_alloc();
 	nl_socket_set_buffer_size(sk, 15000000, 15000000);
@@ -145,6 +145,11 @@ int main(){
 
 
     printf("ret genl_register: %d\n", genl_register_family(&my_genl_ops));
+
+    /*
+    if (genl_ops_resolve(sk, &my_genl_ops) < 0)
+        printf( "Unable to resolve family name\n");
+*/
 
     printf("family registred\n");
     fflush(stdout);
@@ -163,26 +168,53 @@ int main(){
     send_message(sk, msg);
 
     nlmsg_free(msg);
-    
-    if (start_ccn() == -1){
-        printf("cannot start ccn manager, terminating!\n");
-        return 1;
-    }
-    init_pen_watcher();
 
-    while(1){
-        if(check_pen_watcher()){
-           ccn_connect(); 
-        }
 
-        try_receive_ccn();
 
-        ccn_send(0, "testovaci message");
 
-        sleep(1);
+//test
+    printf("send task fork\n");
+    send_task_fork(sk, 111,1111);
+    nl_recvmsgs_default(sk);
 
-    }
 
+
+    printf("send task exit\n");
+    send_task_exit(sk, 111, 0, 0);
+    nl_recvmsgs_default(sk);
+
+    printf("sending npm_check simple\n");
+    send_npm_check(sk, 1234, 1000, 0, "/home/clondike/nic", 1123123213123123, 1);
+    nl_recvmsgs_default(sk);
+
+    const char *argv[] = {
+        "jedna", "dva", NULL
+    };
+
+    const char *envp[] = {
+        "path1", "path2", NULL
+    };
+
+    send_npm_check_full(sk, 1234, 1000, 0, "/usr/bin/fridlik", 41234, argv, envp);
+    nl_recvmsgs_default(sk);
+
+    send_node_connected(sk, "192.168.21.133:48123", 0, "");
+    nl_recvmsgs_default(sk);
+    nl_recvmsgs_default(sk);
+
+    prepare_message(DIRECTOR_ACK, &msg);
+    send_message(sk, msg);
+    nlmsg_free(msg);
+
+    sleep(10);
+
+
+    send_node_connected(sk, "192.168.21.132:58123", 1, "");
+    nl_recvmsgs_default(sk);
+
+    printf("sending npm_check simple\n");
+    send_npm_check(sk, 1245, 100, 0, "/dva/tri", 112312323123, 0);
+    nl_recvmsgs_default(sk);
 
 
 
@@ -191,9 +223,6 @@ int main(){
     
     genl_unregister_family(&my_genl_ops);
     //destroy_ctlfs();
-   
-    close_pen_watcher();
-    close_connections();
 
     return 0;
 }

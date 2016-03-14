@@ -1,10 +1,16 @@
 #include "msgs.h"
+#include "message_helper.h"
+
 
 #include <netlink/netlink.h>
 #include <netlink/msg.h>
 #include <netlink/attr.h>
 
+static int family_id = 0;
 
+void set_family_id(int fid){
+    family_id = fid;
+}
 
 int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
     struct nl_msg *msg;
@@ -20,14 +26,8 @@ int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
     if (msg == NULL){
         return -1;
     }
-
-    hdr = nlmsg_hdr(msg);
-
-    hdr->nlmsg_type = NETLINK_MESSAGE_TYPE;
-
-    if (nlmsg_append(msg, &genl_hdr, sizeof(genl_hdr), 1) != 0){
-        return -2;
-    }
+    
+    genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ, family_id, 0, 0, cmd, 0);
 
     *res_msg = msg;
 

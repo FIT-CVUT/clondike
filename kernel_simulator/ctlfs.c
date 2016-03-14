@@ -37,13 +37,33 @@ int ctlfs_init_dirs(void){
 		printf("Cannot create directory listening-on.\n");
 		return -1;
 	}
+    
+    if (create_directory("/clondike/ccn/listening-on/listen-00")){
+		printf("Cannot create directory listen-00.\n");
+		return -1;
+	}
 
 	if (create_directory("/clondike/ccn/mounter")){
 		printf("Cannot create directory mounter.\n");
 		return -1;
 	}
-
-	return 0;
+    
+    if (create_directory("/clondike/ccn/nodes")){
+		printf("Cannot create directory nodes.\n");
+		return -1;
+	}
+    
+    if (create_directory("/clondike/pen")){
+		printf("Cannot create directory pen.\n");
+		return -1;
+	}
+    
+    if (create_directory("/clondike/pen/nodes")){
+		printf("Cannot create directory nodes.\n");
+		return -1;
+	}
+	
+    return 0;
 
 }
 
@@ -78,11 +98,41 @@ int ctlfs_init_files(void){
 		printf("Cannot create file stop-listen-one.\n");
 		return -1;
 	}
+    
+    if (create_file("/clondike/ccn/listening-on/listen-00/archname")){
+		printf("Cannot create file archname.\n");
+		return -1;
+	}
+    
+    if (create_file("/clondike/ccn/listening-on/listen-00/peername")){
+		printf("Cannot create file peername.\n");
+		return -1;
+	}
+    
+    if (create_file("/clondike/ccn/listening-on/listen-00/sockname")){
+		printf("Cannot create file sockname.\n");
+		return -1;
+	}
+    
+    if (create_file("/clondike/ccn/nodes/count")){
+		printf("Cannot create file count.\n");
+		return -1;
+	}
+    
+    if (create_file("/clondike/pen/nodes/count")){
+		printf("Cannot create file count.\n");
+		return -1;
+	}
 
 	return 0;
 }
 
 int ctlfs_stop_dirs(void){
+    
+    if (remove_directory("/clondike/ccn/listening-on/listen-00")){
+		printf("Cannot delete directory listen-00.\n");
+		return -1;
+	}
 
 	if (remove_directory("/clondike/ccn/listening-on")){
 		printf("Cannot delete directory listening-on.\n");
@@ -93,9 +143,24 @@ int ctlfs_stop_dirs(void){
 		printf("Cannot delete directory mounter.\n");
 		return -1;
 	}
+    
+    if (remove_directory("/clondike/ccn/nodes")){
+		printf("cannot delete directory nodes.\n");
+		return -1;
+	}
 
 	if (remove_directory("/clondike/ccn")){
-		printf("Cannot delete directory ccn.\n");
+		printf("cannot delete directory ccn.\n");
+		return -1;
+	}
+    
+    if (remove_directory("/clondike/pen/nodes")){
+		printf("cannot delete directory nodes.\n");
+		return -1;
+	}
+    
+    if (remove_directory("/clondike/pen")){
+		printf("cannot delete directory pen.\n");
 		return -1;
 	}
 }
@@ -130,7 +195,31 @@ int ctlfs_stop_files(void){
 		printf("Cannot remove file stop-listen-one.\n");
 		return -1;
 	}
+    
+    if (remove_file("/clondike/ccn/listening-on/listen-00/archname")){
+		printf("Cannot remove file archname.\n");
+		return -1;
+	}
+    
+    if (remove_file("/clondike/ccn/listening-on/listen-00/peername")){
+		printf("Cannot remove file peername.\n");
+		return -1;
+	}
+    
+    if (remove_file("/clondike/ccn/listening-on/listen-00/sockname")){
+		printf("Cannot remove file sockname.\n");
+		return -1;
+	}
+   
+    if (remove_file("/clondike/ccn/nodes/count")){
+		printf("Cannot remove file count.\n");
+		return -1;
+	}
 
+    if (remove_file("/clondike/pen/nodes/count")){
+		printf("Cannot remove file count.\n");
+		return -1;
+	}
 	return 0;
 }
 
