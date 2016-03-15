@@ -3,6 +3,8 @@
 #include <sys/inotify.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/socket.h>
+#include <stdlib.h>
 
 static int inotify_fd;
 
@@ -35,26 +37,35 @@ int check_pen_watcher(){
     
     printf("check pen watcher\n");
 
-    length = read(inotify_fd, buffer, BUF_LEN);
-    if (length < 0){
-        printf("Cannot check for pen\n");
-    }
+    fd_set socket_set;
+    struct timeval tv;
 
-    if (length == 0)
-        return 0;
-   
-    printf("watcher length: %d\n", length);
+    FD_ZERO(&socket_set);
+    FD_SET(inotify_fd, &socket_set);
+
+    tv.tv_sec = 0;
+    tv.tv_usec = 5;
 
     int i;
     int ret = 0;
-    for (i = 0; i < length; i++){
-        printf("checking events\n");
-        struct inotify_event *event = ( struct inotify_event * ) &buffer[ i ];     
-        if ( event->mask & IN_MODIFY ){
-            printf("pen modified\n");
-            ret = 1;
-        }
 
+    if(select(inotify_fd + 1, &socket_set, NULL, NULL, &tv) > 0){
+        if(FD_ISSET(inotify_fd, &socket_set)){
+            length = read(inotify_fd, buffer, BUF_LEN);
+            printf("watcher length: %d\n", length);
+            if (length == 0)
+                return 0; 
+        
+            for (i = 0; i < length; i++){
+                printf("checking events\n");
+                struct inotify_event *event = ( struct inotify_event * ) &buffer[ i ];     
+                if ( event->mask & IN_MODIFY ){
+                    printf("pen modified\n");
+                    ret = 1;
+                }
+
+            }
+        }
     }
 
     return ret;
