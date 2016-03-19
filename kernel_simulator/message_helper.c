@@ -12,6 +12,12 @@ void set_family_id(int fid){
     family_id = fid;
 }
 
+static unsigned int sequence_number = 0;
+
+unsigned int get_sequence_number(){
+    return sequence_number;
+}
+
 int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
     struct nl_msg *msg;
     struct nlmsghdr *hdr;
@@ -27,7 +33,7 @@ int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
         return -1;
     }
     
-    genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ, family_id, 0, 0, cmd, 0);
+    genlmsg_put(msg, NL_AUTO_PORT, ++sequence_number, family_id, 0, 0, cmd, 0);
 
     *res_msg = msg;
 

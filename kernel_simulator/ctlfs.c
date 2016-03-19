@@ -223,4 +223,12 @@ int ctlfs_stop_files(void){
 	return 0;
 }
 
+int create_pen_node_directory(struct sockaddr_in * pen_node_addr){
+    char dir_name[100];
+    sprintf(dir_name, "/clondike/pen/nodes/%s:%d", inet_ntoa(pen_node_addr->sin_addr), ntohs(pen_node_addr->sin_port));
+    if (create_directory(dir_name)){
+        printf("Cannot create %s\n", dir_name);
+        return -1;
+    }
 
+}

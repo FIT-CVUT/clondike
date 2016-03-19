@@ -18,6 +18,8 @@ int send_immigration_request(struct nl_sock * sk, int uid, int pid, int index, c
 
     nlmsg_free(msg);
 
+
+    return 0;
 }
 
 int prepare_immigration_request(struct nl_msg ** ret_msg, int uid, int pid, int index, const char * name, unsigned long jiffies){

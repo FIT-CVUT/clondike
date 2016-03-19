@@ -1,3 +1,4 @@
+#include "clondike_kernel_simulator.h"
 #include "ctlfs.h"
 #include "message_helper.h"
 #include "msgs.h"
@@ -8,9 +9,13 @@
 #include "kkc.h"
 #include "pen_watcher.h"
 
+#include <arpa/inet.h>
+#include <sys/socket.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
+
 
 #include <netlink/netlink.h>
 #include <netlink/socket.h>
@@ -20,7 +25,8 @@
 
 #define LOCAL_NETLINK_PORT 111111111
 
-int director_pid = 0;
+static int director_pid = 0;
+static struct nl_sock* sk;
 
 struct genl_cmd my_genl_cmds[] = {
     {
@@ -93,7 +99,7 @@ void get_family_id(struct nl_msg *msg){
 }
 
 int callback_message(struct nl_msg * msg, void * arg) {
-    printf("received message:\n");
+    printf("received netlink message:\n");
     nl_msg_dump(msg, stdout);
     printf("received message end:\n");
 
@@ -110,10 +116,50 @@ int callback_message(struct nl_msg * msg, void * arg) {
         check_registered_director_pid(msg);
     }
 
-
+    if(cmd == DIRECTOR_NPM_RESPONSE){
+        handle_npm_response(msg);
+    }
     set_director_pid(msg);
     printf("director peer port: %d\n", director_pid);
     return 0;
+}
+
+void sig_handler(int signo)
+{
+    if (signo == SIGINT){
+        printf("received SIGINT\n");
+        close_connections();
+        nl_socket_free(sk);
+        exit(0);
+    }
+}
+
+void receive_netlink_message(){
+    nl_recvmsgs_default(sk);
+     
+    struct nl_msg * msg;
+    prepare_message(DIRECTOR_ACK, &msg);
+    send_message(sk, msg);
+    nlmsg_free(msg);
+}
+
+void try_netlink_receive(){
+    printf("try netlink receive\n");
+    fd_set socket_set;
+    struct timeval tv;
+    int fd = nl_socket_get_fd(sk);
+    printf("netlink fd:%d\n", fd);
+    FD_ZERO(&socket_set);
+    FD_SET(fd, &socket_set);
+    //wait max 0.5ms
+    tv.tv_sec = 0;
+    tv.tv_usec = 500;
+    int ret;
+    if ( (ret = select(fd + 1, &socket_set, NULL, NULL, &tv)) > 0){
+        if(FD_ISSET(fd, &socket_set)){
+            receive_netlink_message();
+        }
+    }
 }
 
 
@@ -126,11 +172,14 @@ int main(){
 
     printf("Initializing clondike kernel simulator\n");
 
+    if (signal(SIGINT, sig_handler) == SIG_ERR)
+        printf("\ncan't catch SIGINT\n");
 
     init_ctlfs();
     
 
-    struct nl_sock* sk = nl_socket_alloc();
+    sk = nl_socket_alloc();
+    set_netlink_fd(sk); //set pointer in netlink_message file
 	nl_socket_set_buffer_size(sk, 15000000, 15000000);
 
 	nl_socket_disable_seq_check(sk);
@@ -163,23 +212,38 @@ int main(){
     send_message(sk, msg);
 
     nlmsg_free(msg);
-    
+   
+    create_fifo();
+    open_fifo();
+
     if (start_ccn() == -1){
         printf("cannot start ccn manager, terminating!\n");
         return 1;
     }
-    init_pen_watcher();
+
+    int pen;
+
+    netlink_send_task_fork(1234, 111);
 
     while(1){
+
+        try_netlink_receive();
+
         if(check_pen_watcher()){
-           ccn_connect(); 
+            ccn_connect();
         }
 
         try_receive_ccn();
 
-        ccn_send(0, "testovaci message");
+        //kkc_send_emig_request(get_socket(0), 1234, 999, "/usr/lib/src");
+        
+        try_read_fifo();
+        
+        emig_send_messages();
+        imig_send_messages();
 
-        sleep(1);
+
+        usleep(10000);
 
     }
 
@@ -192,7 +256,9 @@ int main(){
     genl_unregister_family(&my_genl_ops);
     //destroy_ctlfs();
    
-    close_pen_watcher();
+    close_fifo();
+    destroy_fifo();
+
     close_connections();
 
     return 0;

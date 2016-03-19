@@ -1,5 +1,5 @@
 #include "message_helper.h"
-#include "message_node_connected.h"
+#include "message_node_disconnected.h"
 #include "msgs.h"
 
 int send_node_disconnected(struct nl_sock * sk, int index, int slot_type, int reason){
@@ -18,7 +18,7 @@ int send_node_disconnected(struct nl_sock * sk, int index, int slot_type, int re
     nlmsg_free(msg);
 }
 
-static int prepare_node_connected(struct nl_msg ** ret_msg, int index, slot_type, int reason){
+static int prepare_node_disconnected(struct nl_msg ** ret_msg, int index, int slot_type, int reason){
     struct nl_msg *msg;
     int ret = 0;
     int len = 0;
