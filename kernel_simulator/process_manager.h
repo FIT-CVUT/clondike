@@ -1,5 +1,5 @@
-#ifndef KKC_PROCESS_MANAGER_H
-#define KKC_PROCESS_MANAGER_H
+#ifndef PROCESS_MANAGER_H
+#define PROCESS_MANAGER_H
 
 #ifdef __cplusplus
 extern "C" {
