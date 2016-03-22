@@ -27,6 +27,7 @@
 
 static int director_pid = 0;
 static struct nl_sock* sk;
+static int run_process_cleaner = 0;
 
 struct genl_cmd my_genl_cmds[] = {
     {
@@ -142,6 +143,10 @@ void sig_handler(int signo)
     }
 }
 
+void should_run_process_cleaner(){
+    run_process_cleaner = 1;    
+}
+
 void receive_netlink_message(){
     nl_recvmsgs_default(sk);
      
@@ -255,6 +260,12 @@ int main(){
         }
         ++cycle;
         printf("cycle: %d\n", cycle);
+
+        if(run_process_cleaner){
+            process_cleaner();
+            run_process_cleaner = 0;
+        }
+
         usleep(500000);
 
     }

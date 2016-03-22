@@ -104,6 +104,7 @@ int netlink_send_npm_check_full(int pid, int uid, int task_type, const char * na
 }
 
 int netlink_send_task_exit(int pid, int exit_code, int rusage){
+    should_run_process_cleaner();
     return send_task_exit(sk, pid, exit_code, rusage);
 }
 

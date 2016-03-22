@@ -433,16 +433,29 @@ void handle_emig_begin_message(struct kkc_message * msg, int peer_index){
 
 void handle_emig_done_message(struct kkc_message * msg, int peer_index){
     cout << "handle emig done" << endl;
+
+    struct kkc_attr_header attr;
+    int pid;
+    int return_code;
+
+    char * buf = (char *) msg;
+
+    //get pid header
+    buf += sizeof(struct kkc_message_header);
+
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&pid, buf, attr.len - sizeof(struct kkc_attr_header));
+    buf += attr.len - sizeof(struct kkc_attr_header);
+   
+    //get uid header
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&return_code, buf, attr.len - sizeof(struct kkc_attr_header));
+
+    cout << "pid: " << pid << endl;
+    cout << "return_code: " << return_code << endl;
+
+    emig_process_done(pid, return_code);
 }
-
-
-/*
-int main() {
-    
-    struct sockaddr_in addr;
-    cout << get_address_from_file("/clondike/pen/connect", &addr, 1) << endl;
-}
-
-*/
-
 

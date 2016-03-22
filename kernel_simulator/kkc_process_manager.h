@@ -17,6 +17,7 @@ enum migration_state{
     MIG_PROCESS_BEGIN,
     MIG_PROCESS_END,
     MIG_PROCESS_WORKING,
+    MIG_PROCESS_WORKING_LOCALY,
     MIG_PROCESS_CLEAN
 };
 
@@ -39,6 +40,8 @@ int emig_process_put(int pid, const char * name, int uid, unsigned int seq);
 
 int emig_process_migration_confirmed(int pid, int decision);
 
+int emig_process_done(int pid, int return_code);
+
 int emig_send_messages();
 
 int imig_process_put(int pid, const char * name, int uid, int peer_index);
@@ -48,6 +51,8 @@ int imig_send_messages();
 int imig_process_confirm(unsigned int sequence_number, int decision);
 
 int imig_process_start_migrated_process(int pid);
+
+void process_cleaner();
 
 #ifdef __cplusplus
 }

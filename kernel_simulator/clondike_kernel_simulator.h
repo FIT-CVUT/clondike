@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+void should_run_process_cleaner();
 
 
 #ifdef __cplusplus

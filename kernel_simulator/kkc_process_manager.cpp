@@ -54,19 +54,32 @@ int emig_process_migration_confirmed(int pid, int decision){
     struct mig_process * p;
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
         if((*it)->pid == pid) {
-            if (decision == MIGRATE){
-                p = *it;
-                break;
-            }
-            else{
-                //TODO: send netlink msg_exit
-                emig_processes.erase(it);
-                return 0;
-            }
+            p = *it;
+            break;
         }
     }
-    p->migration_state = MIG_PROCESS_CONFIRMED;
-    cout << "process " << p->pid << " confirmed" << endl;
+
+    if (decision == MIGRATE){
+        p->migration_state = MIG_PROCESS_CONFIRMED;
+        cout << "process " << p->pid << " confirmed" << endl;
+    }
+    else{
+        p->migration_state = MIG_PROCESS_DENIED;
+        cout << "emigration process " << p->pid << " denied" << endl;
+    }
+
+    return 0;
+}
+
+int emig_process_done(int pid, int return_code){
+    struct mig_process * p;
+    for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
+        if((*it)->pid == pid) {
+            p = *it;    
+        }
+    }
+
+    p->migration_state = MIG_PROCESS_END;
     return 0;
 }
 
@@ -113,16 +126,19 @@ int imig_process_start_migrated_process(int pid){
     }
     if (!p)
         return -1;
-    
+
+
     p->remote_pid = get_next_pid();
     p->migration_state = MIG_PROCESS_BEGIN;
+    
+    //notify userspace about new process - imigrated process
+    netlink_send_task_fork(p->remote_pid, get_next_pid());
+    
     return 0;
 }
 
 int emig_send_messages(){
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
-        cout << "pid:" << (*it)->pid << endl; 
-        //cout << "pid:" << (*it)->pid << " peer_index:" << (*it)->peer_index << endl; 
         switch ((*it)->migration_state){
             case MIG_PROCESS_NEW:
                 kkc_send_emig_request((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name);
@@ -132,8 +148,16 @@ int emig_send_messages(){
                 kkc_send_emig_begin((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name);
                 (*it)->migration_state = MIG_PROCESS_BEGIN;
                 break;
+            case MIG_PROCESS_DENIED:
+                cout << "migration process denied" << endl;
+                //have to run localy
+                (*it)->migration_state = MIG_PROCESS_WORKING_LOCALY;
+                fork_and_work(*it);
+                break;
             case MIG_PROCESS_END:
-                //TODO nothing
+                //TODO clear from emig manager
+                netlink_send_task_exit((*it)->pid, (*it)->return_code, 0);
+                (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
         }
     }
@@ -161,12 +185,13 @@ int imig_send_messages(){
                     cout << "cannot send immigration confirmed message" << endl;
                 }
                 //TODO:
-                fork_and_work(*it);
                 (*it)->migration_state = MIG_PROCESS_WORKING;
+                fork_and_work(*it);
                 break;
                     
             case MIG_PROCESS_END:
                 kkc_send_emig_done((*it)->peer_index, (*it)->pid, (*it)->return_code);
+                netlink_send_task_exit((*it)->remote_pid, (*it)->return_code, 0);
                 //TODO: clear from imig manager
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
@@ -175,6 +200,30 @@ int imig_send_messages(){
     return 0;
 }
 
+void process_cleaner(){
+    int clean = 1;
+    
+    while(clean){
+        for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
+            if((*it)->migration_state == MIG_PROCESS_CLEAN) {
+                free(*it);
+                emig_processes.erase(it);
+                break;
+            }
+        }
+        clean = 0;
+    }
 
+    while(clean){
+        for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
+            if((*it)->migration_state == MIG_PROCESS_CLEAN) {
+                free(*it);
+                imig_processes.erase(it);
+                break;
+            }
+        }
+        clean = 0;
+    }
+}
 
 
