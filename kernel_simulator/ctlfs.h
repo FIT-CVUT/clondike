@@ -10,6 +10,9 @@ extern "C" {
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+int init_ctlfs();
+
+int destroy_ctlfs();
 
 int ctlfs_init_dirs(void);
 

@@ -16,6 +16,7 @@ extern "C" {
 #include <netlink/genl/mngt.h>
 #include <netlink/genl/genl.h>
 
+#define LOCAL_NETLINK_PORT 111111111
 
 enum npm_msg_response {
     DO_NOT_MIGRATE,
@@ -28,7 +29,13 @@ enum npm_msg_response {
 };
 
 
-void set_netlink_fd(struct nl_sock* sk);
+int init_netlink();
+
+void receive_netlink_message();
+
+void get_family_id(struct nl_msg *msg);
+
+int netlink_callback_message(struct nl_msg * msg, void * arg);
 
 int netlink_send_emigration_failed(int pid, const char * name, unsigned long jiffies);
 

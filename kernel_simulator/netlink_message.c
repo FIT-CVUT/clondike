@@ -8,6 +8,7 @@
 #include "message_task_exit.h"
 #include "message_task_fork.h"
 #include "msgs.h"
+#include "response_handlers.h"
 #include "kkc_messages.h"
 
 #include <netlink/netlink.h>
@@ -16,10 +17,167 @@
 #include <netlink/genl/mngt.h>
 #include <netlink/genl/genl.h>
 
+static int director_pid = 0;
 static struct nl_sock* sk;
 
-void set_netlink_fd(struct nl_sock * fd){
-    sk = fd;
+struct genl_cmd my_genl_cmds[] = {
+    {
+        .c_id = DIRECTOR_ACK,
+        .c_name = "DIRECTOR_ACK",
+        .c_msg_parser = ack_handler,
+    },
+};
+
+struct genl_ops my_genl_ops = {
+    .o_name = "DIRECTORCHNL",
+    //.o_cmds = my_genl_cmds,
+    .o_ncmds = 0,
+};
+
+
+int init_netlink(){
+    printf("initializing netlink\n");
+
+        struct nl_msg * msg;
+    struct nlmsghdr *hdr;
+    struct genlmsghdr genl_hdr;
+    int ret = 0;
+
+    sk = nl_socket_alloc();
+	nl_socket_set_buffer_size(sk, 15000000, 15000000);
+
+	nl_socket_disable_seq_check(sk);
+	nl_socket_set_local_port(sk, LOCAL_NETLINK_PORT);
+
+    genl_connect(sk);
+
+    nl_socket_modify_cb(sk, NL_CB_MSG_IN, NL_CB_CUSTOM, netlink_callback_message, NULL);
+	nl_recvmsgs_default(sk);
+    printf("set peer port\n");
+    nl_socket_set_peer_port(sk, director_pid);
+
+
+    ret = genl_register_family(&my_genl_ops);
+    if (ret < 0 ){
+        printf("ERROR: cannot register netlink family\n");
+        return ret;
+    }
+
+    printf("family registred\n");
+    fflush(stdout);
+    prepare_message(CTRL_CMD_NEWFAMILY, &msg);
+    
+    nla_put_string(msg, CTRL_ATTR_FAMILY_ID, "DIRECTORCHNL");
+
+    send_message(sk, msg);
+
+    nlmsg_free(msg);
+    
+    
+    nl_recvmsgs_default(sk);
+
+    prepare_message(DIRECTOR_ACK, &msg);
+    send_message(sk, msg);
+
+    nlmsg_free(msg);
+    
+    return 0;
+}
+
+void netlink_close(){
+    genl_unregister_family(&my_genl_ops);
+    nl_socket_free(sk);
+}
+
+static void set_director_pid(struct nl_msg *msg){
+    if (director_pid == 0){
+        director_pid = nlmsg_hdr(msg)->nlmsg_pid;
+    }
+}
+
+void try_netlink_receive(){
+    printf("try netlink receive\n");
+    fd_set socket_set;
+    struct timeval tv;
+    int fd = nl_socket_get_fd(sk);
+    FD_ZERO(&socket_set);
+    FD_SET(fd, &socket_set);
+    //wait max 0.5ms
+    tv.tv_sec = 0;
+    tv.tv_usec = 500;
+    int ret;
+    if ( (ret = select(fd + 1, &socket_set, NULL, NULL, &tv)) > 0){
+        if(FD_ISSET(fd, &socket_set)){
+            receive_netlink_message();
+        }
+    }
+}
+
+void receive_netlink_message(){
+    nl_recvmsgs_default(sk);
+     
+    struct nl_msg * msg;
+    prepare_message(DIRECTOR_ACK, &msg);
+    send_message(sk, msg);
+    nlmsg_free(msg);
+}
+
+int netlink_callback_message(struct nl_msg * msg, void * arg) {
+    printf("received netlink message:\n");
+    nl_msg_dump(msg, stdout);
+    printf("received message end:\n");
+
+    struct genlmsghdr* genl_hdr;
+    int cmd;
+    genl_hdr = (struct genlmsghdr *)nlmsg_data(nlmsg_hdr(msg));
+    cmd = genl_hdr->cmd;
+
+    if (cmd == CTRL_CMD_GETFAMILY){
+        get_family_id(msg);
+        set_director_pid(msg);
+        printf("director peer port: %d\n", director_pid);
+    }
+
+    else if (cmd == DIRECTOR_REGISTER_PID){
+        check_registered_director_pid(msg);
+    }
+
+    else if(cmd == DIRECTOR_NPM_RESPONSE){
+        handle_npm_response(msg);
+    }
+
+    else if(cmd == DIRECTOR_IMMIGRATION_REQUEST_RESPONSE){
+        handle_npm_immigration_request_response(msg);
+    }
+    else{
+        printf("other unrecognized netlink message");
+    }
+
+    return 0;
+}
+int check_registered_director_pid(struct nl_msg * msg){
+    struct nlattr *nla;
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_PID);
+    if(nla == NULL){
+        return -1;
+    }
+
+    if (nla_get_u32(nla) != director_pid){
+        printf("Registered PID mismatch!\n");
+        return -255;
+    }
+    return 0;
+}
+
+void get_family_id(struct nl_msg *msg){
+    int nl_family_id = 0;
+    printf("get family id\n");
+    struct nlattr *nla;
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), 2);
+    nl_family_id = nla_get_u16(nla);
+
+    printf("family id: %d\n", nl_family_id);
+    set_family_id(nl_family_id);
 }
 
 int handle_npm_response(struct nl_msg * msg){

@@ -27,6 +27,32 @@ clondike
 
 */
 
+int init_ctlfs(void){
+	if(ctlfs_init_dirs() < 0){
+		printf("Cannot init ctlfs directories\n");
+		return -1;
+	}
+	
+	if (ctlfs_init_files() < 0){
+		printf("Cannot init ctlfs files\n");
+		return -1;
+	}
+    return 0;
+}
+
+int destroy_ctlfs(void){
+	
+	if (ctlfs_stop_files() < 0){
+		printf("cannot destroy files\n");
+		return -1;
+	}
+
+	if(ctlfs_stop_dirs() < 0){
+		printf("cannot destroy directories\n");
+		return -1;
+	}
+    return 0;
+}
 int ctlfs_init_dirs(void){
 	if (create_directory("/clondike/ccn")){
 		printf("Cannot create directory ccn.\n");
