@@ -49,7 +49,7 @@ int start_ccn();
 
 void try_receive_ccn();
 
-void close_connections();
+void kkc_close_connections();
 
 int get_address_from_file(const char * filename, struct sockaddr_in * server_address,  int clear);
 

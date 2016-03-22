@@ -21,6 +21,14 @@ int ctlfs_stop_files(void);
 
 int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index);
 
+void inc_ccn_count();
+
+void dec_ccn_count();
+
+void inc_pen_count();
+
+void dec_pen_count();
+
 #ifdef __cplusplus
 }
 #endif

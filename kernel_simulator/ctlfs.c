@@ -114,12 +114,12 @@ int ctlfs_init_files(void){
 		return -1;
 	}
     
-    if (create_file("/clondike/ccn/nodes/count")){
+    if (create_file_write("/clondike/ccn/nodes/count", "0\n")){
 		printf("Cannot create file count.\n");
 		return -1;
 	}
     
-    if (create_file("/clondike/pen/nodes/count")){
+    if (create_file_write("/clondike/pen/nodes/count", "0\n")){
 		printf("Cannot create file count.\n");
 		return -1;
 	}
@@ -256,3 +256,57 @@ int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index){
     create_file_write(dir_name, content);
 
 }
+
+void change_ccn_count(int amount){
+    FILE * fd;
+    int count;
+    fd = fopen("/clondike/ccn/nodes/count", "r+");
+
+    fscanf(fd, "%d", &count);
+    
+    printf("current count: %d", count);
+
+    count += amount;
+
+    fseek(fd, 0, SEEK_SET);
+    
+    fprintf(fd, "%d\n", count);
+
+    fclose(fd);
+}
+
+void inc_ccn_count(){
+    change_ccn_count(1);
+}
+void dec_ccn_count(){
+    change_ccn_count(-1);
+}
+
+
+void change_pen_count(int amount){
+    FILE * fd;
+    int count;
+    fd = fopen("/clondike/pen/nodes/count", "r+");
+
+    fscanf(fd, "%d", &count);
+    
+    printf("current count: %d", count);
+
+    count += amount;
+
+    fseek(fd, 0, SEEK_SET);
+    
+    fprintf(fd, "%d\n", count);
+
+    fclose(fd);
+}
+
+void inc_pen_count(){
+    change_pen_count(1);
+}
+
+void dec_pen_count(){
+    change_pen_count(-1);
+}
+
+

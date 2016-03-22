@@ -1,4 +1,5 @@
 #include "kkc.h"
+#include "kkc_socket_manager.h"
 #include "process_manager.h"
 #include "clondike_kernel_simulator.h"
 #include "netlink_message.h"
@@ -25,12 +26,8 @@ using namespace std;
 
 
 static int main_socket;
-static int max_receiving_socket = 1;
-static int max_sending_socket = 1;
-static vector<pair<int,int> > receiving_sockets;
-static vector<pair<int,int> > sending_sockets;
 
-
+extern vector<struct kkc_socket * > kkc_sockets;
 
 int start_ccn(){
     if ((main_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1){
@@ -63,12 +60,14 @@ void try_receive_ccn(){
     FD_ZERO(&socket_set);
     FD_SET(main_socket, &socket_set);
     
-    for(std::vector<pair<int,int> >::iterator it = receiving_sockets.begin(); it != receiving_sockets.end(); it++){
-        FD_SET(it->second, &socket_set);
-        max_socket = max(max_socket, it->second);
+    for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
+        cout << "index:" << (*it)->index << " recv:" << (*it)->receiving_socket << " send:" << (*it)->sending_socket << endl;
+        if((*it)->receiving_socket != 0){
+            FD_SET((*it)->receiving_socket, &socket_set);
+            max_socket = max(max_socket, (*it)->receiving_socket);
+        }
     }
-    cout << "main socket: " << main_socket << endl;
-    cout << "receiving_sockets size: " << receiving_sockets.size() << " max: " << max_socket <<  endl;
+    cout << "kkc_sockets size: " << kkc_sockets.size() << endl;
     //wait max 5ms
     tv.tv_sec = 0;
     tv.tv_usec = 5;
@@ -79,33 +78,53 @@ void try_receive_ccn(){
             struct sockaddr_in pen_node_addr;
             socklen_t addrlen = sizeof(pen_node_addr);
             int pen_node = accept(main_socket, (sockaddr*)&pen_node_addr, &addrlen);
-            receiving_sockets.push_back(make_pair(max_receiving_socket, pen_node));
-            cout << "receiving socket connected: " << inet_ntoa(pen_node_addr.sin_addr) << " socket: " << pen_node << endl;
-            netlink_send_node_connected(&pen_node_addr, max_receiving_socket);
-            create_pen_node_directory(&pen_node_addr, max_receiving_socket);
-            max_receiving_socket++;
+        
+            int ret = kkc_socket_push_receiving(pen_node, &pen_node_addr);
+            if(ret == -1){
+                printf("receiving socket already exists\n");
+            }
+            else{
+                cout << "receiving socket connected: " << inet_ntoa(pen_node_addr.sin_addr) << " socket: " << pen_node << endl;
+                 netlink_send_node_connected(&pen_node_addr, ret);
+                 create_pen_node_directory(&pen_node_addr, ret);
+                 inc_pen_count();
+            }
+
         }
 
-        for(std::vector<pair<int,int> >::iterator it = receiving_sockets.begin(); it != receiving_sockets.end(); it++){
-            if(FD_ISSET(it->second, &socket_set)){
-                cout << "ready for receivei: " << it->second << endl;
+        for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
+            if((*it)->receiving_socket != 0 && FD_ISSET((*it)->receiving_socket, &socket_set)){
+                cout << "ready for receivei: " << (*it)->receiving_socket << endl;
                 struct kkc_message *msg;
-                kkc_receive_message(it->second, &msg);
-                kkc_handle_message(msg, it->first);
+                if (kkc_receive_message((*it)->receiving_socket, &msg) < 0){
+                    //socket no longer available, connection closed
+                    cout << "socket " << (*it)->receiving_socket << " closed" << endl;
+                    (*it)->receiving_socket = 0;
+                    close((*it)->sending_socket);
+                    (*it)->sending_socket = 0;
+                    netlink_send_node_disconnected((*it)->index, 0, 0);
+                    dec_pen_count();
+                    dec_ccn_count();
+
+                    continue;
+                }
+                kkc_handle_message(msg, (*it)->index);
             }
         }
     }
     //cout << "ret: " << ret << endl;
 }
 
-void close_connections(){
+void kkc_close_connections(){
+    for(std::vector<struct kkc_socket *>::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
+        if ((*it)->receiving_socket)
+            close((*it)->receiving_socket);
+
+        if((*it)->sending_socket)
+            close((*it)->sending_socket);
+    }
+    
     close(main_socket);
-    for(std::vector<pair<int, int> >::iterator it = receiving_sockets.begin(); it != receiving_sockets.end(); it++){
-        close(it->second);
-    }
-    for(std::vector<pair<int, int> >::iterator it = sending_sockets.begin(); it != sending_sockets.end(); it++){
-        close(it->second);
-    }
 }
 
 
@@ -145,21 +164,6 @@ int get_address_from_file(const char * filename, struct sockaddr_in * server_add
     return 0;
 }
 
-int pen_already_connected(struct sockaddr_in * s_address){
-    struct sockaddr_storage addr;
-    socklen_t len;
-    len = sizeof(addr);
-
-    for(std::vector<pair<int, int> >::iterator it = sending_sockets.begin(); it != sending_sockets.end(); it++){
-        getpeername(it->second, (struct sockaddr *) &addr, &len);
-        struct sockaddr_in *s = (struct sockaddr_in *) &addr;
-        if(s->sin_addr.s_addr == s_address->sin_addr.s_addr){
-            return 1;
-        }
-    }
-    return 0;
-}
-
 int ccn_connect(){
     int s;
     if ((s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1){
@@ -170,7 +174,7 @@ int ccn_connect(){
     struct sockaddr_in s_address;
     get_address_from_file("/clondike/pen/connect", &s_address, 1);
 
-    if (pen_already_connected(&s_address) > 0){
+    if (kkc_pen_already_connected(&s_address) > 0){
         cout << "already connected" << endl;
         return 0;
     }
@@ -180,8 +184,10 @@ int ccn_connect(){
         return -1;
     }
 
-    sending_sockets.push_back(make_pair(max_sending_socket++,s));
+    kkc_socket_push_sending(s, &s_address);
     cout << "successfuly connected to socket: " << s << endl;
+
+    inc_ccn_count();
 
     return s;
 }
@@ -190,7 +196,7 @@ int kkc_receive_message(int fd, struct kkc_message ** ret_msg){
     int total_received = 0;
     int len;
     
-    if (receiving_sockets.size() == 0){
+    if (kkc_sockets.size() == 0){
         *ret_msg = NULL;
         return 0;
     }
@@ -321,9 +327,9 @@ void kkc_handle_message(struct kkc_message * msg, int peer_index){
 }
 
 int get_socket(int index){
-    for(std::vector<pair<int, int> >::iterator it = sending_sockets.begin(); it != sending_sockets.end(); it++){
-        if(it->first == index)
-            return it->second;
+    for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
+        if((*it)->index == index)
+            return (*it)->sending_socket;
     }
 
     return -1;

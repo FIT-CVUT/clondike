@@ -137,7 +137,7 @@ void sig_handler(int signo)
 {
     if (signo == SIGINT){
         printf("received SIGINT\n");
-        close_connections();
+        kkc_close_connections();
         nl_socket_free(sk);
         exit(0);
     }
@@ -161,7 +161,6 @@ void try_netlink_receive(){
     fd_set socket_set;
     struct timeval tv;
     int fd = nl_socket_get_fd(sk);
-    printf("netlink fd:%d\n", fd);
     FD_ZERO(&socket_set);
     FD_SET(fd, &socket_set);
     //wait max 0.5ms
