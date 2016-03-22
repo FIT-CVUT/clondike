@@ -79,6 +79,7 @@ int emig_process_done(int pid, int return_code){
         }
     }
 
+    p->return_code = return_code;
     p->migration_state = MIG_PROCESS_END;
     return 0;
 }
