@@ -2,6 +2,9 @@
 #include "kkc_process_manager.h"
 #include "kkc.h"
 #include "kkc_messages.h"
+#include "message_helper.h"
+#include "pid_manager.h"
+#include "worker.h"
 
 #include <vector>
 #include <iostream>
@@ -30,18 +33,40 @@ int emig_process_put(int pid, const char * name, int uid, unsigned int seq){
 }
 
 int emig_process_migrate(unsigned int sequence_number, int peer_index){
-    struct mig_process * p;
+    struct mig_process * p = NULL;
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
         if((*it)->sequence_number == sequence_number) {
             p = *it;
             break;
         }
     }
+    if (!p)
+        return -1;
 
     p->peer_index = peer_index;
     p->migration_state = MIG_PROCESS_NEW;
 
     cout << "process " << p->pid << " prepared for migration" << endl;
+    return 0;
+}
+
+int emig_process_migration_confirmed(int pid, int decision){
+    struct mig_process * p;
+    for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
+        if((*it)->pid == pid) {
+            if (decision == MIGRATE){
+                p = *it;
+                break;
+            }
+            else{
+                //TODO: send netlink msg_exit
+                emig_processes.erase(it);
+                return 0;
+            }
+        }
+    }
+    p->migration_state = MIG_PROCESS_CONFIRMED;
+    cout << "process " << p->pid << " confirmed" << endl;
     return 0;
 }
 
@@ -53,15 +78,51 @@ int imig_process_put(int pid, const char * name, int uid, int peer_index){
     p->uid = uid;
     p->peer_index = peer_index;
     p->migration_state = MIG_PROCESS_NEW;
+    p->jiffies=0;
 
     imig_processes.push_back(p);
 
     return 0;
 }
 
+int imig_process_confirm(unsigned int sequence_number, int decision){
+    struct mig_process * p = NULL;
+    for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
+        if((*it)->sequence_number == sequence_number) {
+            p = *it;
+            break;
+        }
+    }
+    if (!p)
+        return -1;
+
+    p->migration_state = MIG_PROCESS_CONFIRMED;
+    p->return_code = decision;
+
+    cout << "process " << p->pid << " confirmed" << endl;
+    return 0;
+}
+
+int imig_process_start_migrated_process(int pid){
+    struct mig_process * p = NULL;
+    for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
+        if((*it)->pid == pid) {
+            p = *it;
+            break;
+        }
+    }
+    if (!p)
+        return -1;
+    
+    p->remote_pid = get_next_pid();
+    p->migration_state = MIG_PROCESS_BEGIN;
+    return 0;
+}
 
 int emig_send_messages(){
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
+        cout << "pid:" << (*it)->pid << endl; 
+        //cout << "pid:" << (*it)->pid << " peer_index:" << (*it)->peer_index << endl; 
         switch ((*it)->migration_state){
             case MIG_PROCESS_NEW:
                 kkc_send_emig_request((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name);
@@ -89,21 +150,25 @@ int imig_send_messages(){
                     cout << "cannot send immigration request message" << endl;
                 }
                 (*it)->migration_state = MIG_PROCESS_REQUEST;
+                (*it)->sequence_number = get_sequence_number();
                 break;
             case MIG_PROCESS_CONFIRMED:
                 kkc_send_emig_request_response((*it)->peer_index, (*it)->pid, (*it)->return_code);
+                (*it)->migration_state = MIG_PROCESS_CONFIRMED_SEND;
                 break;
             case MIG_PROCESS_BEGIN:
                 if(netlink_send_immigration_confirmed((*it)->uid, (*it)->pid, (*it)->peer_index, (*it)->name, (*it)->jiffies, (*it)->remote_pid) != 0){
                     cout << "cannot send immigration confirmed message" << endl;
                 }
                 //TODO:
-                //work(*it);
+                fork_and_work(*it);
                 (*it)->migration_state = MIG_PROCESS_WORKING;
                 break;
                     
             case MIG_PROCESS_END:
                 kkc_send_emig_done((*it)->peer_index, (*it)->pid, (*it)->return_code);
+                //TODO: clear from imig manager
+                (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
         }
     }

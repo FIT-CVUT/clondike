@@ -110,17 +110,25 @@ int callback_message(struct nl_msg * msg, void * arg) {
 
     if (cmd == CTRL_CMD_GETFAMILY){
         get_family_id(msg);
+        set_director_pid(msg);
+        printf("director peer port: %d\n", director_pid);
     }
 
-    if (cmd == DIRECTOR_REGISTER_PID){
+    else if (cmd == DIRECTOR_REGISTER_PID){
         check_registered_director_pid(msg);
     }
 
-    if(cmd == DIRECTOR_NPM_RESPONSE){
+    else if(cmd == DIRECTOR_NPM_RESPONSE){
         handle_npm_response(msg);
     }
-    set_director_pid(msg);
-    printf("director peer port: %d\n", director_pid);
+
+    else if(cmd == DIRECTOR_IMMIGRATION_REQUEST_RESPONSE){
+        handle_npm_immigration_request_response(msg);
+    }
+    else{
+        printf("other unrecognized netlink message");
+    }
+
     return 0;
 }
 
@@ -223,7 +231,7 @@ int main(){
 
     int pen;
 
-    netlink_send_task_fork(1234, 111);
+    int cycle = 0;
 
     while(1){
 
@@ -242,8 +250,12 @@ int main(){
         emig_send_messages();
         imig_send_messages();
 
-
-        usleep(10000);
+        if (cycle%20 == 0){
+            netlink_send_task_fork(get_next_pid(), get_next_pid());
+        }
+        ++cycle;
+        printf("cycle: %d\n", cycle);
+        usleep(500000);
 
     }
 

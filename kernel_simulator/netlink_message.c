@@ -41,12 +41,35 @@ int handle_npm_response(struct nl_msg * msg){
     decision_value = nla_get_u32(nla);
 
     if (decision == MIGRATE){
+        printf("decision is MIGRATE, let's do it\n");
         emig_process_migrate(seq, decision_value);
     }
 
     return 0;
 }
 
+int handle_npm_immigration_request_response(struct nl_msg * msg){
+    struct nlattr *nla;
+    int decision, decision_value;
+
+    unsigned int seq = nlmsg_hdr(msg)->nlmsg_seq;
+
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_DECISION);
+    if (nla == NULL)
+        return -1;
+    
+    decision = nla_get_u32(nla);
+
+    if (decision == MIGRATE){
+        imig_process_confirm(seq, MIGRATE);
+    }
+    else{
+        //TODO: maybe no branches needed
+        imig_process_confirm(seq, MIGRATE);
+    }
+
+    return 0;
+}
 
 
 int netlink_send_emigration_failed(int pid, const char * name, unsigned long jiffies){

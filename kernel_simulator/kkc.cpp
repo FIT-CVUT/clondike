@@ -25,8 +25,8 @@ using namespace std;
 
 
 static int main_socket;
-static int max_receiving_socket;
-static int max_sending_socket;
+static int max_receiving_socket = 1;
+static int max_sending_socket = 1;
 static vector<pair<int,int> > receiving_sockets;
 static vector<pair<int,int> > sending_sockets;
 
@@ -82,7 +82,7 @@ void try_receive_ccn(){
             receiving_sockets.push_back(make_pair(max_receiving_socket, pen_node));
             cout << "receiving socket connected: " << inet_ntoa(pen_node_addr.sin_addr) << " socket: " << pen_node << endl;
             netlink_send_node_connected(&pen_node_addr, max_receiving_socket);
-            create_pen_node_directory(&pen_node_addr);
+            create_pen_node_directory(&pen_node_addr, max_receiving_socket);
             max_receiving_socket++;
         }
 
@@ -95,7 +95,7 @@ void try_receive_ccn(){
             }
         }
     }
-    cout << "ret: " << ret << endl;
+    //cout << "ret: " << ret << endl;
 }
 
 void close_connections(){
@@ -145,6 +145,21 @@ int get_address_from_file(const char * filename, struct sockaddr_in * server_add
     return 0;
 }
 
+int pen_already_connected(struct sockaddr_in * s_address){
+    struct sockaddr_storage addr;
+    socklen_t len;
+    len = sizeof(addr);
+
+    for(std::vector<pair<int, int> >::iterator it = sending_sockets.begin(); it != sending_sockets.end(); it++){
+        getpeername(it->second, (struct sockaddr *) &addr, &len);
+        struct sockaddr_in *s = (struct sockaddr_in *) &addr;
+        if(s->sin_addr.s_addr == s_address->sin_addr.s_addr){
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int ccn_connect(){
     int s;
     if ((s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1){
@@ -154,6 +169,11 @@ int ccn_connect(){
 
     struct sockaddr_in s_address;
     get_address_from_file("/clondike/pen/connect", &s_address, 1);
+
+    if (pen_already_connected(&s_address) > 0){
+        cout << "already connected" << endl;
+        return 0;
+    }
 
     if (connect(s, (struct sockaddr *) &s_address, sizeof(s_address)) < 0){
         cout << "cannot connect to the peer"  << endl;
@@ -226,9 +246,9 @@ int kkc_free_msg(struct kkc_message *msg){
 struct kkc_attr * kkc_create_attr_u32(int type, uint32_t value){
     struct kkc_attr * attr = (struct kkc_attr *) malloc(sizeof(kkc_attr));
     
-    memcpy(attr->data, (char *)&value, sizeof(uint32_t));
     attr->hdr.len = sizeof(uint32_t) + sizeof(kkc_attr_header);
     attr->hdr.type = type;
+    memcpy(attr->data, (char *)&value, sizeof(uint32_t));
 
     return attr;
 }
@@ -268,8 +288,9 @@ void kkc_dump_msg(const char * ptr, int buflen){
   for (i=0; i<buflen; i+=16) {
     printf("%06x: ", i);
     for (j=0; j<16; j++) 
-      if (i+j < buflen)
+      if (i+j < buflen){
         printf("%02x ", buf[i+j]);
+      }
       else
         printf("   ");
     printf(" ");
@@ -345,11 +366,69 @@ void handle_emig_request_message(struct kkc_message *msg, int peer_index){
 }
 void handle_emig_request_response_message(struct kkc_message * msg, int peer_index){
     cout << "handle emig request response" << endl;
+    struct kkc_attr_header attr;
+    int pid;
+    int decision;
+
+    char * buf = (char *) msg;
+
+    //get pid header
+    buf += sizeof(struct kkc_message_header);
+
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&pid, buf, attr.len - sizeof(struct kkc_attr_header));
+    buf += attr.len - sizeof(struct kkc_attr_header);
+   
+    //get uid header
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&decision, buf, attr.len - sizeof(struct kkc_attr_header));
+
+    cout << "pid: " << pid << endl;
+    cout << "decision: " << decision << endl;
+
+    //it is possible, that decision == DO_NOT_MIGRATE, we will still call this to erase process from pid manager
+    emig_process_migration_confirmed(pid, decision);
 }
 
 void handle_emig_begin_message(struct kkc_message * msg, int peer_index){
     cout << "handle emig begin" << endl;
+    
+    struct kkc_attr_header attr;
+    int pid;
+    int uid;
+    char name[MAX_DATA_LEN];
 
+    char * buf = (char *) msg;
+
+    //get pid header
+    buf += sizeof(struct kkc_message_header);
+
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&pid, buf, attr.len - sizeof(struct kkc_attr_header));
+   
+    //get uid header
+    buf += attr.len - sizeof(struct kkc_attr_header);
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&uid, buf, attr.len - sizeof(struct kkc_attr_header));
+
+    //get name header
+    buf += attr.len - sizeof(struct kkc_attr_header);
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(name, buf, attr.len - sizeof(struct kkc_attr_header));
+
+    cout << "pid: " << pid << endl;
+    cout << "uid: " << uid << endl;
+    cout << "name: " << name << endl;
+  
+    if (imig_process_start_migrated_process(pid) < 0){
+        cout << "cannot start migrated process, no such PID" << endl;
+    }
 }
 
 void handle_emig_done_message(struct kkc_message * msg, int peer_index){

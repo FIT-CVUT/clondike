@@ -30,6 +30,7 @@ int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
 
     msg = nlmsg_alloc();
     if (msg == NULL){
+        printf("cannot alocate message\n");
         return -1;
     }
     

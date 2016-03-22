@@ -81,8 +81,7 @@ int kkc_send_emig_request_response(int peer_index, int pid, int decision){
     memcpy(buf+position, (char *)attr_pid, attr_pid->hdr.len);
     position += attr_pid->hdr.len;
 
-    memcpy(buf+position, attr_decision, attr_decision->hdr.len);
-    position += attr_decision->hdr.len;
+    memcpy(buf+position, (char *)attr_decision, attr_decision->hdr.len);
 
     cout << "sending emig_request_respose, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);

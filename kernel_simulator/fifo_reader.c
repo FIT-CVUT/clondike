@@ -2,6 +2,7 @@
 #include "kkc_process_manager.h"
 #include "kkc_messages.h"
 #include "kkc.h"
+#include "pid_manager.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -82,7 +83,7 @@ int try_read_fifo(){
         const char * const argv[] = {"argv", NULL};
         const char * const envp[] = {"envp", "EMIG=1", NULL};
         netlink_send_npm_check_full(1234, 999, 0, line, 0, argv, envp);
-        emig_process_put(1234, line, 999, get_sequence_number());
+        emig_process_put(get_next_pid(), line, get_next_pid(), get_sequence_number());
         free(line);
     }
 }

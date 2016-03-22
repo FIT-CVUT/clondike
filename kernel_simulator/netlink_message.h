@@ -48,6 +48,11 @@ int netlink_send_task_exit(int pid, int exit_code, int rusage);
 
 int netlink_send_task_fork(int pid, int ppid);
 
+int handle_npm_response(struct nl_msg * msg);
+
+int handle_npm_immigration_request_response(struct nl_msg * msg);
+
+
 #ifdef __cplusplus
 }
 #endif

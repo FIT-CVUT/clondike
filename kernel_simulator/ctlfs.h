@@ -19,7 +19,7 @@ int ctlfs_init_files(void);
 
 int ctlfs_stop_files(void);
 
-int create_pen_node_directory(struct sockaddr_in * pen_node_addr);
+int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index);
 
 #ifdef __cplusplus
 }
