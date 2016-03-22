@@ -20,6 +20,7 @@
 static int director_pid = 0;
 static struct nl_sock* sk;
 
+/*
 struct genl_cmd my_genl_cmds[] = {
     {
         .c_id = DIRECTOR_ACK,
@@ -27,6 +28,8 @@ struct genl_cmd my_genl_cmds[] = {
         .c_msg_parser = ack_handler,
     },
 };
+*/
+
 
 struct genl_ops my_genl_ops = {
     .o_name = "DIRECTORCHNL",

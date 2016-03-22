@@ -42,6 +42,9 @@ int init_ctlfs(void){
 
 int destroy_ctlfs(void){
 	
+    system("rm -r /clondike/*");
+    return 0;
+
 	if (ctlfs_stop_files() < 0){
 		printf("cannot destroy files\n");
 		return -1;
@@ -154,7 +157,7 @@ int ctlfs_init_files(void){
 }
 
 int ctlfs_stop_dirs(void){
-    
+   
     if (remove_directory("/clondike/ccn/listening-on/listen-00")){
 		printf("Cannot delete directory listen-00.\n");
 		return -1;

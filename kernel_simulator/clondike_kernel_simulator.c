@@ -35,6 +35,7 @@ void sig_handler(int signo)
         printf("received SIGINT\n");
         kkc_close_connections();
         netlink_close();
+        destroy_ctlfs();
         exit(0);
     }
 }
@@ -109,7 +110,7 @@ int main(){
     }
 
 
-    //destroy_ctlfs();
+    destroy_ctlfs();
    
     close_fifo();
     destroy_fifo();
