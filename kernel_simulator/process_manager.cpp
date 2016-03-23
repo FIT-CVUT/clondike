@@ -117,10 +117,10 @@ int imig_process_confirm(unsigned int sequence_number, int decision){
     return 0;
 }
 
-int imig_process_start_migrated_process(int pid){
+int imig_process_start_migrated_process(int pid, int peer_index){
     struct mig_process * p = NULL;
     for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
-        if((*it)->pid == pid) {
+        if((*it)->pid == pid && (*it)->peer_index == peer_index) {
             p = *it;
             break;
         }

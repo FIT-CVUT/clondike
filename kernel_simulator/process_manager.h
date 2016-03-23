@@ -50,7 +50,7 @@ int imig_send_messages();
 
 int imig_process_confirm(unsigned int sequence_number, int decision);
 
-int imig_process_start_migrated_process(int pid);
+int imig_process_start_migrated_process(int pid, int peer_index);
 
 void process_cleaner();
 

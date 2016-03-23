@@ -432,7 +432,7 @@ void handle_emig_begin_message(struct kkc_message * msg, int peer_index){
     cout << "uid: " << uid << endl;
     cout << "name: " << name << endl;
   
-    if (imig_process_start_migrated_process(pid) < 0){
+    if (imig_process_start_migrated_process(pid, peer_index) < 0){
         cout << "cannot start migrated process, no such PID" << endl;
     }
 }
