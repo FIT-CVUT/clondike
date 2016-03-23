@@ -55,10 +55,13 @@ int netlink_send_task_exit(int pid, int exit_code, int rusage);
 
 int netlink_send_task_fork(int pid, int ppid);
 
+int netlink_send_generic_user_message(int slot_index, int slot_type, int data_len, const char * data);
+
 int handle_npm_response(struct nl_msg * msg);
 
 int handle_npm_immigration_request_response(struct nl_msg * msg);
 
+int handle_send_generic_user_message(struct nl_msg * msg);
 
 #ifdef __cplusplus
 }

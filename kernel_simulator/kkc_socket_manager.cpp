@@ -22,6 +22,7 @@ int kkc_socket_push_receiving(int socket, struct sockaddr_in * recv_addr){
                 return (*it)->index;
             }
             else{
+                printf("ERROR: already connected\n");
                 return -1; //already connected
             }
         }
@@ -49,6 +50,7 @@ int kkc_socket_push_sending(int socket, struct sockaddr_in * send_addr){
                 return (*it)->index;
             }
             else{
+                printf("ERROR: already connected\n");
                 return -1; //already connected
             }
         }

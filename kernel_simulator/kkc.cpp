@@ -86,8 +86,8 @@ void try_receive_ccn(){
             else{
                 cout << "receiving socket connected: " << inet_ntoa(pen_node_addr.sin_addr) << " socket: " << pen_node << endl;
                  netlink_send_node_connected(&pen_node_addr, ret);
-                 create_pen_node_directory(&pen_node_addr, ret);
-                 inc_pen_count();
+                 create_ccn_node_directory(&pen_node_addr, ret);
+                 inc_ccn_count();
             }
 
         }
@@ -184,10 +184,12 @@ int ccn_connect(){
         return -1;
     }
 
-    kkc_socket_push_sending(s, &s_address);
+    int index = kkc_socket_push_sending(s, &s_address);
     cout << "successfuly connected to socket: " << s << endl;
-
-    inc_ccn_count();
+    create_pen_node_directory(&s_address, index);
+    //netlink_send_node_connected(&s_address, index);
+    
+    inc_pen_count();
 
     return s;
 }
@@ -311,18 +313,20 @@ void kkc_handle_message(struct kkc_message * msg, int peer_index){
     cout << "handle msg" << endl;
     kkc_dump_msg((char *)msg, msg->hdr.len);
     switch(msg->hdr.type){
-        case EMIG_REQUEST:
+        case KKC_EMIG_REQUEST:
             handle_emig_request_message(msg, peer_index);
             break;
-        case EMIG_REQUEST_RESPONSE:
+        case KKC_EMIG_REQUEST_RESPONSE:
             handle_emig_request_response_message(msg, peer_index);
             break;
-        case EMIG_BEGIN:
+        case KKC_EMIG_BEGIN:
             handle_emig_begin_message(msg, peer_index);
             break;
-        case EMIG_DONE:
+        case KKC_EMIG_DONE:
             handle_emig_done_message(msg, peer_index);
             break;
+        case KKC_GENERIC_USER_MESSAGE:
+            handle_kkc_generic_message(msg, peer_index);
     }
 }
 
@@ -463,5 +467,48 @@ void handle_emig_done_message(struct kkc_message * msg, int peer_index){
     cout << "return_code: " << return_code << endl;
 
     emig_process_done(pid, return_code);
+}
+
+void handle_kkc_generic_message(struct kkc_message * msg, int peer_index){
+    cout << "handle kkc_user message" << endl;
+
+    struct kkc_attr_header attr;
+    int slot_type, data_len;
+    char * user_data = NULL;
+
+    char * buf = (char *) msg;
+
+    //skip header
+    buf += sizeof(struct kkc_message_header);
+
+    //get slot_type
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&slot_type, buf, attr.len - sizeof(struct kkc_attr_header));
+    buf += attr.len - sizeof(struct kkc_attr_header);
+   
+    //get data len
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&data_len, buf, attr.len - sizeof(struct kkc_attr_header));
+    buf += attr.len - sizeof(struct kkc_attr_header);
+
+
+    //get data
+    if (data_len > 0){
+        memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+        buf += sizeof(struct kkc_attr_header);
+        //memcpy(user_data, buf, attr.len - sizeof(struct kkc_attr_header));
+        user_data = buf;
+    }
+
+    cout << "slot_index: " << peer_index << endl;
+    cout << "slot_type: " << slot_type << endl;
+    cout << "data_len: " << data_len << endl;
+    cout << "user_data: " << user_data << endl;
+    
+    netlink_send_generic_user_message(peer_index, 0, data_len, user_data);
+    netlink_send_generic_user_message(peer_index, 1, data_len, user_data);
+
 }
 

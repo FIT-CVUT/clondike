@@ -22,7 +22,9 @@ int ctlfs_init_files(void);
 
 int ctlfs_stop_files(void);
 
-int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index);
+int create_pen_node_directory(struct sockaddr_in * node_addr, int index);
+
+int create_ccn_node_directory(struct sockaddr_in * node_addr, int index);
 
 void inc_ccn_count();
 

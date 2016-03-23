@@ -1,7 +1,7 @@
 #ifndef KKC_H
 #define KKC_H
 
-#define MAX_DATA_LEN 100
+#define MAX_DATA_LEN 1000
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,10 +10,12 @@ extern "C" {
 #include <inttypes.h>
 
 enum kkc_socket_types{
-    EMIG_REQUEST,
-    EMIG_REQUEST_RESPONSE,
-    EMIG_BEGIN,
-    EMIG_DONE
+    KKC_EMIG_REQUEST,
+    KKC_EMIG_REQUEST_RESPONSE,
+    KKC_EMIG_BEGIN,
+    KKC_EMIG_DONE,
+    
+    KKC_GENERIC_USER_MESSAGE
 };
 
 enum kkc_socket_attributes{
@@ -78,6 +80,8 @@ void handle_emig_request_response_message(struct kkc_message * msg, int index);
 void handle_emig_begin_message(struct kkc_message * msg, int index);
 
 void handle_emig_done_message(struct kkc_message * msg, int index);
+
+void handle_kkc_generic_message(struct kkc_message * msg, int index);
 
 #ifdef __cplusplus
 }

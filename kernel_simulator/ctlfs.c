@@ -252,6 +252,41 @@ int ctlfs_stop_files(void){
 	return 0;
 }
 
+int create_ccn_node_directory(struct sockaddr_in * node_addr, int index){
+    char dir_name[100];
+    
+    sprintf(dir_name, "/clondike/ccn/nodes/%d", index);
+    if (create_directory(dir_name)){
+        printf("Cannot create %s\n", dir_name);
+        return -1;
+    }
+
+    sprintf(dir_name, "/clondike/ccn/nodes/%d/connections", index);
+    if (create_directory(dir_name)){
+        printf("Cannot create %s\n", dir_name);
+        return -1;
+    }
+
+    sprintf(dir_name, "/clondike/ccn/nodes/%d/connections/ctrlconn", index);
+    if (create_directory(dir_name)){
+        printf("Cannot create %s\n", dir_name);
+        return -1;
+    }
+    
+    sprintf(dir_name, "/clondike/ccn/nodes/%d/connections/ctrlconn/peername", index);
+    if (create_file(dir_name)){
+		printf("Cannot create %s.\n", dir_name);
+		return -1;
+	}
+    
+    char content[50];
+    //sprintf(content, "%s:54321\n", inet_ntoa(pen_node_addr->sin_addr));
+    sprintf(content, "%s:%d\n", inet_ntoa(node_addr->sin_addr), ntohs(node_addr->sin_port));
+    create_file_write(dir_name, content);
+    
+    return 0;
+}
+
 int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index){
     char dir_name[100];
     
@@ -280,10 +315,11 @@ int create_pen_node_directory(struct sockaddr_in * pen_node_addr, int index){
 	}
     
     char content[50];
-    sprintf(content, "%s:54321\n", inet_ntoa(pen_node_addr->sin_addr));
-    //sprintf(content, "%s:%d", inet_ntoa(pen_node_addr->sin_addr), ntohs(pen_node_addr->sin_port));
+    //sprintf(content, "%s:54321\n", inet_ntoa(pen_node_addr->sin_addr));
+    sprintf(content, "%s:%d\n", inet_ntoa(pen_node_addr->sin_addr), ntohs(pen_node_addr->sin_port));
     create_file_write(dir_name, content);
 
+    return 0;
 }
 
 void change_ccn_count(int amount){

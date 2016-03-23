@@ -16,7 +16,7 @@ int kkc_send_emig_request(int peer_index, int pid, int uid, const char * name){
 
     struct kkc_message_header hdr;
     hdr.len = sizeof(struct kkc_message_header); //need to be updated later
-    hdr.type = EMIG_REQUEST;
+    hdr.type = KKC_EMIG_REQUEST;
 
 
     struct kkc_attr * attr_pid = kkc_create_attr_u32(ATTR_PID, pid);
@@ -64,7 +64,7 @@ int kkc_send_emig_request_response(int peer_index, int pid, int decision){
 
     struct kkc_message_header hdr;
     hdr.len = sizeof(struct kkc_message_header); //need to be updated later
-    hdr.type = EMIG_REQUEST_RESPONSE;
+    hdr.type = KKC_EMIG_REQUEST_RESPONSE;
 
     struct kkc_attr * attr_pid = kkc_create_attr_u32(ATTR_PID, pid);
     struct kkc_attr * attr_decision = kkc_create_attr_u32(ATTR_DECISION, decision);
@@ -104,7 +104,7 @@ int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
 
     struct kkc_message_header hdr;
     hdr.len = sizeof(struct kkc_message_header); //need to be updated later
-    hdr.type = EMIG_BEGIN;
+    hdr.type = KKC_EMIG_BEGIN;
 
 
     struct kkc_attr * attr_pid = kkc_create_attr_u32(ATTR_PID, pid);
@@ -152,7 +152,7 @@ int kkc_send_emig_done(int peer_index, int pid, int return_code){
 
     struct kkc_message_header hdr;
     hdr.len = sizeof(struct kkc_message_header); //need to be updated later
-    hdr.type = EMIG_DONE;
+    hdr.type = KKC_EMIG_DONE;
 
     struct kkc_attr * attr_pid = kkc_create_attr_u32(ATTR_PID, pid);
     struct kkc_attr * attr_ret = kkc_create_attr_u32(ATTR_RETURN_CODE, return_code);
@@ -186,3 +186,53 @@ int kkc_send_emig_done(int peer_index, int pid, int return_code){
     return 0;
 }
 
+int kkc_send_generic_user_message(int slot_type, int slot_index, int data_len, const char * data){
+    int fd = get_socket(slot_index);
+    if(fd == -1)
+        return -1;
+
+    struct kkc_message_header hdr;
+    hdr.len = sizeof(struct kkc_message_header);
+    hdr.type = KKC_GENERIC_USER_MESSAGE;
+
+    struct kkc_attr * attr_slot_type = kkc_create_attr_u32(ATTR_PID, slot_type);
+    struct kkc_attr * attr_data_len = kkc_create_attr_u32(ATTR_PID, data_len);
+    struct kkc_attr * attr_data = kkc_create_attr_string(ATTR_NAME, data);
+
+    hdr.len += attr_slot_type->hdr.len;
+    hdr.len += attr_data_len->hdr.len;
+    hdr.len += attr_data->hdr.len;
+
+    char * buf = (char *) malloc(sizeof(char) * hdr.len);
+    int position = 0;
+    
+    //hdr
+    memcpy(buf+position, &hdr, sizeof(struct kkc_message_header));
+    position += sizeof(kkc_message_header);
+
+    //slot_type
+    memcpy(buf+position, attr_slot_type, attr_slot_type->hdr.len);
+    position += attr_slot_type->hdr.len;
+
+    //data_len
+    memcpy(buf+position, attr_data_len, attr_data_len->hdr.len);
+    position += attr_data_len->hdr.len;
+
+    //data
+    memcpy(buf+position, attr_data, attr_data->hdr.len);
+    position += attr_data->hdr.len;
+
+    cout << "sending KKC emig_generic_user_message, len: " << hdr.len << endl;
+    kkc_dump_msg(buf, hdr.len);
+
+    if (kkc_send_all(fd, buf, hdr.len) != hdr.len){
+        cout << "sending error" << endl;
+        return -1;
+    }
+    cout << "message successfuly send" << endl;
+    free(buf);
+    free(attr_slot_type);
+    free(attr_data_len);
+    free(attr_data);
+    return 0;
+}

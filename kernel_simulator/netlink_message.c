@@ -7,6 +7,7 @@
 #include "message_npm_check.h"
 #include "message_task_exit.h"
 #include "message_task_fork.h"
+#include "message_generic_user_message.h"
 #include "msgs.h"
 #include "response_handlers.h"
 #include "kkc_messages.h"
@@ -55,7 +56,8 @@ int init_netlink(){
     genl_connect(sk);
 
     nl_socket_modify_cb(sk, NL_CB_MSG_IN, NL_CB_CUSTOM, netlink_callback_message, NULL);
-	nl_recvmsgs_default(sk);
+	
+    nl_recvmsgs_default(sk);
     printf("set peer port\n");
     nl_socket_set_peer_port(sk, director_pid);
 
@@ -67,16 +69,17 @@ int init_netlink(){
     }
 
     printf("family registred\n");
-    fflush(stdout);
-    prepare_message(CTRL_CMD_NEWFAMILY, &msg);
     
+    prepare_message(CTRL_CMD_NEWFAMILY, &msg);
     nla_put_string(msg, CTRL_ATTR_FAMILY_ID, "DIRECTORCHNL");
-
     send_message(sk, msg);
-
     nlmsg_free(msg);
     
+    prepare_message(DIRECTOR_ACK, &msg);
+    send_message(sk, msg);
+    nlmsg_free(msg);
     
+    //registering pid 
     nl_recvmsgs_default(sk);
 
     prepare_message(DIRECTOR_ACK, &msg);
@@ -135,25 +138,34 @@ int netlink_callback_message(struct nl_msg * msg, void * arg) {
     genl_hdr = (struct genlmsghdr *)nlmsg_data(nlmsg_hdr(msg));
     cmd = genl_hdr->cmd;
 
-    if (cmd == CTRL_CMD_GETFAMILY){
-        get_family_id(msg);
-        set_director_pid(msg);
-        printf("director peer port: %d\n", director_pid);
-    }
+    switch (cmd){
+        case CTRL_CMD_GETFAMILY:
+            get_family_id(msg);
+            set_director_pid(msg);
+            printf("director peer port: %d\n", director_pid);
+            break;
 
-    else if (cmd == DIRECTOR_REGISTER_PID){
-        check_registered_director_pid(msg);
-    }
+        case DIRECTOR_REGISTER_PID:
+            check_registered_director_pid(msg);
+            break;
+    
+        case DIRECTOR_NPM_RESPONSE:
+            handle_npm_response(msg);
+            break;
+    
+        case DIRECTOR_IMMIGRATION_REQUEST_RESPONSE:
+            handle_npm_immigration_request_response(msg);
+            break;
+    
+        case DIRECTOR_SEND_GENERIC_USER_MESSAGE:
+            handle_send_generic_user_message(msg);
+            break;
 
-    else if(cmd == DIRECTOR_NPM_RESPONSE){
-        handle_npm_response(msg);
-    }
-
-    else if(cmd == DIRECTOR_IMMIGRATION_REQUEST_RESPONSE){
-        handle_npm_immigration_request_response(msg);
-    }
-    else{
-        printf("other unrecognized netlink message");
+        case DIRECTOR_NODE_CONNECT_RESPONSE:
+            //probably response for GENERIC_USER_MESSAGE
+            break;
+        default:
+            printf("other unrecognized netlink message");
     }
 
     return 0;
@@ -226,10 +238,41 @@ int handle_npm_immigration_request_response(struct nl_msg * msg){
     }
     else{
         //TODO: maybe no branches needed
-        imig_process_confirm(seq, MIGRATE);
+        imig_process_confirm(seq, DO_NOT_MIGRATE);
     }
 
     return 0;
+}
+
+int handle_send_generic_user_message(struct nl_msg * msg){
+    struct nlattr *nla;
+    int slot_index, slot_type, length;
+    char * user_data;
+
+    unsigned int seq = nlmsg_hdr(msg)->nlmsg_seq;
+
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_SLOT_INDEX);
+    if (nla == NULL)
+        return -1;
+    slot_index = nla_get_u32(nla);
+
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_SLOT_TYPE);
+    if (nla == NULL)
+        return -1;
+    slot_type = nla_get_u32(nla);
+    
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_LENGTH);
+    if (nla == NULL)
+        return -1;
+    length = nla_get_u32(nla);
+    
+    nla = nlmsg_find_attr(nlmsg_hdr(msg), sizeof(struct genlmsghdr), DIRECTOR_A_USER_DATA);
+    if (nla == NULL)
+        return -1;
+    user_data = nla_data(nla);
+
+    //TODO: send to another host using KKC
+    kkc_send_generic_user_message(slot_type, slot_index, length, user_data);
 }
 
 
@@ -271,5 +314,10 @@ int netlink_send_task_exit(int pid, int exit_code, int rusage){
 
 int netlink_send_task_fork(int pid, int ppid){
     return send_task_fork(sk, pid, ppid);
+}
+
+int netlink_send_generic_user_message(int slot_index, int slot_type, int data_len, const char * data){
+    return send_generic_user_message(sk, 0, slot_index, slot_type, data_len, data);
+
 }
 

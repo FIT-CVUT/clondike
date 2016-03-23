@@ -14,6 +14,8 @@ int kkc_send_emig_begin(int peer_message, int pid, int uid, const char * name);
 
 int kkc_send_emig_done(int peer_message, int pid, int return_code);
 
+int kkc_send_generic_user_message(int slot_type, int slot_index, int data_len, const char * data);
+
 #ifdef __cplusplus
 }
 #endif
