@@ -95,17 +95,17 @@ int main(){
         imig_send_messages();
 
         if (cycle%20 == 0){
-            netlink_send_task_fork(get_next_pid(), get_next_pid());
+           // netlink_send_task_fork(get_next_pid(), get_next_pid());
         }
         ++cycle;
-        printf("cycle: %d\n", cycle);
+        //printf("cycle: %d\n", cycle);
 
         if(run_process_cleaner){
             process_cleaner();
             run_process_cleaner = 0;
         }
 
-        usleep(500000);
+        usleep(50000);
 
     }
 

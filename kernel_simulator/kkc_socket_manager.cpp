@@ -75,7 +75,7 @@ int kkc_socket_push_sending(int socket, struct sockaddr_in * send_addr){
 
 int kkc_pen_already_connected(struct sockaddr_in * s_address){
     for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
-        if((*it)->s_addr == s_address->sin_addr.s_addr){
+        if((*it)->s_addr == s_address->sin_addr.s_addr && (*it)->sending_socket != 0 ){
             return 1;
         }
     }
