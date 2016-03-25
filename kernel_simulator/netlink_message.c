@@ -12,6 +12,9 @@
 #include "response_handlers.h"
 #include "kkc_messages.h"
 
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netlink/netlink.h>
 #include <netlink/socket.h>
 #include <netlink/msg.h>

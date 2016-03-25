@@ -86,6 +86,7 @@ void try_receive_ccn(){
             else{
                 cout << "receiving socket connected: " << inet_ntoa(pen_node_addr.sin_addr) << " socket: " << pen_node << endl;
                  netlink_send_node_connected(&pen_node_addr, ret);
+                 cout << "after sending netlink message" << endl;
                  create_ccn_node_directory(&pen_node_addr, ret);
                  inc_ccn_count();
             }
@@ -186,9 +187,9 @@ int ccn_connect(){
 
     int index = kkc_socket_push_sending(s, &s_address);
     cout << "successfuly connected to socket: " << s << endl;
-    create_pen_node_directory(&s_address, index);
-    //netlink_send_node_connected(&s_address, index);
-    
+    if (create_pen_node_directory(&s_address, index) < 0)
+        cout << "cannot create pen directories" << endl;
+     
     inc_pen_count();
 
     return s;

@@ -43,6 +43,11 @@ int kkc_socket_push_receiving(int socket, struct sockaddr_in * recv_addr){
 
 int kkc_socket_push_sending(int socket, struct sockaddr_in * send_addr){
     printf("pushing to sockets sending\n");
+
+    printf("address: %s\n", inet_ntoa(send_addr->sin_addr));
+    printf("port: %d\n", ntohs(send_addr->sin_port));
+
+
     for(vector<kkc_socket *>::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
         if ((*it)->s_addr == send_addr->sin_addr.s_addr){
             if((*it)->sending_socket == 0){
