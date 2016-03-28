@@ -88,7 +88,9 @@ static int puts_nested(struct nl_msg *msg, int type, int nested_type, const char
         return -2;
 
     nla_nest_end(msg, opts);
+#ifdef DEBUG
     printf("Nested args successfuly inserted\n");
+#endif
 
     return 0;
 }

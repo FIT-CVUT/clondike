@@ -168,10 +168,13 @@ int netlink_callback_message(struct nl_msg * msg, void * arg) {
             break;
 
         case DIRECTOR_NODE_CONNECT_RESPONSE:
+            //TODO: do something
             //probably response for GENERIC_USER_MESSAGE
             break;
+        case DIRECTOR_ACK:
+            break;
         default:
-            printf("other unrecognized netlink message");
+            printf("other unrecognized netlink message\n");
     }
 
     return 0;

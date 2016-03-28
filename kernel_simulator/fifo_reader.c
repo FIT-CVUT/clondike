@@ -79,7 +79,7 @@ int try_read_fifo(){
     if (select(fifo_fd + 1, &fifo_set, NULL, NULL, &tv) > 0){
         len = getline(&line, &alloc_size, fifo_file);
         line[len-1] = '\0';
-        printf("fifo: %s", line); //already contains newline
+        printf("fifo: %s\n", line); //already contains newline
         const char * const argv[] = {"argv", NULL};
         const char * const envp[] = {"envp", "EMIG=1", NULL};
         netlink_send_npm_check_full(1234, 999, 0, line, 0, argv, envp);
