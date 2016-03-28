@@ -1,6 +1,9 @@
 #ifndef KKC_SOCKET_MANAGER_H
 #define KKC_SOCKET_MANAGER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct kkc_socket{
     int index;
@@ -17,5 +20,10 @@ int kkc_socket_push_sending(int socket, struct sockaddr_in * send_addr);
 
 int kkc_pen_already_connected(struct sockaddr_in * s_address);
 
+int kkc_erase_disconnected_sockets();
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

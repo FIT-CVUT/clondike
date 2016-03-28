@@ -105,7 +105,7 @@ static void set_director_pid(struct nl_msg *msg){
 }
 
 void try_netlink_receive(){
-    printf("try netlink receive\n");
+    //printf("try netlink receive\n");
     fd_set socket_set;
     struct timeval tv;
     int fd = nl_socket_get_fd(sk);
@@ -132,9 +132,12 @@ void receive_netlink_message(){
 }
 
 int netlink_callback_message(struct nl_msg * msg, void * arg) {
+    
+#ifdef DEBUG
     printf("received netlink message:\n");
     nl_msg_dump(msg, stdout);
     printf("received message end:\n");
+#endif
 
     struct genlmsghdr* genl_hdr;
     int cmd;
@@ -220,6 +223,9 @@ int handle_npm_response(struct nl_msg * msg){
         printf("decision is MIGRATE, let's do it\n");
         emig_process_migrate(seq, decision_value);
     }
+    else{
+        emig_process_denied(seq);
+    }
 
     return 0;
 }
@@ -274,7 +280,6 @@ int handle_send_generic_user_message(struct nl_msg * msg){
         return -1;
     user_data = nla_data(nla);
 
-    //TODO: send to another host using KKC
     kkc_send_generic_user_message(slot_type, slot_index, length, user_data);
 }
 

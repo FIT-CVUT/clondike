@@ -42,14 +42,16 @@ int prepare_message(uint8_t cmd, struct nl_msg ** res_msg){
 }
 
 int send_message(struct nl_sock *sk, struct nl_msg *msg){
+#ifdef DEBUG        
     printf("Sending message\n");
     nl_msg_dump(msg, stdout);
+#endif
     int ret;
 
     if ( (ret = nl_send_auto(sk, msg)) <= 0 ){
         return -1;
     }
-    printf("Message succesfully send\n");
+    //printf("Message succesfully send\n");
 
     return 0;
 }

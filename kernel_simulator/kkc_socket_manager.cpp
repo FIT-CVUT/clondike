@@ -87,4 +87,20 @@ int kkc_pen_already_connected(struct sockaddr_in * s_address){
     return 0;
 }
 
+int kkc_erase_disconnected_sockets(){
+    int clean = 0;
+    while(!clean){
+        clean  = 1;
+        for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
+            if((*it)->receiving_socket == 0 && (*it)->sending_socket == 0 ){
+                free(*it);
+                kkc_sockets.erase(it);
+                clean = 0;
+                break;
+            }
+        }
+    }
+
+    return 0;
+}
 

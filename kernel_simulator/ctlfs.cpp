@@ -197,6 +197,8 @@ int ctlfs_stop_dirs(void){
 		printf("cannot delete directory pen.\n");
 		return -1;
 	}
+
+    return 0;
 }
 
 int ctlfs_stop_files(void){

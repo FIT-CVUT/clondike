@@ -42,8 +42,10 @@ int kkc_send_emig_request(int peer_index, int pid, int uid, const char * name){
     memcpy(buf+position, attr_name, attr_name->hdr.len);
     position += attr_name->hdr.len;
 
+#ifdef DEBUG
     cout << "sending message, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);
+#endif
 
     if (kkc_send_all(fd, buf, hdr.len) != hdr.len){
         cout << "sending error" << endl;
@@ -130,8 +132,10 @@ int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
     memcpy(buf+position, attr_name, attr_name->hdr.len);
     position += attr_name->hdr.len;
 
+#ifdef DEBUG
     cout << "sending emig_begin, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);
+#endif
 
     if (kkc_send_all(fd, buf, hdr.len) != hdr.len){
         cout << "sending error" << endl;
@@ -172,8 +176,10 @@ int kkc_send_emig_done(int peer_index, int pid, int return_code){
     memcpy(buf+position, attr_ret, attr_ret->hdr.len);
     position += attr_ret->hdr.len;
 
+#ifdef DEBUG
     cout << "sending emig_done, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);
+#endif
 
     if (kkc_send_all(fd, buf, hdr.len) != hdr.len){
         cout << "sending error" << endl;
@@ -222,9 +228,10 @@ int kkc_send_generic_user_message(int slot_type, int slot_index, int data_len, c
     memcpy(buf+position, attr_data, attr_data->hdr.len);
     position += attr_data->hdr.len;
 
+#ifdef DEBUG
     cout << "sending KKC emig_generic_user_message, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);
-
+#endif
     if (kkc_send_all(fd, buf, hdr.len) != hdr.len){
         cout << "sending error" << endl;
         return -1;

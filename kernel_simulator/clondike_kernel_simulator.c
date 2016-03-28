@@ -94,8 +94,8 @@ int main(){
         emig_send_messages();
         imig_send_messages();
 
-        if (cycle%20 == 0){
-           // netlink_send_task_fork(get_next_pid(), get_next_pid());
+        if (cycle%1000 == 0){
+            netlink_send_task_fork(get_next_pid(), get_next_pid());
         }
         ++cycle;
         //printf("cycle: %d\n", cycle);
@@ -106,6 +106,11 @@ int main(){
         }
 
         usleep(50000);
+        
+        //do maintain every 1000 cycles
+        if (cycle%100 == 0){
+            kkc_erase_disconnected_sockets();
+        }
 
     }
 

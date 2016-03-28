@@ -61,19 +61,19 @@ void try_receive_ccn(){
     FD_SET(main_socket, &socket_set);
     
     for(std::vector<struct kkc_socket * >::iterator it = kkc_sockets.begin(); it != kkc_sockets.end(); it++){
-        cout << "index:" << (*it)->index << " recv:" << (*it)->receiving_socket << " send:" << (*it)->sending_socket << endl;
+        //cout << "index:" << (*it)->index << " recv:" << (*it)->receiving_socket << " send:" << (*it)->sending_socket << endl;
         if((*it)->receiving_socket != 0){
             FD_SET((*it)->receiving_socket, &socket_set);
             max_socket = max(max_socket, (*it)->receiving_socket);
         }
     }
-    cout << "kkc_sockets size: " << kkc_sockets.size() << endl;
+    //cout << "kkc_sockets size: " << kkc_sockets.size() << endl;
     //wait max 5ms
     tv.tv_sec = 0;
     tv.tv_usec = 5;
     int ret;
     if ( (ret = select(max_socket + 1, &socket_set, NULL, NULL, &tv)) > 0){
-        cout << "after select" << endl; 
+        //cout << "after select" << endl; 
         if(FD_ISSET(main_socket, &socket_set)){
             struct sockaddr_in pen_node_addr;
             socklen_t addrlen = sizeof(pen_node_addr);
@@ -311,8 +311,10 @@ void kkc_dump_msg(const char * ptr, int buflen){
 }
 
 void kkc_handle_message(struct kkc_message * msg, int peer_index){
+#ifdef DEBUG
     cout << "handle msg" << endl;
     kkc_dump_msg((char *)msg, msg->hdr.len);
+#endif
     switch(msg->hdr.type){
         case KKC_EMIG_REQUEST:
             handle_emig_request_message(msg, peer_index);

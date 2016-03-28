@@ -22,6 +22,8 @@ void * work(void * thread_attr){
     p->return_code = 0;
     p->migration_state = MIG_PROCESS_END;
     
+    printf("process %d terminated.\n", p->pid, t);
+    
     pthread_exit(NULL);
 }
 

@@ -50,6 +50,22 @@ int emig_process_migrate(unsigned int sequence_number, int peer_index){
     return 0;
 }
 
+int emig_process_denied(unsigned int sequence_number){
+    struct mig_process * p = NULL;
+    for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
+        if((*it)->sequence_number == sequence_number) {
+            p = *it;
+            break;
+        }
+    }
+    if (!p)
+        return -1;
+
+    p->migration_state = MIG_PROCESS_DENIED;
+    cout << "process " << p->pid << " will run locally" << endl;
+    return 0;
+}
+
 int emig_process_migration_confirmed(int pid, int decision){
     struct mig_process * p;
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
@@ -110,7 +126,10 @@ int imig_process_confirm(unsigned int sequence_number, int decision){
     if (!p)
         return -1;
 
-    p->migration_state = MIG_PROCESS_CONFIRMED;
+    if (decision == MIGRATE)
+        p->migration_state = MIG_PROCESS_CONFIRMED;
+    else
+        p->migration_state = DO_NOT_MIGRATE;
     p->return_code = decision;
 
     cout << "process " << p->pid << " confirmed" << endl;
@@ -156,7 +175,6 @@ int emig_send_messages(){
                 fork_and_work(*it);
                 break;
             case MIG_PROCESS_END:
-                //TODO clear from emig manager
                 netlink_send_task_exit((*it)->pid, (*it)->return_code, 0);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
@@ -181,11 +199,14 @@ int imig_send_messages(){
                 kkc_send_emig_request_response((*it)->peer_index, (*it)->pid, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CONFIRMED_SEND;
                 break;
+            case MIG_PROCESS_DENIED:
+                kkc_send_emig_request_response((*it)->peer_index, (*it)->pid, (*it)->return_code);
+                (*it)->migration_state = MIG_PROCESS_CLEAN;
+                break;
             case MIG_PROCESS_BEGIN:
                 if(netlink_send_immigration_confirmed((*it)->uid, (*it)->pid, (*it)->peer_index, (*it)->name, (*it)->jiffies, (*it)->remote_pid) != 0){
                     cout << "cannot send immigration confirmed message" << endl;
                 }
-                //TODO:
                 (*it)->migration_state = MIG_PROCESS_WORKING;
                 fork_and_work(*it);
                 break;
@@ -193,7 +214,6 @@ int imig_send_messages(){
             case MIG_PROCESS_END:
                 kkc_send_emig_done((*it)->peer_index, (*it)->pid, (*it)->return_code);
                 netlink_send_task_exit((*it)->remote_pid, (*it)->return_code, 0);
-                //TODO: clear from imig manager
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
         }
