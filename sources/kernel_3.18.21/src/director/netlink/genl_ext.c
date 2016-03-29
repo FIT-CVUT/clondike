@@ -174,26 +174,3 @@ int generic_message_handler(struct sk_buff *skb, struct genl_info *info) {
 	return 0;
 }
 
-struct genl_ops* genlmsg_register_tx_ops(struct genl_family *family, struct nla_policy* policy, u8 command) {
-	int err;
-	//struct genl_ops* ops;
-	//ops = kmalloc(sizeof(struct genl_ops), GFP_KERNEL);
-
-	/* Change struct ops from dynamic to static */
-
-	ops->cmd = command;
-	ops->flags = 0;
-	ops->policy = policy;
-	ops->doit = generic_message_handler;
-	ops->dumpit = NULL;
-
-    /* TODO: register this ops */
-    /*
-	if ( (err=genl_register_family_with_ops(family, ops)) )  {
-		//kfree(ops);
-		return NULL;
-	}
-    */
-
-	return ops;
-}

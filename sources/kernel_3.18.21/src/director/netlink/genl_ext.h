@@ -48,14 +48,4 @@ int genlmsg_read_response(struct genl_tx* tx, struct sk_buff **skb, struct genl_
   * */
 int generic_message_handler(struct sk_buff *skb, struct genl_info *info);
 
-/**
-  * This method must be called to register response command for transaction handling. No other callback can be registered for this command
-  *
-  * @param family: Generic netlink family
-  * @param policy: Netlink policy to be used for attribute checking
-  * @param command: Command that should be handled by the tx extension (message type of expected response)
-  * @return ops structure that was registered (can be used for later deregistration)
-  */
-struct genl_ops* genlmsg_register_tx_ops(struct genl_family *family, struct nla_policy* policy, u8 command);
-
 #endif

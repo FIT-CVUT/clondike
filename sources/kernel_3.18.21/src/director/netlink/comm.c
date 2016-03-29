@@ -148,67 +148,16 @@ static struct genl_ops register_family_ops[] = {
 };
 
 
-
-static struct genl_ops register_pid_ops[] = {
-        {
-	.cmd = DIRECTOR_REGISTER_PID,
-        .flags = 0,
-        .policy = director_genl_policy,
-	.doit = register_pid_handler,
-	.dumpit = NULL,
-	}
-};
-
-static struct genl_ops send_user_message_ops[] = {
-	{
-        .cmd = DIRECTOR_SEND_GENERIC_USER_MESSAGE,
-        .flags = 0,
-        .policy = director_genl_policy,
-	.doit = handle_send_generic_user_message,
-	.dumpit = NULL,
-	}
-};
-
-static struct genl_ops* check_npm_ops_ref,
-		      * node_connected_ops_ref,
-		      * ack_ops_ref,
-	    	      * immigration_request_ops_ref;
-
 int init_director_comm(void) {
 	int ret;
 
     mdbg(INFO4,"initializing director");
     minfo(INFO4,"initializing director");
     
-	//ret = genl_register_family(&director_gnl_family);
     /* fix in kernel 3.18.21 by Jan Friedl */
 	ret = genl_register_family_with_ops(&director_gnl_family, register_family_ops);
     if (ret != 0)
 		return ret;
-
-	// TODO: Release temporarily allocated resources ;)
-
-	/* Register callback for daemin PID registration */
-	//genl_register_family_with_ops(&director_gnl_family, register_pid_ops);
-
-	//genl_register_family_with_ops(&director_gnl_family, send_user_message_ops);	
-
-	/* Register generic dispatching callback for all other calls */
-	check_npm_ops_ref = genlmsg_register_tx_ops(&director_gnl_family, director_genl_policy, DIRECTOR_NPM_RESPONSE);
-	if ( !check_npm_ops_ref )
-		return -1;	
-
-	node_connected_ops_ref = genlmsg_register_tx_ops(&director_gnl_family, director_genl_policy, DIRECTOR_NODE_CONNECT_RESPONSE);
-	if ( !check_npm_ops_ref )
-		return -1;	
-
-	immigration_request_ops_ref = genlmsg_register_tx_ops(&director_gnl_family, director_genl_policy, DIRECTOR_IMMIGRATION_REQUEST_RESPONSE);
-	if ( !immigration_request_ops_ref )
-		return -1;	
-
-	ack_ops_ref = genlmsg_register_tx_ops(&director_gnl_family, director_genl_policy, DIRECTOR_ACK);
-	if ( !ack_ops_ref )
-		return -1;	
 
     mdbg(INFO4,"Director comm component initialized");
 	minfo(INFO3, "Director comm component initialized");
@@ -223,8 +172,6 @@ void destroy_director_comm(void) {
 //		printk(KERN_ERR "Failed to stop the helper daemon: %d\n", res);
 //	}
 	genl_unregister_family(&director_gnl_family);
-	
-	kfree(check_npm_ops_ref);
 }
 
 
