@@ -74,8 +74,6 @@ int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ac
 
   nl_hdr = nlmsg_hdr(msg);
 
-  //printf("Sending msg\n");
-
   if ( msg == NULL ) 
 	return -EINVAL;
 
@@ -86,7 +84,7 @@ int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ac
 
   nl_msg_dump(msg, stdout);
 
-  ret_val = nl_send_auto_complete(sk, msg);
+  ret_val = nl_send_auto(sk, msg);
   if (ret_val <= 0) {
     if (ret_val == 0)
       ret_val = -ENODATA;
@@ -225,7 +223,6 @@ int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
 	goto read_error;
   }
   
-  
   /* read the response */
   ret_val = nl_recv_fixed(sk, &peer, &data, NULL);
   if (ret_val <= 0) {
@@ -289,7 +286,7 @@ void send_error_message(int err, int seq, uint8_t cmd) {
 	int ret;
 	struct internal_state* state = get_current_state();
 
-	//printf("Preparing error message: Err %d  Seq %d Cmd %d\n", err, seq, cmd);	
+	printf("Preparing error message: Err %d  Seq %d Cmd %d\n", err, seq, cmd);	
 	if ( (ret=prepare_response_message(state->sk, cmd, state->gnl_fid, seq, &msg) ) != 0 ) {
 		return;
 	}

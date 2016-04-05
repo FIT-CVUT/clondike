@@ -1,4 +1,4 @@
-require "directorApi"
+require_relative "directorApi"
 
 # Class, that interacts with the kernel netlink api
 #
@@ -63,7 +63,7 @@ class NetlinkConnector
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
-    $log.info("#{result[0]} for #{name}") if ( result[0] == DirectorNetlinkApi::MIGRATE_BACK || result[0] == DirectorNetlinkApi::MIGRATE)
+    $log.info("#{result[0]} for #{name}")
     #@cql3Driver.createRecord("EMIGRATE", #{name}:#{pid}:#{jiffies}, @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1], 0, Time.now)
     result
   end

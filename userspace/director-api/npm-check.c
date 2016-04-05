@@ -77,7 +77,7 @@ int handle_npm_check(struct nl_msg *req_msg) {
 		rusage = nla_data(nla);
 	}
 
-	//printf("NPM CALLED FOR NAME: %s\n", name);
+	printf("NPM CALLED FOR NAME: %s\n", name);
 	if ( npm_callback )
         	npm_callback(pid, uid, is_guest, name, jiffies, rusage, &decision, &decision_value);
 
@@ -139,7 +139,7 @@ static char** parse_chars(struct nl_msg *req_msg, int type, int nested_type) {
 
 		//res[i] = nl_data_get(nla_get_data(iter));
 		res[i] = nla_data(iter);
-		//printf("STR: %s\n", res[i]);
+		printf("STR: %s\n", res[i]);
 		i++;
 	}
 

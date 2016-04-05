@@ -24,6 +24,7 @@
 #include "migrated-home.h"
 #include "emigration-failed.h"
 #include "generic_user_message.h"
+#include "ack.h"
 
 
 static struct internal_state state = {
@@ -72,12 +73,12 @@ static int genl_cmd_dispatch(struct nl_msg *msg) {
 	struct genlmsghdr* genl_hdr;
 	int cmd;
 
-	//printf("Dispatch called\n");
+	printf("Dispatch called\n");
 	genl_hdr = nl_msg_genlhdr(msg);
 	cmd = genl_hdr->cmd;
 
 	if ( handlers[cmd] != NULL ) {
-		//printf("Handling cmd: %d\n", cmd);
+		printf("Handling cmd: %d\n", cmd);
 		fflush(stdout);
 		return handlers[cmd](msg);
 	}
@@ -106,9 +107,19 @@ static int read_would_block(struct nl_sock* sk) {
 
 static int get_message_response_code(struct nl_msg *msg) {
   struct nlmsghdr *nl_hdr;
+  int ret = 0;
 
   nl_hdr = nlmsg_hdr(msg);
-  return nl_hdr->nlmsg_type == NLMSG_ERROR ? ((struct nlmsgerr*)nlmsg_data(nlmsg_hdr(msg)))->error : NO_RESPONSE_CODE;
+
+
+  if (nl_hdr->nlmsg_type == NLMSG_ERROR)
+      ret = ((struct nlmsgerr*)nlmsg_data(nlmsg_hdr(msg)))->error;
+  else{
+      //ack message, response should be zero
+      ret = 0;
+  }
+
+  return ret;
 }  
 
 static int is_ack_message(struct nl_msg *msg) {
@@ -136,7 +147,7 @@ static int handle_incoming_message(struct nl_msg *msg) {
 	}
 
 	if ( is_genl_msg ) {
-		//printf("Handling generic netlink msg: Tx id: %d\n", nlmsg_hdr(msg)->nlmsg_seq); 
+		printf("Handling generic netlink msg: Tx id: %d\n", nlmsg_hdr(msg)->nlmsg_seq); 
 		if ( res = genl_cmd_dispatch(msg) ) {
 			printf("Handling generic netlink msg error %d\n", res);
 			process_handle_error(res, msg);
@@ -153,14 +164,15 @@ int run_processing_callback(int allow_block) {
 	struct nl_msg *msg = NULL;	
 	int res;
 	
-	//printf("Starting processing loop\n");
+	printf("Starting processing loop\n");
 	while (1) {
 		//struct timeval start, end;
 		//gettimeofday(&start);
-//		printf("New netlink message arrived\n");
+		printf("New netlink message arrived\n");
 		if ( !allow_block && read_would_block(state.sk) ) 
 			return;
 
+        printf("waiting for reading\n");
 		if ( (res = read_message(state.sk, &msg) ) != 0 ) {
 			printf("Error in message reading: %d\n", res);
 			if ( res == -EINTR ) // Interrupted => finish the thread
@@ -196,6 +208,8 @@ static int initialize_netlink_family(void) {
 	if ( (ret_val=nl_connect(sk, NETLINK_GENERIC)) )
 	    goto init_return;
 
+    nl_socket_set_peer_port(sk, 111111111);
+
 
 	if ( (ret_val=prepare_request_message(sk, CTRL_CMD_GETFAMILY, GENL_ID_CTRL, &msg) ) != 0 ) {
 		goto init_return;
@@ -216,21 +230,24 @@ static int initialize_netlink_family(void) {
 	genl_hdr = nl_msg_genlhdr(ans_msg);
  	if (genl_hdr == NULL || genl_hdr->cmd != CTRL_CMD_NEWFAMILY) {
     		ret_val = -EBADMSG;
+            printf("error in new family\n");
     		goto init_return;
   	}
 
 	nla = nlmsg_find_attr(nlmsg_hdr(ans_msg), sizeof(struct genlmsghdr), CTRL_ATTR_FAMILY_ID);
   	if (nla == NULL) {
     		ret_val = -EBADMSG;
+            printf("error in find\n");
     		goto init_return;
   	}
 	
   	state.gnl_fid = nla_get_u16(nla);  
   	if (state.gnl_fid == 0) {
+            printf("error in get\n");
     		ret_val = -EBADMSG;
     		goto init_return;
   	}
-	printf("Initialization netlink family OK\n");
+	printf("Initialization netlink family OK, family id: %d\n", state.gnl_fid);
   	state.sk = sk;
 
 	return 0;
@@ -366,6 +383,7 @@ int initialize_director_api(void) {
 	handlers[DIRECTOR_MIGRATED_HOME] = handle_migrated_home;
 	handlers[DIRECTOR_EMIGRATION_FAILED] = handle_emigration_failed;
 	handlers[DIRECTOR_GENERIC_USER_MESSAGE] = handle_generic_user_message;
+	handlers[DIRECTOR_ACK] = handle_ack;
 
 	printf("Comm channel initialized\n");
     

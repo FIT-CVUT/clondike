@@ -12,9 +12,9 @@ ECHO = $(ECHO1:0=@echo)
 #### Start of system configuration section. ####
 
 srcdir = .
-topdir = /usr/include/ruby-1.9.1
-hdrdir = /usr/include/ruby-1.9.1
-arch_hdrdir = /usr/include/ruby-1.9.1/$(arch)
+topdir = /usr/include/ruby-2.1.0
+hdrdir = /usr/include/ruby-2.1.0
+arch_hdrdir = /usr/include/x86_64-linux-gnu/ruby-2.1.0/
 VPATH = $(srcdir):$(arch_hdrdir)/ruby:$(hdrdir)/ruby
 prefix = $(DESTDIR)/usr
 rubylibprefix = $(libdir)/$(RUBY_BASE_NAME)
@@ -41,7 +41,7 @@ sharedstatedir = $(prefix)/com
 sysconfdir = $(DESTDIR)/etc
 datadir = $(datarootdir)
 datarootdir = $(prefix)/share
-libexecdir = $(prefix)/lib/ruby1.9.1
+libexecdir = $(prefix)/lib/ruby2.1.0
 sbindir = $(exec_prefix)/sbin
 bindir = $(exec_prefix)/bin
 rubylibdir = $(rubylibprefix)/$(ruby_version)
@@ -82,12 +82,12 @@ AR = ar
 EXEEXT = 
 
 RUBY_BASE_NAME = ruby
-RUBY_INSTALL_NAME = ruby1.9.1
-RUBY_SO_NAME = ruby-1.9.1
+RUBY_INSTALL_NAME = ruby2.1.0
+RUBY_SO_NAME = ruby-2.1
 arch = x86_64-linux
 sitearch = $(arch)
-ruby_version = 1.9.1
-ruby = /usr/bin/ruby1.9.1
+ruby_version = 2.1.0
+ruby = /usr/bin/ruby2.1.0
 RUBY = $(ruby)
 RM = rm -f
 RM_RF = $(RUBY) -run -e rm -- -rf
