@@ -208,13 +208,11 @@ int kkc_receive_message(int fd, struct kkc_message ** ret_msg){
 
     //receive message header
     
-    cout << "receiving message" << endl;
     while(total_received < 4){
         len = recv(fd, &msg[total_received], sizeof(kkc_message_header) - total_received, 0);
         if (len <= 0)
             return -1;
         total_received += len;
-        cout << "header - received bytes: " << len << endl;
     }
 
     //receive body
@@ -234,7 +232,6 @@ int kkc_receive_message(int fd, struct kkc_message ** ret_msg){
 
         total_data_received += len;
         total_received += len;
-        cout << "body - received bytes: " << len << endl;
     }
     
     memcpy(msg->data, data, total_data_received);
@@ -286,7 +283,7 @@ int kkc_send_all(int fd, const char * buf, int buf_len){
         total += len;
     }
 
-    cout << "send " << total << "bytes" << endl;
+    //cout << "send " << total << "bytes" << endl;
 
     return total;
 }
@@ -505,10 +502,10 @@ void handle_kkc_generic_message(struct kkc_message * msg, int peer_index){
         user_data = buf;
     }
 
-    cout << "slot_index: " << peer_index << endl;
-    cout << "slot_type: " << slot_type << endl;
-    cout << "data_len: " << data_len << endl;
-    cout << "user_data: " << user_data << endl;
+    //cout << "slot_index: " << peer_index << endl;
+    //cout << "slot_type: " << slot_type << endl;
+    //cout << "data_len: " << data_len << endl;
+    //cout << "user_data: " << user_data << endl;
     
     netlink_send_generic_user_message(peer_index, 0, data_len, user_data);
     netlink_send_generic_user_message(peer_index, 1, data_len, user_data);

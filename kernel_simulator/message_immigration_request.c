@@ -11,8 +11,6 @@ int send_immigration_request(struct nl_sock * sk, int uid, int pid, int index, c
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
     
     send_message(sk, msg);
 

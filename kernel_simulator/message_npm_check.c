@@ -12,8 +12,6 @@ int send_npm_check(struct nl_sock * sk, int pid, int uid, int task_type, const c
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
     
     send_message(sk, msg);
 
@@ -103,8 +101,6 @@ int send_npm_check_full(struct nl_sock * sk, int pid, int uid, int task_type, co
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
 
     send_message(sk, msg);
 

@@ -10,8 +10,6 @@ int send_node_disconnected(struct nl_sock * sk, int index, int slot_type, int re
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
 
     send_message(sk, msg);
 

@@ -12,8 +12,6 @@ int send_task_exit(struct nl_sock * sk, int pid, int exit_code, int rusage){
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
     
     send_message(sk, msg);
 

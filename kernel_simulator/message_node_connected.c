@@ -10,8 +10,6 @@ int send_node_connected(struct nl_sock * sk, const char * address, int index, co
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
 
     send_message(sk, msg);
 

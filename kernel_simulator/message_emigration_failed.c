@@ -11,8 +11,6 @@ int send_emigration_failed(struct nl_sock * sk, int pid, const char * name, unsi
     if (ret < 0){
         printf("cannot prepare message\n");
     }
-    else
-        printf("succesfuly prepared\n");
     
     send_message(sk, msg);
 
