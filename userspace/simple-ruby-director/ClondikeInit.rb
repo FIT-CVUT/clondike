@@ -38,7 +38,7 @@ class Clondike
     ###################
     def getLocalIP( configuration )
         interface   = getConfigDirective( configuration, 'interface', 'eth0' )
-        command     = "ifconfig | awk '/#{interface}/ { getline; adrs=$2; split(adrs,adr,\":\"); printf \"%s\", adr[2]; }'"
+        command     = "ip -4 addr show | awk '/#{interface}/ { getline; adrs=$2; split(adrs,adr,\"/\"); printf \"%s\", adr[1]; }'"
         $log.debug("#{command}\n")
         localIP     = `#{command}`
         $log.debug("LocalIP: #{localIP}\n")

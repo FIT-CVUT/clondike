@@ -56,7 +56,7 @@ class FilesystemConnector
   # Returns true, if core manager is registered on this computer
   def checkForCoreManager
     # No CCN support
-    return false if !File.exists?(@coreRootPath)
+    return false if !File.exist?(@coreRootPath)
     # Check, if CCN is listening (there is . and .., so if there are more then 2 element, there is a listening)
     (Dir.entries("#{@coreRootPath}/listening-on/").size  > 2)
   end
@@ -74,7 +74,7 @@ class FilesystemConnector
 
   # Returns true, if detached manager is registered on this computer
   def checkForDetachedManager
-    File.exists?(@detachedRootPath)
+    File.exist?(@detachedRootPath)
   end
 
   # Iterates over all registered detached manager dirs

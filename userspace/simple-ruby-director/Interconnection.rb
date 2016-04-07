@@ -286,7 +286,7 @@ class AckTracking
   end
 
   def createAckStoreDir
-    FileUtils::mkdir_p(@saveDirectory) if ( !File.exists?(@saveDirectory))
+    FileUtils::mkdir_p(@saveDirectory) if ( !File.exist?(@saveDirectory))
   end
 
   def saveAckData(messageStatus)

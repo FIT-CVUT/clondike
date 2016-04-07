@@ -83,9 +83,9 @@ class ExecutionTimePredictor
     @predictions = {}
 
     fileName = "#{confDir}/predictions.dat"
-    fileName = "#{confDir}/predictions.dat.tmp" if !File.exists?(fileName)
+    fileName = "#{confDir}/predictions.dat.tmp" if !File.exist?(fileName)
 
-    return if !File.exists?(fileName)
+    return if !File.exist?(fileName)
 
     IO.foreach(fileName) do |line|
       name, duration, count = line.split(",")
@@ -106,7 +106,7 @@ class ExecutionTimePredictor
         }
       }
 
-      File.delete(fileName) if File.exists?(fileName)
+      File.delete(fileName) if File.exist?(fileName)
       File.rename(tmpFileName, fileName)
     end
   end

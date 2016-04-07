@@ -43,7 +43,7 @@ class LoadBalancer
   # Returns true, if the binary specified by name can be migrated
   def canMigrate(name, uid)
     # TODO: This is incorrect.. it does not work for execution like "./binary"
-    return false if !File.exists?(name)
+    return false if !File.exist?(name)
     return matchesPattern(name)
   end
 
