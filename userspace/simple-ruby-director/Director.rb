@@ -42,6 +42,8 @@ require 'ProcTrace.rb'
 
 require 'dht/DHTMessageDispatcher'
 
+require 'cassandra/CQL3Driver'
+
 require 'TestMakeAcceptLimiter'
 require 'TaskNameBasedAcceptLimiter'
 require 'MeasurementAcceptLimiter'
@@ -62,8 +64,8 @@ class Director
 
   def initialize( configuration )
     begin Dir.mkdir(Director::LOG_DIR) rescue Errno::EEXIST end
-    #@cql3Driver = CQL3Driver.new('localhost')
     @configuration = configuration
+    @cql3Driver = CQL3Driver.new( @configuration )
     @filesystemConnector = FilesystemConnector.new( @configuration )
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
