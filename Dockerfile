@@ -22,7 +22,9 @@ RUN make && /root/clondike/scripts/build-userspace.sh
 
 WORKDIR /root
 
-ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh", "172.17.0.2", "172.17.0.3:54321"]
+ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh"]
+
+CMD ["172.17.0.2", "172.17.0.3:54321"]
 
 
 

@@ -3,6 +3,9 @@
 CASSANDRA_IP=$1
 BOOTSTRAP_IP=$2
 
+echo ${CASSANDRA_IP}
+echo ${BOOTSTRAP_IP}
+
 sed -i "s/^\(cassandra_hosts='\).*\('.*\)/\1$CASSANDRA_IP\2/" /root/clondike/userspace/simple-ruby-director/clondike.conf
 sed -i "s/^\(bootstrap='\).*\('.*\)/\1$BOOTSTRAP_IP\2/" /root/clondike/userspace/simple-ruby-director/clondike.conf
 
