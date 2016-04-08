@@ -62,6 +62,15 @@ int close_fifo(){
         close(fifo_fd);
 }
 
+static uint64_t get_jiffies(){
+    float uptime;
+    FILE* proc_uptime_file = fopen("/proc/uptime", "r");
+    fscanf(proc_uptime_file, "%f", &uptime);
+
+    uint64_t uptime_ms = uptime * 1000.0;
+    return uptime_ms;
+}
+
 int try_read_fifo(){
     fd_set fifo_set;
 
@@ -84,8 +93,9 @@ int try_read_fifo(){
         const char * const envp[] = {"envp", "EMIG=1", NULL};
 	int uid = 0; //root user
 	int pid = get_next_pid();
-        netlink_send_npm_check_full(pid, uid, 0, line, 0, argv, envp);
-        emig_process_put(pid, line, 0, get_sequence_number());
+	uint64_t jiffies = get_jiffies();
+        netlink_send_npm_check_full(pid, uid, 0, line, jiffies, argv, envp);
+        emig_process_put(pid, line, 0, get_sequence_number(), jiffies);
         free(line);
     }
 }

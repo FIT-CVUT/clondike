@@ -259,6 +259,16 @@ struct kkc_attr * kkc_create_attr_u32(int type, uint32_t value){
     return attr;
 }
 
+struct kkc_attr * kkc_create_attr_u64(int type, uint64_t value){
+    struct kkc_attr * attr = (struct kkc_attr *) malloc(sizeof(kkc_attr));
+    
+    attr->hdr.len = sizeof(uint64_t) + sizeof(kkc_attr_header);
+    attr->hdr.type = type;
+    memcpy(attr->data, (char *)&value, sizeof(uint64_t));
+
+    return attr;
+}
+
 struct kkc_attr * kkc_create_attr_string(int type, const char * value){
     struct kkc_attr * attr = (struct kkc_attr *) malloc(sizeof(kkc_attr));
 
@@ -344,6 +354,7 @@ void handle_emig_request_message(struct kkc_message *msg, int peer_index){
     struct kkc_attr_header attr;
     int pid;
     int uid;
+    uint64_t jiffies;
     char name[MAX_DATA_LEN];
 
     char * buf = (char *) msg;
@@ -368,11 +379,19 @@ void handle_emig_request_message(struct kkc_message *msg, int peer_index){
     buf += sizeof(struct kkc_attr_header);
     memcpy(name, buf, attr.len - sizeof(struct kkc_attr_header));
 
+    //get jiffies header
+    buf += attr.len - sizeof(struct kkc_attr_header);
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(&jiffies, buf, attr.len - sizeof(struct kkc_attr_header));
+
     cout << "pid: " << pid << endl;
     cout << "uid: " << uid << endl;
     cout << "name: " << name << endl;
+    cout << "jiffies: " << jiffies << endl;
    
-    imig_process_put(pid, name, uid, peer_index);
+    imig_process_put(pid, name, uid, peer_index, jiffies);
 }
 void handle_emig_request_response_message(struct kkc_message * msg, int peer_index){
     cout << "handle emig request response" << endl;

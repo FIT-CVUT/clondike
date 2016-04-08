@@ -16,7 +16,7 @@ using namespace std;
 static vector<mig_process *> emig_processes;
 static vector<mig_process *> imig_processes;
 
-int emig_process_put(int pid, const char * name, int uid, unsigned int seq){
+int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff){
     struct mig_process * p = (struct mig_process *) malloc(sizeof(struct mig_process));
 
     p->pid = pid;
@@ -24,7 +24,7 @@ int emig_process_put(int pid, const char * name, int uid, unsigned int seq){
     p->uid = uid;
     p->migration_state = MIG_PROCESS_PREPARED;
     p->sequence_number = seq;
-    p->jiffies = 0;
+    p->jiffies = jiff;
     emig_processes.push_back(p);
 
     cout << "push emig process" << endl;
@@ -100,7 +100,7 @@ int emig_process_done(int pid, int return_code){
     return 0;
 }
 
-int imig_process_put(int pid, const char * name, int uid, int peer_index){
+int imig_process_put(int pid, const char * name, int uid, int peer_index, uint64_t jiff){
     struct mig_process * p = (struct mig_process *) malloc(sizeof(struct mig_process));
     
     p->pid = pid;
@@ -108,7 +108,7 @@ int imig_process_put(int pid, const char * name, int uid, int peer_index){
     p->uid = uid;
     p->peer_index = peer_index;
     p->migration_state = MIG_PROCESS_NEW;
-    p->jiffies=0;
+    p->jiffies = jiff;
 
     imig_processes.push_back(p);
 
@@ -161,7 +161,7 @@ int emig_send_messages(){
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
         switch ((*it)->migration_state){
             case MIG_PROCESS_NEW:
-                kkc_send_emig_request((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name);
+                kkc_send_emig_request((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name, (*it)->jiffies);
                 (*it)->migration_state = MIG_PROCESS_REQUEST;
                 break;
             case MIG_PROCESS_CONFIRMED:
@@ -188,6 +188,7 @@ int imig_send_messages(){
     for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
         switch ((*it)->migration_state){
             case MIG_PROCESS_NEW:
+		cout << "new immigration process " << (*it)->pid << ", sending netlink" << endl;
                 if( netlink_send_immigration_request((*it)->uid, (*it)->pid, 
                             (*it)->peer_index, (*it)->name, (*it)->jiffies) != 0){
                     cout << "cannot send immigration request message" << endl;
@@ -196,15 +197,18 @@ int imig_send_messages(){
                 (*it)->sequence_number = get_sequence_number();
                 break;
             case MIG_PROCESS_CONFIRMED:
+		cout << "process confirmed " << (*it)->pid << ", sending emig_request_response" << endl;
                 kkc_send_emig_request_response((*it)->peer_index, (*it)->pid, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CONFIRMED_SEND;
                 break;
             case MIG_PROCESS_DENIED:
+		cout << "process denied " << (*it)->pid << ", sending emig_request_response" << endl;
                 kkc_send_emig_request_response((*it)->peer_index, (*it)->pid, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
             case MIG_PROCESS_BEGIN:
-                if(netlink_send_immigration_confirmed((*it)->uid, (*it)->pid, (*it)->peer_index, (*it)->name, (*it)->jiffies, (*it)->remote_pid) != 0){
+		cout << "process begin " << (*it)->pid << ", sending netlink img_confirmed" << endl;
+                if(netlink_send_immigration_confirmed((*it)->uid, (*it)->remote_pid, (*it)->peer_index, (*it)->name, (*it)->jiffies, (*it)->pid) != 0){
                     cout << "cannot send immigration confirmed message" << endl;
                 }
                 (*it)->migration_state = MIG_PROCESS_WORKING;
@@ -212,6 +216,7 @@ int imig_send_messages(){
                 break;
                     
             case MIG_PROCESS_END:
+		cout << "process end " << (*it)->pid << ", sending netlink and emig_done" << endl;
                 kkc_send_emig_done((*it)->peer_index, (*it)->pid, (*it)->return_code);
                 netlink_send_task_exit((*it)->remote_pid, (*it)->return_code, 0);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;

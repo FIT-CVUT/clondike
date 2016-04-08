@@ -5,8 +5,9 @@
 extern "C" {
 #endif
 
+#include <inttypes.h>
 
-int kkc_send_emig_request(int peer_message, int pid, int uid, const char * name);
+int kkc_send_emig_request(int peer_message, int pid, int uid, const char * name, uint64_t jiffies);
 
 int kkc_send_emig_request_response(int peer_message, int pid, int decision);
 

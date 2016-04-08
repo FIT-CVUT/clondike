@@ -21,6 +21,7 @@ enum kkc_socket_types{
 enum kkc_socket_attributes{
     ATTR_PID,
     ATTR_UID,
+    ATTR_JIFFIES,
     ATTR_NAME,
     ATTR_RETURN_CODE,
     ATTR_DECISION
@@ -64,6 +65,8 @@ void kkc_handle_message(struct kkc_message * msg, int index);
 int kkc_free_msg(struct kkc_message * msg);
 
 struct kkc_attr * kkc_create_attr_u32(int type, uint32_t value);
+
+struct kkc_attr * kkc_create_attr_u64(int type, uint64_t value);
 
 struct kkc_attr * kkc_create_attr_string(int type, const char * value);
 
