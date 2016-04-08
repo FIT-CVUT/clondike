@@ -28,7 +28,7 @@ class CQL3Driver
 
     nodes.split('%r{\s*,\s*}').each do |node|
       $log.debug("Add cassandra node: #{node}")
-      if (ip !~ Resolv::IPv4::Regex)
+      if (node !~ Resolv::IPv4::Regex)
         $log.warn("Bad ip address of cassandra node")
         next
       end
@@ -53,7 +53,7 @@ class CQL3Driver
   def createTableIfNotExists()
     table_definition = <<-TABLE_CQL
       create table if not exists #{TABLE_NAME} (
-        id_task UUID,
+        id_task VARCHAR,
         id_src_node VARCHAR,
         id_dst_node VARCHAR,
         ret_em_task INT,
@@ -77,20 +77,24 @@ class CQL3Driver
   def createRecord(type, id_task, id_src_node, id_dst_node, ret, time)
     case type
       when "EMIGRATE"
-        # stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_task, time_em_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
-        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate.log`
+        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /tmp/emigrate.log`
+        $log.debug("cassandra create record EMIGRATE: #{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time}")
+        stat = @session.execute_async("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_task, time_em_task) VALUES('#{id_task}', '#{id_src_node}', '#{id_dst_node}', #{ret}, '#{time}')", consistency: :one)
 
       when "EMIGRATE_FAILED"
-        # stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_f_task, time_em_f_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
-        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/emigrate_failed.log`
+        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /tmp/emigrate_failed.log`
+        $log.debug("cassandra create record EMIGRATE_FAILED: #{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time}")
+        stat = @session.execute_async("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_em_f_task, time_em_f_task) VALUES('#{id_task}', '#{id_src_node}', '#{id_dst_node}', #{ret}, '#{time}')", consistency: :one)
 
       when "IMMIGRATION_REQUEST"
-        # stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_r_task, time_imm_r_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
-        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_request.log`
+        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /tmp/immigration_request.log`
+        $log.debug("cassandra create record IMMIGRATION_REQUEST: #{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time}")
+        stat = @session.execute_async("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_r_task, time_imm_r_task) VALUES('#{id_task}', '#{id_src_node}', '#{id_dst_node}', #{ret}, '#{time}')", consistency: :one)
 
       when "IMMIGRATION_CONFIRMED"
-        # stat = cluster.execute("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_c_task, time_imm_c_task) VALUES(#{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time})", consistency: :one)
-        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /home/clondike/immigration_confirmed.log`
+        `echo "#{id_task} #{id_src_node} #{id_dst_node} #{ret} #{time}" >> /tmp/immigration_confirmed.log`
+        $log.debug("cassandra create record IMMIGRATION_CONFIRMED: #{id_task}, #{id_src_node}, #{id_dst_node}, #{ret}, #{time}")
+        stat = @session.execute_async("INSERT INTO #{TABLE_NAME}(id_task, id_src_node, id_dst_node, ret_imm_c_task, time_imm_c_task) VALUES('#{id_task}', '#{id_src_node}', '#{id_dst_node}', #{ret}, '#{time}')", consistency: :one)
       else
         $log.err("Unknown type of record #{type}")
     end

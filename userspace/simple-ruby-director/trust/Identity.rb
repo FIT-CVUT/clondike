@@ -130,7 +130,7 @@ class Identity
   # Returns true, if identity files exists at specified directory
   def self.identityExists(directory)
     # TODO: We now check presence of sequence only. It'd be better to perform more checks..
-    return File.exists?("#{directory}/seq")
+    return File.exist?("#{directory}/seq")
   end
 
   def nextSequenceNumber
