@@ -1,6 +1,6 @@
 FROM debian:8
 
-RUN apt-get update && apt-get install -y gcc g++ make initramfs-tools git ncurses-dev libnl-3-200 libnl-3-dev libnl-genl-3-200 libnl-genl-3-dev libnl-utils ruby-dev ruby git vim-nox pkg-config
+RUN apt-get update && apt-get install -y gcc g++ make initramfs-tools git ncurses-dev libnl-3-200 libnl-3-dev libnl-genl-3-200 libnl-genl-3-dev libnl-utils ruby-dev ruby git vim-nox pkg-config gem && gem install cassandra-driver --no-document
 
 ENV PATH_SIMULATOR /root/clondike/kernel_simulator
 
@@ -20,7 +20,9 @@ WORKDIR $PATH_SIMULATOR
 
 RUN make && /root/clondike/scripts/build-userspace.sh
 
-CMD ["$PATH_SIMULATOR/clondike_kernel_simulator"]
+WORKDIR /root
+
+ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh", "172.17.0.2", "172.17.0.3:54321"]
 
 
 
