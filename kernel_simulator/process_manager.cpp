@@ -5,6 +5,7 @@
 #include "message_helper.h"
 #include "pid_manager.h"
 #include "worker.h"
+#include "fifo_reader.h"
 
 #include <vector>
 #include <iostream>
@@ -16,7 +17,7 @@ using namespace std;
 static vector<mig_process *> emig_processes;
 static vector<mig_process *> imig_processes;
 
-int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff){
+int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd){
     struct mig_process * p = (struct mig_process *) malloc(sizeof(struct mig_process));
 
     p->pid = pid;
@@ -25,6 +26,7 @@ int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint
     p->migration_state = MIG_PROCESS_PREPARED;
     p->sequence_number = seq;
     p->jiffies = jiff;
+    p->process_fd = process_fd;
     emig_processes.push_back(p);
 
     cout << "push emig process" << endl;
@@ -109,6 +111,7 @@ int imig_process_put(int pid, const char * name, int uid, int peer_index, uint64
     p->peer_index = peer_index;
     p->migration_state = MIG_PROCESS_NEW;
     p->jiffies = jiff;
+    p->process_fd = -1;
 
     imig_processes.push_back(p);
 
@@ -129,7 +132,7 @@ int imig_process_confirm(unsigned int sequence_number, int decision){
     if (decision == MIGRATE)
         p->migration_state = MIG_PROCESS_CONFIRMED;
     else
-        p->migration_state = DO_NOT_MIGRATE;
+        p->migration_state = MIG_PROCESS_DENIED;
     p->return_code = decision;
 
     cout << "process " << p->pid << " confirmed" << endl;
@@ -175,7 +178,8 @@ int emig_send_messages(){
                 fork_and_work(*it);
                 break;
             case MIG_PROCESS_END:
-                netlink_send_task_exit((*it)->pid, (*it)->return_code, 0);
+                netlink_send_task_exit((*it)->pid, (*it)->return_code);
+                send_process_exit((*it)->process_fd, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
         }
@@ -218,7 +222,7 @@ int imig_send_messages(){
             case MIG_PROCESS_END:
 		cout << "process end " << (*it)->pid << ", sending netlink and emig_done" << endl;
                 kkc_send_emig_done((*it)->peer_index, (*it)->pid, (*it)->return_code);
-                netlink_send_task_exit((*it)->remote_pid, (*it)->return_code, 0);
+                netlink_send_task_exit((*it)->remote_pid, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;
                 break;
         }

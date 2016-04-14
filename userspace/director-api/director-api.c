@@ -123,7 +123,9 @@ static int get_message_response_code(struct nl_msg *msg) {
 }  
 
 static int is_ack_message(struct nl_msg *msg) {
-  return get_message_response_code(msg) == 0;
+  struct genlmsghdr* genl_hdr = nl_msg_genlhdr(msg);
+  uint8_t cmd = genl_hdr->cmd;
+  return get_message_response_code(msg) == 0 && cmd == DIRECTOR_ACK;
 }
 
 static int handle_incoming_message(struct nl_msg *msg) {

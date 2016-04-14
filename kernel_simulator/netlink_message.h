@@ -51,7 +51,7 @@ int netlink_send_npm_check(int pid, int uid, int task_type, const char * name, u
 
 int netlink_send_npm_check_full(int pid, int uid, int task_type, const char * name, uint64_t jiffies, const char * const * argv, const char * const * envs);
 
-int netlink_send_task_exit(int pid, int exit_code, int rusage);
+int netlink_send_task_exit(int pid, int exit_code);
 
 int netlink_send_task_fork(int pid, int ppid);
 

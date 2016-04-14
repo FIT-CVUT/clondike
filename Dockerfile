@@ -18,7 +18,7 @@ RUN echo 'PROMPT_COMMAND="source /root/clondike/scripts/bash_prompt.sh"' >> /roo
 
 WORKDIR $PATH_SIMULATOR
 
-RUN make && /root/clondike/scripts/build-userspace.sh
+RUN cp -r fake_bin /usr/ && ln -s $PATH_SIMULATOR/clondike /usr/bin/clondike && make && make client && /root/clondike/scripts/build-userspace.sh
 
 WORKDIR /root
 

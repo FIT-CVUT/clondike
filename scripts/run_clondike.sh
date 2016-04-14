@@ -11,6 +11,6 @@ sed -i "s/^\(bootstrap='\).*\('.*\)/\1$BOOTSTRAP_IP\2/" /root/clondike/userspace
 
 /root/clondike/kernel_simulator/clondike_kernel_simulator > /tmp/simulator.log 2> /tmp/simulator.err &
 
-ruby -w -I /root/clondike/userspace/simple-ruby-director/ /root/clondike/userspace/simple-ruby-director/ClondikeInit.rb > /tmp/director.log 2> /tmp/director.err &
+ruby -w -I /root/clondike/userspace/simple-ruby-director/ /root/clondike/userspace/simple-ruby-director/ClondikeInit.rb > /tmp/director.log 2>&1 &
 
 bash

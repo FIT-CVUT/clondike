@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PROGRAM_NAME_ARGS="$0 $@"
+MIGRATION_SOCK="/var/run/clondike.sock"
+CLONDIKE_CLIENT="/usr/bin/clondike_client"
+
+$CLONDIKE_CLIENT $MIGRATION_SOCK "${PROGRAM_NAME_ARGS}"

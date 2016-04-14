@@ -24,3 +24,7 @@ clondike_kernel_simulator: $(OBJECTS)
 clean:
 	rm -rf *.o $(EXEC)
 
+client:
+	$(CC) clondike_client.c -o clondike_client.o
+	cp clondike_client.o /usr/bin/clondike_client
+

@@ -208,9 +208,9 @@ int kkc_send_generic_user_message(int slot_type, int slot_index, int data_len, c
     hdr.len = sizeof(struct kkc_message_header);
     hdr.type = KKC_GENERIC_USER_MESSAGE;
 
-    struct kkc_attr * attr_slot_type = kkc_create_attr_u32(ATTR_PID, slot_type);
-    struct kkc_attr * attr_data_len = kkc_create_attr_u32(ATTR_PID, data_len);
-    struct kkc_attr * attr_data = kkc_create_attr_string(ATTR_NAME, data);
+    struct kkc_attr * attr_slot_type = kkc_create_attr_u32(ATTR_SLOT_TYPE, slot_type);
+    struct kkc_attr * attr_data_len = kkc_create_attr_u32(ATTR_DATA_LEN, data_len);
+    struct kkc_attr * attr_data = kkc_create_attr_string(ATTR_DATA, data);
 
     hdr.len += attr_slot_type->hdr.len;
     hdr.len += attr_data_len->hdr.len;

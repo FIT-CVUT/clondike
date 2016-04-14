@@ -42,6 +42,7 @@ int handle_task_exitted(struct nl_msg *req_msg) {
 	
 	//rusage = nl_data_get(nla_get_data(nla));
 	rusage = nla_data(nla);
+	rusage = NULL;
 
 	if ( task_exitted_callback )
         	task_exitted_callback(pid, exit_code, rusage);

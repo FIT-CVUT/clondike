@@ -32,13 +32,14 @@ struct mig_process {
     int return_code; //used for return code of program and decision about acceptation of migration
     uint64_t jiffies;
     unsigned int sequence_number;
+    int process_fd;
 };
 
 int emig_process_migrate(unsigned int sequence_number, int peer_index);
 
 int emig_process_denied(unsigned int sequence_number);
 
-int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff);
+int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd);
 
 int emig_process_migration_confirmed(int pid, int decision);
 

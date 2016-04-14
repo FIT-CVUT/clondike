@@ -64,9 +64,7 @@ int main(){
         return ret;
     }
 
-  
-    create_fifo();
-    open_fifo();
+    init_process_reader();
 
     if (start_ccn() == -1){
         printf("cannot start ccn manager, terminating!\n");
@@ -89,7 +87,7 @@ int main(){
 
         //kkc_send_emig_request(get_socket(0), 1234, 999, "/usr/lib/src");
         
-        try_read_fifo();
+        try_read_processes();
         
         emig_send_messages();
         imig_send_messages();

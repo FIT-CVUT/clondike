@@ -318,9 +318,9 @@ int netlink_send_npm_check_full(int pid, int uid, int task_type, const char * na
     return send_npm_check_full(sk, pid, uid, task_type, name, jiffies, argv, envs);
 }
 
-int netlink_send_task_exit(int pid, int exit_code, int rusage){
+int netlink_send_task_exit(int pid, int exit_code){
     should_run_process_cleaner();
-    return send_task_exit(sk, pid, exit_code, rusage);
+    return send_task_exit(sk, pid, exit_code);
 }
 
 int netlink_send_task_fork(int pid, int ppid){

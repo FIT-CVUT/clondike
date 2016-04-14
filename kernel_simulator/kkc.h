@@ -24,7 +24,10 @@ enum kkc_socket_attributes{
     ATTR_JIFFIES,
     ATTR_NAME,
     ATTR_RETURN_CODE,
-    ATTR_DECISION
+    ATTR_DECISION,
+    ATTR_SLOT_TYPE,
+    ATTR_DATA,
+    ATTR_DATA_LEN
 };
 
 struct kkc_message_header {

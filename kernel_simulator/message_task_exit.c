@@ -3,12 +3,12 @@
 #include "msgs.h"
 
 
-int send_task_exit(struct nl_sock * sk, int pid, int exit_code, int rusage){
+int send_task_exit(struct nl_sock * sk, int pid, int exit_code){
     struct nl_msg *msg;
     int ret = 0;
 
     printf("task exit\n");
-    ret = prepare_task_exit(&msg, pid, exit_code, rusage);
+    ret = prepare_task_exit(&msg, pid, exit_code);
     if (ret < 0){
         printf("cannot prepare message\n");
     }
@@ -19,7 +19,7 @@ int send_task_exit(struct nl_sock * sk, int pid, int exit_code, int rusage){
 
 }
 
-int prepare_task_exit(struct nl_msg ** ret_msg, int pid, int exit_code, int rusage){
+int prepare_task_exit(struct nl_msg ** ret_msg, int pid, int exit_code){
     struct nl_msg *msg;
     int ret = 0;
 
@@ -36,7 +36,7 @@ int prepare_task_exit(struct nl_msg ** ret_msg, int pid, int exit_code, int rusa
     if (ret < 0)
         goto error;
 
-    ret = nla_put_u32(msg, DIRECTOR_A_RUSAGE, rusage);
+    ret = nla_put_u64(msg, DIRECTOR_A_RUSAGE, 0);
     if (ret < 0)
         goto error;
 

@@ -1,8 +1,8 @@
-#include "netlink_message.h"
-#include "process_manager.h"
-#include "kkc_messages.h"
-#include "kkc.h"
-#include "pid_manager.h"
+//#include "netlink_message.h"
+//#include "process_manager.h"
+//#include "kkc_messages.h"
+//#include "kkc.h"
+//#include "pid_manager.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -10,57 +10,18 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
 
-#define FIFO_PATH "/var/run/clondike.pipe"
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <sys/time.h>
+#include <sys/select.h>
 
-static int fifo_fd;
-static FILE * fifo_file;
+#define MAX_UNIX_SOCKET_CONNECTIONS	100
+#define UNIX_SOCKET_PATH "/var/run/clondike.sock"
 
-static struct stat st = {0};
-
-int create_fifo(){
-    if(stat(FIFO_PATH, &st) == -1){
-        if (mknod(FIFO_PATH, S_IFIFO|0666, 0) != 0){
-            printf("cannot create clondike FIFO\n");
-            return -1;
-        }
-    }
-    return 0;
-}
-
-int destroy_fifo(){
-    if (stat(FIFO_PATH, &st) == 0){
-        if(unlink(FIFO_PATH) != 0){
-            printf("cannot delete clondike FIFO\n");
-            return 1;
-        }   
-    }
-    return 0;
-}
-
-int open_fifo(){
-    fifo_fd = open(FIFO_PATH, O_RDWR | O_NONBLOCK);
-    if (fifo_fd == -1){
-        printf("cannot open clondike FIFO\n");
-        exit(1);
-    }
-
-    //for reading
-    fifo_file = fdopen(fifo_fd, "r");
-    if (fifo_file == NULL){
-        printf("cannot open clondike FIFO file\n");
-    }
-
-    return 0;
-}
-
-int close_fifo(){
-    if(fifo_file)
-        fclose(fifo_file);
-
-    if(fifo_fd != -1)
-        close(fifo_fd);
-}
+static int process_endpoint_fd;
 
 static uint64_t get_jiffies(){
     float uptime;
@@ -71,52 +32,134 @@ static uint64_t get_jiffies(){
     return uptime_ms;
 }
 
-int try_read_fifo(){
-    fd_set fifo_set;
 
-    FD_ZERO(&fifo_set);
-    FD_SET(fifo_fd, &fifo_set);
-
-    struct timeval tv;
-    tv.tv_sec = 0;
-    tv.tv_usec = 0;
-
-    char *line = NULL;
-    int len = 0;
-    size_t alloc_size = 0;
-
-    if (select(fifo_fd + 1, &fifo_set, NULL, NULL, &tv) > 0){
-        len = getline(&line, &alloc_size, fifo_file);
-        line[len-1] = '\0';
-        printf("fifo: %s\n", line); //already contains newline
-        const char * const argv[] = {"argv", NULL};
-        const char * const envp[] = {"envp", "EMIG=1", NULL};
-	int uid = 0; //root user
-	int pid = get_next_pid();
-	uint64_t jiffies = get_jiffies();
-        netlink_send_npm_check_full(pid, uid, 0, line, jiffies, argv, envp);
-        emig_process_put(pid, line, 0, get_sequence_number(), jiffies);
-        free(line);
+int init_process_reader(){
+    if ((process_endpoint_fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1){
+        printf("cannot create process endpoint socket\n");
+        return -1;
     }
+    struct sockaddr_un addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sun_family = AF_UNIX;
+    strncpy(addr.sun_path, UNIX_SOCKET_PATH, sizeof(addr.sun_path) - 1);
+
+    if( bind(process_endpoint_fd, (struct sockaddr *) &addr, sizeof(addr)) == -1){
+        printf("cannot bind process endpoint socket\n");
+        return -1;
+    }
+
+    if( listen(process_endpoint_fd, MAX_UNIX_SOCKET_CONNECTIONS) == -1){
+        printf("cannot listen process endpoint socket\n");
+        return -1;
+    }
+    printf("process reader initialized\n");
+    return 0;
 }
 
+static int read_all(int fd, char * buf, int buflen){
+    int total_received = 0;
+    int len;
+
+    uint32_t header;
+
+//receive message header
+
+    while(total_received < 4){
+        len = recv(fd, &buf[total_received], 4 - total_received, 0);
+        if (len <= 0)
+            return -1;
+        total_received += len;
+    }
+
+    memcpy(&header, buf, 4);
+
+
+    int total_data_received = 0;
+    while(total_received < header){
+        len = recv(fd, &buf[total_data_received], header - total_data_received, 0);
+
+        if (len <= 0){
+            return -1;
+        }
+
+        total_data_received += len;
+        total_received += len;
+    }
+
+    return total_data_received;
+} 
+
+int try_read_processes(){
+    fd_set socket_set;
+    struct timeval tv;
+    FD_ZERO(&socket_set);
+    FD_SET(process_endpoint_fd, &socket_set);
+    char buf[1024];
+    tv.tv_sec = 0;
+    tv.tv_usec = 0;
+    int ret = 0;
+
+    if ( (ret = select(process_endpoint_fd + 1, &socket_set, NULL, NULL, &tv)) > 0){
+        if (FD_ISSET(process_endpoint_fd, &socket_set)){
+            int new_fd;
+            if ( (new_fd = accept(process_endpoint_fd, NULL, NULL)) == -1){
+                printf("accept connection failed\n");
+                return -1;
+            }
+            bzero(buf, sizeof(buf));
+            int bytes = read_all(new_fd, buf, 1024);
+            if (bytes == 0){
+                printf("connection ends\n");
+                return 0;
+            } else if (bytes < -1){
+                printf("read error");
+                return -1;
+            }
+            printf("buffer: \"%s\"\n", buf);
+
+            printf("fifo: %s\n", buf); 
+            char * argv[50];
+            const char * const envp[] = {"envp", "EMIG=1", NULL};
+            char * name = strtok(buf, " ");
+            char * arg = NULL;
+            int arg_num = 0;
+            for(arg_num = 0; arg_num < 50; arg_num++){
+                arg = strtok(NULL, " ");
+                argv[arg_num] = arg;
+                if(arg == NULL)
+                    break;
+            }
+	    int uid = 0; //root user
+	    int pid = get_next_pid();
+	    uint64_t jiffies = get_jiffies();
+            netlink_send_npm_check_full(pid, uid, 0, name, jiffies, argv, envp);
+            emig_process_put(pid, name, 0, get_sequence_number(), jiffies, new_fd);
+        }
+    }
+
+    return 0;
+}
+
+int send_process_exit(int fd, int return_code){
+    write(fd, "0", 1);
+    close(fd);
+    return 0;
+}
 
 
 /*
 int main(){
 
-    create_fifo();
-    
-    open_fifo();
-
+    init_process_reader();   
     int i;
     for(i = 0; i < 10; i++){
-        try_read_fifo();
+        try_read_processes();
         sleep(1);
     }
 
-    close_fifo();
-    destroy_fifo();
+    unlink(UNIX_SOCKET_PATH);
 }
 
 */
+
+

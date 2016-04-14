@@ -5,15 +5,11 @@
 extern "C" {
 #endif
 
-int create_fifo();
+int init_process_reader();
 
-int destroy_fifo();
+int try_read_processes();
 
-int open_fifo();
-
-int close_fifo();
-
-int try_read_fifo();
+int send_process_exit(int fd, int return_code);
 
 #ifdef __cplusplus
 }
