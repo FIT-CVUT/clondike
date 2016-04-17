@@ -17,11 +17,12 @@ using namespace std;
 static vector<mig_process *> emig_processes;
 static vector<mig_process *> imig_processes;
 
-int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd){
+int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd, char * buf){
     struct mig_process * p = (struct mig_process *) malloc(sizeof(struct mig_process));
 
     p->pid = pid;
     strcpy(p->name, name);
+    memcpy(p->input_line, buf, BUF_SIZE);
     p->uid = uid;
     p->migration_state = MIG_PROCESS_PREPARED;
     p->sequence_number = seq;
@@ -139,7 +140,7 @@ int imig_process_confirm(unsigned int sequence_number, int decision){
     return 0;
 }
 
-int imig_process_start_migrated_process(int pid, int peer_index){
+int imig_process_start_migrated_process(int pid, int peer_index, const char * input){
     struct mig_process * p = NULL;
     for(vector<mig_process *>::iterator it = imig_processes.begin(); it != imig_processes.end(); it++){
         if((*it)->pid == pid && (*it)->peer_index == peer_index) {
@@ -152,8 +153,8 @@ int imig_process_start_migrated_process(int pid, int peer_index){
 
 
     p->remote_pid = get_next_pid();
+    memcpy(p->input_line, input, BUF_SIZE);
     p->migration_state = MIG_PROCESS_BEGIN;
-    
     //notify userspace about new process - imigrated process
     netlink_send_task_fork(p->remote_pid, get_next_pid());
     
@@ -168,7 +169,7 @@ int emig_send_messages(){
                 (*it)->migration_state = MIG_PROCESS_REQUEST;
                 break;
             case MIG_PROCESS_CONFIRMED:
-                kkc_send_emig_begin((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name);
+                kkc_send_emig_begin((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name, (*it)->input_line);
                 (*it)->migration_state = MIG_PROCESS_BEGIN;
                 break;
             case MIG_PROCESS_DENIED:

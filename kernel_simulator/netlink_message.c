@@ -111,9 +111,9 @@ void try_netlink_receive(){
     int fd = nl_socket_get_fd(sk);
     FD_ZERO(&socket_set);
     FD_SET(fd, &socket_set);
-    //wait max 0.5ms
+    //dont wait
     tv.tv_sec = 0;
-    tv.tv_usec = 500;
+    tv.tv_usec = 0;
     int ret;
     if ( (ret = select(fd + 1, &socket_set, NULL, NULL, &tv)) > 0){
         if(FD_ISSET(fd, &socket_set)){

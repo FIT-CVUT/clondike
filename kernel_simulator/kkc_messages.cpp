@@ -106,7 +106,7 @@ int kkc_send_emig_request_response(int peer_index, int pid, int decision){
     return 0;
 }
 
-int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
+int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name, const char * input_line){
     int fd = get_socket(peer_index);
     if(fd == -1)
         return -1;
@@ -119,10 +119,12 @@ int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
     struct kkc_attr * attr_pid = kkc_create_attr_u32(ATTR_PID, pid);
     struct kkc_attr * attr_uid = kkc_create_attr_u32(ATTR_UID, uid);
     struct kkc_attr * attr_name = kkc_create_attr_string(ATTR_NAME, name);
+    struct kkc_attr * attr_input = kkc_create_attr_string(ATTR_NAME, input_line);
 
     hdr.len += attr_pid->hdr.len;
     hdr.len += attr_uid->hdr.len;
     hdr.len += attr_name->hdr.len;
+    hdr.len += attr_input->hdr.len;
 
     char * buf = (char *) malloc(sizeof(char) * hdr.len);
     int position = 0;
@@ -139,6 +141,10 @@ int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
     memcpy(buf+position, attr_name, attr_name->hdr.len);
     position += attr_name->hdr.len;
 
+    memcpy(buf+position, attr_input, attr_input->hdr.len);
+    position += attr_input->hdr.len;
+
+
 #ifdef DEBUG
     cout << "sending emig_begin, len: " << hdr.len << endl;
     kkc_dump_msg(buf, hdr.len);
@@ -153,6 +159,7 @@ int kkc_send_emig_begin(int peer_index, int pid, int uid, const char * name){
     free(attr_pid);
     free(attr_uid);
     free(attr_name);
+    free(attr_input);
     return 0;
 }
 

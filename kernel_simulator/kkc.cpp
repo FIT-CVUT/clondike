@@ -68,9 +68,9 @@ void try_receive_ccn(){
         }
     }
     //cout << "kkc_sockets size: " << kkc_sockets.size() << endl;
-    //wait max 5ms
+    //dont wait
     tv.tv_sec = 0;
-    tv.tv_usec = 5;
+    tv.tv_usec = 0;
     int ret;
     if ( (ret = select(max_socket + 1, &socket_set, NULL, NULL, &tv)) > 0){
         //cout << "after select" << endl; 
@@ -428,6 +428,7 @@ void handle_emig_begin_message(struct kkc_message * msg, int peer_index){
     int pid;
     int uid;
     char name[MAX_DATA_LEN];
+    char input[BUF_SIZE];
 
     char * buf = (char *) msg;
 
@@ -447,15 +448,21 @@ void handle_emig_begin_message(struct kkc_message * msg, int peer_index){
     //get name header
     buf += attr.len - sizeof(struct kkc_attr_header);
     memcpy(&attr, buf, sizeof(struct kkc_attr_header));
-
     buf += sizeof(struct kkc_attr_header);
     memcpy(name, buf, attr.len - sizeof(struct kkc_attr_header));
+
+    //get input line parameter
+    buf += attr.len - sizeof(struct kkc_attr_header);
+    memcpy(&attr, buf, sizeof(struct kkc_attr_header));
+    buf += sizeof(struct kkc_attr_header);
+    memcpy(input, buf, attr.len - sizeof(struct kkc_attr_header));
 
     cout << "pid: " << pid << endl;
     cout << "uid: " << uid << endl;
     cout << "name: " << name << endl;
+    cout << "input: " << input << endl;
   
-    if (imig_process_start_migrated_process(pid, peer_index) < 0){
+    if (imig_process_start_migrated_process(pid, peer_index, input) < 0){
         cout << "cannot start migrated process, no such PID" << endl;
     }
 }

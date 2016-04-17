@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#define BUF_SIZE 2048
+
 int init_process_reader();
 
 int try_read_processes();

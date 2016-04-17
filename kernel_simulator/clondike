@@ -1,0 +1,16 @@
+#!/bin/bash
+
+MY_PATH="/usr/fake_bin:`pwd`/fake_bin"
+export PATH=$MY_PATH:$PATH
+
+echo $PATH
+
+echo "I will run $1"
+CMD=$1
+
+#shift parameters so first argument became program name
+shift
+
+$CMD "$@"
+
+

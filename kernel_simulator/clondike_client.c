@@ -3,6 +3,9 @@
 #include <sys/un.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
+
+#define BUF_SIZE 2048
 
 int send_all(int fd, const char * buf, int buf_len){
     int total = 0;
@@ -26,8 +29,6 @@ int main(int argc, char * argv[]){
     struct sockaddr_un server;
     char buf[2];
 
-    printf("sizeof NULL: %d\n", sizeof(*NULL));
-
     if ((sock = socket(AF_UNIX, SOCK_STREAM, 0)) == -1){
         perror("cannot open socket\n");
         return -1;
@@ -43,16 +44,16 @@ int main(int argc, char * argv[]){
     }
 
     uint32_t len = strlen(argv[2]);
-    printf("sizeof argv[2]: %d\n", len);
-    char send_buf[516];
+    len = len < BUF_SIZE? len : BUF_SIZE;
+    
+    char send_buf[BUF_SIZE];
     memcpy(send_buf, &len, sizeof(len));
     memcpy(send_buf + sizeof(len), argv[2], len);
+    send_buf[sizeof(len) + len - 1] = '\0';
 
     send_all(sock, send_buf, len + sizeof(len));
 
-printf("read\n");
     read(sock, buf, 1);
-    printf("%c", buf[0]);
     close(sock);
 
     return 0;

@@ -103,7 +103,7 @@ int main(){
             run_process_cleaner = 0;
         }
 
-        usleep(50000);
+        usleep(500);
         
         //do maintain every 1000 cycles
         if (cycle%100 == 0){

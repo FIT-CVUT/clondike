@@ -5,6 +5,7 @@
 extern "C" {
 #endif
 
+#include "fifo_reader.h"
 #include <stdint.h>
 
 enum migration_state{
@@ -26,6 +27,7 @@ struct mig_process {
     int pid;
     int remote_pid; //actually, it means local pid for fake working process
     char name[100];
+    char input_line[BUF_SIZE];
     int uid;
     int peer_index;
     int migration_state;
@@ -39,7 +41,7 @@ int emig_process_migrate(unsigned int sequence_number, int peer_index);
 
 int emig_process_denied(unsigned int sequence_number);
 
-int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd);
+int emig_process_put(int pid, const char * name, int uid, unsigned int seq, uint64_t jiff, int process_fd, char * buf);
 
 int emig_process_migration_confirmed(int pid, int decision);
 
@@ -53,7 +55,7 @@ int imig_send_messages();
 
 int imig_process_confirm(unsigned int sequence_number, int decision);
 
-int imig_process_start_migrated_process(int pid, int peer_index);
+int imig_process_start_migrated_process(int pid, int peer_index, const char * input);
 
 void process_cleaner();
 

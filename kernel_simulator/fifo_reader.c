@@ -1,8 +1,8 @@
-//#include "netlink_message.h"
-//#include "process_manager.h"
-//#include "kkc_messages.h"
-//#include "kkc.h"
-//#include "pid_manager.h"
+#include "netlink_message.h"
+#include "process_manager.h"
+#include "kkc_messages.h"
+#include "kkc.h"
+#include "pid_manager.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -34,6 +34,7 @@ static uint64_t get_jiffies(){
 
 
 int init_process_reader(){
+    unlink(UNIX_SOCKET_PATH);
     if ((process_endpoint_fd = socket(AF_UNIX, SOCK_STREAM, 0)) == -1){
         printf("cannot create process endpoint socket\n");
         return -1;
@@ -94,7 +95,8 @@ int try_read_processes(){
     struct timeval tv;
     FD_ZERO(&socket_set);
     FD_SET(process_endpoint_fd, &socket_set);
-    char buf[1024];
+    char buf[BUF_SIZE];
+    char buf_line[BUF_SIZE];
     tv.tv_sec = 0;
     tv.tv_usec = 0;
     int ret = 0;
@@ -106,21 +108,27 @@ int try_read_processes(){
                 printf("accept connection failed\n");
                 return -1;
             }
-            bzero(buf, sizeof(buf));
-            int bytes = read_all(new_fd, buf, 1024);
+            bzero(buf, sizeof(BUF_SIZE));
+            int bytes = read_all(new_fd, buf, BUF_SIZE);
             if (bytes == 0){
                 printf("connection ends\n");
                 return 0;
-            } else if (bytes < -1){
+            } else if (bytes <= -1){
                 printf("read error");
                 return -1;
             }
             printf("buffer: \"%s\"\n", buf);
 
-            printf("fifo: %s\n", buf); 
+            memcpy(buf_line, buf, bytes);
+            buf_line[bytes] = '\0';
+
             char * argv[50];
             const char * const envp[] = {"envp", "EMIG=1", NULL};
             char * name = strtok(buf, " ");
+            if (strlen(name) == 0){
+                send_process_exit(new_fd, 0);
+                return 0;
+            }
             char * arg = NULL;
             int arg_num = 0;
             for(arg_num = 0; arg_num < 50; arg_num++){
@@ -132,8 +140,8 @@ int try_read_processes(){
 	    int uid = 0; //root user
 	    int pid = get_next_pid();
 	    uint64_t jiffies = get_jiffies();
-            netlink_send_npm_check_full(pid, uid, 0, name, jiffies, argv, envp);
-            emig_process_put(pid, name, 0, get_sequence_number(), jiffies, new_fd);
+            netlink_send_npm_check_full(pid, uid, 0, name, jiffies, (const char * const * )argv, envp);
+            emig_process_put(pid, name, 0, get_sequence_number(), jiffies, new_fd, buf_line);
         }
     }
 
@@ -141,7 +149,9 @@ int try_read_processes(){
 }
 
 int send_process_exit(int fd, int return_code){
-    write(fd, "0", 1);
+    char s[10];
+    sprintf(s, "%d", return_code);
+    write(fd, s, 1);
     close(fd);
     return 0;
 }
