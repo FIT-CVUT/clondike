@@ -24,7 +24,7 @@ WORKDIR /root
 
 ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh"]
 
-CMD ["172.17.0.2", "172.17.0.3:54321"]
+CMD ["172.18.0.2", "172.18.0.3:54321"]
 
 
 
