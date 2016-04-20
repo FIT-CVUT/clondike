@@ -1,7 +1,7 @@
 #ifndef KKC_H
 #define KKC_H
 
-#define MAX_DATA_LEN 1000
+#define MAX_DATA_LEN 2048
 
 #ifdef __cplusplus
 extern "C" {

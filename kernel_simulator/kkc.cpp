@@ -271,8 +271,10 @@ struct kkc_attr * kkc_create_attr_u64(int type, uint64_t value){
 
 struct kkc_attr * kkc_create_attr_string(int type, const char * value){
     struct kkc_attr * attr = (struct kkc_attr *) malloc(sizeof(kkc_attr));
-
-    memcpy(attr->data, value, sizeof(char) * strlen(value) + 1);
+    int len = strlen(value);
+    int size = len + 1 < MAX_DATA_LEN ? len + 1 : MAX_DATA_LEN;
+    memcpy(attr->data, value, sizeof(char) * size);
+    attr->data[size - 1] = '\0';
     attr->hdr.len = sizeof(char) * strlen(value) + 1 + sizeof(kkc_attr_header);
     attr->hdr.type = type;
 

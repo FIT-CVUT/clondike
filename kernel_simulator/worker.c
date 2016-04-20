@@ -11,6 +11,8 @@
 #include <openssl/md5.h>
 #include <openssl/sha.h>
 
+#define LOG_FILE "/tmp/measurement.log"
+
 char *str2md5(const char *str, int length) {
     int n;
     MD5_CTX c;
@@ -47,7 +49,7 @@ static int get_hash_name(const char * name, int range_min, int range_max){
         if(name[i] == '\0')
             break;
 
-        acc += name[i];
+        acc += name[i] * (range_max - range_min);
     }
 
     
@@ -90,7 +92,7 @@ static void work_time(struct mig_process * p){
 
 static void write_to_file(time_t t, int hashes){
     FILE * f;
-    f = fopen("/tmp/measurement_file.txt", "a");
+    f = fopen(LOG_FILE, "a");
     fprintf(f, "%ld %d\n", t, hashes);
     fclose(f);
 }
@@ -120,6 +122,7 @@ void * work(void * thread_attr){
             //I am still in the same second
             hashes++;
         }
+        free(md5_hash);
     }
     if (hashes > 0){
         write_to_file(t1, hashes);
