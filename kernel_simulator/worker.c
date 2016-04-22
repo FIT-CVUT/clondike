@@ -11,7 +11,15 @@
 #include <openssl/md5.h>
 #include <openssl/sha.h>
 
-#define LOG_FILE "/tmp/measurement.log"
+#define LOG_FILE "/tmp/logs/measurement.log"
+
+static pthread_mutex_t worker_mutex;
+static int hashes;
+
+void init_worker(){
+    pthread_mutex_init(&worker_mutex, NULL);
+    hashes = 0;
+}
 
 char *str2md5(const char *str, int length) {
     int n;
@@ -106,12 +114,12 @@ void * work(void * thread_attr){
 
     time_t t1, t2;
     char * md5_hash;
-    int hashes = 0;
 
     int i;
     for(i = 0; i < n; i++){
         t1 = time(NULL);
         md5_hash = str2md5(p->input_line, strlen(p->input_line));
+        pthread_mutex_lock(&worker_mutex);
         t2 = time(NULL);
         if (t2 - t1 > 0){
             write_to_file(t1, hashes);
@@ -122,11 +130,13 @@ void * work(void * thread_attr){
             //I am still in the same second
             hashes++;
         }
+        pthread_mutex_unlock(&worker_mutex);
         free(md5_hash);
     }
-    if (hashes > 0){
-        write_to_file(t1, hashes);
-    }    
+
+//    if (hashes > 0){
+//        write_to_file(t1, hashes);
+//    }    
 
     p->return_code = 0;
     p->migration_state = MIG_PROCESS_END;
