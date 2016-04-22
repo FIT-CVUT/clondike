@@ -92,10 +92,10 @@ int main(){
         emig_send_messages();
         imig_send_messages();
 
-        if (cycle%1000 == 0){
-            netlink_send_task_fork(get_next_pid(), get_next_pid());
-            cycle = 0;
-        }
+        //if (cycle%1000 == 0){
+        //    netlink_send_task_fork(get_next_pid(), get_next_pid());
+        //    cycle = 0;
+        //}
         ++cycle;
         //printf("cycle: %d\n", cycle);
 
