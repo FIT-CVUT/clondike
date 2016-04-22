@@ -81,7 +81,7 @@ int main(){
 
         try_netlink_receive();
 
-        if(check_pen_watcher()){
+        if (cycle%1000 == 0 && check_pen_watcher()){
             ccn_connect();
         }
 
@@ -96,6 +96,7 @@ int main(){
 
         if (cycle%1000 == 0){
             netlink_send_task_fork(get_next_pid(), get_next_pid());
+            cycle = 0;
         }
         ++cycle;
         //printf("cycle: %d\n", cycle);

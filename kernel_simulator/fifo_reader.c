@@ -18,7 +18,7 @@
 #include <sys/time.h>
 #include <sys/select.h>
 
-#define MAX_UNIX_SOCKET_CONNECTIONS	100
+#define MAX_UNIX_SOCKET_CONNECTIONS	5000
 #define UNIX_SOCKET_PATH "/var/run/clondike.sock"
 
 static int process_endpoint_fd;
@@ -26,6 +26,9 @@ static int process_endpoint_fd;
 static uint64_t get_jiffies(){
     float uptime;
     FILE* proc_uptime_file = fopen("/proc/uptime", "r");
+    if (proc_uptime_file == NULL){
+        return 0;
+    }
     fscanf(proc_uptime_file, "%f", &uptime);
 
     uint64_t uptime_ms = uptime * 1000.0;

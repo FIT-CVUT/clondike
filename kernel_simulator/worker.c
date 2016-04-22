@@ -101,6 +101,11 @@ static void work_time(struct mig_process * p){
 static void write_to_file(time_t t, int hashes){
     FILE * f;
     f = fopen(LOG_FILE, "a");
+    if (f == NULL){
+        fprintf(stderr, "cannot open file %s\n", LOG_FILE);
+        fprintf(stderr, "time:%d hashes:%d\n", hashes);
+        return;
+    }
     fprintf(f, "%ld %d\n", t, hashes);
     fclose(f);
 }
@@ -122,7 +127,7 @@ void * work(void * thread_attr){
         pthread_mutex_lock(&worker_mutex);
         t2 = time(NULL);
         if (t2 - t1 > 0){
-            write_to_file(t1, hashes);
+            //write_to_file(t1, hashes);
             hashes = 0;
             t1 = t2;
         }
