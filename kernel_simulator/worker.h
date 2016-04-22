@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-
+void init_worker();
 
 int fork_and_work(struct mig_process * p);
 

@@ -66,6 +66,8 @@ int main(){
 
     init_process_reader();
 
+    init_worker();
+
     if (start_ccn() == -1){
         printf("cannot start ccn manager, terminating!\n");
         return 1;
