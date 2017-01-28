@@ -1,0 +1,11 @@
+version: '2'
+services:
+  clondike:
+    build: .
+    environment:
+     - FILTER=''
+  rethinkdb:
+    image: "bigchaindb-pepus"
+    ports:
+     - "58080:8080"
+     - "59984:9984"

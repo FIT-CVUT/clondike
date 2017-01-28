@@ -64,7 +64,7 @@ class NetlinkConnector
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
     $log.info("#{result[0]} for #{name}")
-    @cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
+    #@cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
     result
   end
 
@@ -83,10 +83,10 @@ class NetlinkConnector
     end
     
     if result
-      @cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
+      #@cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
     else
       $log.info("Immigration request for process #{name} REJECTED!")
-      @cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 1, Time.now)
+      #@cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 1, Time.now)
     end
 
     result
@@ -98,7 +98,7 @@ class NetlinkConnector
 
   def connectorImmigrationConfirmedCallbackFunction(uid, slotIndex, name, localPid, remotePid, jiffies)
     $log.info("Immigration of process #{name} (#{localPid}, #{remotePid}, #{jiffies}) confirmed.")
-    @cql3Driver.createRecord("IMMIGRATION_CONFIRMED", "#{name}:#{remotePid}:#{jiffies}", @membershipManager.detachedManagers[slotIndex].coreNode.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
+    #@cql3Driver.createRecord("IMMIGRATION_CONFIRMED", "#{name}:#{remotePid}:#{jiffies}", @membershipManager.detachedManagers[slotIndex].coreNode.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
     @immigrationConfirmedHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
       handler.onImmigrationConfirmed(node, name, localPid, remotePid)
@@ -175,7 +175,7 @@ class NetlinkConnector
   # Pridat jiffies a name pro Cassandra
   def connectorEmigrationFailedCallbackFunction(pid, name, jiffies)
     $log.info("Emigration failed for pid #{pid} #{name} #{jiffies}")
-    @cql3Driver.createRecord("EMIGRATE_FAILED", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, nil, 1, Time.now)
+    #@cql3Driver.createRecord("EMIGRATE_FAILED", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, nil, 1, Time.now)
     
     @migrationFailedHandlers.each do |handler|
       handler.onEmigrationFailed(pid)
