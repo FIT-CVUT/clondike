@@ -81,8 +81,10 @@ int send_request_message(struct nl_sock *sk, struct nl_msg* msg, int requires_ac
   	nl_hdr->nlmsg_flags |= NLM_F_ACK;
   else 
   	nl_hdr->nlmsg_flags |= NLM_F_REQUEST;
-
+  
+#ifdef DEBUG  
   nl_msg_dump(msg, stdout);
+#endif
 
   ret_val = nl_send_auto(sk, msg);
   if (ret_val <= 0) {
@@ -236,7 +238,9 @@ int read_message(struct nl_sock *sk, struct nl_msg** result_message) {
  // This makes a new buffer! Old buffer (data) has to be freed!
   ans_msg = nlmsg_convert((struct nlmsghdr *)data);
   
+#ifdef DEBUG 
   nl_msg_dump(ans_msg, stdout);
+#endif
 
   /* process the response */
   if (!nlmsg_ok(nl_hdr, ret_val)) {

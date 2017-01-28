@@ -7,7 +7,7 @@ require_relative "directorApi"
 # any result DO_NOT_MIGRATE is returned
 class NetlinkConnector
   def initialize (membershipManager, trustManagement, cql3Driver=nil)
-    @cql3Driver = cql3Driver
+    #@cql3Driver = cql3Driver
     @trustManagement = trustManagement
     @membershipManager = membershipManager
     @npmHandlers = []

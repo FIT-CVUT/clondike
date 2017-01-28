@@ -42,7 +42,7 @@ require 'ProcTrace.rb'
 
 require 'dht/DHTMessageDispatcher'
 
-require 'cassandra/CQL3Driver'
+#require 'cassandra/CQL3Driver'
 
 require 'TestMakeAcceptLimiter'
 require 'TaskNameBasedAcceptLimiter'
@@ -65,7 +65,7 @@ class Director
   def initialize( configuration )
     begin Dir.mkdir(Director::LOG_DIR) rescue Errno::EEXIST end
     @configuration = configuration
-    @cql3Driver = CQL3Driver.new( @configuration )
+    #@cql3Driver = CQL3Driver.new( @configuration )
     @filesystemConnector = FilesystemConnector.new( @configuration )
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
@@ -131,7 +131,7 @@ class Director
     #Start kernel listening thread
     begin
       #@netlinkConnector = TimingProxy.new(NetlinkConnector.new(@membershipManager))
-      @netlinkConnector = NetlinkConnector.new(@membershipManager, @trustManagement, @cql3Driver)
+      @netlinkConnector = NetlinkConnector.new(@membershipManager, @trustManagement, nil)
       NetlinkConnector.register(@netlinkConnector)
     rescue => err
       $log.warn "Creating mock netlink connector as a real connector cannot be created! Problem with creation of the real connector:\n #{err.backtrace.join("\n")}"
