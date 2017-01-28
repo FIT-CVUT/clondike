@@ -41,3 +41,4 @@ You can download a [VMDK image the Clondike](http://clondike.fit.cvut.cz/product
 
 Full details about the build process can be found in the [Clondike install instructions](https://github.com/FIT-CVUT/clondike/blob/master/doc/install_manual_clondike-en.desc).
 
+hudy hudry hudry
