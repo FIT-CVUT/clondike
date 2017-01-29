@@ -7,13 +7,15 @@ class LoadBalancer
   REBALANCING_INTERVAL = 1
   SRDIRECTOR_DIR = File.dirname(__FILE__)+'/'
 
-  def initialize(balancingStrategy, taskRepository, filesystemConnector)
+  def initialize(balancingStrategy, taskRepository, filesystemConnector, trustManagement, membershipManager)
     loadPatterns(SRDIRECTOR_DIR+"migrateable.patterns")
     @balancingStrategy = balancingStrategy;
     @taskRepository = taskRepository
     # Listeners on migration decisions
     @migrationListeners = []
     @filesystemConnector = filesystemConnector
+    @trustManagement = trustManagement
+    @membershipManager =  membershipManager
 
     ExceptionAwareThread.new() {
       rebalancingThread()
@@ -86,8 +88,11 @@ class LoadBalancer
     if ( migrationTarget )
       task = @taskRepository.getTask(pid)
       if ( task )
-        # Sem pridat sber dat pro Cassandru !!!!!!!!!!!!!!!!!!
-        $log.info("LoadBalancer decided to emigrate #{name}:#{pid}:#{jiffies} to node #{migrationTarget} (#{task.classifications_to_s})")
+        localKey=@trustManagement.localIdentity.publicKey.to_pem
+        #remoteKey=@membershipManager.detachedManagers[migrationTarget].coreNode.nodeId
+        remoteKey=@trustManagement.getKey(migrationTarget)
+        $log.info("LoadBalancer decided to emigrate #{name}:#{pid}:#{jiffies} from node #{localKey} to node #{remoteKey} (#{task.classifications_to_s})")
+        cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey} >> /tmp/cmd`
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid}")
       end

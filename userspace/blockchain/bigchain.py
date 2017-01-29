@@ -29,22 +29,36 @@ alice_signing_key = f_alice.readline().rstrip()
 bob_verifying_key = f_bob.readline().rstrip()
 bob_signing_key = f_bob.readline().rstrip()
 
-task = {
-    'data': {
-        'task': {
-            'id_task': sys.argv[1],
-            'id_dst_node': sys.argv[2],
-            'id_src_node': sys.argv[3],
-            'ret_em_f_task': sys.argv[4],
-            'ret_em_task': sys.argv[5],
-            'ret_imm_r_task': sys.argv[6],
-            'time_em_f_task': sys.argv[7],
-            'time_em_task': sys.argv[8],
-            'time_imm_c_task': sys.argv[9],
-            'time_imm_r_task': sys.argv[10],
+if (sys.argv[1] == "EMIGRATE_REQUEST") or (sys.argv[1] == "IMMIGRATE_REQUEST"):
+    task = {
+        'data': {
+            sys.argv[1]: {
+                'task_id': sys.argv[2],
+                'task_name': sys.argv[3],
+                'task_pid': sys.argv[4],
+                'id_src_node': sys.argv[5],
+                'id_dst_node': sys.argv[6],
+                'time': int(round(time.time() * 1000)),
+            },
         },
-    },
-}
+    }
+else:
+    task = {
+        'data': {
+            'task': {
+                'id_task': sys.argv[1],
+                'id_dst_node': sys.argv[2],
+                'id_src_node': sys.argv[3],
+                'ret_em_f_task': sys.argv[4],
+                'ret_em_task': sys.argv[5],
+                'ret_imm_r_task': sys.argv[6],
+                'time_em_f_task': sys.argv[7],
+                'time_em_task': sys.argv[8],
+                'time_imm_c_task': sys.argv[9],
+                'time_imm_r_task': sys.argv[10],
+            },
+        },
+    }
 
 # create transaction
 prepared_creation_tx = bdb.transactions.prepare(operation='CREATE', owners_before=alice_verifying_key, asset=task)

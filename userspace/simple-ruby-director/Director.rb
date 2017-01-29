@@ -102,7 +102,7 @@ class Director
     #balancingStrategy = RoundRobinBalancingStrategy.new(@nodeRepository, @membershipManager)
     balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
     balancingStrategy.startDebuggingToFile("LoadBalancer.log")
-    @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector)
+    @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector, @trustManagement, @membershipManager)
     @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository)
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))

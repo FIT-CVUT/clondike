@@ -139,7 +139,8 @@ class MembershipManager
         if session
           # The Proof is prooved in trust/AuthenticationDispatcher.rb
           succeeded = @filesystemConnector.connect(node.networkAddress, nil) # session.authenticationProof)
-          $log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
+          #$log.info("Connection attempt to #{node.networkAddress} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
+          $log.info("Connection attempt to #{node.networkAddress} with publicKey #{node.staticNodeInfo} with proof #{session.authenticationProof} #{succeeded ? 'succeeded' : 'failed'}.")
           if succeeded
             slotIndex = @filesystemConnector.findDetachedManagerSlot(nodeIpAddress)
             if slotIndex.nil?

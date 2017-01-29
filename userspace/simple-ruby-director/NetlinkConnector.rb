@@ -63,7 +63,12 @@ class NetlinkConnector
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
-    $log.info("#{result[0]} for #{name}")
+    localKey=@trustManagement.localIdentity.publicKey
+    remoteKey=@trustManagement.getKey(result[1])
+    $log.info("EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey}")
+    #$log.info("#{result[0]} for #{name}")
+    cmd = `pwd >> /tmp/cmd`
+    cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey} >> /tmp/cmd`
     #@cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
     result
   end
@@ -72,7 +77,6 @@ class NetlinkConnector
     @immigrationHandlers << handler;
   end
 
-  # Pridat do teto zpravy pid pro Cassandra
   def connectorImmigrationRequestCallbackFunction(uid, pid, slotIndex, name, jiffies)
     $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
     result = true
@@ -83,6 +87,9 @@ class NetlinkConnector
     end
     
     if result
+      localKey=@trustManagement.localIdentity.publicKey
+      remoteKey=node.nodeId
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey}`
       #@cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
     else
       $log.info("Immigration request for process #{name} REJECTED!")
