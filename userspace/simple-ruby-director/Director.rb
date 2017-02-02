@@ -131,7 +131,7 @@ class Director
     #Start kernel listening thread
     begin
       #@netlinkConnector = TimingProxy.new(NetlinkConnector.new(@membershipManager))
-      @netlinkConnector = NetlinkConnector.new(@membershipManager, @trustManagement, nil)
+      @netlinkConnector = NetlinkConnector.new(@membershipManager, @trustManagement, @nodeRepository)
       NetlinkConnector.register(@netlinkConnector)
     rescue => err
       $log.warn "Creating mock netlink connector as a real connector cannot be created! Problem with creation of the real connector:\n #{err.backtrace.join("\n")}"

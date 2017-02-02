@@ -6,10 +6,11 @@ require_relative "directorApi"
 # return any value, we pass the request to the next... if not handler returns
 # any result DO_NOT_MIGRATE is returned
 class NetlinkConnector
-  def initialize (membershipManager, trustManagement, cql3Driver=nil)
+  def initialize (membershipManager, trustManagement, nodeRepository)
     #@cql3Driver = cql3Driver
     @trustManagement = trustManagement
     @membershipManager = membershipManager
+    @nodeRepository = nodeRepository
     @npmHandlers = []
     @exitHandlers = []
     @forkHandlers = []
@@ -63,12 +64,10 @@ class NetlinkConnector
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
-    localKey=@trustManagement.localIdentity.publicKey
-    remoteKey=@trustManagement.getKey(result[1])
-    $log.info("EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey}")
+    $log.info("EMIGRATE #{name}:#{pid}:#{jiffies} #{@trustManagement.localIdentity.publicKey}, #{@nodeRepository.printListOfAllNodes}, #{result}, #{args}, #{envp}")
     #$log.info("#{result[0]} for #{name}")
     cmd = `pwd >> /tmp/cmd`
-    cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey} >> /tmp/cmd`
+    cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{@trustManagement.localIdentity.publicKey}, #{@trustManagement.getKey(result[1])} >> /tmp/cmd`
     #@cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
     result
   end
