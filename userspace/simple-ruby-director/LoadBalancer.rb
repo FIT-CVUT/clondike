@@ -1,4 +1,5 @@
 require 'ConfigurablePatternMatcher'
+require "base64"
 
 #Makes the migration decisions (actual strategies are delegated to nested balancingStrategy instance)
 #Non-preemptive decisions are made on exec time
@@ -89,10 +90,9 @@ class LoadBalancer
       task = @taskRepository.getTask(pid)
       if ( task )
         localKey=@trustManagement.localIdentity.publicKey.to_pem
-        #remoteKey=@membershipManager.detachedManagers[migrationTarget].coreNode.nodeId
-        remoteKey=@trustManagement.getKey(migrationTarget)
-        $log.info("LoadBalancer decided to emigrate #{name}:#{pid}:#{jiffies} from node #{localKey} to node #{remoteKey} (#{task.classifications_to_s})")
-        cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey} >> /tmp/cmd`
+        remoteKey=@membershipManager.coreManager.detachedNodes[migrationTarget].nodeId
+        $log.info("LoadBalancer decided to emigrate #{jiffies} #{name} #{pid} from node\n #{localKey} to node\n #{remoteKey}")
+        cmd = `python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} "#{localKey}" "#{remoteKey}"`
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid}")
       end

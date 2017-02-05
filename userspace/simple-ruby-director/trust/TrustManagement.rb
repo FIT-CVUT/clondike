@@ -84,6 +84,11 @@ class TrustManagement
     return OpenSSL::PKey::RSA.new(pem)
   end
 
+  def self.convertPEMStringToKey(pem)
+    return nil if pem.nil?
+    return OpenSSL::PKey::RSA.new(pem)
+  end
+
 
   def registerIdProvider(idProvider)
     @idProvider = idProvider

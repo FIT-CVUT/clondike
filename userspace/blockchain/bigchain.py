@@ -29,15 +29,15 @@ alice_signing_key = f_alice.readline().rstrip()
 bob_verifying_key = f_bob.readline().rstrip()
 bob_signing_key = f_bob.readline().rstrip()
 
-if (sys.argv[1] == "EMIGRATE_REQUEST") or (sys.argv[1] == "IMMIGRATE_REQUEST"):
+if (sys.argv[1] == "EMIGRATE_REQUEST") or (sys.argv[1] == "IMMIGRATION_ACCEPTED") or (sys.argv[1] == "IMMIGRATION_REJECTED") or (sys.argv[1] == "IMMIGRATION_CONFIRMED"):
     task = {
         'data': {
             sys.argv[1]: {
                 'task_id': sys.argv[2],
                 'task_name': sys.argv[3],
                 'task_pid': sys.argv[4],
-                'id_src_node': sys.argv[5],
-                'id_dst_node': sys.argv[6],
+                'id_home_node': sys.argv[5],
+                'id_host_node': sys.argv[6],
                 'time': int(round(time.time() * 1000)),
             },
         },

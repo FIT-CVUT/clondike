@@ -64,9 +64,8 @@ class NetlinkConnector
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
-    $log.info("EMIGRATE #{name}:#{pid}:#{jiffies} #{@trustManagement.localIdentity.publicKey}, #{@nodeRepository.printListOfAllNodes}, #{result}, #{args}, #{envp}")
-    #$log.info("#{result[0]} for #{name}")
-    cmd = `pwd >> /tmp/cmd`
+    #$log.info("EMIGRATE #{name}:#{pid}:#{jiffies} #{@trustManagement.localIdentity.publicKey}, #{@nodeRepository.printListOfAllNodes}, #{result}, #{args}, #{envp}")
+    $log.info("#{result[0]} for #{name}")
     cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{@trustManagement.localIdentity.publicKey}, #{@trustManagement.getKey(result[1])} >> /tmp/cmd`
     #@cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
     result
@@ -86,13 +85,13 @@ class NetlinkConnector
     end
     
     if result
-      localKey=@trustManagement.localIdentity.publicKey
+      localKey=@trustManagement.localIdentity.publicKey.to_pem
       remoteKey=node.nodeId
-      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REQUEST #{jiffies} #{name} #{pid} #{localKey} #{remoteKey}`
-      #@cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
+      $log.info("Immigration ACCEPTED for request for process #{jiffies} #{name} #{pid} from node\n #{remoteKey} to node\n #{localKey}")
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_ACCEPTED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
     else
-      $log.info("Immigration request for process #{name} REJECTED!")
-      #@cql3Driver.createRecord("IMMIGRATION_REQUEST", "#{name}:#{pid}:#{jiffies}", node.nodeId, @trustManagement.localIdentity.publicKey, 1, Time.now)
+      $log.info("Immigration REJECTED for request for process #{jiffies}")
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REJECTED #{jiffies} #{name} #{pid} from node\n #{remoteKey} to node\n #{localKey}`
     end
 
     result
@@ -103,7 +102,10 @@ class NetlinkConnector
   end
 
   def connectorImmigrationConfirmedCallbackFunction(uid, slotIndex, name, localPid, remotePid, jiffies)
-    $log.info("Immigration of process #{name} (#{localPid}, #{remotePid}, #{jiffies}) confirmed.")
+    localKey=@trustManagement.localIdentity.publicKey.to_pem
+    remoteKey=@membershipManager.detachedManagers[slotIndex].coreNode.nodeId
+    $log.info("Immigration CONFIRMED for process #{jiffies} #{name} #{remotePid} with local pid #{localPid} from node\n #{remoteKey} to node\n #{localKey}")
+    cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_CONFIRMED #{jiffies} #{name} #{localPid} "#{remoteKey}" "#{localKey}"`
     #@cql3Driver.createRecord("IMMIGRATION_CONFIRMED", "#{name}:#{remotePid}:#{jiffies}", @membershipManager.detachedManagers[slotIndex].coreNode.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
     @immigrationConfirmedHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
@@ -135,7 +137,7 @@ class NetlinkConnector
   end
 
   def connectorUserMessageReceivedCallbackFunction(slotType, slotIndex, messageLength, message)
-    $log.info("Received user message on slot: #{slotType}/#{slotIndex} of length #{messageLength}")
+    $log.debug("Received user message on slot: #{slotType}/#{slotIndex} of length #{messageLength}")
 
     @userMessageHandlers.each do |handler|
       handler.userMessageReceived(ManagerSlot.new(slotType, slotIndex), messageLength, message)
