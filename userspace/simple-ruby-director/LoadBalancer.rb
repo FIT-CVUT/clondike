@@ -92,7 +92,7 @@ class LoadBalancer
         localKey=@trustManagement.localIdentity.publicKey.to_pem
         remoteKey=@membershipManager.coreManager.detachedNodes[migrationTarget].nodeId
         $log.info("LoadBalancer decided to emigrate #{jiffies} #{name} #{pid} from node\n #{localKey} to node\n #{remoteKey}")
-        cmd = `python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} "#{localKey}" "#{remoteKey}"`
+        cmd = `python clondike/userspace/blockchain/bigchain.py EMIGRATION_REQUEST #{jiffies} #{name} #{pid} "#{localKey}" "#{remoteKey}"`
       else
         $log.warn("LoadBalancer cannot find info about task pid #{pid}")
       end

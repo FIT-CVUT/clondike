@@ -29,7 +29,7 @@ alice_signing_key = f_alice.readline().rstrip()
 bob_verifying_key = f_bob.readline().rstrip()
 bob_signing_key = f_bob.readline().rstrip()
 
-if (sys.argv[1] == "EMIGRATE_REQUEST") or (sys.argv[1] == "IMMIGRATION_ACCEPTED") or (sys.argv[1] == "IMMIGRATION_REJECTED") or (sys.argv[1] == "IMMIGRATION_CONFIRMED"):
+if (sys.argv[1] == "EMIGRATION_REQUEST") or (sys.argv[1] == "EMIGRATION_CONFIRMED") or (sys.argv[1] == "IMMIGRATION_ACCEPTED") or (sys.argv[1] == "IMMIGRATION_REJECTED") or (sys.argv[1] == "IMMIGRATION_CONFIRMED"):
     task = {
         'data': {
             sys.argv[1]: {

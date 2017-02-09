@@ -39,6 +39,8 @@ int netlink_callback_message(struct nl_msg * msg, void * arg);
 
 int netlink_send_emigration_failed(int pid, const char * name, unsigned long jiffies);
 
+int netlink_send_emigration_denied(int uid, int pid, int index, const char * name, unsigned long jiffies);
+
 int netlink_send_immigration_confirmed(int uid, int pid, int index, const char * name, unsigned long jiffies, int remote_pid);
 
 int netlink_send_immigration_request(int uid, int pid, int index, const char * name, unsigned long jiffies);

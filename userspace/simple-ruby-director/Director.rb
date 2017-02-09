@@ -44,7 +44,7 @@ require 'dht/DHTMessageDispatcher'
 
 #require 'cassandra/CQL3Driver'
 
-require 'TestMakeAcceptLimiter'
+#require 'TestMakeAcceptLimiter'
 require 'TaskNameBasedAcceptLimiter'
 require 'MeasurementAcceptLimiter'
 require 'LimitersImmigrationController'
@@ -70,9 +70,9 @@ class Director
     #acceptLimiter = TestMakeAcceptLimiter.new();
 
     @immigratedTasksController = ImmigratedTasksController.new(@filesystemConnector, false)
-    acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
+    #acceptLimiter = TaskNameBasedAcceptLimiter.new(["make", "mandel", "test-nosleep", "test-sleep", "test-busy"], @immigratedTasksController)
     @measurementLimiter = MeasurementAcceptLimiter.new()
-    @immigrationController = LimitersImmigrationController.new([acceptLimiter, @measurementLimiter], @immigratedTasksController)
+    @immigrationController = LimitersImmigrationController.new([@measurementLimiter], @immigratedTasksController)
 
     @dhtMessageDispatcher = DHTMessageDispatcher.new(@filesystemConnector.getLocalNetworkAddress)
     @interconnection = Interconnection.new(@dhtMessageDispatcher, CONF_DIR)
@@ -107,13 +107,13 @@ class Director
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
     @nodeInfoProvider.addListener(SignificanceTracingFilter.new(@informationDistributionStrategy))
     @nodeInfoProvider.addListener(selfNode)
-    @nodeInfoProvider.addLimiter(acceptLimiter)
+    #@nodeInfoProvider.addLimiter(acceptLimiter)
     @nodeInfoProvider.addLimiter(@measurementLimiter)
     @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
 
     @taskRepository.registerListener(ExecutionTimeTracer.new)
     @taskRepository.registerListener(balancingStrategy)
-    @taskRepository.registerListener(acceptLimiter)
+    #@taskRepository.registerListener(acceptLimiter)
     @taskRepository.registerListener(predictor)
     @loadBalancer.registerMigrationListener(@taskRepository)
 

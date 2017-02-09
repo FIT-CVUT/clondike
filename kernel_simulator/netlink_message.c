@@ -1,3 +1,4 @@
+#include "message_emigration_denied.h"
 #include "netlink_message.h"
 #include "message_emigration_failed.h"
 #include "message_immigration_confirmed.h"
@@ -289,6 +290,11 @@ int handle_send_generic_user_message(struct nl_msg * msg){
 
 int netlink_send_emigration_failed(int pid, const char * name, unsigned long jiffies){
     return send_emigration_failed(sk, pid, name, jiffies);
+}
+
+int netlink_send_emigration_denied(int uid, int pid, int index, const char * name, unsigned long jiffies){
+    return send_emigration_denied(sk, uid, pid, index, name, jiffies);
+    return 1;
 }
 
 int netlink_send_immigration_confirmed(int uid, int pid, int index, const char * name, unsigned long jiffies, int remote_pid){

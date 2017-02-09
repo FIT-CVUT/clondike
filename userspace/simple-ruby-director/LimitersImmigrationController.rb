@@ -6,12 +6,12 @@ class LimitersImmigrationController
   end
 
   def onImmigrationRequest(node, execName)
-    maximum = 100
-    @limiters.each { |limiter|
-      limiterMax = limiter.maximumAcceptCount()
-      maximum = limiterMax if ( limiterMax < maximum )
-    }
-
-    return maximum > @immigratedTasksController.immigratedTaskCount
+    return false
+    # maximum = 100
+    # @limiters.each { |limiter|
+    #   limiterMax = limiter.maximumAcceptCount()
+    #   maximum = limiterMax if ( limiterMax < maximum )
+    # }
+    # return maximum > @immigratedTasksController.immigratedTaskCount
   end
 end

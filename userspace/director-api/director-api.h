@@ -45,5 +45,7 @@ void register_task_exitted_callback(task_exitted_callback_t callback);
 void register_generic_user_message_callback(generic_user_message_callback_t callback);
 /** Sends a user message to remote node via associated kernel connection. */
 int send_user_message(int target_slot_type, int target_slot_index, int data_length, char* data);
+/** */
+void register_emigration_denied_callback(emigration_denied_callback_t callback);
 
 #endif

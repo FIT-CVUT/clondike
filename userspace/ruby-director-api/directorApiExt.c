@@ -12,6 +12,8 @@ static void ruby_task_forked_callback(pid_t pid, pid_t ppid);
 static void ruby_migrated_home_callback(pid_t pid, const char* name, unsigned long jiffies);
 static void ruby_emigration_failed_callback(pid_t pid, const char* name, unsigned long jiffies);
 static void ruby_user_message_received_callback(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data);
+static void ruby_emigrate_denied_callback(uid_t uid, pid_t pid, int slot_index, const char* name, unsigned long jiffies, int* accept);
+
 
 static VALUE ruby_rusage(struct rusage *rusage)
 {
@@ -66,6 +68,7 @@ static VALUE method_init(VALUE self)
 	register_migrated_home_callback(ruby_migrated_home_callback);
 	register_emigration_failed_callback(ruby_emigration_failed_callback);
 	register_generic_user_message_callback(ruby_user_message_received_callback);
+	register_emigration_denied_callback(ruby_emigrate_denied_callback);
 
 	rb_iv_set(self, "@npmCallbackTarget", Qnil);
 	rb_iv_set(self, "@npmCallbackFunction", Qnil);
@@ -77,6 +80,8 @@ static VALUE method_init(VALUE self)
 	rb_iv_set(self, "@nodeDisconnectedCallbackFunction", Qnil);
 	rb_iv_set(self, "@immigrateRequestCallbackTarget", Qnil);
 	rb_iv_set(self, "@immigrateRequestCallbackFunction", Qnil);
+	rb_iv_set(self, "@emigrateDeniedCallbackTarget", Qnil);
+	rb_iv_set(self, "@emigrateDeniedCallbackFunction", Qnil);
 	rb_iv_set(self, "@immigrationConfirmedCallbackTarget", Qnil);
 	rb_iv_set(self, "@immigrationConfirmedCallbackFunction", Qnil);
 	rb_iv_set(self, "@taskExittedCallbackTarget", Qnil);
@@ -219,6 +224,26 @@ static void ruby_immigrate_request_callback(uid_t uid, pid_t pid, int slot_index
 	}
 }
 
+static void ruby_emigrate_denied_callback(uid_t uid, pid_t pid, int slot_index, const char* name, unsigned long jiffies, int* accept ) {
+	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
+	VALUE callResult = Qnil;
+
+	selfClass = rb_const_get(rb_cObject, rb_intern("DirectorNetlinkApi"));
+	instanceMethod = rb_intern("instance");
+	self = rb_funcall(selfClass, instanceMethod, 0);
+	callbackMethod = rb_iv_get(self,"@emigrateDeniedCallbackFunction");
+	callbackTarget = rb_iv_get(self,"@emigrateDeniedCallbackTarget");
+	if ( callbackMethod != Qnil ) {
+		callResult = rb_funcall(callbackTarget, rb_to_id(callbackMethod), 5,INT2FIX(uid), INT2FIX(pid) ,INT2FIX(slot_index), rb_str_new2(name), ULONG2NUM(jiffies));
+	}
+
+	if ( callResult != Qnil ) {
+		*accept = callResult == Qtrue ? 1 : 0;
+	} else {
+		*accept = 1;
+	}
+}
+
 static void ruby_immigration_confirmed_callback(uid_t uid, int slot_index, const char* name, unsigned long jiffies, pid_t local_pid, pid_t remote_pid) {
 	VALUE self, selfClass, instanceMethod, callbackTarget, callbackMethod;
 	
@@ -344,6 +369,12 @@ static VALUE method_registerImmigrateRequestCallback(VALUE self, VALUE callbackT
 	return 0;
 }
 
+static VALUE method_registerEmigrateDeniedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
+	rb_iv_set(self, "@emigrateDeniedCallbackTarget", callbackTarget);
+	rb_iv_set(self, "@emigrateDeniedCallbackFunction", callbackFunc);
+	return 0;
+}
+
 static VALUE method_registerImmigrationConfirmedCallback(VALUE self, VALUE callbackTarget, VALUE callbackFunc) {
 	rb_iv_set(self, "@immigrationConfirmedCallbackTarget", callbackTarget);
 	rb_iv_set(self, "@immigrationConfirmedCallbackFunction", callbackFunc);
@@ -424,6 +455,7 @@ Init_directorApi()
 	rb_define_method(netlinkApi, "registerNodeConnectedCallback", method_registerNodeConnectedCallback, 2);
 	rb_define_method(netlinkApi, "registerNodeDisconnectedCallback", method_registerNodeDisconnectedCallback, 2);
 	rb_define_method(netlinkApi, "registerImmigrateRequestCallback", method_registerImmigrateRequestCallback, 2);
+	rb_define_method(netlinkApi, "registerEmigrateDeniedCallback", method_registerEmigrateDeniedCallback, 2);
 	rb_define_method(netlinkApi, "registerImmigrationConfirmedCallback", method_registerImmigrationConfirmedCallback, 2);
 	rb_define_method(netlinkApi, "registerTaskExittedCallback", method_registerTaskExittedCallback, 2);
 	rb_define_method(netlinkApi, "registerTaskForkedCallback", method_registerTaskForkedCallback, 2);

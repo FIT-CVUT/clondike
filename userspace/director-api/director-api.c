@@ -23,6 +23,7 @@
 #include "task-forked.h"
 #include "migrated-home.h"
 #include "emigration-failed.h"
+#include "emigration-denied.h"
 #include "generic_user_message.h"
 #include "ack.h"
 
@@ -47,6 +48,7 @@ static uint8_t ans_mapping[DIRECTOR_MSG_MAX] = {
 	[DIRECTOR_MIGRATED_HOME] = DIRECTOR_ACK,
 	[DIRECTOR_EMIGRATION_FAILED] = DIRECTOR_ACK,
 	[DIRECTOR_GENERIC_USER_MESSAGE] = DIRECTOR_ACK,
+	[DIRECTOR_EMIGRATION_DENIED] = DIRECTOR_ACK,
 };
 
 struct internal_state* get_current_state(void) {
@@ -386,6 +388,7 @@ int initialize_director_api(void) {
 	handlers[DIRECTOR_EMIGRATION_FAILED] = handle_emigration_failed;
 	handlers[DIRECTOR_GENERIC_USER_MESSAGE] = handle_generic_user_message;
 	handlers[DIRECTOR_ACK] = handle_ack;
+	handlers[DIRECTOR_EMIGRATION_DENIED] = handle_emigration_denied;
 
 	printf("Comm channel initialized\n");
     

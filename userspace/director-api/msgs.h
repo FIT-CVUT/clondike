@@ -23,6 +23,7 @@ enum {
   DIRECTOR_GENERIC_USER_MESSAGE, /* Informs about newly arrived generic user message */
   DIRECTOR_EMIGRATION_FAILED, /* Informs director about failed emigration request (could be npm or ppm, director should know which one based on provided pid) */
   DIRECTOR_MIGRATED_HOME, /* Informs director that a task was migrated home */
+  DIRECTOR_EMIGRATION_DENIED, /* Informs director that a task emigration was denied */
 
   /* Responses */
   DIRECTOR_NPM_RESPONSE, /* Response on non-preemptive migration check */

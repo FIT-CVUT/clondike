@@ -38,4 +38,6 @@ typedef void (*emigration_failed_callback_t)(pid_t pid, const char* name, unsign
 
 typedef void (*generic_user_message_callback_t)(int node_id, int slot_type, int slot_index, int user_data_size, char* user_data);
 
+typedef void (*emigration_denied_callback_t)(uid_t uid, pid_t pid, int slot_index, const char* exec_name, unsigned long jiffies,int* accept);
+
 #endif

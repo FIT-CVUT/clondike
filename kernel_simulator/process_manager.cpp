@@ -165,20 +165,27 @@ int emig_send_messages(){
     for(vector<mig_process *>::iterator it = emig_processes.begin(); it != emig_processes.end(); it++){
         switch ((*it)->migration_state){
             case MIG_PROCESS_NEW:
+                cout << "process_manager: migration process new" << endl;
                 kkc_send_emig_request((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name, (*it)->jiffies);
                 (*it)->migration_state = MIG_PROCESS_REQUEST;
                 break;
             case MIG_PROCESS_CONFIRMED:
+                cout << "process_manager: migration process confirmed" << endl;
                 kkc_send_emig_begin((*it)->peer_index, (*it)->pid, (*it)->uid, (*it)->name, (*it)->input_line);
                 (*it)->migration_state = MIG_PROCESS_BEGIN;
                 break;
             case MIG_PROCESS_DENIED:
-                cout << "migration process denied" << endl;
+                cout << "process_manager: migration process denied" << endl;
+                if( netlink_send_emigration_denied((*it)->uid, (*it)->pid, 
+                            (*it)->peer_index, (*it)->name, (*it)->jiffies) != 0){
+                    cout << "cannot send emigration denied message" << endl;
+                }
                 //have to run localy
                 (*it)->migration_state = MIG_PROCESS_WORKING_LOCALY;
                 fork_and_work(*it);
                 break;
             case MIG_PROCESS_END:
+                cout << "process_manager: migration process end" << endl;
                 netlink_send_task_exit((*it)->pid, (*it)->return_code);
                 send_process_exit((*it)->process_fd, (*it)->return_code);
                 (*it)->migration_state = MIG_PROCESS_CLEAN;

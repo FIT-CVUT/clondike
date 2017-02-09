@@ -31,6 +31,7 @@ class NetlinkConnector
       DirectorNetlinkApi.instance.registerTaskExittedCallback(instance, :connectorTaskExittedCallbackFunction)
       DirectorNetlinkApi.instance.registerTaskForkedCallback(instance, :connectorTaskForkedCallbackFunction)
       DirectorNetlinkApi.instance.registerImmigrateRequestCallback(instance, :connectorImmigrationRequestCallbackFunction)
+      DirectorNetlinkApi.instance.registerEmigrateDeniedCallback(instance, :connectorEmigrationDeniedCallbackFunction)
       DirectorNetlinkApi.instance.registerImmigrationConfirmedCallback(instance, :connectorImmigrationConfirmedCallbackFunction)
       DirectorNetlinkApi.instance.registerEmigrationFailedCallback(instance, :connectorEmigrationFailedCallbackFunction)
       DirectorNetlinkApi.instance.registerMigratedHomeCallback(instance, :connectorMigratedHomeCallbackFunction)
@@ -64,10 +65,11 @@ class NetlinkConnector
       break if result
     end
     result = [DirectorNetlinkApi::DO_NOT_MIGRATE] if !result
-    #$log.info("EMIGRATE #{name}:#{pid}:#{jiffies} #{@trustManagement.localIdentity.publicKey}, #{@nodeRepository.printListOfAllNodes}, #{result}, #{args}, #{envp}")
-    $log.info("#{result[0]} for #{name}")
-    cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATE_REQUEST #{jiffies} #{name} #{pid} #{@trustManagement.localIdentity.publicKey}, #{@trustManagement.getKey(result[1])} >> /tmp/cmd`
-    #@cql3Driver.createRecord("EMIGRATE", "#{name}:#{pid}:#{jiffies}", @trustManagement.localIdentity.publicKey, @trustManagement.getKey(result[1]), 0, Time.now)
+    localKey=@trustManagement.localIdentity.publicKey.to_pem
+    remoteKey=@trustManagement.getKey(result[1])
+    #$log.info("EMIGRATION_CONFIRMED for request for process #{jiffies} #{name} #{pid} from node\n #{localKey} to node\n #{remoteKey}")
+    #$log.info("#{result[0]} for #{name}")
+    #cmd = `echo python clondike/userspace/blockchain/bigchain.py EMIGRATION_CONFIRMED #{jiffies} #{name} #{pid} #{localKey}, #{remoteKey}`
     result
   end
 
@@ -91,9 +93,15 @@ class NetlinkConnector
       cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_ACCEPTED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
     else
       $log.info("Immigration REJECTED for request for process #{jiffies}")
-      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REJECTED #{jiffies} #{name} #{pid} from node\n #{remoteKey} to node\n #{localKey}`
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REJECTED #{jiffies} #{name} #{pid} #{remoteKey} #{localKey}`
     end
 
+    result
+  end
+
+  def connectorEmigrationDeniedCallbackFunction(uid, pid, slotIndex, name, jiffies)
+    $log.info("SIEGGGG #{pid} #{name} #{jiffies}")
+    result = true
     result
   end
 
@@ -159,6 +167,7 @@ class NetlinkConnector
   end
 
   def connectorTaskExittedCallbackFunction(pid, exitCode, rusage)
+    $log.info("task exit")
     #puts "Pid #{pid} exitted with code #{exitCode}"
     @exitHandlers.each do |handler|
       handler.onExit(pid, exitCode, rusage)
