@@ -81,14 +81,14 @@ class NetlinkConnector
     $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
     result = true
     node = @membershipManager.detachedManagers[slotIndex].coreNode
+    localKey=@trustManagement.localIdentity.publicKey.to_pem
+    remoteKey=node.nodeId
     @immigrationHandlers.each do |handler|
-      result = result && handler.onImmigrationRequest(node, name)
+      result = result && handler.onImmigrationRequest(node, name, localKey, remoteKey)
       break if !result
     end
     
     if result
-      localKey=@trustManagement.localIdentity.publicKey.to_pem
-      remoteKey=node.nodeId
       $log.info("Immigration ACCEPTED for request for process #{jiffies} #{name} #{pid} from node\n #{remoteKey} to node\n #{localKey}")
       cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_ACCEPTED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
     else
@@ -104,8 +104,8 @@ class NetlinkConnector
     node = @membershipManager.detachedManagers[slotIndex].coreNode
     localKey=@trustManagement.localIdentity.publicKey.to_pem
     remoteKey=node.nodeId
-    $log.info("Immigration DENIED for process #{jiffies} #{name} with local pid #{pid} from node\n #{remoteKey} to node\n #{localKey}")
-    cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_DENIED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
+    $log.info("Emigration DENIED for process #{jiffies} #{name} with local pid #{pid} from node\n #{remoteKey} to node\n #{localKey}")
+    cmd = `python clondike/userspace/blockchain/bigchain.py EMIGRATION_DENIED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
     result
   end
 
