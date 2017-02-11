@@ -100,8 +100,12 @@ class NetlinkConnector
   end
 
   def connectorEmigrationDeniedCallbackFunction(uid, pid, slotIndex, name, jiffies)
-    $log.info("SIEGGGG #{pid} #{name} #{jiffies}")
     result = true
+    node = @membershipManager.detachedManagers[slotIndex].coreNode
+    localKey=@trustManagement.localIdentity.publicKey.to_pem
+    remoteKey=node.nodeId
+    $log.info("Immigration DENIED for process #{jiffies} #{name} with local pid #{pid} from node\n #{remoteKey} to node\n #{localKey}")
+    cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_DENIED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
     result
   end
 
