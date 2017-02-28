@@ -119,6 +119,7 @@ class NetlinkConnector
     $log.info("Immigration CONFIRMED for process #{jiffies} #{name} #{remotePid} with local pid #{localPid} from node\n #{remoteKey} to node\n #{localKey}")
     cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_CONFIRMED #{jiffies} #{name} #{localPid} "#{remoteKey}" "#{localKey}"`
     #@cql3Driver.createRecord("IMMIGRATION_CONFIRMED", "#{name}:#{remotePid}:#{jiffies}", @membershipManager.detachedManagers[slotIndex].coreNode.nodeId, @trustManagement.localIdentity.publicKey, 0, Time.now)
+    $log.info("transaction #{cmd}")
     @immigrationConfirmedHandlers.each do |handler|
       node = @membershipManager.detachedManagers[slotIndex].coreNode
       handler.onImmigrationConfirmed(node, name, localPid, remotePid)
@@ -171,8 +172,9 @@ class NetlinkConnector
   end
 
   def connectorTaskExittedCallbackFunction(pid, exitCode, rusage)
-    $log.info("task exit")
-    #puts "Pid #{pid} exitted with code #{exitCode}"
+    $log.info("task #{pid} exit with code #{exitCode}")
+    localKey=@trustManagement.localIdentity.publicKey.to_pem
+    cmd = `python clondike/userspace/blockchain/kudos.py "#{localKey}"`
     @exitHandlers.each do |handler|
       handler.onExit(pid, exitCode, rusage)
     end
