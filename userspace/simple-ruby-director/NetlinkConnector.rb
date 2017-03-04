@@ -174,7 +174,7 @@ class NetlinkConnector
   def connectorTaskExittedCallbackFunction(pid, exitCode, rusage)
     $log.info("task #{pid} exit with code #{exitCode}")
     localKey=@trustManagement.localIdentity.publicKey.to_pem
-    cmd = `python clondike/userspace/blockchain/kudos.py "#{localKey}"`
+    cmd = `python clondike/userspace/blockchain/kudos.py "#{pid}"`
     @exitHandlers.each do |handler|
       handler.onExit(pid, exitCode, rusage)
     end

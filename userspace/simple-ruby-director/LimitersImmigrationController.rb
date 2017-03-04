@@ -8,11 +8,13 @@ class LimitersImmigrationController
   def onImmigrationRequest(node, execName, localKey, remoteKey)
     cmd = `python clondike/userspace/blockchain/accept_task.py "#{localKey}" "#{remoteKey}"`
     $log.info("Python returns #{$?.success?}")
-    if $?.success?
-      return true
-    else
-      return false
-    end
+    #RANDOM
+    #if $?.success?
+    #  return true
+    #else
+    #  return false
+    #end
+    return true
     # maximum = 100
     # @limiters.each { |limiter|
     #   limiterMax = limiter.maximumAcceptCount()
