@@ -7,11 +7,13 @@ import os
 from urllib.request import urlopen
 import json
 import bigchain
+import logging
 
 def main(last_pid):
 	os.chdir("/root/clondike/userspace/blockchain")
 	api_endpoint = 'http://192.168.99.100:59984/api/v1'
 	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	logging.basicConfig(filename='/tmp/kudos.log',level=logging.INFO)
 	bdb = BigchainDB(api_endpoint)
 	if (not Path("alice").is_file()):
 	    f_alice = open('alice', 'w')
@@ -23,14 +25,19 @@ def main(last_pid):
 	alice_verifying_key = f_alice.readline().rstrip()
 	#alice_verifying_key = "HfP8mrYEfPKLYU671WpAGzVfdxJg81Z4PivX6w7EbHRP"
 	alice_signing_key = f_alice.readline().rstrip()
-	time.sleep(5)
+	time.sleep(1)
 	confirmed_tx = getLastConfirmedTx(api_endpoint, unspents_endpoint, alice_verifying_key, last_pid)
+	logging.info("BAF")
 	if (confirmed_tx):
+		logging.info(confirmed_tx)
 		print (confirmed_tx)
 		kudos = getLastKudos(api_endpoint, unspents_endpoint, alice_verifying_key)
 		if (kudos):
+			logging.info(kudos)
 			kudos_value = kudos[1] + 10
 			bigchain.main(["4", "KUDOS", kudos[0], confirmed_tx, kudos_value])
+		else:
+			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
 	return
 
 def getLastKudos(api_endpoint, unspents_endpoint, verifying_key):
