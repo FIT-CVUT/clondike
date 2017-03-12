@@ -27,6 +27,8 @@ RUN cp -r fake_bin /usr/ && ln -s $PATH_SIMULATOR/clondike /usr/bin/clondike && 
 
 WORKDIR /root
 
+RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.11-rc1.tar.xz
+
 ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh"]
 
 CMD ["172.18.0.2", "172.18.0.3:54321"]

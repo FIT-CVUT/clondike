@@ -31,13 +31,13 @@ def main(last_pid):
 	if (confirmed_tx):
 		logging.info(confirmed_tx)
 		print (confirmed_tx)
-		kudos = getLastKudos(api_endpoint, unspents_endpoint, alice_verifying_key)
-		if (kudos):
-			logging.info(kudos)
-			kudos_value = kudos[1] + 10
-			bigchain.main(["4", "KUDOS", kudos[0], confirmed_tx, kudos_value])
-		else:
-			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
+		#kudos = getLastKudos(api_endpoint, unspents_endpoint, alice_verifying_key)
+		#if (kudos):
+		#	logging.info(kudos)
+		#kudos_value = kudos[1] + 10
+		#	bigchain.main(["4", "KUDOS", kudos[0], confirmed_tx, kudos_value])
+		#else:
+		bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
 	return
 
 def getLastKudos(api_endpoint, unspents_endpoint, verifying_key):

@@ -1,0 +1,6 @@
+plotly
+numpy
+scipy
+setuptools==20.10.1
+BigchainDB==0.8.0
+bigchaindb-driver==0.1.3
