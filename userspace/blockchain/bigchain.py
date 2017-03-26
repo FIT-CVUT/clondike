@@ -33,7 +33,7 @@ def main(argv):
                     'task_pid': argv[4],
                     'id_home_node': argv[5],
                     'id_host_node': argv[6],
-                    'time': int(round(time.time() * 1000)),
+                    'time': time.time(),
                 },
             },
         }
@@ -44,7 +44,7 @@ def main(argv):
                      'last_kudos_transaction': argv[2],
                      'add_kudos_from_transaction': argv[3],
                      'kudos_value': argv[4],
-                     'time': int(round(time.time() * 1000)),
+                     'time': time.time(),
                  },
              },
          }

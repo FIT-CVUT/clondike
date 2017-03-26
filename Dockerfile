@@ -7,6 +7,10 @@ ENV PATH_SIMULATOR /root/clondike/kernel_simulator
 
 ENV PATH_USERSPACE /root/clondike/userspace
 
+WORKDIR /root
+
+RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.11-rc1.tar.xz
+
 WORKDIR $PATH_SIMULATOR
 
 ADD requirements.txt $PATH_SIMULATOR
@@ -26,8 +30,6 @@ RUN echo 'PROMPT_COMMAND="source /root/clondike/scripts/bash_prompt.sh"' >> /roo
 RUN cp -r fake_bin /usr/ && ln -s $PATH_SIMULATOR/clondike /usr/bin/clondike && make && make client && /root/clondike/scripts/build-userspace.sh
 
 WORKDIR /root
-
-RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.11-rc1.tar.xz
 
 ENTRYPOINT ["/root/clondike/scripts/run_clondike.sh"]
 

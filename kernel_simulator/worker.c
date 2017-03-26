@@ -115,7 +115,11 @@ void * work(void * thread_attr){
     struct mig_process * p = thread_attr;
 
     //work_find_prime_number(p);
-    int n = get_hash_name(p->input_line, 5000, 15000);
+    //int n = get_hash_name(p->input_line, 100, 50000);
+    // random
+    srand(time(NULL));
+    int t_rand = rand();
+    int n = t_rand % 100000;
 
     time_t t1, t2;
     char * md5_hash;

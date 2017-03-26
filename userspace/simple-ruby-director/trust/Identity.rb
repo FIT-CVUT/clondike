@@ -23,6 +23,8 @@ class Identity
   attr_reader :certificateStore
   # Directory where to store all certificates
   attr_reader :directory
+  # Directory where to store all certificates
+  attr_reader :pokus
 
   # Loads an identity data from a specified path
   # Returns nil in case identity data cannot be loaded at that path
@@ -118,6 +120,8 @@ class Identity
     @privateKey = privateKey
     @publicKey = publicKey
     @certificate = certificate
+    @pokus = pokus
+    pokus = "picus"
 
     @certificateStore = CertificateStore.new(self, distributionStrategy, @directory)
 

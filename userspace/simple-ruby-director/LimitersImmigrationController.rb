@@ -9,11 +9,11 @@ class LimitersImmigrationController
     cmd = `python clondike/userspace/blockchain/accept_task.py "#{localKey}" "#{remoteKey}"`
     $log.info("Python returns #{$?.success?}")
     #RANDOM
-    #if $?.success?
-    #  return true
-    #else
-    #  return false
-    #end
+    if $?.success?
+      return true
+    else
+      return false
+    end
     return true
     # maximum = 100
     # @limiters.each { |limiter|
