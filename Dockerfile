@@ -1,7 +1,7 @@
 #FROM debian:8
 FROM python:3.5
 
-RUN apt-get update && apt-get install -y gcc g++ make initramfs-tools bc libssl-dev git ncurses-dev libnl-3-200 libnl-3-dev libnl-genl-3-200 libnl-genl-3-dev libnl-utils ruby-dev ruby git vim-nox pkg-config wget xz-utils valgrind gem && gem install cassandra-driver -v 3.0.0.rc.2 --no-document
+RUN apt-get update && apt-get install -y sqlite3 gcc g++ make initramfs-tools bc libssl-dev git ncurses-dev libnl-3-200 libnl-3-dev libnl-genl-3-200 libnl-genl-3-dev libnl-utils ruby-dev ruby git vim-nox pkg-config wget xz-utils valgrind gem && gem install cassandra-driver -v 3.0.0.rc.2 --no-document
 
 ENV PATH_SIMULATOR /root/clondike/kernel_simulator
 
