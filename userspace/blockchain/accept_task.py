@@ -14,7 +14,7 @@ def main(argv):
 	#try:
 	#	db.get(alice_verifying_key)
 	#except KeyError as e:
-	logging.info(alice_verifying_key, localKey)
+	logging.info("certs: ", alice_verifying_key, localKey)
 	db.put(str(base64.b64encode(str.encode(alice_verifying_key))), str.encode(localKey))
 	#	print("set :", alice_verifying_key, localKey)
 	#try:
@@ -26,6 +26,7 @@ def main(argv):
 	print(a.decode())
 	b=db.get(str(base64.b64encode(str.encode(alice_verifying_key))))
 	print(b.decode())
+	logging.info("exit")
 	sys.exit(0)
 
 def decision(probability):
