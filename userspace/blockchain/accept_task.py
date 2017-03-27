@@ -11,21 +11,29 @@ def main(argv):
 	remoteKey = argv[2]
 	alice_verifying_key, alice_signing_key = kudos.getMyKeys()
 	db = FilesystemStore('/tmp')
+	alice_verifying_key = str(alice_verifying_key)
+	localKey = str(localKey)
+	logging.info("veryfiing: "+alice_verifying_key)
+	logging.info("localkey: "+localKey)
+
+
+
+	db.put(alice_verifying_key, str.encode(localKey))
+	db.put(str(base64.b64encode(str.encode(localKey))), str.encode(alice_verifying_key))
 	#try:
 	#	db.get(alice_verifying_key)
 	#except KeyError as e:
-	logging.info("certs: ", alice_verifying_key, localKey)
-	db.put(str(base64.b64encode(str.encode(alice_verifying_key))), str.encode(localKey))
+	#db.put(str(base64.b64encode(str.encode(alice_verifying_key))), str.encode(localKey))
 	#	print("set :", alice_verifying_key, localKey)
 	#try:
 	#	db.get(localKey)
 	#except KeyError as e:
-	db.put(str(base64.b64encode(str.encode(localKey))), str.encode(alice_verifying_key))
+	#db.put(str(base64.b64encode(str.encode(localKey))), str.encode(alice_verifying_key))
 	#	print("set :", localKey, alice_verifying_key)
-	a=db.get(str(base64.b64encode(str.encode(localKey))))
-	print(a.decode())
-	b=db.get(str(base64.b64encode(str.encode(alice_verifying_key))))
-	print(b.decode())
+	#a=db.get(str(base64.b64encode(str.encode(localKey))))
+	#print(a.decode())
+	#b=db.get(str(base64.b64encode(str.encode(alice_verifying_key))))
+	#print(b.decode())
 	logging.info("exit")
 	sys.exit(0)
 

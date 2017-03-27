@@ -18,7 +18,6 @@ def main(last_pid):
 	alice_verifying_key, alice_signing_key = getMyKeys()
 	time.sleep(1)
 	confirmed_tx = getLastConfirmedTx(api_endpoint, unspents_endpoint, alice_verifying_key, last_pid)
-	logging.info("BAF")
 	if (confirmed_tx):
 		logging.info(confirmed_tx)
 		print (confirmed_tx)
