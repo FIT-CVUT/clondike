@@ -53,12 +53,13 @@ class NodeInfoProvider
     architecture = `uname -m`.chop
     memory = frequency = nil
     coresCount = 1
+    bigchainkey = "prdel"
     IO.foreach("/proc/meminfo") { |line| memory = line.split[1] if line =~ /^MemTotal.*/ }
     IO.foreach("/proc/cpuinfo") { |line|
       coresCount = line.split(":")[1].to_i if line =~ /^cpu cores/
       frequency = line.split(":")[1].to_i if line =~ /^cpu MHz/
     }
-    StaticNodeInfo.new(architecture, coresCount, frequency, memory)
+    StaticNodeInfo.new(architecture, coresCount, frequency, memory, bigchainkey)
   end
 
   def getCurrentId
@@ -79,7 +80,7 @@ class NodeInfoProvider
   def getCurrentInfo
     localTaskCount = -1
     localTaskCount = @localTaskCountProvider.localTaskCount() if @localTaskCountProvider
-    NodeInfo.new(getCurrentLoad, getCurrentCpuUsage, getCurrentMaximumAccept, @immigratedTasksController.immigratedTaskCount(), localTaskCount)
+    NodeInfo.new(getCurrentLoad, getCurrentCpuUsage, getCurrentMaximumAccept, @immigratedTasksController.immigratedTaskCount(), localTaskCount, getBigchainKey)
   end
 
   # Finds minimal maximum-accept count. (nil = unlimited)
@@ -100,6 +101,12 @@ class NodeInfoProvider
       # First element of loadavg is current load
       result = aFile.readline.split().first.to_f
     }
+    result
+  end
+
+  def getBigchainKey
+    result = nil
+    result = `python3.5 clondike/userspace/blockchain/generate_bigchain_keys.py`
     result
   end
 

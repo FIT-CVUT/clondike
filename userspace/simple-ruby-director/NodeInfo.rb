@@ -18,18 +18,21 @@ class NodeInfo
   attr_reader :immigratedTasks
   # Count of local MIGRATEABLE tasks.. i.e. tasks that would be considered for migration, but were kept locally
   attr_reader :localTasks
+  #bigchaindb key
+  attr_reader :bigchainkey
 
-  def initialize (load, cpuUsage, maximumAccept, immigratedTasks, localTasks)
+  def initialize (load, cpuUsage, maximumAccept, immigratedTasks, localTasks, bigchainkey)
     @load = load
     @cpuUsage = cpuUsage
     @maximumAccept = maximumAccept
     @immigratedTasks = immigratedTasks
     @localTasks = localTasks
     @timestamp = Time.now()
+    @bigchainkey = bigchainkey
   end
 
   def to_s
-    "Load: #{@load} Cpu usage: #{@cpuUsage} Timestamp: #{@timestamp} Max accept: #{@maximumAccept} Immigrated: #{@immigratedTasks} Local: #{@localTasks}"
+    "Load: #{@load} Cpu usage: #{@cpuUsage} Timestamp: #{@timestamp} Max accept: #{@maximumAccept} Immigrated: #{@immigratedTasks} Local: #{@localTasks} Bigchainkey: #{@bigchainkey}"
   end
 end
 
@@ -44,15 +47,18 @@ class StaticNodeInfo
   attr_reader :frequency
   #Total memory on the node
   attr_reader :memory
+  #bigchaindb key
+  attr_reader :bigchainkey
 
-  def initialize(architecture, coresCount, frequency, memory)
+  def initialize(architecture, coresCount, frequency, memory, bigchainkey)
     @architecture = architecture
     @coresCount = coresCount
     @frequency = frequency
     @memory = memory
+    @bigchainkey = bigchainkey
   end
 
   def to_s
-    "Architecture: #{@architecture} Cores: #{@coresCount} Frequency: #{@frequency} Memory: #{@memory}"
+    "Architecture: #{@architecture} Cores: #{@coresCount} Frequency: #{@frequency} Memory: #{@memory} Bigchainkey: #{@bigchainkey}"
   end
 end

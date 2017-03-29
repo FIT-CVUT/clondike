@@ -3,13 +3,22 @@ from bigchaindb_driver import BigchainDB
 from bigchaindb_driver.crypto import generate_keypair
 from pathlib import Path
 
-my_signing_key_file = Path("my_signing_key")
-my_verifying_key_file = Path("my_verifying_key")
-if (not my_signing_key_file.is_file()) or (not my_verifying_key_file.is_file()):
-    key = generate_keypair()
-    f = open('my_signing_key', 'w')
-    f.write(key.signing_key)
-    f.close()
-    f = open('my_verifying_key', 'w')
-    f.write(key.verifying_key)
-    f.close()
+def main():
+	return getMyKeys()
+
+def getMyKeys():
+	if (not Path("alice").is_file()):
+	    f_alice = open('alice', 'w')
+	    alice = generate_keypair()
+	    print(alice.verifying_key, file=f_alice)
+	    print(alice.signing_key, file=f_alice)
+	    f_alice.close()
+	f_alice = open('alice', 'r')
+	alice_verifying_key = f_alice.readline().rstrip()
+	#alice_verifying_key = "HfP8mrYEfPKLYU671WpAGzVfdxJg81Z4PivX6w7EbHRP"
+	alice_signing_key = f_alice.readline().rstrip()
+	print(alice_verifying_key)
+	return [alice_verifying_key, alice_signing_key]
+
+if __name__ == "__main__":
+    main()

@@ -79,6 +79,7 @@ class NetlinkConnector
 
   def connectorImmigrationRequestCallbackFunction(uid, pid, slotIndex, name, jiffies)
     $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
+    $log.info("nodeRepository: #{@nodeRepository.getAllRemoteNodes}")
     result = true
     node = @membershipManager.detachedManagers[slotIndex].coreNode
     localKey=@trustManagement.localIdentity.publicKey.to_pem

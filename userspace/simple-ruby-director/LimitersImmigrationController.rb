@@ -6,10 +6,10 @@ class LimitersImmigrationController
   end
 
   def onImmigrationRequest(node, execName, localKey, remoteKey)
-    cmd = `pwd`
-    #$log.info("Path is #{cmd}")
+    $log.info("localkey: #{localKey}, remotekey: #{remoteKey}")
+    $log.info("node: #{node}")
+
     cmd = `python3.5 clondike/userspace/blockchain/accept_task.py "#{localKey}" "#{remoteKey}"`
-    $log.info("python3.5 clondike/userspace/blockchain/accept_task.py #{localKey} #{remoteKey}")
     $log.info("Python returns #{$?.success?}")
     #RANDOM
     if $?.success?

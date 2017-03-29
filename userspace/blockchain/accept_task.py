@@ -3,30 +3,28 @@ import random
 import kudos
 import logging
 import sqlite3
+from pathlib import Path
 
 def main(argv):
 	logging.basicConfig(filename='/tmp/kudos.log',level=logging.INFO)
-	localKey = argv[1]
 	remoteKey = argv[2]
-	alice_verifying_key, alice_signing_key = kudos.getMyKeys()
-	
-	alice_verifying_key = str(alice_verifying_key)
-	localKey = str(localKey)
-	logging.info("veryfiing: "+alice_verifying_key)
-	logging.info("localkey: "+localKey)
+	localKey, alice_signing_key = kudos.getMyKeys()
+	localKeyCert = Path("clondike/userspace/simple-ruby-director/conf/public.pem").read_text()
 
 	conn = sqlite3.connect('/tmp/kv.db')
 	c = conn.cursor()
 	c.execute('''CREATE TABLE IF NOT EXISTS kv
              (key text UNIQUE, value text UNIQUE)''')
-	c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (alice_verifying_key, localKey))
-	c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKey, alice_verifying_key))
+	#my keys
+	c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKeyCert, localKey))
+	c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKey, localKeyCert))
 
-	c.execute(''' SELECT * from kv WHERE key = "%s" ''' % alice_verifying_key )
-	print (c.fetchone())
+	#remte keys
+	#c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKey, alice_verifying_key))
+
 	c.execute(''' SELECT * from kv WHERE key = "%s" ''' % localKey )
 	print (c.fetchone())
-	
+
 	conn.commit()
 	conn.close()
 
