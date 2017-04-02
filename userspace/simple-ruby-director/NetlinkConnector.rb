@@ -79,11 +79,17 @@ class NetlinkConnector
 
   def connectorImmigrationRequestCallbackFunction(uid, pid, slotIndex, name, jiffies)
     $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
-    $log.info("nodeRepository: #{@nodeRepository.getAllRemoteNodes}")
+    nody = @nodeRepository.getAllRemoteNodes
     result = true
     node = @membershipManager.detachedManagers[slotIndex].coreNode
     localKey=@trustManagement.localIdentity.publicKey.to_pem
     remoteKey=node.nodeId
+    nodeKey=@nodeRepository.getNode(remoteKey)
+    bigchainkey = ""
+    nody.each { |nodex|
+      bigchainkey = nodex.nodeInfo.bigchainkey if nodex.nodeId == remoteKey
+    }
+    $log.info("bigchainkey: #{bigchainkey}")
     @immigrationHandlers.each do |handler|
       result = result && handler.onImmigrationRequest(node, name, localKey, remoteKey)
       break if !result

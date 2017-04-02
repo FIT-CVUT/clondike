@@ -6,7 +6,7 @@ class LimitersImmigrationController
   end
 
   def onImmigrationRequest(node, execName, localKey, remoteKey)
-    $log.info("localkey: #{localKey}, remotekey: #{remoteKey}")
+    $log.info("localkey: #{localKey}, remotekey: #{remoteKey}, remoteBigchainKey: ")
     $log.info("node: #{node}")
 
     cmd = `python3.5 clondike/userspace/blockchain/accept_task.py "#{localKey}" "#{remoteKey}"`

@@ -32,6 +32,12 @@ class NodeRepository
     }
   end
 
+   def getNodeKey(nodeId)
+    @bucketManager.synchronize {
+      return @bucketManager.getNodeKey(nodeId)
+    }
+  end
+
   def insertOrReplaceNode(node)
     @bucketManager.synchronize {
       @bucketManager.insertOrReplaceNode(node)
