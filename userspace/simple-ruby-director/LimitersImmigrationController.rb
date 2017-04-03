@@ -5,11 +5,11 @@ class LimitersImmigrationController
     @immigratedTasksController = immigratedTasksController
   end
 
-  def onImmigrationRequest(node, execName, localKey, remoteKey)
-    $log.info("localkey: #{localKey}, remotekey: #{remoteKey}, remoteBigchainKey: ")
+  def onImmigrationRequest(node, execName, localKey, remoteKey, remoteBigchainKey)
+    $log.info("localkey: #{localKey}, remotekey: #{remoteKey}, remoteBigchainKey: #{remoteBigchainKey}")
     $log.info("node: #{node}")
 
-    cmd = `python3.5 clondike/userspace/blockchain/accept_task.py "#{localKey}" "#{remoteKey}"`
+    cmd = `python3.5 clondike/userspace/blockchain/accept_task.py "#{remoteBigchainKey}"`
     $log.info("Python returns #{$?.success?}")
     #RANDOM
     if $?.success?

@@ -31,13 +31,13 @@ def main(last_pid):
 	return
 
 def getMyKeys():
-	if (not Path("alice").is_file()):
-	    f_alice = open('alice', 'w')
+	if (not Path("/tmp/bigchainkeys").is_file()):
+	    f_alice = open('/tmp/bigchainkeys', 'w')
 	    alice = generate_keypair()
 	    print(alice.verifying_key, file=f_alice)
 	    print(alice.signing_key, file=f_alice)
 	    f_alice.close()
-	f_alice = open('alice', 'r')
+	f_alice = open('/tmp/bigchainkeys', 'r')
 	alice_verifying_key = f_alice.readline().rstrip()
 	#alice_verifying_key = "HfP8mrYEfPKLYU671WpAGzVfdxJg81Z4PivX6w7EbHRP"
 	alice_signing_key = f_alice.readline().rstrip()

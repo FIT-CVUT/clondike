@@ -89,9 +89,9 @@ class NetlinkConnector
     nody.each { |nodex|
       bigchainkey = nodex.nodeInfo.bigchainkey if nodex.nodeId == remoteKey
     }
-    $log.info("bigchainkey: #{bigchainkey}")
+    #$log.info("bigchainkey: #{bigchainkey}")
     @immigrationHandlers.each do |handler|
-      result = result && handler.onImmigrationRequest(node, name, localKey, remoteKey)
+      result = result && handler.onImmigrationRequest(node, name, localKey, remoteKey, bigchainkey)
       break if !result
     end
     

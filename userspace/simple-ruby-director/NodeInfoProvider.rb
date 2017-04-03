@@ -106,7 +106,7 @@ class NodeInfoProvider
 
   def getBigchainKey
     result = nil
-    result = `python3.5 clondike/userspace/blockchain/generate_bigchain_keys.py`
+    result = `python3.5 /root/clondike/userspace/blockchain/generate_bigchain_keys.py`
     result
   end
 

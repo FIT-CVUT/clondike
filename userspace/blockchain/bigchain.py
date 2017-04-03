@@ -4,6 +4,7 @@ from bigchaindb_driver.crypto import generate_keypair
 from pathlib import Path
 import time
 import os
+import kudos
 
 def main(argv):
     os.chdir("/root/clondike/userspace/blockchain")
@@ -12,17 +13,7 @@ def main(argv):
 
     bdb = BigchainDB(api_endpoint)
 
-    if (not Path("alice").is_file()):
-        f_alice = open('alice', 'w')
-        alice = generate_keypair()
-        print(alice.verifying_key, file=f_alice)
-        print(alice.signing_key, file=f_alice)
-        f_alice.close()
-
-    f_alice = open('alice', 'r')
-
-    alice_verifying_key = f_alice.readline().rstrip()
-    alice_signing_key = f_alice.readline().rstrip()
+    alice_verifying_key, alice_signing_key = kudos.getMyKeys()
 
     if (argv[1] == "EMIGRATION_REQUEST") or (argv[1] == "EMIGRATION_CONFIRMED") or (argv[1] == "IMMIGRATION_ACCEPTED") or (argv[1] == "IMMIGRATION_REJECTED") or (argv[1] == "IMMIGRATION_CONFIRMED") or (argv[1] == "EMIGRATION_DENIED"):
         task = {
