@@ -2,33 +2,19 @@ import sys
 import random
 import kudos
 import logging
-import sqlite3
 from pathlib import Path
 
 def main(argv):
-	logging.basicConfig(filename='/tmp/kudos.log',level=logging.INFO)
+	logging.basicConfig(filename='/tmp/kudos-rating.log',level=logging.INFO)
 	remoteKey = argv[1]
 	localKey, alice_signing_key = kudos.getMyKeys()
-
-	#conn = sqlite3.connect('/tmp/kv.db')
-	#c = conn.cursor()
-	#c.execute('''CREATE TABLE IF NOT EXISTS kv
-    #         (key text UNIQUE, value text UNIQUE)''')
-	#my keys
-	#c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKeyCert, localKey))
-	#c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKey, localKeyCert))
-
-	#remte keys
-	#c.execute('''INSERT OR REPLACE INTO kv (key, value) values (?, ?)''', (localKey, alice_verifying_key))
-
-	#c.execute(''' SELECT * from kv WHERE key = "%s" ''' % localKey )
-	#print (c.fetchone())
-
-	#conn.commit()
-	#conn.close()
-
-	logging.info("exit")
-	sys.exit(0)
+	myKudos, nic, moc = kudos.getKudos(localKey)
+	remoteKudos, nic, moc = kudos.getKudos(remoteKey)
+	logging.info("My Kudos [" + str(localKey) + "]: " + str(myKudos) + ", Remote Kudos [" + str(remoteKey) + "]: " + str(remoteKudos))
+	if (remoteKudos >= (myKudos / 2)):
+		sys.exit(0)
+	else:
+		sys.exit(1)
 
 def decision(probability):
     #return random.random() < probability

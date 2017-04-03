@@ -11,8 +11,7 @@ import logging
 
 def main(last_pid):
 	os.chdir("/root/clondike/userspace/blockchain")
-	api_endpoint = 'http://192.168.99.100:59984/api/v1'
-	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	api_endpoint, unspents_endpoint = initaliseKudos()
 	logging.basicConfig(filename='/tmp/kudos.log',level=logging.INFO)
 	bdb = BigchainDB(api_endpoint)
 	alice_verifying_key, alice_signing_key = getMyKeys()
@@ -30,6 +29,11 @@ def main(last_pid):
 		bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
 	return
 
+def initaliseKudos():
+	api_endpoint = 'http://192.168.99.100:59984/api/v1'
+	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	return [api_endpoint, unspents_endpoint]
+
 def getMyKeys():
 	if (not Path("/tmp/bigchainkeys").is_file()):
 	    f_alice = open('/tmp/bigchainkeys', 'w')
@@ -43,7 +47,8 @@ def getMyKeys():
 	alice_signing_key = f_alice.readline().rstrip()
 	return [alice_verifying_key, alice_signing_key]
 
-def getKudos(api_endpoint, unspents_endpoint, verifying_key):
+def getKudos(verifying_key):
+	api_endpoint, unspents_endpoint = initaliseKudos()
 	bdb = BigchainDB(api_endpoint)
 	x_list=[]
 	y_list=[]
@@ -51,6 +56,9 @@ def getKudos(api_endpoint, unspents_endpoint, verifying_key):
 	response = urlopen(url)
 	# Convert bytes to string type and string type to dict
 	string = response.read().decode('utf-8')
+	print(string)
+	if (string == "[]\n"):
+		return [0, [0,0],[0,0]]
 	unspent_obj = json.loads(string)
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
@@ -64,6 +72,8 @@ def getKudos(api_endpoint, unspents_endpoint, verifying_key):
 			x_list.append(kudos_time)
 			y_list.append(kudos_value)
 	#sort lists
+	if (not x_list) or (not y_list):
+		 return [0, [0,0],[0,0]]
 	x_list, y_list = (list(t) for t in zip(*sorted(zip(x_list, y_list))))
 	time_now = time.time()*10000000
 	for index in range(len(y_list)):

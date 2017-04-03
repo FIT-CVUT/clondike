@@ -99,9 +99,9 @@ class Director
     
     #balancingStrategy = RandomBalancingStrategy.new(@nodeRepository, @membershipManager)
     #balancingStrategy = CpuLoadBalancingStrategy.new(@nodeRepository, @membershipManager)
-    #balancingStrategy = RoundRobinBalancingStrategy.new(@nodeRepository, @membershipManager)
-    balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
-    balancingStrategy.startDebuggingToFile("LoadBalancer.log")
+    balancingStrategy = RoundRobinBalancingStrategy.new(@nodeRepository, @membershipManager)
+    #balancingStrategy = QuantityLoadBalancingStrategy.new(@nodeRepository, @membershipManager, @taskRepository, predictor)
+    #balancingStrategy.startDebuggingToFile("LoadBalancer.log")
     @loadBalancer = LoadBalancer.new(balancingStrategy, @taskRepository, @filesystemConnector, @trustManagement, @membershipManager)
     @nodeInfoConsumer = NodeInfoConsumer.new(@nodeRepository)
     @informationDistributionStrategy = InformationDistributionStrategy.new(@nodeInfoProvider, @nodeInfoConsumer, @interconnection)
@@ -109,7 +109,7 @@ class Director
     @nodeInfoProvider.addListener(selfNode)
     #@nodeInfoProvider.addLimiter(acceptLimiter)
     @nodeInfoProvider.addLimiter(@measurementLimiter)
-    @nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
+    #@nodeInfoProvider.registerLocalTaskCountProvider(balancingStrategy)
 
     @taskRepository.registerListener(ExecutionTimeTracer.new)
     @taskRepository.registerListener(balancingStrategy)

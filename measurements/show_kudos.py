@@ -15,19 +15,18 @@ import time
 from scipy.optimize import curve_fit
 
 #import numpy as np
-#plotly.tools.set_credentials_file(username='pepus', api_key='X9vAgXhDnpR8uTdtx7xN')
+plotly.tools.set_credentials_file(username='pepus', api_key='X9vAgXhDnpR8uTdtx7xN')
 
 def main():
-	api_endpoint = 'http://192.168.99.100:59984/api/v1'
-	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	api_endpoint, unspents_endpoint = kudos.initaliseKudos()
 	bdb = BigchainDB(api_endpoint)
 
 	x_list=[]
 	y_list=[]
 
-	verifying_key = "HfP8mrYEfPKLYU671WpAGzVfdxJg81Z4PivX6w7EbHRP"
+	verifying_key = sys.argv[1]
 
-	kudos_final_value,x_list,y_list = kudos.getKudos(api_endpoint,unspents_endpoint,verifying_key)
+	kudos_final_value,x_list,y_list = kudos.getKudos(verifying_key)
 	#x_list.append((time.time())*10000000)
 	#y_list.append(y_list[-1]+10)
 	x_array = array(x_list)
