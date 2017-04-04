@@ -14,7 +14,8 @@ def main(argv):
 	if (remoteKudos >= (myKudos / 2)):
 		sys.exit(0)
 	else:
-		sys.exit(1)
+		#sys.exit(1)
+		sys.exit(0)
 
 def decision(probability):
     #return random.random() < probability

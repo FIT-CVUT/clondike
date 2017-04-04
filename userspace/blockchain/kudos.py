@@ -58,7 +58,8 @@ def getKudos(verifying_key):
 	string = response.read().decode('utf-8')
 	print(string)
 	if (string == "[]\n"):
-		return [0, [0,0],[0,0]]
+		time_now = time.time()*10000000
+		return [0, [time_now],[0]]
 	unspent_obj = json.loads(string)
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
@@ -73,7 +74,8 @@ def getKudos(verifying_key):
 			y_list.append(kudos_value)
 	#sort lists
 	if (not x_list) or (not y_list):
-		 return [0, [0,0],[0,0]]
+		 time_now = time.time()*10000000
+		 return [0, [time_now],[0]]
 	x_list, y_list = (list(t) for t in zip(*sorted(zip(x_list, y_list))))
 	time_now = time.time()*10000000
 	for index in range(len(y_list)):
