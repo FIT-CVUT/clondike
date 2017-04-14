@@ -8,6 +8,7 @@ from urllib.request import urlopen
 import json
 import bigchain
 import logging
+import random
 
 def main(last_pid):
 	os.chdir("/root/clondike/userspace/blockchain")
@@ -26,7 +27,12 @@ def main(last_pid):
 		#kudos_value = kudos[1] + 10
 		#	bigchain.main(["4", "KUDOS", kudos[0], confirmed_tx, kudos_value])
 		#else:
-		bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
+		# CANARY TASK
+		canary = random.randint(1, 10)
+		if (canary == 10):
+			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 100])
+		else:
+			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
 	return
 
 def initaliseKudos():

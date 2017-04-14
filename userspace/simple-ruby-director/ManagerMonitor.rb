@@ -49,21 +49,22 @@ class ManagerMonitor
   def updateAllNodesStatusThread()
     while true do
       now = Time.now()
-      @nodeRepository.getAllRemoteNodes.each { |node|
-        @nodeRepository.updateState(node.nodeId, NodeState::DEAD) if (now - node.lastHeartBeatTime) > DEAD_TIMEOUT
-      }
+      #TODO: fixme ugly commented out due to false positive node disconnections
+      # @nodeRepository.getAllRemoteNodes.each { |node|
+      #   @nodeRepository.updateState(node.nodeId, NodeState::DEAD) if (now - node.lastHeartBeatTime) > DEAD_TIMEOUT
+      # }
 
-      @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
-        next if !element
-        next if element.state == NodeState::DEAD
-        element.markDead if ( now - element.lastHeartBeatTime > DEAD_TIMEOUT )
-      }
+      # @membershipManager.coreManager.detachedNodes.each_with_index { |element, slotIndex|
+      #   next if !element
+      #   next if element.state == NodeState::DEAD
+      #   element.markDead if ( now - element.lastHeartBeatTime > DEAD_TIMEOUT )
+      # }
 
-      @membershipManager.detachedManagers.each_with_index { |element, slotIndex|
-        next if !element
-        next if element.coreNode.state == NodeState::DEAD
-        element.coreNode.markDead if ( now - element.coreNode.lastHeartBeatTime > DEAD_TIMEOUT )
-      }
+      # @membershipManager.detachedManagers.each_with_index { |element, slotIndex|
+      #   next if !element
+      #   next if element.coreNode.state == NodeState::DEAD
+      #   element.coreNode.markDead if ( now - element.coreNode.lastHeartBeatTime > DEAD_TIMEOUT )
+      # }
 
       sleep 2
     end

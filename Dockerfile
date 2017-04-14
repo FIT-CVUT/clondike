@@ -11,6 +11,10 @@ WORKDIR /root
 
 RUN wget https://cdn.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.11-rc1.tar.xz
 
+RUN tar xvxf linux-4.11-rc1.tar.xz
+
+ADD .config linux-4.11-rc1
+
 WORKDIR $PATH_SIMULATOR
 
 ADD requirements.txt $PATH_SIMULATOR
