@@ -9,6 +9,8 @@ import json
 import bigchain
 import logging
 import random
+import requests
+import requests_cache
 
 def main(last_pid):
 	os.chdir("/root/clondike/userspace/blockchain")
@@ -19,14 +21,8 @@ def main(last_pid):
 	time.sleep(1)
 	confirmed_tx = getLastConfirmedTx(api_endpoint, unspents_endpoint, alice_verifying_key, last_pid)
 	if (confirmed_tx):
-		logging.info(confirmed_tx)
+		logging.debug(confirmed_tx)
 		print (confirmed_tx)
-		#kudos = getLastKudos(api_endpoint, unspents_endpoint, alice_verifying_key)
-		#if (kudos):
-		#	logging.info(kudos)
-		#kudos_value = kudos[1] + 10
-		#	bigchain.main(["4", "KUDOS", kudos[0], confirmed_tx, kudos_value])
-		#else:
 		# CANARY TASK
 		canary = random.randint(1, 10)
 		if (canary == 10):
@@ -37,7 +33,8 @@ def main(last_pid):
 
 def initaliseKudos():
 	api_endpoint = 'http://192.168.99.100:59984/api/v1'
-	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	#unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
+	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/outputs?public_key='
 	return [api_endpoint, unspents_endpoint]
 
 def getMyKeys():
@@ -54,15 +51,16 @@ def getMyKeys():
 	return [alice_verifying_key, alice_signing_key]
 
 def getKudos(verifying_key):
+	requests_cache.install_cache('transactions_cache', backend='sqlite', expire_after=240)
 	api_endpoint, unspents_endpoint = initaliseKudos()
 	bdb = BigchainDB(api_endpoint)
 	x_list=[]
 	y_list=[]
 	url = unspents_endpoint + verifying_key
+	print (url)
 	response = urlopen(url)
 	# Convert bytes to string type and string type to dict
 	string = response.read().decode('utf-8')
-	print(string)
 	if (string == "[]\n"):
 		time_now = time.time()*10000000
 		return [0, [time_now],[0]]
@@ -70,9 +68,12 @@ def getKudos(verifying_key):
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
 		url = api_endpoint + "/transactions/" + tx
-		response = urlopen(url)
-		string = response.read().decode('utf-8')
-		tx_obj = json.loads(string)
+		#response = urlopen(url)
+		#string = response.read().decode('utf-8')
+		#tx_obj = json.loads(string)
+		r = requests.get(url)
+		logging.info("getKudos - used cache: " + str(r.from_cache))
+		tx_obj = r.json()
 		if ((list(tx_obj['transaction']['asset']['data'])[0]) == "KUDOS"):
 			kudos_value = tx_obj['transaction']['asset']['data']['KUDOS']['kudos_value']
 			kudos_time = tx_obj['transaction']['asset']['data']['KUDOS']['time']*10000000
@@ -89,7 +90,7 @@ def getKudos(verifying_key):
 			time_degradation = time_now/10000000/60/60/24-x_list[index]/10000000/60/60/24
 			if (time_degradation < 1):
 				time_degradation = 1
-			print(time_degradation)
+			#print(time_degradation)
 			y_list[index] = y_list[index]/time_degradation + y_list[index-1]
 	return [y_list[-1], x_list, y_list]
 
@@ -112,18 +113,24 @@ def getLastKudos(api_endpoint, unspents_endpoint, verifying_key):
 	#return [0,0]
 
 def getLastConfirmedTx(api_endpoint, unspents_endpoint, verifying_key, last_pid):
+	requests_cache.install_cache('transactions_cache', backend='sqlite', expire_after=240)
 	url = unspents_endpoint + verifying_key
 	response = urlopen(url)
 	# Convert bytes to string type and string type to dict
 	string = response.read().decode('utf-8')
 	unspent_obj = json.loads(string)
+	#r = requests.get(url)
+	#unspent_obj = r.json()
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
 		#print (tx)
 		url = api_endpoint + "/transactions/" + tx
-		response = urlopen(url)
-		string = response.read().decode('utf-8')
-		tx_obj = json.loads(string)
+		#response = urlopen(url)
+		#string = response.read().decode('utf-8')
+		#tx_obj = json.loads(string)
+		r = requests.get(url)
+		logging.debug("getLastConfirmedTx - used cache: " + str(r.from_cache))
+		tx_obj = r.json()
 		if ((list(tx_obj['transaction']['asset']['data'])[0]) == "IMMIGRATION_CONFIRMED"):
 			pid = tx_obj['transaction']['asset']['data']['IMMIGRATION_CONFIRMED']['task_pid']
 			if pid == last_pid:
