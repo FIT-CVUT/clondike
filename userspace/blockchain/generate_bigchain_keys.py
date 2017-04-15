@@ -11,8 +11,8 @@ def getMyKeys():
 	if (not Path("/tmp/bigchainkeys").is_file()):
 	    f_alice = open('/tmp/bigchainkeys', 'w')
 	    alice = generate_keypair()
-	    print(alice.verifying_key, file=f_alice)
-	    print(alice.signing_key, file=f_alice)
+	    print(alice.public_key, file=f_alice)
+	    print(alice.private_key, file=f_alice)
 	    f_alice.close()
 	f_alice = open('/tmp/bigchainkeys', 'r')
 	alice_verifying_key = f_alice.readline().rstrip()

@@ -8,7 +8,7 @@ import kudos
 
 def main(argv):
     os.chdir("/root/clondike/userspace/blockchain")
-    api_endpoint = 'http://192.168.99.100:59984/api/v1'
+    api_endpoint = 'http://192.168.99.100:59984'
     #api_endpoint = 'http://192.168.99.100:32768/api/v1'
 
     bdb = BigchainDB(api_endpoint)
@@ -44,7 +44,7 @@ def main(argv):
         return
 
     # create transaction
-    prepared_creation_tx = bdb.transactions.prepare(operation='CREATE', owners_before=alice_verifying_key, asset=task)
+    prepared_creation_tx = bdb.transactions.prepare(operation='CREATE', signers=alice_verifying_key, asset=task)
     #print (prepared_creation_tx)
 
     fulfilled_creation_tx = bdb.transactions.fulfill(prepared_creation_tx, private_keys=alice_signing_key)

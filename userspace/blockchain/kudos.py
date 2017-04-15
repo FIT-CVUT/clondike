@@ -22,7 +22,6 @@ def main(last_pid):
 	confirmed_tx = getLastConfirmedTx(api_endpoint, unspents_endpoint, alice_verifying_key, last_pid)
 	if (confirmed_tx):
 		logging.debug(confirmed_tx)
-		print (confirmed_tx)
 		# CANARY TASK
 		canary = random.randint(1, 10)
 		if (canary == 10):
@@ -32,7 +31,7 @@ def main(last_pid):
 	return
 
 def initaliseKudos():
-	api_endpoint = 'http://192.168.99.100:59984/api/v1'
+	api_endpoint = 'http://192.168.99.100:59984'
 	#unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
 	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/outputs?public_key='
 	return [api_endpoint, unspents_endpoint]
@@ -41,8 +40,8 @@ def getMyKeys():
 	if (not Path("/tmp/bigchainkeys").is_file()):
 	    f_alice = open('/tmp/bigchainkeys', 'w')
 	    alice = generate_keypair()
-	    print(alice.verifying_key, file=f_alice)
-	    print(alice.signing_key, file=f_alice)
+	    print(alice.public_key, file=f_alice)
+	    print(alice.private_key, file=f_alice)
 	    f_alice.close()
 	f_alice = open('/tmp/bigchainkeys', 'r')
 	alice_verifying_key = f_alice.readline().rstrip()
@@ -57,7 +56,6 @@ def getKudos(verifying_key):
 	x_list=[]
 	y_list=[]
 	url = unspents_endpoint + verifying_key
-	print (url)
 	response = urlopen(url)
 	# Convert bytes to string type and string type to dict
 	string = response.read().decode('utf-8')
@@ -67,16 +65,16 @@ def getKudos(verifying_key):
 	unspent_obj = json.loads(string)
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
-		url = api_endpoint + "/transactions/" + tx
+		url = api_endpoint + "/api/v1/transactions/" + tx
 		#response = urlopen(url)
 		#string = response.read().decode('utf-8')
 		#tx_obj = json.loads(string)
 		r = requests.get(url)
-		logging.info("getKudos - used cache: " + str(r.from_cache))
+		logging.debug("getKudos - used cache: " + str(r.from_cache))
 		tx_obj = r.json()
-		if ((list(tx_obj['transaction']['asset']['data'])[0]) == "KUDOS"):
-			kudos_value = tx_obj['transaction']['asset']['data']['KUDOS']['kudos_value']
-			kudos_time = tx_obj['transaction']['asset']['data']['KUDOS']['time']*10000000
+		if ((list(tx_obj['asset']['data'])[0]) == "KUDOS"):
+			kudos_value = tx_obj['asset']['data']['KUDOS']['kudos_value']
+			kudos_time = tx_obj['asset']['data']['KUDOS']['time']*10000000
 			x_list.append(kudos_time)
 			y_list.append(kudos_value)
 	#sort lists
@@ -102,12 +100,12 @@ def getLastKudos(api_endpoint, unspents_endpoint, verifying_key):
 	unspent_obj = json.loads(string)
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
-		url = api_endpoint + "/transactions/" + tx
+		url = api_endpoint + "/api/v1/transactions/" + tx
 		response = urlopen(url)
 		string = response.read().decode('utf-8')
 		tx_obj = json.loads(string)
-		if ((list(tx_obj['transaction']['asset']['data'])[0]) == "KUDOS"):
-			kudos_value = tx_obj['transaction']['asset']['data']['KUDOS']['kudos_value']
+		if ((list(tx_obj['asset']['data'])[0]) == "KUDOS"):
+			kudos_value = tx_obj['asset']['data']['KUDOS']['kudos_value']
 			return [tx, kudos_value]
 			break
 	#return [0,0]
@@ -118,21 +116,22 @@ def getLastConfirmedTx(api_endpoint, unspents_endpoint, verifying_key, last_pid)
 	response = urlopen(url)
 	# Convert bytes to string type and string type to dict
 	string = response.read().decode('utf-8')
+	logging.debug(string)
 	unspent_obj = json.loads(string)
 	#r = requests.get(url)
 	#unspent_obj = r.json()
 	while unspent_obj:
 		tx = unspent_obj.pop().split('/')[2]
-		#print (tx)
-		url = api_endpoint + "/transactions/" + tx
+		url = api_endpoint + "/api/v1/transactions/" + tx
 		#response = urlopen(url)
 		#string = response.read().decode('utf-8')
 		#tx_obj = json.loads(string)
 		r = requests.get(url)
 		logging.debug("getLastConfirmedTx - used cache: " + str(r.from_cache))
 		tx_obj = r.json()
-		if ((list(tx_obj['transaction']['asset']['data'])[0]) == "IMMIGRATION_CONFIRMED"):
-			pid = tx_obj['transaction']['asset']['data']['IMMIGRATION_CONFIRMED']['task_pid']
+		logging.debug(tx_obj)
+		if ((list(tx_obj['asset']['data'])[0]) == "IMMIGRATION_CONFIRMED"):
+			pid = tx_obj['asset']['data']['IMMIGRATION_CONFIRMED']['task_pid']
 			if pid == last_pid:
 				return tx
 				break
