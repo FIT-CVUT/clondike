@@ -16,6 +16,7 @@ def main(argv):
 		if ("VERMIN_2" in os.environ):
 			reject = random.randint(1,10)
 			if (reject > 1):
+				// TODO: dej si malej kudos
 				sys.exit(1)
 		sys.exit(0)
 	else:
