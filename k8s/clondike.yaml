@@ -1,0 +1,39 @@
+# docker tag clondike-pepus eu.gcr.io/infrastruktura-1307/pepus-clondike
+# gcloud docker -- push eu.gcr.io/infrastruktura-1307/pepus-clondike
+ 
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pepus-clondike
+spec:
+  #nemenit, skalovano autoscalerem
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pepus-clondike
+    spec:
+      containers:
+      - name: bigchaindb
+        image: bigchaindb/bigchaindb
+        ports:
+        - name: bigchaindb
+          containerPort: 8080
+      - name: pepus-clondike
+        image: eu.gcr.io/infrastruktura-1307/pepus-clondike
+        #command: ["/bin/sh"]
+        #args: ["-c", "echo Hello from the debian container > /pod-data/index.html"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bigchaindb
+  labels:
+    run: bigchaindb
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    run: bigchaindb

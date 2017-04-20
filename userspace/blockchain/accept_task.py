@@ -3,6 +3,7 @@ import os
 import random
 import kudos
 import logging
+import bigchain
 from pathlib import Path
 
 def main(argv):
@@ -16,7 +17,7 @@ def main(argv):
 		if ("VERMIN_2" in os.environ):
 			reject = random.randint(1,10)
 			if (reject > 1):
-				// TODO: dej si malej kudos
+				bigchain.main(["4", "KUDOS", 0, 0, 1])
 				sys.exit(1)
 		sys.exit(0)
 	else:
