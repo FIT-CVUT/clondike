@@ -1,4 +1,5 @@
 import sys
+import os
 import random
 import kudos
 import logging
@@ -11,7 +12,11 @@ def main(argv):
 	myKudos, nic, moc = kudos.getKudos(localKey)
 	remoteKudos, nic, moc = kudos.getKudos(remoteKey)
 	logging.info("My Kudos [" + str(localKey) + "]: " + str(myKudos) + ", Remote Kudos [" + str(remoteKey) + "]: " + str(remoteKudos))
-	if ((remoteKudos) >= (myKudos / 10)):
+	if ((remoteKudos) >= (myKudos / 2)):
+		if ("VERMIN_2" in os.environ):
+			reject = random.randint(1,10)
+			if (reject > 1):
+				sys.exit(1)
 		sys.exit(0)
 	else:
 		sys.exit(1)

@@ -21,10 +21,9 @@ def main(last_pid):
 	time.sleep(1)
 	confirmed_tx = getLastConfirmedTx(api_endpoint, unspents_endpoint, alice_verifying_key, last_pid)
 	if (confirmed_tx):
-		logging.debug(confirmed_tx)
 		# CANARY TASK
 		canary = random.randint(1, 10)
-		if (canary == 10):
+		if (canary == 10 and not "VERMIN_4" in os.environ):
 			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 100])
 		else:
 			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])

@@ -27,6 +27,8 @@ ADD userspace $PATH_USERSPACE
 
 ADD scripts /root/clondike/scripts
 
+ADD measurements /root/measurements
+
 ADD root/.migration.conf /root
 
 RUN echo 'PROMPT_COMMAND="source /root/clondike/scripts/bash_prompt.sh"' >> /root/.bashrc && mkdir /clondike 

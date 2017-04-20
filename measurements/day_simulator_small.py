@@ -3,10 +3,10 @@ import random
 import os
 import sys
 
-timeout = time.time() + 60*60*8   # 8 hours from now
+timeout = time.time() + 480   # 120 sec
 while True:
     if time.time() > timeout:
         break
-	sleep = randrange(60)
-	time.sleep(sleep)
-	os.system("clondike gcc test.c")
+    #sleep = random.randint(0,2)
+    #time.sleep(sleep)
+    os.system("clondike gcc test.c")

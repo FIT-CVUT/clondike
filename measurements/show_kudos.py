@@ -30,13 +30,13 @@ def main():
 
 	verifying_key1 = sys.argv[1]
 	verifying_key2 = sys.argv[2]
-	#verifying_key3 = sys.argv[3]
+	verifying_key3 = sys.argv[3]
 
 	kudos_final_value1,x_list1,y_list1 = kudos.getKudos(verifying_key1)
 	kudos_final_value2,x_list2,y_list2 = kudos.getKudos(verifying_key2)
-	#kudos_final_value3,x_list3,y_list3 = kudos.getKudos(verifying_key3)
+	kudos_final_value3,x_list3,y_list3 = kudos.getKudos(verifying_key3)
 
-	start_time = min (x_list1[0], x_list2[0])
+	start_time = min (x_list1[0], x_list2[0], x_list3[0])
 	print(start_time)
 	#x_list1_div = [x / 10000000 for x in x_list1]
 	#x_list2_div = [x / 10000000 for x in x_list2]
@@ -48,8 +48,8 @@ def main():
 	y_array1 = array(y_list1)
 	x_array2 = ((array(x_list2) - start_time) / 10000000)
 	y_array2 = array(y_list2)
-	#x_array3 = ((array(x_list3) - start_time) / 10000000)
-	#y_array3 = array(y_list3)
+	x_array3 = ((array(x_list3) - start_time) / 10000000)
+	y_array3 = array(y_list3)
 	#slope, intercept, r_value, p_value, std_err = stats.linregress(x_array,y_list)
 	#line = slope*x_array+intercept
 	#print ("slope: ", slope, "intercept: ", intercept)
@@ -59,6 +59,18 @@ def main():
 	    y=y_list1,
 	    mode = 'lines+markers',
 	    name = 'Node 1', # Style name/legend entry with html tags
+	    line = dict(
+	    	color = ('rgb(205, 12, 24)'))
+	)
+
+	trace12 = go.Scatter(
+	    x=(x_array1 / 10),
+	    y=y_list1,
+	    mode = 'lines+markers',
+	    name = 'Node 1 acceptance border', # Style name/legend entry with html tags
+	    line = dict(
+	    	color = ('rgb(205, 12, 24)'),
+        	dash = 'dot')
 	)
 
 	trace2 = go.Scatter(
@@ -66,16 +78,40 @@ def main():
 	    y=y_list2,
 	    mode = 'lines+markers',
 	    name = 'Node 2', # Style name/legend entry with html tags
+    	line = dict(
+        	color = ('rgb(22, 96, 167)'))
 	)
 
-	#trace3 = go.Scatter(
-	#    x=x_array3,
-	#    y=y_list3,
-	#    mode = 'lines+markers',
-	#    name = 'Node 3', # Style name/legend entry with html tags
-	#)
+	trace22 = go.Scatter(
+	    x=(x_array2 / 10),
+	    y=y_list2,
+	    mode = 'lines+markers',
+	    name = 'Node 2 acceptance border', # Style name/legend entry with html tags
+	    line = dict(
+	    	color = ('rgb(22, 96, 167)'),
+        	dash = 'dot')
+	)
 
-	data = [trace1, trace2 ]
+	trace3 = go.Scatter(
+	    x=x_array3,
+	    y=y_list3,
+	    mode = 'lines+markers',
+	    name = 'Node 3', # Style name/legend entry with html tags
+    	line = dict(
+        	color = ('rgb(22, 205, 22)'))
+	)
+
+	trace32 = go.Scatter(
+	    x=( x_array3 / 10),
+	    y=y_list3,
+	    mode = 'lines+markers',
+	    name = 'Node 3 acceptance border', # Style name/legend entry with html tags
+    	line = dict(
+        	color = ('rgb(22, 205, 22)'),
+        	dash = 'dot')
+	)
+
+	data = [trace1, trace2, trace3]
 
 	layout = go.Layout(
     xaxis=dict(

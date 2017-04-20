@@ -9,7 +9,7 @@ require 'MonitoringMessages'
 class ManagerMonitor
   # Time withouth heartbeat in second when node is considered dead
   DEAD_TIMEOUT = 60
-  HEART_BEAT_PERIOD = 10  # In seconds
+  HEART_BEAT_PERIOD = 30  # In seconds
 
   def initialize(interconnection, membershipManager, nodeRepository, filesystemConnector)
     @interconnection = interconnection

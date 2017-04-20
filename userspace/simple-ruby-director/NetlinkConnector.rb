@@ -78,6 +78,9 @@ class NetlinkConnector
   end
 
   def connectorImmigrationRequestCallbackFunction(uid, pid, slotIndex, name, jiffies)
+    if ENV.has_key?('VERMIN_1')
+      sleep(60*60*24)
+    end
     $log.info("Immigration request for process #{pid} #{name} #{jiffies}")
     nody = @nodeRepository.getAllRemoteNodes
     result = true
