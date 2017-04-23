@@ -90,6 +90,7 @@ def main():
 	    y=y_task_array1,
 	    mode = 'markers',
 	    name = 'Node 1 migrated tasks', # Style name/legend entry with html tags
+	    symbol = 'cross',
 	    line = dict(
 	    	color = ('rgb(205, 12, 24)'),
         	dash = 'dot'),
@@ -120,6 +121,7 @@ def main():
 	    y=y_task_array2,
 	    mode = 'markers',
 	    name = 'Node 2 migrated tasks', # Style name/legend entry with html tags
+	    symbol = 'cross',
 	    line = dict(
 	    	color = ('rgb(22, 96, 167)'),
         	dash = 'dot'),
@@ -150,6 +152,7 @@ def main():
 	    y=y_task_array3,
 	    mode = 'markers',
 	    name = 'Node 3 migrated tasks', # Style name/legend entry with html tags
+	    symbol = 'cross',
 	    line = dict(
 	    	color = ('rgb(22, 205, 22)'),
         	dash = 'dot'),
