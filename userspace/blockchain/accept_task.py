@@ -16,7 +16,7 @@ def main(argv):
 	if ((remoteKudos) >= (myKudos / 2)):
 		if ("VERMIN_2" in os.environ):
 			reject = random.randint(1,10)
-			if (reject > 1):
+			if (reject > 3):
 				bigchain.main(["4", "KUDOS", 0, 0, 1])
 				sys.exit(1)
 		sys.exit(0)
