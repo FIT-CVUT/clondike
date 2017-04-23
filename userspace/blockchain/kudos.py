@@ -91,6 +91,54 @@ def getKudos(verifying_key):
 			y_list[index] = y_list[index]/time_degradation + y_list[index-1]
 	return [y_list[-1], x_list, y_list]
 
+def getTasks(verifying_key1, verifying_key2, verifying_key3):
+	requests_cache.install_cache('transactions_cache', backend='sqlite', expire_after=240)
+	api_endpoint, unspents_endpoint = initaliseKudos()
+	bdb = BigchainDB(api_endpoint)
+	x_list=[]
+	y_list=[1]
+	#prvni
+	url = unspents_endpoint + verifying_key2
+	response = urlopen(url)
+	# Convert bytes to string type and string type to dict
+	string = response.read().decode('utf-8')
+	unspent_obj = json.loads(string)
+	while unspent_obj:
+		tx = unspent_obj.pop().split('/')[2]
+		url = api_endpoint + "/api/v1/transactions/" + tx
+		r = requests.get(url)
+		tx_obj = r.json()
+		if ((list(tx_obj['asset']['data'])[0]) == "IMMIGRATION_ACCEPTED"):
+			home_node = tx_obj['asset']['data']['IMMIGRATION_ACCEPTED']['id_home_node']
+			home_node = home_node[:-1]
+			print(home_node)
+			if (str(home_node) == str(verifying_key1)):
+				kudos_time = tx_obj['asset']['data']['IMMIGRATION_ACCEPTED']['time']*10000000
+				x_list.append(kudos_time)
+	#druhy - prasarna
+	url = unspents_endpoint + verifying_key3
+	response = urlopen(url)
+	# Convert bytes to string type and string type to dict
+	string = response.read().decode('utf-8')
+	unspent_obj = json.loads(string)
+	while unspent_obj:
+		tx = unspent_obj.pop().split('/')[2]
+		url = api_endpoint + "/api/v1/transactions/" + tx
+		r = requests.get(url)
+		tx_obj = r.json()
+		if ((list(tx_obj['asset']['data'])[0]) == "IMMIGRATION_ACCEPTED"):
+			home_node = tx_obj['asset']['data']['IMMIGRATION_ACCEPTED']['id_home_node']
+			home_node = home_node[:-1]
+			print(home_node)
+			if (str(home_node) == str(verifying_key1)):
+				kudos_time = tx_obj['asset']['data']['IMMIGRATION_ACCEPTED']['time']*10000000
+				x_list.append(kudos_time)
+	#x_list, y_list = (list(t) for t in zip(*sorted(zip(x_list, y_list))))
+	x_list.sort()
+	for num in range(0,len(x_list)):
+		y_list.append(y_list[-1] + 1)
+	return [y_list[-1], x_list, y_list]
+
 def getLastKudos(api_endpoint, unspents_endpoint, verifying_key):
 	url = unspents_endpoint + verifying_key
 	response = urlopen(url)

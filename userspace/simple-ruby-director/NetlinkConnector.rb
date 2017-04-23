@@ -99,11 +99,11 @@ class NetlinkConnector
     end
     
     if result
-      $log.info("Immigration ACCEPTED for request for process #{jiffies} #{name} #{pid} from node\n #{remoteKey} to node\n #{localKey}")
-      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_ACCEPTED #{jiffies} #{name} #{pid} "#{remoteKey}" "#{localKey}"`
+      $log.info("Immigration ACCEPTED for request for process #{jiffies} #{name} #{pid} from node\n #{bigchainkey} to node\n #{localKey}")
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_ACCEPTED #{jiffies} #{name} #{pid} "#{bigchainkey}" "#{localKey}"`
     else
       $log.info("Immigration REJECTED for request for process #{jiffies}")
-      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REJECTED #{jiffies} #{name} #{pid} #{remoteKey} #{localKey}`
+      cmd = `python clondike/userspace/blockchain/bigchain.py IMMIGRATION_REJECTED #{jiffies} #{name} #{pid} "#{bigchainkey}" "#{localKey}"`
     end
 
     result
