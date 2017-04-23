@@ -88,7 +88,7 @@ def main():
 	trace13 = go.Scatter(
 	    x=x_task_array1,
 	    y=y_task_array1,
-	    mode = 'lines',
+	    mode = 'markers',
 	    name = 'Node 1 migrated tasks', # Style name/legend entry with html tags
 	    line = dict(
 	    	color = ('rgb(205, 12, 24)'),
@@ -118,7 +118,7 @@ def main():
 	trace23 = go.Scatter(
 	    x=x_task_array2,
 	    y=y_task_array2,
-	    mode = 'lines',
+	    mode = 'markers',
 	    name = 'Node 2 migrated tasks', # Style name/legend entry with html tags
 	    line = dict(
 	    	color = ('rgb(22, 96, 167)'),
@@ -148,7 +148,7 @@ def main():
 	trace33 = go.Scatter(
 	    x=x_task_array3,
 	    y=y_task_array3,
-	    mode = 'lines',
+	    mode = 'markers',
 	    name = 'Node 3 migrated tasks', # Style name/legend entry with html tags
 	    line = dict(
 	    	color = ('rgb(22, 205, 22)'),
