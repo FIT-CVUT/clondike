@@ -119,7 +119,8 @@ void * work(void * thread_attr){
     // random
     srand(time(NULL));
     int t_rand = rand();
-    int n = t_rand % 100000;
+    //int n = t_rand % 100000;
+    int n = 1;
 
     time_t t1, t2;
     char * md5_hash;
