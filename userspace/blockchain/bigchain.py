@@ -8,7 +8,7 @@ import kudos
 
 def main(argv):
     os.chdir("/root/clondike/userspace/blockchain")
-    api_endpoint = 'http://192.168.99.100:59984'
+    api_endpoint = 'http://192.168.99.100:9984'
     #api_endpoint = 'http://192.168.99.100:32768/api/v1'
 
     bdb = BigchainDB(api_endpoint)

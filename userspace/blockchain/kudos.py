@@ -24,15 +24,17 @@ def main(last_pid):
 		# CANARY TASK
 		canary = random.randint(1, 10)
 		if (canary == 10 and not "VERMIN_4" in os.environ):
-			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 100])
+			#bigchain.main(["4", "KUDOS", 0, confirmed_tx, 100])
+			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 1])
 		else:
-			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
+			#bigchain.main(["4", "KUDOS", 0, confirmed_tx, 10])
+			bigchain.main(["4", "KUDOS", 0, confirmed_tx, 1])
 	return
 
 def initaliseKudos():
-	api_endpoint = 'http://192.168.99.100:59984'
+	api_endpoint = 'http://192.168.99.100:9984'
 	#unspents_endpoint = 'http://192.168.99.100:59984/api/v1/unspents/?owner_after='
-	unspents_endpoint = 'http://192.168.99.100:59984/api/v1/outputs?public_key='
+	unspents_endpoint = 'http://192.168.99.100:9984/api/v1/outputs?public_key='
 	return [api_endpoint, unspents_endpoint]
 
 def getMyKeys():

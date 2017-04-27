@@ -17,7 +17,7 @@ def main(argv):
 		if ("VERMIN_2" in os.environ):
 			reject = random.randint(1,10)
 			if (reject > int(os.environ['VERMIN_2'])):
-				bigchain.main(["4", "KUDOS", 0, 0, 1])
+				#bigchain.main(["4", "KUDOS", 0, 0, 1])
 				sys.exit(1)
 		sys.exit(0)
 	else:
